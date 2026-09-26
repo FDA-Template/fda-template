@@ -95,6 +95,52 @@ implementación inicial todavía no consume un ciclo de corrección. C1 y C2
 empiezan únicamente cuando el autor vuelve a trabajar después de un veredicto
 con hallazgos. Al tercero, parada y decisión conforme a DEC-010.
 
+### Verificador local de alcance (`check_scope.py`)
+
+`scripts/check_scope.py` (WP-015) es el sucesor limpio de WP-002: un
+ejecutable local y determinista que evalúa si el diff completo de un rango
+Git respeta el contrato de un WP. Se invoca así, desde la raíz del
+repositorio:
+
+```bash
+python3 scripts/check_scope.py WP-014 origin/main...HEAD
+```
+
+Lee el contrato **exclusivamente** del `merge-base` del rango, mediante
+objetos Git (`git ls-tree`, `git cat-file`) — nunca del working tree ni de
+`HEAD` —, y evalúa cada ruta del diff (`A`, `M`, `D`, `T`, `R`, `C`, incluidos
+los destinos de symlink) con la gramática de [DEC-012](../../specs/decisions/DEC-012-gramatica-patrones-alcance.md)
+y la semántica por componente de [DEC-002](../../specs/decisions/DEC-002-semantica-de-traversal.md).
+La biblioteca de parseo, matching y evaluación vive en `scripts/scope_rules.py`,
+que la CLI importa sin duplicar reglas.
+
+Tres códigos de salida, sin ambigüedad:
+
+| Exit | Significado |
+|---|---|
+| `0` | `OK` — cero violaciones. |
+| `1` | Una línea `VIOLACION` por cada incumplimiento, cada una con su JSON. |
+| `2` | `ERROR` — uso, contrato, Git, codificación o forma no resoluble (fail-closed). |
+
+**Límites, explícitos y no negociables.** Es puramente **local**: quien lo
+ejecuta es el propio agente, el operador o quien revisa, a mano o desde un
+script propio. **No es un check de GitHub, no se ejecuta en CI por sí mismo y
+no bloquea ninguna fusión.** DEC-007 y DEC-011 distinguen tres estados que
+este párrafo nunca debe fundir:
+
+1. **Ejecutable local** (este WP, WP-015) — lo invocan a mano el operador y
+   los revisores; no bloquea nada.
+2. **Job integrado en CI** (futuro sucesor de WP-005) — se ejecuta en cada
+   PR y puede ponerse rojo, pero mientras no sea check requerido tampoco
+   bloquea la fusión.
+3. **Check incorporado a `required_status_checks`** (mutación humana
+   posterior del ruleset) — solo desde ese momento bloquea la fusión de
+   verdad.
+
+Hoy solo existe el estado 1. Ningún texto de gobierno debe describir este
+ejecutable como «requerido» o «bloqueante»: **la única barrera bloqueante
+hoy son los tres checks ya existentes de `ci.yml`**.
+
 ## Paso 5 — Abrir la PR
 
 ```
