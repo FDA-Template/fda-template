@@ -22,6 +22,7 @@
 | 2026-09-22 | WP-015 materializado por PR #48 y aprobado contractualmente por PR #49; contrato `ready` admitido en la lista cerrada de DEC-003, con `ACTIVE` en reposo y activación aún pendiente | `DEC-003` §4 |
 | 2026-09-27 | WP-015 fusionado por PR #53 y cerrado `done` tras C3 excepcional; ejecutable local y biblioteca única acreditados, coste estimado 22,97/40 EUR, `ACTIVE` vuelve a reposo. No acredita CI, check requerido, guard convergente, runtime, E2 ni cierre de la pausa | `DEC-003` §4 · `evidence/WP-015/CIERRE.md` |
 | 2026-09-27 | `WP-016` queda reservado por DEC-014, únicamente desde la fusión humana de su composición, como identificador del sucesor limpio de WP-005. La reserva no crea, aprueba, admite, activa ni autoriza ejecutar el contrato; `ACTIVE` permanece en reposo | `DEC-014` |
+| 2026-09-27 | DEC-015 elige una GitHub App externa como productor previo a WP-016, sin reservarle WP-ID. WP-016 existe en `draft`, sigue bloqueado por `WP016-DOR-1`, tiene 645 líneas frente al límite de 300 y no puede avanzar; `ACTIVE` permanece en reposo | `DEC-015` |
 
 ---
 
@@ -226,9 +227,11 @@ Secuencia (ajustada por D1/D6 y DEC-008; cada transición de `ACTIVE` sigue sien
 5. **WP-015 — `check_scope` LOCAL: CUMPLIDO.** La PR #53 fusionó el ejecutable
    local y la biblioteca única; el cierre deja el contrato `done` y `ACTIVE` en
    reposo. No acredita CI ni bloqueo de fusión.
-6. **ORDEN FUTURO CONDICIONADO; NINGÚN PASO SIGUIENTE AUTORIZADO:** `WP-016`,
-   identificador reservado por DEC-014 pero todavía sin contrato ni autorización,
-   para CI y mutación humana posterior del ruleset →
+6. **ORDEN FUTURO CONDICIONADO; NINGÚN PASO SIGUIENTE AUTORIZADO:** productor
+   externo mediante GitHub App, todavía sin WP-ID y pendiente de otra decisión →
+   `WP-016`, cuyo contrato `draft` de 645 líneas continúa bloqueado y deberá
+   corregirse y reducirse antes de `ready`, para CI y mutación humana posterior
+   del ruleset →
    convergencia del guard y cierre de WP-007 por superación sin transición de
    `ACTIVE` → sucesor limpio de WP-008 con runtime y humo atribuible → E2 →
    cierre humano de la pausa. Cada paso requiere contrato y autorización

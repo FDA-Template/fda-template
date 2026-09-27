@@ -6,6 +6,12 @@ fusiona humanamente.
 **Base:** `origin/main`
 `47c4e92a04e17370116fa54b07bf4a35bd6904be`.
 
+**Enmendada el 2026-09-27 por
+[`DEC-015`](DEC-015-productor-externo-check-scope.md):** elige una GitHub App
+externa como productor previo, distingue seguridad de disponibilidad y fija la
+semántica monotónica de la autorización; no modifica WP-016 ni reserva otro
+WP-ID.
+
 Los rótulos `DEC-014` y `WP-016` son propuestas sin efecto normativo hasta esa
 eventual fusión.
 
@@ -128,18 +134,22 @@ La autorización deberá:
 El check se identifica por el par exacto `{context, integration_id}`. Un
 contexto homónimo de otro productor no vale.
 
-Antes de poner WP-016 `ready` deberá demostrarse, mediante documentación
-oficial vigente y una prueba falsable, que el diseño puede emitir siempre el
-check terminal exigido sin contradecir REQ-FDA-002.
+DEC-015 resuelve la alternativa: una GitHub App externa es el único productor
+elegido y constituye un prerrequisito separado, todavía sin WP-ID. WP-016 no
+puede pasar a `ready` hasta que ese productor esté implementado, instalado y
+probado mediante autorizaciones propias. `pull_request_target` continúa
+prohibido y REQ-FDA-002 no cambia.
 
-GitHub documenta que `[skip ci]` puede suprimir `pull_request` y dejar el check
-pendiente, mientras REQ-FDA-002 prohíbe actualmente `pull_request_target`.
+La seguridad no promete terminalidad absoluta durante una caída: ausencia,
+pendiente u obsolescencia nunca equivalen a conformidad. La disponibilidad se
+recupera mediante eventos, cola y reconciliación conforme a DEC-015.
 
-Si no existe un diseño compatible, se produce una parada por contradicción:
-se solicita una decisión normativa separada y WP-016 no se aprueba ni activa.
-
-Esta DEC no elige `pull_request_target`, no lo autoriza y no enmienda
-REQ-FDA-002.
+Para la base firmada `B0`, base vigente `B1` y padre autorizante `P`, la
+autorización continúa vigente si `B1 == B0` o, para un avance monotónico, si
+`B0` es ancestro de `B1`, `B1` es ancestro de `P` y verifica el digest firmado
+de `B0...P`. Cualquier otro cambio invalida la autorización. El ruleset deberá
+conservar política estricta; desviación o imposibilidad de prueba obliga a
+parar.
 
 ### 5. Mutación humana posterior del ruleset
 
