@@ -8,7 +8,7 @@ agente_revisor: GPT-6 Astra (Alto, contexto nuevo, solo lectura)
 requisitos: [REQ-FDA-001, REQ-FDA-002, SEC-001]
 adr: [ADR-001]
 decision: [DEC-003, DEC-010, DEC-011, DEC-014, DEC-015, DEC-016]
-presupuesto_max_eur: PENDIENTE (WP017-DOR-2)
+presupuesto_max_eur: 100
 max_ciclos_correccion: 2
 
 Esta candidata es deliberadamente `draft`. Su materialización no la aprueba,
@@ -36,9 +36,9 @@ Esta candidata no puede pasar a `ready` mientras permanezca abierto cualquiera:
 - **WP017-DOR-1 — ubicación y propiedad del código.** Elegir si el servicio
   vive en este repositorio o en otro gobernado; fijar propietario, rutas exactas,
   revisión confiable y mecanismo de pin inmutable del servicio y evaluador.
-- **WP017-DOR-2 — proveedor y coste.** Elegir proveedor de ejecución, cola y
-  almacenamiento, cuenta humana responsable, región, límites de gasto y
-  `presupuesto_max_eur` del WP.
+- **WP017-DOR-2 — resuelto por decisión humana del 2026-09-27.** Google Cloud en `europe-west1`: Cloud Run, Pub/Sub, Firestore Standard y Cloud Scheduler, en proyecto exclusivo bajo responsabilidad de Iván; vincular o crear facturación es otro acto humano.
+  Presupuesto WP: `100 EUR`; operación: `≤5 EUR/mes`, protegida con mínimo cero y máximo tres instancias, cuotas, alertas y parada antes de rebasarlo; no se promete corte exacto por latencia de cobro.
+  La resolución no crea cuenta, proyecto, infraestructura ni autorización de gasto.
 - **WP017-DOR-3 — datos.** Aprobar qué payloads, objetos Git y metadatos pueden
   salir de GitHub, región de tratamiento, cifrado, retención, borrado, acceso,
   copias y contenido permitido de logs y alertas.
@@ -62,7 +62,7 @@ Esta candidata no puede pasar a `ready` mientras permanezca abierto cualquiera:
   opuestos; `pull_number` o `external_id` no demuestran aislamiento en GitHub.
 
 Cada resolución debe quedar versionada en este contrato mediante acto humano.
-No se sustituyen valores pendientes por defaults del proveedor o conjeturas.
+Los ocho bloqueos restantes no se sustituyen por defaults o conjeturas.
 
 ## Alcance incluido y fuera de alcance
 
@@ -296,3 +296,5 @@ payloads o configuraciones no verificadas.
 - GitHub Docs, <https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app>.
 - GitHub Docs, <https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets>.
 - GitHub Docs, <https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/rate-limits-for-github-apps>.
+- Google Cloud Docs, <https://cloud.google.com/run/docs/locations>, <https://cloud.google.com/run/pricing>, <https://cloud.google.com/run/docs/configuring/max-instances>, <https://cloud.google.com/pubsub/pricing>.
+- Google Cloud Docs, <https://cloud.google.com/firestore/pricing>, <https://cloud.google.com/scheduler/pricing>, <https://cloud.google.com/kms/docs/key-import>, <https://cloud.google.com/kms/pricing>.
