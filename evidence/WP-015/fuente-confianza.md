@@ -1,5 +1,36 @@
 # WP-015 — Fuente de confianza y demostración de manipulación ineficaz
 
+## C3 — configuración local de submódulo efectiva
+
+`WP015-F2` quedó cerrado técnicamente sobre
+`TESTED_HEAD=333eb072e62f3298f465c32c9d47a69b043cb8c1`. La prueba
+`test_gitlink_violation_survives_local_config_ignore_all` usa un gitlink real y
+crea, solo en el working tree del repositorio temporal, esta asociación:
+
+```ini
+[submodule "vendor"]
+    path = vendor
+```
+
+No contiene `ignore`. El valor `submodule.vendor.ignore=all` se fija
+exclusivamente en la configuración Git local del temporal. La prueba confirma
+que esa configuración está realmente activa: para el mismo `base` y `head`,
+`git diff -z --name-status -M -C --find-copies-harder` sin override devuelve
+inventario vacío.
+
+La CLI real, cuyo diff añade `--ignore-submodules=none`, devuelve exit `1` y
+recupera `vendor` con motivo `fuera_de_permitidos`. Una sustitución temporal en
+memoria de `_diff_records`, sin editar producción, ejecuta la misma entrada
+`check_scope.main` retirando solo el override y obtiene exit `0` y cero
+violaciones. Por tanto la regresión es sensible al override y fallaría si se
+retirase de producción.
+
+La ejecución real del comando 7 de C3 usó `origin/main...HEAD`, resolvió
+`merge_base=7d1b26afcb3285e29ee17dee7548b34351948330`, leyó el contrato blob
+`7f52be5a63a588d38f61b6e03e3d7ae48fd0447a` y terminó `OK` con cero
+violaciones. La salida íntegra está en
+`evidence/WP-015/verificacion-c3-literal.log`.
+
 ## Regla implementada
 
 `scripts/check_scope.py` obtiene el `merge-base` mediante `git merge-base

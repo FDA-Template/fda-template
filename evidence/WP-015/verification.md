@@ -1,5 +1,90 @@
 # WP-015 — Verificación
 
+## C3 excepcional — candidato para revalidación enfocada
+
+`DEC-013`, fusionada en `7d1b26afcb3285e29ee17dee7548b34351948330`,
+habilitó un único C3 para el residual cerrado `WP015-F2`. La rama incorporó
+esa decisión sin reescribir historia mediante el merge
+`9b66c8e75b1aa37574b151bb5821ef9dc648d9a7`. La apertura de C3 quedó
+versionada antes de corregir en
+`eb085a1bcb768605df47273e43f4ab9b4192daf7`.
+
+Claude Code realizó una sola pasada y modificó únicamente
+`tests/scope/test_check_scope_cli.py`. El coordinador comprometió ese cambio
+como `TESTED_HEAD` antes de ejecutar la batería completa.
+
+| Campo | Valor |
+|---|---|
+| Base vigente y `merge-base` | `7d1b26afcb3285e29ee17dee7548b34351948330` |
+| Candidata C2 preservada | `4ad9eb354e3ff13c0a936be6c8a0eee691e44246` |
+| Apertura C3 previa | `eb085a1bcb768605df47273e43f4ab9b4192daf7` |
+| `TESTED_HEAD` C3 | `333eb072e62f3298f465c32c9d47a69b043cb8c1` |
+| Árbol de `TESTED_HEAD` C3 | `4efabe75db5bfb1eb845e5e0a8db0d906e0d1eeb` |
+| Autor/corrector | Claude Code (implementer), una invocación, sin subagentes |
+| Coste C3 | `0.784279 USD` = `0.68 EUR` |
+| Estado antes de Astra | **Batería APTO; revalidación enfocada de F2 pendiente** |
+
+### Corrección y falsabilidad de WP015-F2
+
+La variante local crea una `.gitmodules` no versionada que contiene solo la
+asociación `[submodule "vendor"]` / `path = vendor`; `ignore=all` permanece
+exclusivamente en `.git/config` del repositorio temporal. Sobre el mismo
+`base` y `head` se acreditan tres observaciones:
+
+1. el diff con los flags de producción salvo `--ignore-submodules=none` queda
+   vacío: la manipulación local es efectiva;
+2. la CLI real conserva exit `1`, ruta `vendor` y motivo
+   `fuera_de_permitidos`;
+3. una mutación únicamente en memoria de `_diff_records`, idéntica salvo por
+   retirar el override, hace que la entrada real `check_scope.main` cambie a
+   exit `0` y cero violaciones. `scripts/check_scope.py` no se edita.
+
+Así, la regresión falla si desaparece el override y deja de ser el falso verde
+identificado tras C2.
+
+### Doce comandos literales
+
+Se ejecutaron literalmente, en orden, sobre
+`HEAD=333eb072e62f3298f465c32c9d47a69b043cb8c1`. La salida íntegra y cada
+código de retorno están en `evidence/WP-015/verificacion-c3-literal.log`.
+
+| # | Resultado C3 |
+|---|---|
+| 1–3 | rutas probadas limpias, sin staged ni archivos sin seguimiento |
+| 4 | 152/152 pruebas en verde |
+| 5 | 14/14 pruebas de seguridad estática en verde |
+| 6 | `run-suite.sh`: 152/152, mismo HEAD y estado Git antes/después |
+| 7 | `check_scope.py WP-015 origin/main...HEAD`: `OK`, cero violaciones; `merge_base=7d1b26a...` |
+| 8 | shellcheck limpio |
+| 9 | gobierno: 10 correctas, 0 fallidas |
+| 10 | guard: 68 correctas, 0 fallidas, 10 huecos conocidos |
+| 11 | manual: 0 fallos, 67 enlaces |
+| 12 | `git diff --check`: limpio |
+
+### Criterios de aceptación tras C3
+
+| # | Criterio | Evaluación C3 |
+|---|---|---|
+| 1 | Tablas DEC-002/DEC-012, corpus, precedencia y globs | **CUMPLE** — suite completa en verde; sin cambios semánticos fuera de F2 |
+| 2 | A/M/D/T/R/C, nombres inusuales, inventario y códigos | **CUMPLE** — 152/152 pruebas |
+| 3 | Symlinks por modos y blobs | **CUMPLE** — suite y evidencia histórica inmutables |
+| 4 | Fallo cerrado de contrato/rango/UTF-8/marcadores | **CUMPLE** — negativas en verde |
+| 5 | Working tree no altera el contrato | **CUMPLE** — `TestContractManipulationIgnored` en verde |
+| 6 | Suite deja idénticos HEAD y estado Git | **CUMPLE** — comando 6, aislamiento intacto |
+| 7 | Inventario completo y límite local documentado | **CUMPLE** — comando 7 y evidencia existente |
+| 8 | Biblioteca única importada por CLI | **CUMPLE** — AST y suite en verde; producción sin cambios en C3 |
+| 9 | Identidad de bytes y suelo T3 | **PENDIENTE DE GATE** — manifiesto C3 generado; falta dictamen enfocado de la misma Astra |
+
+El manifiesto ordenado de los diez archivos probados está en
+`evidence/WP-015/manifiesto-tested-head-c3.json`. Los nueve archivos sin
+cambios conservan los blobs de C2; `tests/scope/test_check_scope_cli.py` pasa a
+blob `c98ab0af21679d4fd541a3883b4fd6e594751195` y SHA-256
+`62df84cd2d815feab810ecd1a43f741679ac77ea6ce2b058b7fc6508c53d6734`.
+
+**VEREDICTO DE BATERÍA: APTO.** Comandos: `12 / 12` en verde. Criterios:
+`8` cumplidos, `0` incumplidos, `1` pendiente del gate T3. El candidato no se
+declara todavía APTO de entrega: requiere la revalidación enfocada de Astra.
+
 ## C2 — candidato para revalidación enfocada final
 
 Claude Code abrió C2 previamente en `d59c9c6` y comprometió las correcciones

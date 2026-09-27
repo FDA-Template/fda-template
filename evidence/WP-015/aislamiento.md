@@ -16,6 +16,22 @@ estado_despues="$(git status --porcelain=v1 -z -uall | shasum -a 256)"
 y falla (`exit 1`, "FALLO AISLAMIENTO") si cualquiera de las dos huellas
 difiere, incluso si las 95 pruebas pasan.
 
+## Ejecución real, C3 (comando 6 de `verificacion-c3-literal.log`)
+
+```text
+--- HEAD antes: 333eb072e62f3298f465c32c9d47a69b043cb8c1 ---
+[... 152 pruebas, todas "ok" ...]
+--- HEAD después: 333eb072e62f3298f465c32c9d47a69b043cb8c1 ---
+
+RESULTADO: OK (pruebas en verde, aislamiento intacto)
+```
+
+El script comparó además la huella NUL de
+`git status --porcelain=v1 -z -uall` antes y después. El conjunto de rutas era
+idéntico; durante la captura ya existía el log C3 no rastreado, pero su
+contenido no forma parte de la salida de `git status`. Ningún repositorio de
+prueba, fixture ni configuración local sobrevivió fuera de sus temporales.
+
 ## Ejecución real, C1 (comando 6 de `evidence/WP-015/verificacion-c1.log`)
 
 ```
