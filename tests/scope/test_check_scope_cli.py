@@ -10,6 +10,8 @@ repositorio temporal.
 
 from __future__ import annotations
 
+import contextlib
+import io
 import json
 import os
 import pathlib
@@ -19,6 +21,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import unittest.mock
 
 _TESTS_SCOPE = pathlib.Path(__file__).resolve().parent
 _REPO_ROOT = _TESTS_SCOPE.parents[1]
@@ -570,11 +573,89 @@ class TestGitlinkIgnoreOverrideRegression(CheckScopeCliTestCase):
         base, head = self._build_repo_with_gitlink()
         inventario_base = self._assert_vendor_violation(base, head)
 
+        # .gitmodules NO VERSIONADO (solo en el working tree, nunca
+        # `git add`): asocia el nombre "vendor" con la ruta "vendor". Sin
+        # esta asociación, Git nunca aplica submodule.vendor.ignore=all al
+        # gitlink "vendor" (residual WP015-F2 de la revalidación final de
+        # C2: la variante anterior fijaba el ignorado sin esta asociación y
+        # por eso era inefectiva). El ignorado en sí NUNCA vive aquí.
+        self.repo.write_text(
+            ".gitmodules",
+            '[submodule "vendor"]\n\tpath = vendor\n',
+        )
         # Configuración LOCAL (.git/config del repositorio temporal, nunca
-        # global ni del sistema), sin pasar por .gitmodules en absoluto.
+        # global, del sistema ni de .gitmodules): el ignorado en sí.
         self.repo._git("config", "submodule.vendor.ignore", "all")
+
+        # Control NEGATIVO: con la asociación y el ignorado local activos, el
+        # MISMO diff (mismos flags que produccion salvo el override) omite
+        # "vendor" por completo.
+        raw_sin_override = self.repo._git(
+            "diff",
+            "-z",
+            "--name-status",
+            "-M",
+            "-C",
+            "--find-copies-harder",
+            base,
+            head,
+        ).stdout
+        self.assertEqual(check_scope.parse_name_status_z(raw_sin_override), [])
+
+        # Control POSITIVO: la CLI real, con producción intacta (el override
+        # `--ignore-submodules=none` sigue en scripts/check_scope.py),
+        # conserva "vendor" como fuera_de_permitidos pese a la asociación y
+        # el ignorado local.
         inventario_manipulado = self._assert_vendor_violation(base, head)
         self.assertEqual(inventario_manipulado, inventario_base)
+
+        # Sensibilidad explícita, por mutación EN MEMORIA y no persistente
+        # (nunca se edita scripts/check_scope.py en disco): se sustituye
+        # temporalmente check_scope._diff_records por una réplica idéntica
+        # salvo por la ausencia de "--ignore-submodules=none", y se invoca
+        # check_scope.main en el mismo proceso, con el mismo WP-ID/base/head
+        # que el control positivo. Si el override no fuera la causa de que
+        # el control positivo detecte "vendor", retirarlo no cambiaría el
+        # veredicto; en cambio el resultado pasa a exit 0 sin violaciones,
+        # igual que el control negativo, demostrando que esta regresión
+        # depende del override real de producción.
+        def _diff_records_sin_override(repo_root, merge_base, head_rev):
+            rc, out, err = check_scope._run_git(
+                [
+                    "diff",
+                    "-z",
+                    "--name-status",
+                    "-M",
+                    "-C",
+                    "--find-copies-harder",
+                    merge_base,
+                    head_rev,
+                ],
+                cwd=repo_root,
+            )
+            if rc != 0:
+                raise check_scope.CheckScopeError(
+                    "diff no resoluble entre merge-base y head (control de mutación)"
+                )
+            return check_scope.parse_name_status_z(out)
+
+        stdout_mutado = io.StringIO()
+        cwd_anterior = os.getcwd()
+        os.chdir(self.repo.path)
+        try:
+            with unittest.mock.patch.object(
+                check_scope, "_diff_records", _diff_records_sin_override
+            ):
+                with contextlib.redirect_stdout(stdout_mutado):
+                    exit_mutado = check_scope.main([WP_ID, f"{base}...{head}"])
+        finally:
+            os.chdir(cwd_anterior)
+
+        self.assertEqual(exit_mutado, 0)
+        lineas_mutado = stdout_mutado.getvalue().splitlines()
+        self.assertEqual(lineas_mutado[0], "OK")
+        payload_mutado = json.loads(lineas_mutado[1])
+        self.assertEqual(payload_mutado["violaciones"], [])
 
 
 class TestF3RealGitReproductions(CheckScopeCliTestCase):
