@@ -93,7 +93,13 @@ decisiones; dos parsers coincidentes solo en los contratos existentes no bastan.
 Solo si WP-015 queda `done`, el operador podrá autorizar por separado, uno cada
 vez, los siguientes hitos:
 
-1. **Integración en CI y ruleset.** Un sucesor limpio de WP-005 integrará el
+1. **Integración en CI y ruleset.** **Reserva posterior y condicionada:**
+   [`DEC-014`](DEC-014-reserva-sucesor-wp005.md)
+   identifica `WP-016` como ese sucesor únicamente desde la fusión humana de
+   su composición. La reserva no crea, aprueba, admite ni activa el contrato,
+   no autoriza ejecutar este hito y no cambia las demás cláusulas de esta §3.
+
+   Un sucesor limpio de WP-005 integrará el
    mismo verificador en CI. El job deberá ejecutarse en toda PR relevante, no
    quedar ausente ni saltado, fallar cerrado y distinguir ramas de operador
    mediante una autorización verificable ligada al `HEAD SHA`. Una persona
