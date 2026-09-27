@@ -7,7 +7,7 @@ habilitó un único C3 para el residual cerrado `WP015-F2`. La rama incorporó
 esa decisión sin reescribir historia mediante el merge
 `9b66c8e75b1aa37574b151bb5821ef9dc648d9a7`. La apertura de C3 quedó
 versionada antes de corregir en
-`eb085a1bcb768605df47273e43f4ab9b4192daf7`.
+`eb085a115ab6ac24078d8b4b551305f5ac99f2d8`.
 
 Claude Code realizó una sola pasada y modificó únicamente
 `tests/scope/test_check_scope_cli.py`. El coordinador comprometió ese cambio
@@ -17,7 +17,7 @@ como `TESTED_HEAD` antes de ejecutar la batería completa.
 |---|---|
 | Base vigente y `merge-base` | `7d1b26afcb3285e29ee17dee7548b34351948330` |
 | Candidata C2 preservada | `4ad9eb354e3ff13c0a936be6c8a0eee691e44246` |
-| Apertura C3 previa | `eb085a1bcb768605df47273e43f4ab9b4192daf7` |
+| Apertura C3 previa | `eb085a115ab6ac24078d8b4b551305f5ac99f2d8` |
 | `TESTED_HEAD` C3 | `333eb072e62f3298f465c32c9d47a69b043cb8c1` |
 | Árbol de `TESTED_HEAD` C3 | `4efabe75db5bfb1eb845e5e0a8db0d906e0d1eeb` |
 | Autor/corrector | Claude Code (implementer), una invocación, sin subagentes |
