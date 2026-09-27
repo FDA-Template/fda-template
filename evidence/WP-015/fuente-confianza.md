@@ -53,8 +53,17 @@ desechables:
    `head`. El mismo rango produce el mismo veredicto (`VIOLACION` sobre
    `rogue/new.py`): retirar el archivo del disco no impide leerlo desde el
    blob del `merge-base`.
+3. **`WP015-F6` (revisión Astra, C1)** —
+   `test_head_committed_contract_expansion_has_no_effect` — la ampliación
+   del contrato se **commitea de verdad** en un segundo commit de `head`
+   (no solo en el working tree, a diferencia de las dos pruebas anteriores).
+   `check_scope.py`, invocado con `base...head2`, sigue leyendo el contrato
+   del `merge-base` (= `base`) y sigue señalando `rogue/new.py`: ni siquiera
+   un commit real y completo de la ampliación, que forma parte legítima del
+   árbol de `HEAD`, altera el veredicto, porque la fuente de confianza es
+   `merge-base`, nunca `HEAD`.
 
-Ambas pruebas están en verde (comando 6 de `verification.md`, 95/95).
+Las tres pruebas están en verde (comando 6 de `verification.md`, 134/134).
 
 ## Garantías explícitas que el código respeta
 

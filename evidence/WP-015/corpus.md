@@ -1,8 +1,24 @@
 # WP-015 — Corpus: correspondencia caso por caso
 
 Todas las pruebas citadas viven en `tests/scope/test_scope_rules.py` salvo que
-se indique lo contrario. Ejecutadas y en verde en `evidence/WP-015/verification.md`
-comando 6 (95/95).
+se indique lo contrario. Ejecutadas y en verde en
+`evidence/WP-015/verificacion-c1.log` comando 6 (134/134; las 95 originales
+más 39 de C1).
+
+## C1 — correcciones de la revisión Astra (`WP015-F1` a `WP015-F8`)
+
+| Hallazgo | Prueba(s) |
+|---|---|
+| `WP015-F1` (LF elude `**`/`/`) | `TestDoubleStarAndDirSuffixConsumeLF` (7 unitarias, incluida `test_reproduccion_exacta_del_hallazgo`) + `test_double_star_forbidden_catches_lf_path_via_real_git`, `test_dir_suffix_forbidden_catches_lf_path_via_real_git`, `test_double_star_allowed_authorizes_lf_path_via_real_git` (CLI, Git real, en `test_check_scope_cli.py`) |
+| `WP015-F2` (`.gitmodules`/config local oculta gitlink) | Corrección aplicada (`--ignore-submodules=none`); sin prueba de integración con submódulo real — deuda declarada en `verification.md` |
+| `WP015-F3` (parsers Git aceptan salidas malformadas) | 15 pruebas en `TestPureParsers` (`test_check_scope_cli.py`): estado con cola arbitraria, puntuación R/C no numérica o vacía, NUL final ausente, rutas vacías, metadata de `ls-tree` inválida (modo/tipo/object id) |
+| `WP015-F4` (separadores Unicode fragmentan el log) | Cubierto transversalmente: toda línea JSON de toda la batería de CLI pasa por `_emit_json` con `ensure_ascii=True`; ver `evidence/WP-015/seguridad.md` |
+| `WP015-F5` (AST omite `os.path.realpath`/`io.open`/alias) | `TestAnalyzerNegativeSamples` (9 pruebas) en `test_security_static.py` |
+| `WP015-F6` (cobertura declarada pero no demostrada) | `test_modified_symlink_target_changed_outside_allowed`, `test_renamed_symlink_target_now_escapes_root`, `test_symlink_target_invalid_utf8_is_exit_2`, `test_contract_blob_invalid_utf8_is_exit_2`, `test_head_committed_contract_expansion_has_no_effect` |
+| `WP015-F7` (WP-ID admite dígitos Unicode) | `test_wp_id_with_unicode_digits_is_exit_2` |
+| `WP015-F8` (falta manifiesto JSON) | `evidence/WP-015/manifiesto-tested-head-c1.json`, generado por `tests/scope/generate-evidence-hashes.sh` actualizado |
+
+## Corpus previo (implementación inicial)
 
 ## DEC-002 §7 — las ocho filas vinculantes de traversal
 

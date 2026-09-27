@@ -54,12 +54,37 @@ Todas las pruebas siguientes están en verde (comando 6 de
 | `A` | `120000` en `head` | symlink añadido con destino absoluto | `test_symlink_absolute_target_is_violation` | `symlink_absoluto` |
 | `A` | `120000` en `head` | symlink añadido que sale de la raíz | `test_symlink_escaping_root_is_violation` | `symlink_fuera_de_raiz` |
 | `D` | `120000` en `merge-base` | symlink absoluto existente en `base`, eliminado en `head`; se juzga desde `merge-base` | `test_deleted_symlink_target_judged_from_merge_base` | `symlink_absoluto` |
+| `M` | `120000` en ambas revisiones (mismo modo, blob distinto) | mismo enlace `docs/link.md`; el destino cambia de `target.md` (permitido) a `../secrets/token` (fuera de permitidos) | `test_modified_symlink_target_changed_outside_allowed` | `symlink_fuera_de_permitidos` |
+| `R` | `120000` en ambas revisiones (mismo blob de destino, ruta distinta) | `docs/a/b/link.md` → `docs/link.md`; el texto del destino no cambia (`../../ok.md`), pero el traslado de directorio hace que el mismo destino relativo salga de la raíz al resolverse desde la nueva ubicación | `test_renamed_symlink_target_now_escapes_root` | `symlink_fuera_de_raiz` (rol `destino`) |
 
-La fila `D` demuestra explícitamente que, aunque el symlink ya no existe en
-`head`, `check_scope.py` sigue detectando la violación porque inspecciona el
-modo y el blob de la revisión `merge-base` (nunca el working tree, que ni
-siquiera contiene el enlace en ese punto de la ejecución del test, dado que
-`git rm` ya lo retiró antes de invocar la CLI).
+Las filas `D`, `M` y `R` demuestran juntas que la revisión inspeccionada
+depende exclusivamente del estado del diff y del rol del extremo (origen o
+destino), nunca del working tree: `D` se juzga desde `merge-base` aunque el
+enlace ya no exista en `head`; `M` conserva el mismo modo `120000` en ambas
+revisiones y solo cambia el blob de destino, que `_check_symlink` relee para
+`head`; `R` demuestra que el MISMO blob de destino puede ser conforme desde
+un directorio y no conforme desde otro, y que `check_scope.py` resuelve cada
+extremo con la revisión y el directorio correctos (merge-base para el
+origen, head para el destino), tal como exige el contrato.
+
+### Bytes UTF-8 realmente inválidos en objetos Git (no en nombres de archivo)
+
+| Objeto | Escenario | Prueba | Resultado |
+|---|---|---|---|
+| Blob de destino de symlink | `os.symlink` con target `b"\xff\xfe-invalido"` (bytes crudos, sin NUL) | `test_symlink_target_invalid_utf8_is_exit_2` | exit `2`, motivo con "destino de symlink" y "codificación" |
+| Blob del contrato | archivo `work-packages/WP-901-sandbox.md` escrito con bytes crudos inválidos, committeado de verdad | `test_contract_blob_invalid_utf8_is_exit_2` | exit `2`, motivo con "codificación" |
+
+### Ampliación del contrato comprometida en HEAD (no solo en el working tree)
+
+`test_head_committed_contract_expansion_has_no_effect` construye un segundo
+commit de `head` que **commitea de verdad** una versión ampliada del
+contrato (añade `rogue/**` a los permitidos) y comprueba que
+`check_scope.py`, invocado con `base...head`, sigue leyendo el contrato del
+`merge-base` (= `base`, anterior a ambos commits) y sigue señalando la
+violación en `rogue/new.py`. Esto es más fuerte que las dos pruebas de
+`TestContractManipulationIgnored` que ya existían (que solo dejaban la
+ampliación en el working tree, sin commit): aquí la ampliación está en el
+árbol de `HEAD` de verdad, y aun así no tiene efecto.
 
 ## Ausencia de segunda implementación
 

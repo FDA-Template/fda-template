@@ -16,12 +16,12 @@ estado_despues="$(git status --porcelain=v1 -z -uall | shasum -a 256)"
 y falla (`exit 1`, "FALLO AISLAMIENTO") si cualquiera de las dos huellas
 difiere, incluso si las 95 pruebas pasan.
 
-## Ejecución real (comando 6 de `evidence/WP-015/verification.md`)
+## Ejecución real, C1 (comando 6 de `evidence/WP-015/verificacion-c1.log`)
 
 ```
---- HEAD antes: 718ce294fe592c2b6df7c13c5f56caea4199d7f2 ---
-[... 95 pruebas, todas "ok" ...]
---- HEAD después: 718ce294fe592c2b6df7c13c5f56caea4199d7f2 ---
+--- HEAD antes: 513d68c422a9d8380e0100944e7eb68d8f42ece9 ---
+[... 134 pruebas, todas "ok" ...]
+--- HEAD después: 513d68c422a9d8380e0100944e7eb68d8f42ece9 ---
 
 ============================================================
  RESULTADO: OK (pruebas en verde, aislamiento intacto)
@@ -29,7 +29,9 @@ difiere, incluso si las 95 pruebas pasan.
 ```
 
 `HEAD` es idéntico byte a byte antes y después:
-`718ce294fe592c2b6df7c13c5f56caea4199d7f2` (`TESTED_HEAD`).
+`513d68c422a9d8380e0100944e7eb68d8f42ece9` (`TESTED_HEAD` de C1). La misma
+propiedad se acreditó previamente para el `TESTED_HEAD` de la implementación
+inicial (`718ce294fe592c2b6df7c13c5f56caea4199d7f2`), con idéntico mecanismo.
 
 En el instante de esa ejecución, el worktree estaba exactamente en el estado
 de `TESTED_HEAD` (sin archivos de evidencia todavía, que se escriben en un
