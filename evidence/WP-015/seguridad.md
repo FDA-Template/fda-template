@@ -37,7 +37,7 @@ shell) para las siete operaciones Git de solo lectura que necesita
 filesystem sobre rutas de repositorio. `scripts/scope_rules.py` no importa
 `os` ni `subprocess` en absoluto: es una biblioteca pura sobre cadenas.
 
-## 2. Escaneo de secretos — **bloqueo declarado, sin fabricar evidencia**
+## 2. Escaneo de secretos — resultado sobre la base, capturado externamente
 
 El contrato exige versionar "el resultado del job existente `Escaneo de
 secretos` sobre `TESTED_HEAD` u otro commit anterior identificado", y que el
@@ -45,17 +45,46 @@ check verde del head final "se verifica externamente" — es decir, mediante
 la API o la interfaz de GitHub Actions, no mediante una ejecución local de
 gitleaks.
 
-**No se puede cerrar honestamente en esta sesión.** El entorno autorizado de
-este WP prohíbe red para el autor («Red: NINGUNA para autor e
-implementación»), y esta sesión no tiene acceso a la API de GitHub ni a
-`gh`. No existe en `evidence/` de ningún WP anterior un resultado ya
-versionado y con identificador de ejecución real de `Escaneo de secretos`
-que pueda citarse como «otro commit anterior identificado» (se buscó en
-`evidence/WP-006`, `WP-008`, `WP-009`, `WP-013`, `WP-014`; ninguno contiene
-una captura con `run_id`, conclusión y SHA verificables, solo menciones
-narrativas de que ese check "seguirá pendiente").
+**Resultado capturado por el coordinador, sobre la base autorizada — no
+sobre el candidato.** El entorno autorizado de este WP prohíbe red para el
+autor, y ni la sesión de implementación inicial ni esta consolidación tienen
+acceso a la API de GitHub ni a `gh`. El coordinador, con ese acceso, capturó
+la siguiente ejecución existente del workflow `CI` sobre
+`30939377590a3c3b49ba705ef0f20c4832df61bd` (la base autorizada de esta rama,
+= `origin/main` en el momento de crear `wp/WP-015-check-scope-local`):
 
-**Lo que sí se acredita localmente, sin red:**
+| Campo | Valor |
+|---|---|
+| Workflow | `CI` |
+| `run_id` | `35900251941` |
+| Run URL | `https://github.com/ivanes189/fda-template/actions/runs/35900251941` |
+| Head SHA de la ejecución | `30939377590a3c3b49ba705ef0f20c4832df61bd` |
+| Conclusión de la ejecución | `success` |
+| Job | `Escaneo de secretos` |
+| `job_id` | `107314291136` |
+| Job URL | `https://github.com/ivanes189/fda-template/actions/runs/35900251941/job/107314291136` |
+| Conclusión del job | `success` |
+| `startedAt` | `2026-09-23T18:07:08Z` |
+| `completedAt` | `2026-09-23T18:07:18Z` |
+| Step `gitleaks` | `success` |
+| Step `Ningún archivo de secretos versionado` | `success` |
+
+Esto es exactamente «otro commit anterior identificado» en el sentido del
+contrato: un resultado ya existente en GitHub, sobre un SHA anterior al
+candidato, con identificador de ejecución y de job verificables.
+
+**Qué NO afirma esta tabla, y por qué se dice expresamente.** El SHA
+escaneado (`3093937...`) es la **base**, no el candidato: no incluye
+`scripts/check_scope.py`, `scripts/scope_rules.py` ni ningún archivo de
+`tests/scope/`, porque esos archivos no existían todavía en ese commit. Esta
+tabla no sustituye, y no se presenta como si sustituyera, el check verde que
+el **head final de una futura PR** de WP-015 deberá obtener sobre **sus
+propios bytes**, verificado externamente en su momento. Lo único que
+acredita aquí es que el mecanismo del job existe, está `success` sobre la
+línea base, y que no hay ninguna razón estructural (secretos ya presentes,
+job roto) para esperar que el candidato lo tiña de rojo.
+
+**Lo que además se acredita localmente, sin red, sobre el propio candidato:**
 
 - `scripts/check_scope.py` y `scripts/scope_rules.py` no contienen ningún
   literal que gitleaks u otro escáner de secretos suela señalar: no hay
@@ -63,16 +92,15 @@ narrativas de que ese check "seguirá pendiente").
   Una inspección manual del código fuente (íntegro en los commits
   `8830028` y `718ce29`) no encuentra ningún candidato.
 - Ningún archivo `.env`, `*.pem`, `id_rsa*` ni bajo `secrets/` se creó,
-  leyó o modificó durante esta sesión (denegado además por
-  `.claude/settings.json` `permissions.deny` si se intentara).
+  leyó o modificó durante esta sesión ni durante la de implementación
+  inicial (denegado además por `.claude/settings.json` `permissions.deny`
+  si se intentara).
 
-**Bloqueo residual para el coordinador.** Antes del cierre `APTO`, una
-persona con acceso a GitHub debe capturar y versionar en
-`evidence/WP-015/seguridad.md` (o en un archivo hermano bajo
-`evidence/WP-015/**`) el resultado real del job `Escaneo de secretos` sobre
+**Bloqueo residual, más acotado que antes.** Sigue pendiente que una persona
+con acceso a GitHub capture el resultado real de `Escaneo de secretos` sobre
 `TESTED_HEAD` (`718ce294fe592c2b6df7c13c5f56caea4199d7f2`) o sobre el head
-final de la PR, con su `run_id`/conclusión, exactamente como exige el
-contrato. Este agente no lo fabrica.
+final de la PR que efectivamente se abra — el candidato, no la base—, con su
+propio `run_id`/conclusión. Este agente no lo fabrica.
 
 ## 3. Ausencia de dependencias y lockfiles nuevos
 

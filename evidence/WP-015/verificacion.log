@@ -1,159 +1,44 @@
-# WP-015 — Verificación
+WP-015 - verificacion contractual literal
+Base autorizada: 30939377590a3c3b49ba705ef0f20c4832df61bd
+Candidato previo a verificacion: 4876e8be85f615cac92e63c7a58be47c0b1b8b87
 
-Implementación inicial (no C1 ni C2). Autor único: Claude Code (implementer).
+$ git diff --exit-code HEAD -- scripts/check_scope.py scripts/scope_rules.py tests/scope docs/manual/02-ciclo-de-un-wp.md
 
-**Los doce comandos de `## Verificación` se ejecutaron literalmente, en el
-orden exacto del contrato, sobre `TESTED_HEAD`.** La salida íntegra y el
-código de salida de cada uno están, sin editar, en el archivo versionado
-`evidence/WP-015/verificacion.log`. Este archivo resume y referencia esa
-transcripción; donde ambos difieran en la letra, prevalece el `.log`.
+[exit_code=0]
 
-## Identidad de `TESTED_HEAD`
+$ git diff --cached --exit-code HEAD -- scripts/check_scope.py scripts/scope_rules.py tests/scope docs/manual/02-ciclo-de-un-wp.md
 
-| Campo | Valor |
-|---|---|
-| Rama | `wp/WP-015-check-scope-local` |
-| Base autorizada | `30939377590a3c3b49ba705ef0f20c4832df61bd` (`origin/main`) |
-| `TESTED_HEAD` | `718ce294fe592c2b6df7c13c5f56caea4199d7f2` |
-| Árbol de `TESTED_HEAD` | `c0f6d7cba2ea9f3ce31a57050b3f441d92e7b7f0` |
-| `merge-base(origin/main, TESTED_HEAD)` | `30939377590a3c3b49ba705ef0f20c4832df61bd` (= base autorizada) |
+[exit_code=0]
 
-`TESTED_HEAD` consta de dos commits atómicos sobre la base autorizada:
+$ bash -o pipefail -c 'git ls-files --others --exclude-standard -z -- scripts/check_scope.py scripts/scope_rules.py tests/scope docs/manual/02-ciclo-de-un-wp.md | python3 -c "import sys; raise SystemExit(bool(sys.stdin.buffer.read()))"'
 
-1. `8830028e61b773354fd92c7a8305727f203c4c42` — código, pruebas y manual.
-2. `718ce294fe592c2b6df7c13c5f56caea4199d7f2` — `tests/scope/generate-evidence-hashes.sh`,
-   utilidad de evidencia dentro de `tests/scope/**` (ruta probada), usada para
-   producir el manifiesto de esta misma tabla. Ambos commits están dentro del
-   alcance probado; no hay ningún commit "solo de evidencia" con contenido en
-   rutas de código todavía.
+[exit_code=0]
 
-Antes de generar esta evidencia, el árbol de trabajo coincide exactamente con
-`TESTED_HEAD` en las cinco rutas permitidas: sin cambios `staged`, `unstaged`
-ni archivos sin seguimiento.
+$ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests/scope -p 'test_*.py'
 
-**Commit de evidencia previo, ya versionado.**
-`4876e8be85f615cac92e63c7a58be47c0b1b8b87` — "WP-015: registrar evidencias de
-la implementación inicial" — añadió `evidence/WP-015/**` (verification.md,
-corpus.md, fuente-confianza.md, symlinks.md, aislamiento.md, seguridad.md,
-ciclos.md, cost.md, revision-astra.md) sin tocar ninguna ruta probada. Su
-diff contra `TESTED_HEAD` en las rutas probadas es cero:
-
-```bash
-$ git diff --exit-code 718ce294fe592c2b6df7c13c5f56caea4199d7f2 -- scripts/check_scope.py scripts/scope_rules.py tests/scope docs/manual/02-ciclo-de-un-wp.md
-[exit_code=0, salida vacía]
-```
-
-Esta consolidación (la presente pasada) añade únicamente
-`evidence/WP-015/verificacion.log` y corrige el texto de `verification.md` y
-`seguridad.md`; el mismo comando, ejecutado sobre el commit que la cierra,
-sigue devolviendo exit `0` con salida vacía (ver «Verificación de esta
-consolidación» al final de este archivo). Ningún commit posterior a
-`TESTED_HEAD` toca código, pruebas ni manual.
-
-## Manifiesto de identidad (ruta, modo, blob Git, SHA-256)
-
-Generado con `bash tests/scope/generate-evidence-hashes.sh` (solo lectura,
-`git ls-tree` + `shasum -a 256`) contra `TESTED_HEAD`:
-
-| Ruta | Modo | Blob Git (SHA-1) | SHA-256 del contenido |
-|---|---|---|---|
-| `scripts/check_scope.py` | `100644` | `ab94ac25b9f90293879ebed28ba58a8b99c77d3f` | `4c6aa2651600100c90328f3d8b19ec759549f3c03631c444cfc4423b5b906005` |
-| `scripts/scope_rules.py` | `100644` | `19d425611f1c15c33111db0448261a7dad0c38ad` | `382cbedd9d12179a04f842fabbb2581f9441179c02f5485249b1fb4fcdc2ad78` |
-| `tests/scope/_repo.py` | `100644` | `a7a14cdde8937530eb58c4aec9019d020b90ecd3` | `e5951767e152732c18e8f10233cec89e2dfd97a0de44cc61f10a863dbc51e9dd` |
-| `tests/scope/run-suite.sh` | `100644` | `17f0ca836cd6b93b694894c53721a09e03dbd93c` | `66afe7375d18466fc2ce0cf9f48465cf6de7b32f82f1697dfb235fb53fbd3201` |
-| `tests/scope/test_check_scope_cli.py` | `100644` | `bd2b7b76235c08af5449740f1e8ae82cde026a5b` | `95fd2b93801b34c3ca37a69d375b84456a6a5b16848630b3c5b085bac3411196` |
-| `tests/scope/test_scope_rules.py` | `100644` | `ef90adc983c0a30d1569e31989a54281ea73c37b` | `b8ea5e0b46a6c98337a68281bdc46bc38b3025389dcd5e8380f4dc660b1d8b95` |
-| `tests/scope/test_security_static.py` | `100644` | `f86d21bc9d6403e3e780b56ac5ddf59835922e60` | `9843460f482f9bd0557bc950a65194b707b4892867849e1418938e86a7f02a50` |
-| `tests/scope/generate-evidence-hashes.sh` | `100644` | `9b0360406512594e45b330135a5f7f50aff506b1` | `66596effc2433d2745fc2518be5afc693da117a41a1eb0e2834daa6b878d7b75` |
-| `docs/manual/02-ciclo-de-un-wp.md` | `100644` | `81d0f9ba84c60c8087d0cdb1241c0c85f885eac4` | `dc54cd96e996ef8f92f0f364517137a2731c18ced13d3dc9ba66873f6372a18a` |
-
-**Nota sobre el bit ejecutable.** `chmod` y `git update-index --chmod` están
-denegados por el permiso de herramienta de esta sesión (sin superficie de
-aprobación). `tests/scope/run-suite.sh` y `tests/scope/generate-evidence-hashes.sh`
-quedan con modo `100644` (no `100755`), a diferencia de `tests/guard/run-suite.sh`
-(`100755`). No afecta a ninguna verificación: todas se invocan explícitamente
-como `bash <script>`, nunca como `./<script>`. Deuda declarada — ver resumen
-final.
-
-**Prueba de identidad frente al head presentado.** El head presentado en esta
-entrega es exactamente `TESTED_HEAD` (`718ce294fe592c2b6df7c13c5f56caea4199d7f2`);
-no hay ningún commit posterior. Cuando existan commits posteriores solo de
-evidencia, deberán demostrar diff cero en las ocho rutas de esta tabla
-respecto de `TESTED_HEAD` mediante:
-
-```bash
-git diff --exit-code 718ce294fe592c2b6df7c13c5f56caea4199d7f2 -- scripts/check_scope.py scripts/scope_rules.py tests/scope docs/manual/02-ciclo-de-un-wp.md
-```
-
-## Comandos de verificación, salida y código de salida
-
-Todos ejecutados desde la raíz del repositorio, sobre `TESTED_HEAD`.
-
-### 1. `git diff --exit-code HEAD -- scripts/check_scope.py scripts/scope_rules.py tests/scope docs/manual/02-ciclo-de-un-wp.md`
-
-Salida: vacía. Exit: `0`.
-
-### 2. `git diff --cached --exit-code HEAD -- scripts/check_scope.py scripts/scope_rules.py tests/scope docs/manual/02-ciclo-de-un-wp.md`
-
-Salida: vacía. Exit: `0`.
-
-### 3. Comprobación de archivos sin seguimiento en las rutas probadas (forma literal del contrato)
-
-```bash
-bash -o pipefail -c 'git ls-files --others --exclude-standard -z -- scripts/check_scope.py scripts/scope_rules.py tests/scope docs/manual/02-ciclo-de-un-wp.md | python3 -c "import sys; raise SystemExit(bool(sys.stdin.buffer.read()))"'
-```
-
-Ejecutado en su forma literal exacta del contrato, con acceso operativo más
-amplio que el de la sesión de implementación inicial. Exit: `0`. Salida
-íntegra registrada en `evidence/WP-015/verificacion.log` (líneas 13-15):
-vacía salvo el marcador `[exit_code=0]`. Cero archivos sin seguimiento en las
-rutas probadas.
-
-### 4. `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests/scope -p 'test_*.py'`
-
-Ejecutado en su forma literal exacta del contrato. Exit: `0`. Salida íntegra
-registrada en `evidence/WP-015/verificacion.log` (líneas 17-24):
-
-```
 ...............................................................................................
 ----------------------------------------------------------------------
 Ran 95 tests in 6.461s
 
 OK
-```
+[exit_code=0]
 
-**95/95 pruebas en verde**, incluidas las de `test_security_static.py`.
-Coincide con el resultado ya obtenido por la vía anidada dentro de
-`bash tests/scope/run-suite.sh` (comando 6).
+$ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests/scope -p 'test_security_static.py'
 
-### 5. `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests/scope -p 'test_security_static.py'`
-
-Ejecutado en su forma literal exacta del contrato. Exit: `0`. Salida íntegra
-registrada en `evidence/WP-015/verificacion.log` (líneas 26-33):
-
-```
 ....
 ----------------------------------------------------------------------
 Ran 4 tests in 0.014s
 
 OK
-```
+[exit_code=0]
 
-Las cuatro pruebas: `test_check_scope_has_no_forbidden_apis`,
-`test_check_scope_parses_as_valid_python`,
-`test_scope_rules_has_no_forbidden_apis`,
-`test_scope_rules_parses_as_valid_python`.
+$ bash tests/scope/run-suite.sh
 
-### 6. `bash tests/scope/run-suite.sh`
-
-Exit: `0`. Salida íntegra (95 pruebas, aislamiento acreditado):
-
-```
 ============================================================
  WP-015 — suite de scripts/check_scope.py y scripts/scope_rules.py
 ============================================================
 
---- HEAD antes: 718ce294fe592c2b6df7c13c5f56caea4199d7f2 ---
+--- HEAD antes: 4876e8be85f615cac92e63c7a58be47c0b1b8b87 ---
 test_working_tree_contract_edit_has_no_effect (test_check_scope_cli.TestContractManipulationIgnored.test_working_tree_contract_edit_has_no_effect) ... ok
 test_working_tree_contract_removal_has_no_effect (test_check_scope_cli.TestContractManipulationIgnored.test_working_tree_contract_removal_has_no_effect) ... ok
 test_added_file_outside_allowed (test_check_scope_cli.TestExitOne.test_added_file_outside_allowed) ... ok
@@ -251,42 +136,29 @@ test_scope_rules_has_no_forbidden_apis (test_security_static.TestSecurityStatic.
 test_scope_rules_parses_as_valid_python (test_security_static.TestSecurityStatic.test_scope_rules_parses_as_valid_python) ... ok
 
 ----------------------------------------------------------------------
-Ran 95 tests in 6.844s
+Ran 95 tests in 6.429s
 
 OK
 
---- HEAD después: 718ce294fe592c2b6df7c13c5f56caea4199d7f2 ---
+--- HEAD después: 4876e8be85f615cac92e63c7a58be47c0b1b8b87 ---
 
 ============================================================
  RESULTADO: OK (pruebas en verde, aislamiento intacto)
 ============================================================
-```
+[exit_code=0]
 
-### 7. `python3 scripts/check_scope.py WP-015 origin/main...HEAD`
+$ python3 scripts/check_scope.py WP-015 origin/main...HEAD
 
-Exit: `0`. Salida íntegra:
-
-```
 OK
 {"base": "origin/main", "contrato": "work-packages/WP-015-check-scope-local.md", "contrato_blob": "7f52be5a63a588d38f61b6e03e3d7ae48fd0447a", "head": "HEAD", "merge_base": "30939377590a3c3b49ba705ef0f20c4832df61bd", "violaciones": [], "wp": "WP-015"}
-```
+[exit_code=0]
 
-Ejecutado inmediatamente después del commit `8830028` (antes del segundo
-commit `718ce29`); el `HEAD` de esa ejecución era `8830028e61b773354fd92c7a8305727f203c4c42`.
-`merge_base` coincide exactamente con la base autorizada. Repetido tras el
-segundo commit con el mismo resultado (`OK`, cero violaciones): el propio
-verificador certifica que su diff completo respeta su propio contrato.
+$ shellcheck --severity=warning --shell=bash tests/scope/run-suite.sh
 
-### 8. `shellcheck --severity=warning --shell=bash tests/scope/run-suite.sh`
+[exit_code=0]
 
-Salida: vacía. Exit: `0`. Repetido para `tests/scope/generate-evidence-hashes.sh`:
-salida vacía, exit `0`.
+$ bash tests/governance/test-check-active.sh
 
-### 9. `bash tests/governance/test-check-active.sh`
-
-Exit: `0`. Salida íntegra:
-
-```
 ==============================================================
  Validación del estado operativo — check-active.sh
  0=REPOSO o ACTIVO · 1=ERROR de coherencia · 2=ERROR sin archivo
@@ -318,13 +190,10 @@ Exit: `0`. Salida íntegra:
 ==============================================================
  RESULTADO: 10 correctas, 0 fallidas
 ==============================================================
-```
+[exit_code=0]
 
-### 10. `bash tests/guard/run-suite.sh`
+$ bash tests/guard/run-suite.sh
 
-Exit: `0`. Salida íntegra:
-
-```
 ==============================================================
  Suite adversarial del guard
  Guard bajo prueba: /private/tmp/fda-template-wp015-implementation/.claude/hooks/guard.sh
@@ -441,31 +310,24 @@ Exit: `0`. Salida íntegra:
 ==============================================================
  RESULTADO: 68 correctas · 0 fallidas · 10 huecos conocidos · 0 huecos cerrados
 ==============================================================
-```
+[exit_code=0]
 
-Este WP no modifica `.claude/hooks/guard.sh` ni `tests/guard/run-suite.sh`; el
-comando se ejecuta sin cambios respecto de la base autorizada, como
-comprobación de no regresión.
+$ PYTHONDONTWRITEBYTECODE=1 python3 evidence/WP-000/checks/check-manual.py
 
-### 11. `PYTHONDONTWRITEBYTECODE=1 python3 evidence/WP-000/checks/check-manual.py`
-
-Exit: `0`. Salida íntegra:
-
-```
 ==============================================================
  Manual — enlaces internos y placeholders de instalación
 ==============================================================
 
 --- Enlaces internos (9 archivos) ---
-  OK    docs/manual/01-instalacion.md
-  OK    docs/manual/02-ciclo-de-un-wp.md
-  OK    docs/manual/03-redactar-un-wp.md
-  OK    docs/manual/04-agentes.md
-  OK    docs/manual/05-bloqueos-y-parada.md
-  OK    docs/manual/06-costes-y-metricas.md
-  OK    docs/manual/07-troubleshooting.md
-  OK    docs/manual/MANUAL.md
-  OK    CLAUDE.md
+  OK    docs/manual/01-instalacion.md                
+  OK    docs/manual/02-ciclo-de-un-wp.md             
+  OK    docs/manual/03-redactar-un-wp.md             
+  OK    docs/manual/04-agentes.md                    
+  OK    docs/manual/05-bloqueos-y-parada.md          
+  OK    docs/manual/06-costes-y-metricas.md          
+  OK    docs/manual/07-troubleshooting.md            
+  OK    docs/manual/MANUAL.md                        
+  OK    CLAUDE.md                                    
 
   Enlaces internos comprobados: 66
 
@@ -487,72 +349,8 @@ Exit: `0`. Salida íntegra:
 ==============================================================
  RESULTADO: 0 fallos
 ==============================================================
-```
+[exit_code=0]
 
-### 12. `git diff --check`
+$ git diff --check
 
-Salida: vacía. Exit: `0`.
-
-## Resumen de criterios de aceptación
-
-- [x] La suite cubre las tablas completas de DEC-002 (8 filas, `TestDec002TraversalTable`)
-  y DEC-012 (tabla §6, `TestDec012Tabla6`), el corpus de transición
-  (`TestTransitionCorpus`), precedencia (`TestPrecedence`), globs
-  (`TestGlobMatching`), directorios (sufijo `/`) y mayúsculas.
-- [x] Repositorios temporales cubren `A/M/D/T/R/C`, nombres inusuales, todas
-  las violaciones en una ejecución (`test_multiple_violations_in_one_execution_sorted`)
-  y los tres códigos exactos (`TestExitZero`, `TestExitOne`, `TestExitTwo`).
-- [x] Symlinks añadidos, modificados, eliminados, renombrados y con cambio de
-  tipo se juzgan desde modos y blobs Git, incluida salida de raíz.
-- [x] Ausencia, duplicidad, manipulación del contrato propio, rango inválido,
-  UTF-8 inválido (a nivel de biblioteca, `test_invalid_utf8_is_caller_responsibility`),
-  marcador alternativo y sentinela mezclado fallan cerrados.
-- [x] Modificar o retirar el contrato del working tree no altera el veredicto
-  obtenido desde el `merge-base` (`TestContractManipulationIgnored`).
-- [x] La suite deja idénticos `git status --porcelain=v1 -z -uall` y `HEAD`
-  del repositorio FDA antes y después (acreditado por `run-suite.sh`).
-- [x] La CLI enumera el inventario completo en JSON de una línea y
-  `docs/manual/02-ciclo-de-un-wp.md` documenta que es local y no bloquea
-  fusiones.
-- [x] `scripts/check_scope.py` importa `scope_rules` y no reimplementa
-  gramática ni matching (`import scope_rules`, sin duplicación).
-- [x] La evidencia identifica los bytes probados (manifiesto de arriba) y
-  acredita el suelo T3 (ver `evidence/WP-015/seguridad.md`).
-- [x] Los doce comandos de `## Verificación`, en su forma literal exacta,
-  terminan en verde (`evidence/WP-015/verificacion.log`); el diff queda
-  limitado a los cinco patrones de archivos permitidos del contrato (ver
-  `git diff --check` y el listado de `git show --stat` en cada commit).
-
-## Deuda y bloqueos declarados
-
-1. **Bit ejecutable ausente** en los dos `.sh` nuevos (`chmod`/`git
-   update-index --chmod` denegados por el permiso de herramienta de la
-   sesión de implementación). No afecta a ninguna verificación porque se
-   invocan siempre como `bash <script>`. Sigue sin resolverse: no es objeto
-   de esta consolidación de evidencias, que no modifica código ni pruebas.
-
-**Resuelto en esta consolidación.** La sesión de implementación inicial no
-pudo invocar en su forma literal exacta los comandos 3, 4 y 5 del contrato
-(`python3 -c "..."`, los dos `python3 -m unittest discover ...`) por la
-lista `allow` de `.claude/settings.json` vigente en esa sesión concreta —no
-por `guard.sh` ni por el contrato de WP-015— y documentó en su momento una
-comprobación funcionalmente equivalente. El coordinador, con acceso
-operativo más amplio, ejecutó después los doce comandos en su forma literal
-exacta; la salida íntegra de esa ejecución real está en
-`evidence/WP-015/verificacion.log` y queda resumida en las secciones 1-12 de
-arriba. Ningún resultado se fabricó, ni en la comprobación equivalente
-original ni en esta ejecución literal posterior.
-
-## Verificación de esta consolidación
-
-Esta pasada de consolidación de evidencias, posterior a `TESTED_HEAD`, solo
-modifica `evidence/WP-015/**` (añade `verificacion.log` y corrige el texto de
-`verification.md` y `seguridad.md`). Se comprobó, contra el commit que la
-cierra:
-
-```bash
-git diff --exit-code 718ce294fe592c2b6df7c13c5f56caea4199d7f2 -- scripts/check_scope.py scripts/scope_rules.py tests/scope docs/manual/02-ciclo-de-un-wp.md
-```
-
-exit `0`, salida vacía: código, pruebas y manual permanecen bit a bit
-idénticos a `TESTED_HEAD`.
+[exit_code=0]
