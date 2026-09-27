@@ -118,13 +118,27 @@ def _parse_args(argv: Sequence[str]) -> Tuple[str, str, str]:
 # metadata de ls-tree con modo/tipo/object id de forma libre. "Registro Git
 # desconocido" (WP-015 §2) se aplica ahora a los cuatro.
 
-# Modo Git: siempre exactamente 6 dígitos OCTALES (0-7), nunca 8 o 9.
-_MODE_RE = re.compile(r"^[0-7]{6}$")
 # Object id: SHA-1 hexadecimal en minúsculas, exactamente 40 caracteres.
 _OID_RE = re.compile(r"^[0-9a-f]{40}$")
-_VALID_LS_TREE_TYPES = frozenset({"blob", "tree", "commit"})
-# Puntuación de similitud de R/C: dígitos ASCII estrictos, nunca \d Unicode.
-_SCORE_RE = re.compile(r"^[0-9]+$")
+# WP015-F3 (revalidación enfocada de C1, C2): el conjunto anterior (regex de
+# 6 dígitos octales + verificación de tipo INDEPENDIENTE) aceptaba
+# combinaciones incoherentes que Git nunca emite, como "100644 commit" o un
+# modo octalmente válido pero inexistente como "170000". Ahora solo se
+# admiten los cinco pares modo/tipo que Git realmente produce en un árbol:
+# archivo regular, ejecutable, symlink, subárbol y gitlink (submódulo).
+_MODE_TYPE_PAIRS = {
+    "100644": "blob",  # archivo regular
+    "100755": "blob",  # archivo ejecutable
+    "120000": "blob",  # symlink
+    "040000": "tree",  # subárbol
+    "160000": "commit",  # gitlink / submódulo
+}
+# Puntuación de similitud de R/C: 1 a 3 dígitos ASCII estrictos (nunca \d
+# Unicode) y valor entero entre 0 y 100 inclusive. Git nunca emite un
+# porcentaje de similitud mayor que 100; "R101" no es una puntuación válida
+# aunque tenga forma numérica.
+_SCORE_RE = re.compile(r"^[0-9]{1,3}$")
+_SCORE_MAX = 100
 
 
 def _split_ls_tree_line(entry_text: str) -> LsTreeEntry:
@@ -135,10 +149,13 @@ def _split_ls_tree_line(entry_text: str) -> LsTreeEntry:
     if len(parts) != 3:
         raise CheckScopeError("registro Git desconocido en ls-tree", entrada=entry_text)
     mode, obj_type, sha = parts
-    if not _MODE_RE.fullmatch(mode):
-        raise CheckScopeError("modo de ls-tree inválido", entrada=entry_text)
-    if obj_type not in _VALID_LS_TREE_TYPES:
-        raise CheckScopeError("tipo de objeto de ls-tree desconocido", entrada=entry_text)
+    expected_type = _MODE_TYPE_PAIRS.get(mode)
+    if expected_type is None:
+        raise CheckScopeError("modo de ls-tree inválido o desconocido", entrada=entry_text)
+    if obj_type != expected_type:
+        raise CheckScopeError(
+            "tipo de objeto de ls-tree incoherente con el modo", entrada=entry_text
+        )
     if not _OID_RE.fullmatch(sha):
         raise CheckScopeError("object id de ls-tree inválido", entrada=entry_text)
     return mode, obj_type, sha, path
@@ -219,7 +236,7 @@ def parse_name_status_z(raw: bytes) -> List[DiffRecord]:
             records.append((letter, path, None))
         elif letter in ("R", "C"):
             score = status[1:]
-            if not _SCORE_RE.fullmatch(score):
+            if not _SCORE_RE.fullmatch(score) or int(score) > _SCORE_MAX:
                 raise CheckScopeError(
                     "puntuación de renombrado/copia inválida", status=status
                 )

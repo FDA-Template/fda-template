@@ -11,9 +11,13 @@ repositorio temporal.
 from __future__ import annotations
 
 import json
+import os
 import pathlib
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
 import unittest
 
 _TESTS_SCOPE = pathlib.Path(__file__).resolve().parent
@@ -26,7 +30,12 @@ if str(_TESTS_SCOPE) not in sys.path:
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from _repo import TempRepo, run_check_scope  # noqa: E402
+from _repo import (  # noqa: E402
+    TempRepo,
+    make_git_shim,
+    run_check_scope,
+    run_check_scope_with_shim,
+)
 import check_scope  # noqa: E402
 
 WP_ID = "WP-901"
@@ -427,6 +436,209 @@ class TestExitOne(CheckScopeCliTestCase):
         rutas_recibidas = {b["ruta"] for b in blocks}
         self.assertEqual(rutas_recibidas, set(rutas))
 
+    def test_full_output_regression_unicode_line_separators_stays_ascii(self):
+        # WP015-F4 (revalidación enfocada de C1, C2): regresión de SALIDA
+        # COMPLETA (bytes crudos del subprocess, no solo json.loads) con los
+        # cinco separadores exactos que Astra señaló: U+0085, U+2028,
+        # U+2029, LF y tabulador, los cinco en la MISMA ejecución. Esta
+        # prueba DEBE fallar si scripts/check_scope.py._emit_json vuelve a
+        # ensure_ascii=False: en ese caso, la codificación UTF-8 de
+        # U+0085/U+2028/U+2029 introduce bytes >0x7F en la salida, y
+        # `raw.decode("ascii")` lanza `UnicodeDecodeError` de inmediato.
+        _write_contract(self.repo, ["docs/**"], [])
+        base = self.repo.commit("base")
+        nombres = [
+            "weird/ab.md",
+            "weird/a b.md",
+            "weird/a b.md",
+            "weird/a\nb.md",
+            "weird/a\tb.md",
+        ]
+        for nombre in nombres:
+            self.repo.write_text(nombre, "x\n")
+        self.repo.add()
+        head = self.repo.commit("head")
+
+        proc = subprocess.run(
+            ["python3", _SCRIPT_PATH, WP_ID, f"{base}...{head}"],
+            cwd=self.repo.path,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        self.assertEqual(proc.returncode, 1)
+        raw = proc.stdout
+
+        try:
+            ascii_text = raw.decode("ascii")
+        except UnicodeDecodeError:
+            self.fail(
+                "la salida contiene bytes no ASCII: _emit_json ya no usa "
+                "ensure_ascii=True (regresión de WP015-F4)"
+            )
+
+        # Diez líneas físicas exactas: cinco violaciones, cada una con su
+        # marcador "VIOLACION" y su JSON, ni una línea más ni una menos.
+        lines = ascii_text.splitlines()
+        self.assertEqual(len(lines), 10)
+
+        rutas_recuperadas = set()
+        for i in range(0, 10, 2):
+            self.assertEqual(lines[i], "VIOLACION")
+            payload = json.loads(lines[i + 1])
+            rutas_recuperadas.add(payload["ruta"])
+            self.assertEqual(payload["motivo"], "fuera_de_permitidos")
+
+        # Recuperación EXACTA de los cinco nombres originales (con sus
+        # caracteres de control y separadores intactos) tras decodificar
+        # el JSON: ensure_ascii escapa, pero json.loads siempre revierte.
+        self.assertEqual(rutas_recuperadas, set(nombres))
+
+
+class TestGitlinkIgnoreOverrideRegression(CheckScopeCliTestCase):
+    """WP015-F2 (revalidación enfocada de C1, C2): regresión versionada con
+    un gitlink real, sin `git submodule add` y sin red: un repositorio Git
+    anidado registrado mediante `git add <ruta>` desde el repositorio
+    externo ya produce una entrada de modo 160000 (gitlink), que es
+    exactamente lo que `.gitmodules`/`submodule.<nombre>.ignore=all` podrían
+    ocultar del diff sin `--ignore-submodules=none`."""
+
+    def _build_repo_with_gitlink(self):
+        _write_contract(self.repo, ["src/**"], [])
+
+        # Un repositorio Git anidado DENTRO del repo externo (nunca creado
+        # con `TempRepo()`, que usaría su propio `mktemp -d` aparte y
+        # dejaría un directorio temporal huérfano al reasignar `.path`):
+        # se construye directamente en "<externo>/vendor" con
+        # `TempRepo.__new__` para reutilizar `_init`/`write_text`/`add`/
+        # `commit` sin crear un segundo temporal. `self.repo.cleanup()` en
+        # `tearDown` borra "vendor" recursivamente junto con todo lo demás.
+        vendor_path = os.path.join(self.repo.path, "vendor")
+        os.makedirs(vendor_path, exist_ok=True)
+        vendor = TempRepo.__new__(TempRepo)
+        vendor.path = vendor_path
+        vendor._init()
+        vendor.write_text("lib.py", "v1\n")
+        vendor.add()
+        vendor.commit("vendor v1")
+
+        # `git add vendor` desde el repositorio EXTERNO: al detectar un
+        # `.git` dentro de "vendor", Git lo registra como gitlink (modo
+        # 160000) apuntando al commit actual de "vendor". Esto es simple
+        # `git add`, nunca `git submodule add`.
+        self.repo.add("vendor")
+        base = self.repo.commit("base con gitlink")
+
+        vendor.write_text("lib.py", "v2\n")
+        vendor.add()
+        vendor.commit("vendor v2")
+        self.repo.add("vendor")
+        head = self.repo.commit("head con gitlink modificado")
+        return base, head
+
+    def _assert_vendor_violation(self, base, head):
+        code, lines = self.run_cli(f"{base}...{head}")
+        self.assertEqual(code, 1)
+        blocks = sorted(
+            (json.loads(lines[i + 1]) for i in range(0, len(lines), 2)),
+            key=lambda b: b["ruta"],
+        )
+        rutas = [b["ruta"] for b in blocks]
+        self.assertIn("vendor", rutas)
+        vendor_block = next(b for b in blocks if b["ruta"] == "vendor")
+        self.assertEqual(vendor_block["motivo"], "fuera_de_permitidos")
+        return rutas
+
+    def test_gitlink_modification_is_a_violation_without_manipulation(self):
+        base, head = self._build_repo_with_gitlink()
+        inventario_base = self._assert_vendor_violation(base, head)
+        self.assertEqual(inventario_base, ["vendor"])
+
+    def test_gitlink_violation_survives_unversioned_gitmodules_ignore_all(self):
+        base, head = self._build_repo_with_gitlink()
+        inventario_base = self._assert_vendor_violation(base, head)
+
+        # .gitmodules NO versionado (solo en el working tree del ejecutor),
+        # con ignore=all para "vendor". Nunca se hace `git add`.
+        self.repo.write_text(
+            ".gitmodules",
+            '[submodule "vendor"]\n\tpath = vendor\n\tignore = all\n',
+        )
+        inventario_manipulado = self._assert_vendor_violation(base, head)
+        self.assertEqual(inventario_manipulado, inventario_base)
+
+    def test_gitlink_violation_survives_local_config_ignore_all(self):
+        base, head = self._build_repo_with_gitlink()
+        inventario_base = self._assert_vendor_violation(base, head)
+
+        # Configuración LOCAL (.git/config del repositorio temporal, nunca
+        # global ni del sistema), sin pasar por .gitmodules en absoluto.
+        self.repo._git("config", "submodule.vendor.ignore", "all")
+        inventario_manipulado = self._assert_vendor_violation(base, head)
+        self.assertEqual(inventario_manipulado, inventario_base)
+
+
+class TestF3RealGitReproductions(CheckScopeCliTestCase):
+    """WP015-F3 (revalidación enfocada de C1, C2): las tres reproducciones
+    EXACTAS de Astra, ejercidas a través de scripts/check_scope.py como
+    subprocess real (llegan a `main`), no solo mediante excepciones
+    unitarias sobre los parsers. Git real nunca emite estas formas —son
+    adversariales por construcción—, así que se sustituye "git" por un
+    shim de solo lectura, ver `tests/scope/_repo.py::make_git_shim`."""
+
+    def setUp(self):
+        super().setUp()
+        self.shim_dir = tempfile.mkdtemp(prefix="wp015-gitshim-")
+
+    def tearDown(self):
+        shutil.rmtree(self.shim_dir, ignore_errors=True)
+        super().tearDown()
+
+    def test_main_rejects_rename_score_over_100(self):
+        _write_contract(self.repo, ["src/**"], [])
+        base = self.repo.commit("base")
+        head = base  # el "diff" real se sustituye por el shim: no hace falta un segundo commit
+
+        make_git_shim(self.shim_dir, "diff", None, b"R101\x00a.py\x00b.py\x00")
+        code, lines = run_check_scope_with_shim(
+            self.repo, _SCRIPT_PATH, WP_ID, f"{base}...{head}", self.shim_dir
+        )
+        self.assertEqual(code, 2)
+        self.assertEqual(lines[0], "ERROR")
+        payload = json.loads(lines[1])
+        self.assertIn("puntuación", payload["motivo"])
+
+    def test_main_rejects_unknown_mode_777777(self):
+        _write_contract(self.repo, ["src/**"], [])
+        base = self.repo.commit("base")
+        self.repo.write_text("extra.txt", "x\n")
+        self.repo.add()
+        head = self.repo.commit("head")
+
+        crafted = b"777777 blob " + b"a" * 40 + b"\textra.txt\x00"
+        make_git_shim(self.shim_dir, "ls-tree", "-r", crafted)
+        code, lines = run_check_scope_with_shim(
+            self.repo, _SCRIPT_PATH, WP_ID, f"{base}...{head}", self.shim_dir
+        )
+        self.assertEqual(code, 2)
+        payload = json.loads(lines[1])
+        self.assertIn("modo", payload["motivo"])
+
+    def test_main_rejects_incoherent_mode_type_100644_commit(self):
+        _write_contract(self.repo, ["src/**"], [])
+        base = self.repo.commit("base")
+        self.repo.write_text("extra.txt", "x\n")
+        self.repo.add()
+        head = self.repo.commit("head")
+
+        crafted = b"100644 commit " + b"a" * 40 + b"\textra.txt\x00"
+        make_git_shim(self.shim_dir, "ls-tree", "-r", crafted)
+        code, lines = run_check_scope_with_shim(
+            self.repo, _SCRIPT_PATH, WP_ID, f"{base}...{head}", self.shim_dir
+        )
+        self.assertEqual(code, 2)
+        payload = json.loads(lines[1])
+        self.assertIn("incoherente", payload["motivo"])
+
 
 class TestExitTwo(CheckScopeCliTestCase):
     def test_contract_missing_is_exit_2(self):
@@ -661,6 +873,24 @@ class TestPureParsers(unittest.TestCase):
         with self.assertRaises(check_scope.CheckScopeError):
             check_scope.parse_name_status_z(raw)
 
+    def test_rename_score_over_100_is_error(self):
+        # WP015-F3 (revalidación enfocada de C1, C2): "R101" tiene forma
+        # numérica válida (tres dígitos ASCII) pero el valor excede el 100%
+        # de similitud que Git puede emitir. Antes de C2 se aceptaba.
+        raw = b"R101\x00src/old.py\x00src/new.py\x00"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_name_status_z(raw)
+
+    def test_rename_score_exactly_100_parses(self):
+        raw = b"R100\x00src/old.py\x00src/new.py\x00"
+        records = check_scope.parse_name_status_z(raw)
+        self.assertEqual(records, [("R", "src/old.py", "src/new.py")])
+
+    def test_copy_score_low_value_parses(self):
+        raw = b"C1\x00src/old.py\x00src/new.py\x00"
+        records = check_scope.parse_name_status_z(raw)
+        self.assertEqual(records, [("C", "src/old.py", "src/new.py")])
+
     def test_missing_trailing_nul_is_error(self):
         # Salida bien formada salvo por el NUL final ausente: truncada.
         raw = b"A\x00some/path"
@@ -711,6 +941,54 @@ class TestPureParsers(unittest.TestCase):
 
     def test_empty_ls_tree_output_is_no_entries(self):
         self.assertEqual(check_scope.parse_ls_tree_z(b""), [])
+
+    # --- WP015-F3 (revalidación enfocada de C1, C2): cierre del conjunto de
+    # pares modo/tipo -----------------------------------------------------
+
+    def test_ls_tree_mode_100755_executable_blob_parses(self):
+        sha = "b" * 40
+        raw = f"100755 blob {sha}\tscripts/run.sh\x00".encode("utf-8")
+        entries = check_scope.parse_ls_tree_z(raw)
+        self.assertEqual(entries, [("100755", "blob", sha, "scripts/run.sh")])
+
+    def test_ls_tree_mode_120000_symlink_blob_parses(self):
+        sha = "c" * 40
+        raw = f"120000 blob {sha}\tdocs/link.md\x00".encode("utf-8")
+        entries = check_scope.parse_ls_tree_z(raw)
+        self.assertEqual(entries, [("120000", "blob", sha, "docs/link.md")])
+
+    def test_ls_tree_mode_040000_tree_parses(self):
+        sha = "d" * 40
+        raw = f"040000 tree {sha}\tdocs\x00".encode("utf-8")
+        entries = check_scope.parse_ls_tree_z(raw)
+        self.assertEqual(entries, [("040000", "tree", sha, "docs")])
+
+    def test_ls_tree_mode_160000_gitlink_commit_parses(self):
+        sha = "e" * 40
+        raw = f"160000 commit {sha}\tvendor\x00".encode("utf-8")
+        entries = check_scope.parse_ls_tree_z(raw)
+        self.assertEqual(entries, [("160000", "commit", sha, "vendor")])
+
+    def test_ls_tree_unknown_mode_777777_is_error(self):
+        raw = b"777777 blob " + b"a" * 40 + b"\tdocs/x.md\x00"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_ls_tree_z(raw)
+
+    def test_ls_tree_mode_100644_with_commit_type_is_error(self):
+        # Pareja modo/tipo incoherente: 100644 es blob, nunca commit.
+        raw = b"100644 commit " + b"a" * 40 + b"\tdocs/x.md\x00"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_ls_tree_z(raw)
+
+    def test_ls_tree_mode_040000_with_blob_type_is_error(self):
+        raw = b"040000 blob " + b"a" * 40 + b"\tdocs\x00"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_ls_tree_z(raw)
+
+    def test_ls_tree_mode_160000_with_blob_type_is_error(self):
+        raw = b"160000 blob " + b"a" * 40 + b"\tvendor\x00"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_ls_tree_z(raw)
 
 
 if __name__ == "__main__":
