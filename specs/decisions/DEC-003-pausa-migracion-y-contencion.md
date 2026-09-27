@@ -12,6 +12,7 @@
 **Enmendada el 2026-09-21 por [`DEC-012`](DEC-012-gramatica-patrones-alcance.md):** §§2, 4 y 5 admiten la composición normativa que resuelve la gramática de alcance y exige replantear la candidata de `WP-015`. `ACTIVE` permanece en reposo y WP-015 no se crea, modifica, aprueba, admite ni activa.
 **Actualizada el 2026-09-22 por la admisión de `WP-015`:** §§2, 4 y 5 incorporan a la lista cerrada el contrato aprobado de `WP-015`, SHA-256 `e0037b17aaeffbc70a901aa88abe92ac20ac79b75cf7e287d760c424b0b8899d`. `ACTIVE` permanece en reposo; la admisión no activa ni autoriza implementar el WP.
 **Enmendada el 2026-09-27 por [`DEC-013`](DEC-013-c3-excepcional-wp015.md):** §4 admite la composición normativa de tres archivos que habilita, sin iniciarlo, un C3 mínimo y último para el único residual `WP015-F2`. No modifica el contrato ni `ACTIVE`, no autoriza C4, PR o fusión de WP-015 y exige otra autorización humana para comenzar la pasada.
+**Actualizada el 2026-09-27 por el cierre de `WP-015`:** §§2, 4, 5 y 6 registran la PR #53 fusionada, el contrato `done`, el primer estado local de `check_scope` acreditado y `ACTIVE` de nuevo en reposo. No autoriza el sucesor de WP-005 ni cierra la pausa.
 
 ## Problema
 
@@ -128,7 +129,16 @@ De ahí tres consecuencias, que no se sustituyen entre sí:
 
 **Congelación.** Mientras la pausa esté vigente, sobre WP-007 **no** se realiza: ninguna edición nueva, `git add`, `commit`, `stash`, `checkout`, `restore`, cambio de rama, `push`, apertura de PR ni fusión. El worktree queda exactamente como está. **Levantar la congelación exige una decisión humana posterior y separada**, que esta decisión no concede. Si alguna de las siete magnitudes difiere, la congelación se ha roto: **parada y análisis**, no actualización de la huella.
 
-**Resolución prevista de WP-007 [enmienda de `DEC-007`].** La nueva secuencia de §2 resuelve WP-007 **por ejecución o por superación**, en un **acto separado y expresamente registrado**, después de que `WP-002` y `WP-005` hayan construido la librería única de matching y `check_scope`, y después del parche humano del guard delgado. Si se resuelve por ejecución, es una transición propia de `ACTIVE` a `WP-007`; si se resuelve por superación, es un acto de operador con `ACTIVE` en reposo. Hasta ese momento la congelación y sus siete magnitudes siguen intactas y **el estado contractual `ready` no cambia**: esta enmienda declara cuándo y cómo se resolverá, no lo resuelve ni levanta la congelación, que sigue exigiendo una decisión humana posterior y separada. Su candidata local se preserva como evidencia histórica.
+**Antecedente histórico de WP-007 [enmienda de `DEC-007`].** DEC-007 había
+previsto dos alternativas, ejecución o superación. La secuencia vigente de
+DEC-011 §3.2 retira la ejecución y exige exclusivamente el **cierre por
+superación**, después de que WP-015 y el sucesor limpio de WP-005 hayan
+completado la biblioteca única y la integración de `check_scope`, y después
+del parche humano del guard delgado. Será un acto de operador separado,
+expresamente registrado, con `ACTIVE` en reposo y sin ejecutar ni importar la
+candidata de WP-007. Hasta entonces la congelación y sus siete magnitudes
+siguen intactas y el estado contractual `ready` no cambia; la candidata local
+se preserva como evidencia histórica.
 
 ### 2. Secuencia de `work-packages/ACTIVE` durante la pausa
 
@@ -154,7 +164,8 @@ De ahí tres consecuencias, que no se sustituyen entre sí:
 | 2.d | **Reposo** | La recuperación ordinaria sigue limitada a descartar y recrear el worktree dedicado; un fallo compartido exige parada. No fue necesario descartar ni recrear el worktree durante WP-014 | **Cumplida:** cadena de suministro acreditada sin depender de WP-013 |
 | 3 | **Reposo** | PR de operador de **un solo archivo** con el contrato de `WP-008` según la rama de D6 resuelta, que incorpora en su alcance el humo seguro de D1 y retira la equivalencia no medida de `WP008-F6` | Contrato de `WP-008` materializado, validado y aprobado |
 | 4 | `WP-008` | **Cierre de operador:** registra el bloqueo de D6-A tras `5 / 2`, preserva la candidata local, marca el contrato `blocked` y escribe reposo en `ACTIVE`, todo en el diff atómico de DEC-009. El A/B final no se ejecuta y no existe C6 | **Cumplida por DEC-009:** WP-008 cerrado administrativamente como bloqueado y `ACTIVE` en reposo; no se fusionó la implementación |
-| 5 | **Reposo** | **ADMISIÓN COMPLETADA; ACTIVACIÓN PENDIENTE.** `WP-015` existe, su contrato está `ready` y queda incorporado a la lista cerrada de §4. La candidata agotada sigue preservada como historia no conforme | Autorización humana separada para activar `WP-015`; la admisión por sí sola no autoriza implementación |
+| 5 | `WP-015` | **COMPLETADO:** activación separada, implementación local, C3 excepcional y PR #53 fusionada; el cierre marca el contrato `done` y devuelve `ACTIVE` a reposo | **Cumplida por este cierre:** ejecutable local y biblioteca única acreditados; no acredita CI ni bloqueo de fusión |
+| 5.a | **Reposo** | WP-015 `done`; la pausa continúa y no hay otro WP autorizado | Decisión, contrato, aprobación, admisión y activación separados para el sucesor limpio de WP-005 |
 
 Las antiguas filas 5–12 quedan suspendidas y se conservan únicamente en el
 historial Git como el plan anterior a DEC-009. Las subsecciones que documentan
@@ -165,16 +176,13 @@ parada.
 ### 2.a.1 Secuencia vigente fijada por DEC-011
 
 La parada de deliberación de DEC-009 queda superada porque ya existe una
-decisión de rumbo. La parada **técnica** continúa: `ACTIVE` permanece en reposo
-y esta secuencia expresa dependencias, no autorizaciones.
+decisión de rumbo. WP-015 completó el primer hito y el cierre devuelve `ACTIVE`
+a reposo. La pausa técnica continúa y esta secuencia expresa dependencias, no
+autorizaciones.
 
-1. `WP-015`, sucesor limpio de WP-002, ya tiene contrato `ready` conforme a
-   DEC-012 y esta composición lo admite en la lista cerrada de §4. `ACTIVE`
-   permanece en reposo: otra autorización humana, posterior y separada, deberá
-   activarlo antes de cualquier implementación.
-2. `WP-015` construirá exclusivamente el ejecutable local determinista y la
-   biblioteca única de matching. Su cierre no acreditará CI ni bloqueo de
-   fusión.
+1. `WP-015`, sucesor limpio de WP-002, queda `done`: construyó exclusivamente
+   el ejecutable local determinista y la biblioteca única de matching. Su
+   cierre no acredita CI ni bloqueo de fusión.
 3. Un sucesor limpio de WP-005, autorizado por separado, integrará el mismo
    verificador en CI. Una persona incorporará después el par
    `{context, integration_id}` al ruleset con evidencia reproducible. Solo ese
@@ -192,8 +200,8 @@ y esta secuencia expresa dependencias, no autorizaciones.
    la pausa. La instalación posterior en producto no es condición de cierre.
 
 Cada WP conserva contrato, autorización, presupuesto, rama, PR y ciclos propios.
-DEC-011 por sí sola no admitió los sucesores. Esta composición admite únicamente
-`WP-015` para una activación posterior y separada; los demás continúan sin
+DEC-011 por sí sola no admitió los sucesores. La composición posterior admitió
+y activó únicamente `WP-015`, ahora cerrado `done`; los demás continúan sin
 admisión.
 
 **Las dos ramas son excluyentes y la condición del paso 10 nunca exige `WP-007` resuelto antes de poder ejecutarlo.** El paso 11 **no existe** en la rama de superación: la secuencia va del paso 10 al 12 **sin transición intermedia**, porque superar el WP es un **acto de operador** que **no mueve `ACTIVE`**. En la rama de ejecución, el paso 10 exige que la congelación esté **levantada** y que el **contrato corregido esté aprobado**; la resolución llega **al final** del paso 11, no antes. `DEC-007` § «Secuencia de ejecución posterior al punto de control», paso 21, escribe las dos ramas con su tipificación exacta: **21-A superación (`O`)** y **21-B ejecución (`O` + `T` + `W` + `T`)**, **nunca un `O/T` único**.
@@ -430,14 +438,14 @@ Los tres checks obligatorios son jobs de `ci.yml` y siguen operando. La contenci
 | `DEC-013` | Excepción mínima, previa y no autoejecutable para un C3 final de WP-015, limitada al residual `WP015-F2`, su fixture y sus evidencias; no inicia la pasada ni autoriza C4 |
 | `WP-013` | Cierre bloqueado tras C3 excepcional, preservación de la candidata histórica no conforme y transición solidaria a reposo conforme a la enmienda de recuperación de `DEC-008` |
 | `WP-014` | Cerrado `done` tras la aplicación humana exacta de los diez pins por SHA, revisión independiente, PR #40 fusionada y transición solidaria a reposo; no dependió de fusionar WP-013 |
-| `WP-015` | Sucesor limpio de WP-002 con contrato `ready`, presupuesto de 40 EUR y dos ciclos; admitido para una activación posterior separada. `ACTIVE` sigue en reposo y no hay implementación autorizada |
+| `WP-015` | Cerrado `done` tras C3 excepcional, PR #53 fusionada y transición solidaria a reposo; acredita solo el ejecutable local y la biblioteca única, no CI ni bloqueo de fusión |
 | `docs/03-hoja-de-ruta.md` | Hoja de ruta v2, con la foto local de WP-008-r2 corregida y la arquitectura objetivo separada del estado materializado |
 | `docs/04-analisis-conversaciones-ia.md` | Análisis de las cinco conversaciones; procedencia del rumbo |
 | `docs/05-analisis-investigacion-leandro-y-revalidacion.md` | Segunda revisión y revalidación, con su corrección factual |
 | `CLAUDE.md` | Constitución. Solo las frases del modelo de control afectadas por D3 y el enlace que hace descubrible el rumbo |
 | `docs/02-guia-fabrica-desarrollo-agentica.md` | Especificación vinculante. Solo las frases sobre el hook afectadas por D3 y el enlace a la hoja de ruta |
 | `docs/manual/MANUAL.md` | Índice del manual. Modelo de controles y navegación hacia `docs/03–05` |
-| `WP-002` | Entrada histórica, no ejecutable: permanece `blocked` y será sustituido por `WP-015`, sucesor limpio aprobado y admitido, todavía no activo |
+| `WP-002` | Entrada histórica, no ejecutable: permanece `blocked` y fue sustituido para el alcance local por `WP-015`, ya cerrado `done`; no se reabre |
 | `WP-005` | Entrada histórica, no ejecutable: permanece `draft` y será sustituido por un sucesor limpio todavía sin identificador ni admisión |
 | `WP-007` | Permanece `ready` y congelado; DEC-011 prevé su cierre posterior por superación, con autorización separada y sin transición de `ACTIVE` |
 | Prueba de humo de D1 | **No es una entrada propia**: será alcance de un sucesor limpio de `WP-008`, todavía sin identificador ni admisión |
@@ -547,13 +555,24 @@ WP-015 de `2 / 2` a `2 / 3`, para el conjunto cerrado formado por el residual
 código, pruebas, evidencias, ramas o worktrees. El comienzo de la pasada exige
 otra autorización humana posterior y la apertura previamente versionada de C3.
 
+**Admisión atómica del cierre de `WP-015`.** El cumplimiento del primer hito de
+DEC-011 se registra modificando directamente esta decisión en el mismo diff de
+operador. La composición cerrada consta exactamente de seis archivos: esta
+`DEC-003`, `docs/03-hoja-de-ruta.md`,
+`docs/manual/05-bloqueos-y-parada.md`,
+`work-packages/WP-015-check-scope-local.md`, `work-packages/ACTIVE` y
+`evidence/WP-015/CIERRE.md`. Todos viajan juntos o ninguno. No se modifica
+código, pruebas, workflows, ruleset, DEC-011, DEC-012, DEC-013, ramas,
+worktrees o candidatas; no se ejecuta C4 ni se crea, aprueba, admite o activa
+otro WP.
+
 ### 5. Punto de control de la pausa: 2026-09-07
 
 Sustituye a la fecha original del 2026-08-10, cuya revisión se practicó y quedó registrada en [`DEC-005`](DEC-005-troceado-de-wp-008-y-revision-de-la-pausa.md) §1: el criterio de §6 no estaba cumplido y no podía estarlo, porque `WP-009` no tenía siquiera contrato redactado.
 
 Es un **punto de control, no una promesa de finalización**. En esa fecha: o el criterio de §6 está cumplido y la pausa termina, o **parada y análisis de causa registrado por escrito**. Llegar sin haberlo cumplido **no es un incumplimiento**: es el disparador de ese análisis, exactamente como ocurrió el 2026-08-10. Esta caducidad rige **la pausa**, no el estado externo de §3.
 
-**Resultado efectivo del punto de control, registrado el 2026-09-09 y actualizado el 2026-09-22.** El criterio completo de §6 **no está cumplido**. El análisis de causa es la hoja de ruta v2, la revisión `docs/05` y `DEC-007`: el enforcement se estaba endureciendo en la capa débil mientras la concluyente seguía sin construirse. `DEC-008` registra que WP-009 agotó 2/2 ciclos y que WP-013 terminó también bloqueado después de C3 excepcional. WP-014 completó después la cadena de suministro sin depender del materializador: PR #40 fusionada, diez pins exactos y cierre `done`. `DEC-009` registra que WP-008 D6-A agotó C1–C5, quedó `blocked` sin A/B final y devolvió `ACTIVE` a reposo. `DEC-011` resuelve el rumbo —juez determinista primero y sucesores limpios— y `DEC-012` resuelve la gramática que bloqueó la primera candidata de WP-015. El contrato replanteado de `WP-015` ya existe, está `ready` y queda admitido por esta composición, pero no está activo ni tiene implementación autorizada. La pausa **no termina** porque las condiciones primera y tercera siguen pendientes; `ACTIVE` continúa en reposo hasta una autorización posterior y separada de activación.
+**Resultado efectivo del punto de control, registrado el 2026-09-09 y actualizado el 2026-09-27.** El criterio completo de §6 **no está cumplido**. El análisis de causa es la hoja de ruta v2, la revisión `docs/05` y `DEC-007`: el enforcement se estaba endureciendo en la capa débil mientras la concluyente seguía sin construirse. `DEC-008` registra que WP-009 agotó 2/2 ciclos y que WP-013 terminó también bloqueado después de C3 excepcional. WP-014 completó después la cadena de suministro sin depender del materializador: PR #40 fusionada, diez pins exactos y cierre `done`. `DEC-009` registra que WP-008 D6-A agotó C1–C5, quedó `blocked` sin A/B final y devolvió `ACTIVE` a reposo. `DEC-011` resuelve el rumbo —juez determinista primero y sucesores limpios— y `DEC-012` resuelve la gramática. WP-015 completa ahora el primer hito local mediante la PR #53 y queda `done`; `ACTIVE` vuelve a reposo. La pausa **no termina** porque siguen pendientes CI, check requerido, convergencia del guard, runtime, humo y E2.
 
 **No se fija otra fecha de revisión.** El tercer punto de control por calendario queda sustituido por **gates de evidencia**: la pausa avanza cuando cada paso de §2 cumple su condición verificable y se cierra cuando el criterio de §6 está efectivamente cumplido, no en una fecha. Las fechas de la hoja de ruta son orientativas; los criterios de salida son los que vinculan (principio P4 de `docs/03`). Si un paso se atasca, el disparador sigue siendo el mismo: **parada y análisis de causa por escrito**, no una prórroga automática.
 
@@ -584,7 +603,7 @@ es condición para cerrar esta pausa.
   1. **Humo seguro documentado, dentro del alcance de `WP-008`**, registrado en `evidence/WP-008/` y **ejecutado antes de aceptar WP-008 como `done`**. Verifica que el runtime carga la configuración y resuelve, como mínimo, el caso de cero segmentos `Read(/**/.env*)` frente a `.env` en la raíz del proyecto. **Si falla, WP-008 no se acepta ni se fusiona** y se aplica el presupuesto de ciclos vigente de su contrato; no se abre presupuesto nuevo ni se reabre un WP cerrado. El cierre administrativo `blocked` de DEC-009 termina el intento sin entregarlo y no satisface esta condición.
 
      **Condiciones de seguridad, vinculantes.** El ensayo se monta sobre un **proyecto desechable y aislado**, **físicamente fuera de la raíz de FDA**; usa un **`.env` sintético con contenido marcador y cero secretos reales**; **prohíbe crear, leer o modificar cualquier `.env`, secreto o archivo real de FDA**; registra **evidencia saneada**, sin contenido sensible; y **limita la limpieza a los recursos propios del ensayo**. Un humo que incumpla estas condiciones **no es admisible como evidencia** de esta condición;
-  2. **`check_scope` sobre el diff de la PR contra el contrato del WP**, implementado sobre una **única librería de matching** compartida con el guard. Lo construyen `WP-002` y `WP-005` **secuencialmente**, cada uno con su contrato, rama y PR. **Tres estados distintos, que esta decisión no funde:** *(a)* **ejecutable local** creado por `WP-002`, que invocan a mano el operador y los revisores y que **no bloquea ninguna fusión**; *(b)* **job integrado y ejecutándose en CI** por `WP-005`, **todavía no requerido**, que puede ponerse rojo pero **no impide fusionar**; y *(c)* **check incorporado por una persona a `required_status_checks`**, momento desde el cual **bloquea la fusión**. Esta condición exige **las dos últimas**: job ejecutándose **y** check incorporado. **Hoy no existe ninguno de los tres**;
+  2. **`check_scope` sobre el diff de la PR contra el contrato del WP**, implementado sobre una **única librería de matching** compartida con el guard. **Tres estados distintos, que esta decisión no funde:** *(a)* **ejecutable local**, ya creado por WP-015, que invocan a mano el operador y los revisores y que **no bloquea ninguna fusión**; *(b)* **job integrado y ejecutándose en CI**, todavía pendiente y no requerido, que puede ponerse rojo pero **no impide fusionar**; y *(c)* **check incorporado por una persona a `required_status_checks`**, momento desde el cual **bloquea la fusión**. Esta condición exige **las dos últimas**, todavía pendientes: job ejecutándose **y** check incorporado;
   3. **Experimento E2 del sandbox ejecutado y su resultado registrado por escrito.** Lo que acredita esta parte es **la resolución del gate**, no una garantía. **Si E2 supera el gate**, se exige su **adopción efectiva mediante el futuro WP de nivel T3**; **si no lo supera**, el gate queda **resuelto negativamente** y esta condición se cumple con sus dos primeras partes. **Ni E2 ni ese WP T3 tienen identificador reservado**: requieren la enmienda posterior de §4 descrita en §2.c antes de poder ejecutarse.
 
 **Qué acredita y qué no un E2 negativo.** Resolver negativamente E2 **no materializa ninguna garantía del sistema operativo**: la **arquitectura objetivo de tres capas sigue incompleta**, la **garantía del kernel solo existe tras la adopción efectiva** del sandbox, y **cerrar la pausa tras un E2 negativo no autoriza a describir la capa 2 como conseguida** en ningún texto de gobierno. El sandbox no ofrece hoy ninguna garantía efectiva porque **no está instalado**.
@@ -597,7 +616,7 @@ grep -rn 'uses:' .github/workflows/ \
   | grep -v 'uses: \./'
 ```
 
-**Qué demuestra y qué no demuestra la tercera condición.** El humo acredita que la configuración se carga y que un caso concreto se resuelve como se contrató; `check_scope` **acreditará, cuando exista** —hoy no está implementado—, que **ninguna escritura fuera de alcance sobrevive al diff de la PR**, venga de donde venga; el sandbox, **si se instala, supera su gate y se adopta, trasladaría** la garantía al kernel. **Ninguna de las tres demuestra la semántica general del runtime**, y esta decisión no la promete: lo que se exigía a `WP-012` era esa demostración empírica, y se sustituye deliberadamente por un control del resultado, no por una afirmación equivalente. Cualquier texto que presente el humo como prueba de que Claude Code aplica su configuración en general contradice esta sección.
+**Qué demuestra y qué no demuestra la tercera condición.** El humo acreditará que la configuración se carga y que un caso concreto se resuelve como se contrató; `check_scope` local ya acredita su veredicto cuando se invoca manualmente, pero **solo** el futuro job requerido podrá garantizar que ninguna escritura fuera de alcance sobreviva al diff de una PR fusionable; el sandbox, **si se instala, supera su gate y se adopta, trasladaría** la garantía al kernel. **Ninguna de las tres demuestra la semántica general del runtime**, y esta decisión no la promete: lo que se exigía a `WP-012` era esa demostración empírica, y se sustituye deliberadamente por un control del resultado, no por una afirmación equivalente. Cualquier texto que presente el humo como prueba de que Claude Code aplica su configuración en general contradice esta sección.
 
 **`WP-012` queda liberado como condición de salida.** Conserva su identificador y su historia; no se ejecuta su runner por analogía ni se reactiva sin decisión nueva. Si D1 hubiera quedado en su default, esta sustitución no estaría en vigor y regiría la tercera condición anterior —`WP-012` fusionado, exit `0`, composición **14 sondas lógicas · 13 CONFORME · 1 REGISTRADA_FUERA_DE_CONTRATO · 0 NO_CONFORME**—, que se conserva aquí para que la comparación sea auditable. Detalle del reparto original en `DEC-005` §§4, 5 y 7.
 
