@@ -15,6 +15,7 @@
 **Actualizada el 2026-09-27 por el cierre de `WP-015`:** §§2, 4, 5 y 6 registran la PR #53 fusionada, el contrato `done`, el primer estado local de `check_scope` acreditado y `ACTIVE` de nuevo en reposo. No autoriza el sucesor de WP-005 ni cierra la pausa.
 **Enmendada el 2026-09-27 por [`DEC-014`](DEC-014-reserva-sucesor-wp005.md):** §4 admite una composición normativa de cinco archivos que reserva `WP-016` como identificador del sucesor limpio de WP-005 únicamente desde su fusión humana. `ACTIVE` permanece en reposo; la reserva no crea, aprueba, admite, activa ni autoriza ejecutar el contrato.
 **Enmendada el 2026-09-27 por [`DEC-015`](DEC-015-productor-externo-check-scope.md):** §§2 y 4 anteponen a `WP-016` un productor externo mediante GitHub App todavía sin WP-ID, admiten la composición normativa de siete archivos y registran el contrato existente de `WP-016` como `draft` y bloqueado. `ACTIVE` permanece en reposo; no se reserva, crea, aprueba, admite, activa ni implementa otro WP.
+**Enmendada el 2026-09-27 por [`DEC-016`](DEC-016-reserva-productor-externo-alcance.md):** §§2 y 4 reservan `WP-017` para el productor externo previo a `WP-016` y admiten su composición normativa de siete archivos. `ACTIVE` permanece en reposo; la reserva no crea, aprueba, admite, activa ni implementa el contrato.
 
 ## Problema
 
@@ -185,9 +186,9 @@ autorizaciones.
 1. `WP-015`, sucesor limpio de WP-002, queda `done`: construyó exclusivamente
    el ejecutable local determinista y la biblioteca única de matching. Su
    cierre no acredita CI ni bloqueo de fusión.
-2. Un prerrequisito externo mediante GitHub App producirá `Alcance FDA` desde
-   bytes confiables. Todavía no tiene WP-ID: otra decisión deberá reservarlo y
-   fijar sus límites antes de que pueda existir un contrato o ejecución.
+2. `WP-017` queda reservado para el prerrequisito externo mediante GitHub App
+   que producirá `Alcance FDA` desde bytes confiables. Todavía no tiene contrato:
+   crearlo, aprobarlo, admitirlo, activarlo o ejecutarlo exige actos separados.
 3. `WP-016`, cuyo contrato existe en `draft` y bloqueado, integrará el mismo
    verificador en CI solo después de acreditar ese productor. Una persona
    incorporará después el par
@@ -444,6 +445,7 @@ Los tres checks obligatorios son jobs de `ci.yml` y siguen operando. La contenci
 | `DEC-013` | Excepción mínima, previa y no autoejecutable para un C3 final de WP-015, limitada al residual `WP015-F2`, su fixture y sus evidencias; no inicia la pasada ni autoriza C4 |
 | `DEC-014` | Reserva condicionada de `WP-016` y límites del sucesor limpio de WP-005; composición normativa de cinco archivos, sin crear, aprobar, admitir, activar ni ejecutar su contrato |
 | `DEC-015` | Productor externo mediante GitHub App, semántica cerrada de autorización y distinción seguridad/disponibilidad; composición normativa de siete archivos, sin reservar otro WP-ID ni autorizar implementación |
+| `DEC-016` | Reserva condicionada de `WP-017` y límites del productor externo de `Alcance FDA`; composición normativa de siete archivos, sin crear, aprobar, admitir, activar ni ejecutar su contrato |
 | `WP-013` | Cierre bloqueado tras C3 excepcional, preservación de la candidata histórica no conforme y transición solidaria a reposo conforme a la enmienda de recuperación de `DEC-008` |
 | `WP-014` | Cerrado `done` tras la aplicación humana exacta de los diez pins por SHA, revisión independiente, PR #40 fusionada y transición solidaria a reposo; no dependió de fusionar WP-013 |
 | `WP-015` | Cerrado `done` tras C3 excepcional, PR #53 fusionada y transición solidaria a reposo; acredita solo el ejecutable local y la biblioteca única, no CI ni bloqueo de fusión |
@@ -456,6 +458,7 @@ Los tres checks obligatorios son jobs de `ci.yml` y siguen operando. La contenci
 | `WP-002` | Entrada histórica, no ejecutable: permanece `blocked` y fue sustituido para el alcance local por `WP-015`, ya cerrado `done`; no se reabre |
 | `WP-005` | Entrada histórica, no ejecutable: permanece `draft` y será sustituido por `WP-016`, reservado por `DEC-014` únicamente desde la fusión humana de su composición |
 | `WP-016` | Identificador reservado para el sucesor limpio de WP-005; contrato existente en `draft`, bloqueado por `WP016-DOR-1`, no aprobado, admitido, activo ni autorizado para ejecución |
+| `WP-017` | Identificador reservado para el productor externo de `Alcance FDA`; contrato inexistente, no aprobado, admitido, activo ni autorizado para ejecución |
 | `WP-007` | Permanece `ready` y congelado; DEC-011 prevé su cierre posterior por superación, con autorización separada y sin transición de `ACTIVE` |
 | Prueba de humo de D1 | **No es una entrada propia**: será alcance de un sucesor limpio de `WP-008`, todavía sin identificador ni admisión |
 | Parche humano del guard delgado | Acto de operador sobre `.claude/hooks/**`, carril T3, posterior a `WP-002` y `WP-005` |
@@ -598,6 +601,16 @@ enmenda la política de secretos, pero no reserva el WP-ID del prerrequisito, no
 modifica `WP-016`, no crea, aprueba, admite, activa o implementa ningún WP y no
 modifica código, pruebas, workflows, ruleset, evidencias, ramas, worktrees o
 candidatas.
+
+**Admisión atómica de `DEC-016` y de la reserva condicionada de `WP-017`.** Se
+modifica directamente esta lista en el mismo diff; la decisión no se
+autoautoriza. La composición cerrada consta exactamente de siete archivos:
+`DEC-016`, esta `DEC-003`, `DEC-011`, `DEC-014`, `DEC-015`,
+`docs/03-hoja-de-ruta.md` y `docs/manual/05-bloqueos-y-parada.md`. Todos viajan
+juntos o ninguno. Es un acto normativo de operador con `ACTIVE` en reposo:
+reserva `WP-017`, pero no crea, aprueba, admite, activa o implementa su contrato,
+no modifica `WP-016` y no autoriza infraestructura, secretos, pruebas reales,
+workflows, ruleset, ramas, commits, PRs ni actos posteriores.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 

@@ -6,6 +6,11 @@ candidata se materializa y fusiona mediante actos humanos posteriores.
 **Ámbito:** resolución normativa de `WP016-DOR-1`; no reserva otro WP-ID, no
 modifica WP-016 y no autoriza implementación, instalación ni mutación remota.
 
+**Enmendada el 2026-09-27 por
+[`DEC-016`](DEC-016-reserva-productor-externo-alcance.md):** reserva `WP-017`
+para el prerrequisito aquí decidido, todavía sin contrato, sin alterar esta
+arquitectura ni autorizar ejecución.
+
 ## Problema
 
 `WP-016` existe en `draft`, `ACTIVE` está en reposo y `WP016-DOR-1` exige un
@@ -178,6 +183,10 @@ La App y su servicio son un prerrequisito independiente de WP-016. Esta
 decisión **no reserva ni inventa su WP-ID**. Un acto normativo humano posterior
 deberá reservarlo, fijar sus límites y admitir después un contrato propio de no
 más de 300 líneas antes de cualquier implementación.
+
+DEC-016 satisface posteriormente solo el primer paso: reserva `WP-017` y fija
+sus límites. Su contrato sigue sin existir y requiere creación, aprobación,
+admisión y activación separadas antes de cualquier implementación.
 
 Hasta que ese prerrequisito esté implementado, desplegado, instalado y probado
 mediante autorización separada:
