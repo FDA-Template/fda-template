@@ -33,9 +33,9 @@ bloquea fusiones.
 
 Esta candidata no puede pasar a `ready` mientras permanezca abierto cualquiera:
 
-- **WP017-DOR-1 — ubicación y propiedad del código.** Elegir si el servicio
-  vive en este repositorio o en otro gobernado; fijar propietario, rutas exactas,
-  revisión confiable y mecanismo de pin inmutable del servicio y evaluador.
+- **WP017-DOR-1 — resuelto por decisión humana del 2026-09-27.** El servicio permanece en `ivanes189/fda-template`: su única raíz reservada es `services/alcance_fda/**` y la de sus pruebas es `tests/alcance_fda/**`; Iván (`@ivanes189`) es su propietario contractual, en coherencia con el `CODEOWNERS` vigente, sin afirmar que GitHub exija hoy su aprobación. Para este WP se descarta otro repositorio porque no existe como fuente gobernada y exigiría crear y sincronizar un segundo gobierno; el aislamiento se obtiene mediante la revisión y el artefacto fijados a continuación.
+  La revisión confiable es exclusivamente un commit Git completo de cuarenta caracteres ya fusionado en `main`. De ese mismo commit se incorporan el servicio bajo la raíz reservada y exactamente `scripts/check_scope.py` y `scripts/scope_rules.py`; el `HEAD` evaluado solo aporta datos. WP017-DOR-5 deberá enumerar los archivos hoja dentro de las raíces, lenguaje, dependencias, lockfiles, IaC y comandos, y WP017-DOR-8 las rutas de política; esta resolución no los anticipa.
+  Un build posterior y expresamente autorizado producirá una sola imagen OCI que contenga servicio y evaluador, registrará el commit fuente y las huellas SHA-256 de ambos archivos del evaluador, y la almacenará en Artifact Registry. Despliegue y rollback referenciarán exclusivamente `LOCATION-docker.pkg.dev/PROJECT/REPOSITORY/IMAGE@sha256:<digest>` y registrarán la revisión inmutable de Cloud Run; quedan prohibidos etiquetas, ramas y bytes de la PR como pin o fuente ejecutable. Esta elección no crea repositorio, artefacto, infraestructura ni despliegue.
 - **WP017-DOR-2 — resuelto por decisión humana del 2026-09-27.** Google Cloud en `europe-west1`: Cloud Run, Pub/Sub, Firestore Standard y Cloud Scheduler, en proyecto exclusivo bajo responsabilidad de Iván; vincular o crear facturación es otro acto humano.
   Presupuesto WP: `100 EUR`; operación: `≤5 EUR/mes`, protegida con mínimo cero y máximo tres instancias, cuotas, alertas y parada antes de rebasarlo; no se promete corte exacto por latencia de cobro.
   La resolución no crea cuenta, proyecto, infraestructura ni autorización de gasto.
@@ -62,7 +62,7 @@ Esta candidata no puede pasar a `ready` mientras permanezca abierto cualquiera:
   opuestos; `pull_number` o `external_id` no demuestran aislamiento en GitHub.
 
 Cada resolución debe quedar versionada en este contrato mediante acto humano.
-Los ocho bloqueos restantes no se sustituyen por defaults o conjeturas.
+Los siete bloqueos restantes no se sustituyen por defaults o conjeturas.
 
 ## Alcance incluido y fuera de alcance
 
@@ -93,7 +93,7 @@ Los ocho bloqueos restantes no se sustituyen por defaults o conjeturas.
 ## Archivos permitidos
 
 - ninguno
-Nota: lista vacía deliberada y fail-closed hasta resolver WP017-DOR-1 a DOR-5.
+Nota: lista vacía deliberada y fail-closed hasta resolver WP017-DOR-3 a DOR-5.
 
 ## Archivos prohibidos
 
@@ -293,8 +293,8 @@ payloads o configuraciones no verificadas.
 - GitHub Docs, <https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/authenticating-as-a-github-app-installation>.
 - GitHub Docs, <https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/best-practices-for-creating-a-github-app>.
 - GitHub Docs, <https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/managing-private-keys-for-github-apps>.
-- GitHub Docs, <https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app>.
+- GitHub Docs, <https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app>, <https://docs.github.com/en/rest/commits/commits> y <https://docs.github.com/en/rest/git/commits>.
 - GitHub Docs, <https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets>.
 - GitHub Docs, <https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/rate-limits-for-github-apps>.
-- Google Cloud Docs, <https://cloud.google.com/run/docs/locations>, <https://cloud.google.com/run/pricing>, <https://cloud.google.com/run/docs/configuring/max-instances>, <https://cloud.google.com/pubsub/pricing>.
-- Google Cloud Docs, <https://cloud.google.com/firestore/pricing>, <https://cloud.google.com/scheduler/pricing>, <https://cloud.google.com/kms/docs/key-import>, <https://cloud.google.com/kms/pricing>.
+- Google Cloud Docs, <https://cloud.google.com/run/docs/locations>, <https://cloud.google.com/run/pricing>, <https://cloud.google.com/run/docs/configuring/max-instances>, <https://cloud.google.com/run/docs/deploying>, <https://cloud.google.com/run/docs/managing/revisions> y <https://cloud.google.com/pubsub/pricing>.
+- Google Cloud Docs, <https://cloud.google.com/artifact-registry/docs/docker/names>, <https://cloud.google.com/artifact-registry/docs/container-concepts>, <https://cloud.google.com/firestore/pricing>, <https://cloud.google.com/scheduler/pricing>, <https://cloud.google.com/kms/docs/key-import> y <https://cloud.google.com/kms/pricing>.
