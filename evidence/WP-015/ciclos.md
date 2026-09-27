@@ -5,21 +5,19 @@ Conforme a [`DEC-010`](../../specs/decisions/DEC-010-separacion-autor-revisor-y-
 
 **Presupuesto de ciclos del contrato:** `max_ciclos_correccion: 2`.
 
-**Estado actual: `0 / 2`.**
+**Estado actual: `C1 abierto` (`1 / 2`).**
 
-Esta entrega es la **implementación inicial**, no `C1` ni `C2`. La
-implementación inicial no consume ciclo (DEC-010 §4, primera regla; manual,
-Paso 4). Aún no existe ninguna revisión completa de Astra sobre este
-candidato — ver `evidence/WP-015/revision-astra.md` — y por tanto no hay
-ningún hallazgo autorizado que abra `C1`.
+La implementación inicial no consumió ciclo. La única revisión completa de
+Astra sobre el candidato `b1a8031bf715bff43239e7f835d396f301f5d5a2`
+concluyó `NO APTO` y autorizó los ocho hallazgos registrados en
+`evidence/WP-015/revision-astra.md`. `C1` queda abierto y versionado por este
+registro antes de que Claude Code empiece ninguna corrección.
 
 | Ciclo | Candidato y revisión de origen | Hallazgos autorizados | Fecha | Estado | Resultado / HEAD / coste |
 |---|---|---|---|---|---|
-| — | *(sin ciclos abiertos)* | — | — | — | — |
+| C1 | `b1a8031bf715bff43239e7f835d396f301f5d5a2`; revisión completa en `evidence/WP-015/revision-astra.md` | `WP015-F1` a `WP015-F8` | 2026-09-27 | `abierto` | Corrección aún no iniciada; HEAD y coste se registrarán al cerrarlo |
 
-**Antes de iniciar `C1`:** deberá añadirse aquí, versionada en esta rama
-candidata, una fila con número `C1`, el `HEAD` del candidato revisado, la
-referencia a `revision-astra.md`, los identificadores de los hallazgos
-autorizados, la fecha y el estado `abierto`, **antes** de que el autor
-empiece a corregir. Sin esa fila ya versionada, la pasada de corrección no
-debe comenzar (DEC-010 §4).
+Este archivo debe quedar comprometido en la rama antes de enviar los hallazgos
+al autor. Al terminar C1 se sustituirá `abierto` por el resultado, el HEAD y el
+coste de la pasada; cualquier defecto nuevo o corrección incompleta se tratará
+en la revalidación enfocada de la misma Astra.
