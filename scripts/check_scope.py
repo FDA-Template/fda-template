@@ -33,7 +33,11 @@ from typing import Dict, List, Optional, Sequence, Tuple
 
 import scope_rules
 
-_WP_ID_RE = re.compile(r"^WP-\d{3}$")
+# WP015-F7 (revisión Astra, C1): [0-9] es siempre ASCII estricto en Python,
+# a diferencia de \d, que en modo Unicode (el predeterminado) también casa
+# dígitos decimales no ASCII (p. ej. ٩٠١, U+0669 U+0660 U+0661). El contrato
+# exige exactamente WP-[0-9]{3}; con \d, "WP-٩٠١" pasaba el validador.
+_WP_ID_RE = re.compile(r"^WP-[0-9]{3}$")
 
 # DiffRecord: (letra_de_estado, ruta_o_origen, destino_o_None)
 DiffRecord = Tuple[str, str, Optional[str]]
@@ -106,24 +110,51 @@ def _parse_args(argv: Sequence[str]) -> Tuple[str, str, str]:
 
 
 # --- Parsers puros de salida Git (testables sin subprocess) ----------------
+#
+# WP015-F3 (revisión Astra, C1): estos parsers deben rechazar CUALQUIER forma
+# que no sea exactamente la que Git emite para un registro bien formado.
+# Antes aceptaban salidas truncadas (sin NUL final), rutas vacías, estados
+# con letra válida pero cola arbitraria ("AWRONG", "Rxxx" sin dígitos) y
+# metadata de ls-tree con modo/tipo/object id de forma libre. "Registro Git
+# desconocido" (WP-015 §2) se aplica ahora a los cuatro.
+
+# Modo Git: siempre exactamente 6 dígitos OCTALES (0-7), nunca 8 o 9.
+_MODE_RE = re.compile(r"^[0-7]{6}$")
+# Object id: SHA-1 hexadecimal en minúsculas, exactamente 40 caracteres.
+_OID_RE = re.compile(r"^[0-9a-f]{40}$")
+_VALID_LS_TREE_TYPES = frozenset({"blob", "tree", "commit"})
+# Puntuación de similitud de R/C: dígitos ASCII estrictos, nunca \d Unicode.
+_SCORE_RE = re.compile(r"^[0-9]+$")
 
 
 def _split_ls_tree_line(entry_text: str) -> LsTreeEntry:
     meta, sep, path = entry_text.partition("\t")
-    if not sep:
+    if not sep or path == "":
         raise CheckScopeError("registro Git desconocido en ls-tree", entrada=entry_text)
     parts = meta.split(" ")
     if len(parts) != 3:
         raise CheckScopeError("registro Git desconocido en ls-tree", entrada=entry_text)
     mode, obj_type, sha = parts
+    if not _MODE_RE.fullmatch(mode):
+        raise CheckScopeError("modo de ls-tree inválido", entrada=entry_text)
+    if obj_type not in _VALID_LS_TREE_TYPES:
+        raise CheckScopeError("tipo de objeto de ls-tree desconocido", entrada=entry_text)
+    if not _OID_RE.fullmatch(sha):
+        raise CheckScopeError("object id de ls-tree inválido", entrada=entry_text)
     return mode, obj_type, sha, path
 
 
 def parse_ls_tree_z(raw: bytes) -> List[LsTreeEntry]:
-    """Parsea la salida de ``git ls-tree -z``. Función pura sobre bytes."""
-    entries = raw.split(b"\x00")
-    if entries and entries[-1] == b"":
-        entries = entries[:-1]
+    """Parsea la salida de ``git ls-tree -z``. Función pura sobre bytes.
+
+    Una salida no vacía debe terminar en NUL: si no, es una salida truncada
+    y se trata como registro Git desconocido, nunca como entrada válida.
+    """
+    if raw == b"":
+        return []
+    if not raw.endswith(b"\x00"):
+        raise CheckScopeError("salida de ls-tree truncada (falta el NUL final)")
+    entries = raw[:-1].split(b"\x00")
     result: List[LsTreeEntry] = []
     for raw_entry in entries:
         entry_text = _decode(raw_entry, "entrada de ls-tree con codificación inválida")
@@ -153,12 +184,17 @@ def parse_name_status_z(raw: bytes) -> List[DiffRecord]:
     """Parsea ``git diff -z --name-status``. Función pura sobre bytes.
 
     Consume una o dos rutas para A/M/D/T y R/C respectivamente. Cualquier
-    estado desconocido, no fusionado o ambiguo, o cualquier registro
-    truncado, produce CheckScopeError (fail-closed).
+    estado desconocido, no fusionado o ambiguo, cualquier registro truncado,
+    o una salida sin el NUL final obligatorio, produce CheckScopeError
+    (fail-closed). WP015-F3 (revisión Astra, C1): un estado A/M/D/T debe ser
+    EXACTAMENTE esa letra (nunca "AWRONG") y la puntuación de R/C debe ser
+    dígitos ASCII no vacíos (nunca "Rxxx"); ninguna ruta puede ser vacía.
     """
-    raw_tokens = raw.split(b"\x00")
-    if raw_tokens and raw_tokens[-1] == b"":
-        raw_tokens = raw_tokens[:-1]
+    if raw == b"":
+        return []
+    if not raw.endswith(b"\x00"):
+        raise CheckScopeError("salida de diff truncada (falta el NUL final)")
+    raw_tokens = raw[:-1].split(b"\x00")
     tokens = [_decode(t, "ruta del diff con codificación inválida") for t in raw_tokens]
 
     records: List[DiffRecord] = []
@@ -170,16 +206,29 @@ def parse_name_status_z(raw: bytes) -> List[DiffRecord]:
             raise CheckScopeError("registro de diff vacío")
         letter = status[0]
         if letter in ("A", "M", "D", "T"):
+            if status != letter:
+                raise CheckScopeError(
+                    "estado de diff desconocido, no fusionado o ambiguo", status=status
+                )
             if i >= n:
                 raise CheckScopeError("registro de diff truncado", status=status)
             path = tokens[i]
             i += 1
+            if path == "":
+                raise CheckScopeError("ruta vacía en el registro de diff", status=status)
             records.append((letter, path, None))
         elif letter in ("R", "C"):
+            score = status[1:]
+            if not _SCORE_RE.fullmatch(score):
+                raise CheckScopeError(
+                    "puntuación de renombrado/copia inválida", status=status
+                )
             if i + 1 >= n:
                 raise CheckScopeError("registro de diff truncado", status=status)
             src, dst = tokens[i], tokens[i + 1]
             i += 2
+            if src == "" or dst == "":
+                raise CheckScopeError("ruta vacía en el registro de diff", status=status)
             records.append((letter, src, dst))
         else:
             raise CheckScopeError(
@@ -247,6 +296,14 @@ def _read_blob_text(repo_root: str, sha: str) -> str:
 
 
 def _diff_records(repo_root: str, merge_base: str, head: str) -> List[DiffRecord]:
+    # WP015-F2 (revisión Astra, C1): sin --ignore-submodules=none, un
+    # .gitmodules NO VERSIONADO o una configuración LOCAL con
+    # submodule.<nombre>.ignore=all pueden hacer que Git omita del diff un
+    # gitlink modificado. Ninguno de los dos vive en un objeto Git alcanzable
+    # desde merge-base o head, así que dependen del working tree/config local
+    # del ejecutor: exactamente lo que WP-015 §2 prohíbe que altere el
+    # veredicto. Forzar "none" ignora esa configuración y evalúa siempre el
+    # diff completo de gitlinks.
     rc, out, err = _run_git(
         [
             "diff",
@@ -255,6 +312,7 @@ def _diff_records(repo_root: str, merge_base: str, head: str) -> List[DiffRecord
             "-M",
             "-C",
             "--find-copies-harder",
+            "--ignore-submodules=none",
             merge_base,
             head,
         ],
@@ -373,7 +431,16 @@ def _judge(
 
 
 def _emit_json(obj: dict) -> None:
-    print(json.dumps(obj, sort_keys=True, ensure_ascii=False))
+    # WP015-F4 (revisión Astra, C1): con ensure_ascii=False, una ruta con
+    # U+0085/U+2028/U+2029 se emitía como el byte Unicode literal. Esos tres
+    # son separadores de línea para str.splitlines() (y U+2028/U+2029 para
+    # el estándar Unicode de límites de línea en general), de modo que un
+    # lector que no reconstruya JSON de verdad podía leer una sola violación
+    # como si fueran varias líneas de log, incluida una "VIOLACION" forjada.
+    # ensure_ascii=True escapa todo carácter no ASCII como \uXXXX: la línea
+    # física sigue siendo una sola, sin perder ninguna ruta ni WP-015 §1
+    # (claves ordenadas, JSON de una línea).
+    print(json.dumps(obj, sort_keys=True, ensure_ascii=True))
 
 
 def _emit_error(err: CheckScopeError, context: dict) -> None:

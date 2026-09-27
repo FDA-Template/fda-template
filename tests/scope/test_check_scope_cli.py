@@ -238,6 +238,86 @@ class TestExitOne(CheckScopeCliTestCase):
         payload = json.loads(lines[1])
         self.assertEqual(payload["motivo"], "symlink_absoluto")
 
+    def test_modified_symlink_target_changed_outside_allowed(self):
+        # WP015-F6 (revisión Astra, C1): symlink con estado 'M' — mismo modo
+        # 120000 antes y después, solo cambia el blob de destino.
+        _write_contract(self.repo, ["docs/**"], [])
+        self.repo.write_text("docs/target.md", "x\n")
+        self.repo.symlink("docs/link.md", b"target.md")
+        self.repo.add()
+        base = self.repo.commit("base")
+        self.repo.remove_from_worktree("docs/link.md")
+        self.repo.symlink("docs/link.md", b"../secrets/token")
+        self.repo.add()
+        head = self.repo.commit("head")
+
+        code, lines = self.run_cli(f"{base}...{head}")
+        self.assertEqual(code, 1)
+        payload = json.loads(lines[1])
+        self.assertEqual(payload["ruta"], "docs/link.md")
+        self.assertEqual(payload["rol"], "ruta")
+        self.assertEqual(payload["motivo"], "symlink_fuera_de_permitidos")
+
+    def test_renamed_symlink_target_now_escapes_root(self):
+        # WP015-F6: symlink con estado 'R' — mismo blob de destino
+        # ("../../ok.md"), pero el traslado de directorio del enlace cambia
+        # la base de resolución: en origen resolvía dentro de lo permitido,
+        # en destino sale de la raíz. El contenido del enlace no cambia; lo
+        # que cambia es desde dónde se resuelve, y check_scope debe juzgar
+        # cada extremo con SU PROPIA revisión (merge-base para origen, head
+        # para destino), tal como exige el contrato.
+        _write_contract(self.repo, ["docs/**"], [])
+        self.repo.write_text("docs/ok.md", "x\n")
+        self.repo.symlink("docs/a/b/link.md", b"../../ok.md")
+        self.repo.add()
+        base = self.repo.commit("base")
+        self.repo.mv("docs/a/b/link.md", "docs/link.md")
+        head = self.repo.commit("head")
+
+        code, lines = self.run_cli(f"{base}...{head}")
+        self.assertEqual(code, 1)
+        blocks = [json.loads(lines[i + 1]) for i in range(0, len(lines), 2)]
+        self.assertEqual(len(blocks), 1)
+        self.assertEqual(blocks[0]["ruta"], "docs/link.md")
+        self.assertEqual(blocks[0]["rol"], "destino")
+        self.assertEqual(blocks[0]["motivo"], "symlink_fuera_de_raiz")
+
+    def test_symlink_target_invalid_utf8_is_exit_2(self):
+        # WP015-F6: bytes UTF-8 realmente inválidos en el BLOB del destino
+        # del symlink (objeto Git real, vía os.symlink con bytes crudos),
+        # no en el nombre de archivo.
+        _write_contract(self.repo, ["docs/**"], [])
+        base = self.repo.commit("base")
+        self.repo.symlink("docs/link.md", b"\xff\xfe-invalido")
+        self.repo.add()
+        head = self.repo.commit("head")
+
+        code, lines = self.run_cli(f"{base}...{head}")
+        self.assertEqual(code, 2)
+        self.assertEqual(lines[0], "ERROR")
+        payload = json.loads(lines[1])
+        self.assertIn("destino de symlink", payload["motivo"])
+        self.assertIn("codificación", payload["motivo"])
+
+    def test_contract_blob_invalid_utf8_is_exit_2(self):
+        # WP015-F6: bytes UTF-8 realmente inválidos en el BLOB del contrato,
+        # committeados de verdad (no un archivo con nombre exótico).
+        raw = (
+            b"# WP-901\n\n## Archivos permitidos\n\n- docs/\xff\xfe**\n\n"
+            b"## Archivos prohibidos\n\n- ninguno\n"
+        )
+        self.repo.write("work-packages/WP-901-sandbox.md", raw)
+        self.repo.add("work-packages/WP-901-sandbox.md")
+        base = self.repo.commit("base")
+        self.repo.write_text("docs/x.md", "x\n")
+        self.repo.add()
+        head = self.repo.commit("head")
+
+        code, lines = self.run_cli(f"{base}...{head}")
+        self.assertEqual(code, 2)
+        payload = json.loads(lines[1])
+        self.assertIn("codificación", payload["motivo"])
+
     def test_unusual_names_are_judged_correctly(self):
         _write_contract(self.repo, ["docs/**"], [])
         base = self.repo.commit("base")
@@ -288,6 +368,46 @@ class TestExitOne(CheckScopeCliTestCase):
             idx_rol = body.index('"rol"')
             idx_ruta = body.index('"ruta"')
             self.assertTrue(idx_motivo < idx_patron < idx_rol < idx_ruta)
+
+    def test_double_star_forbidden_catches_lf_path_via_real_git(self):
+        # WP015-F6/F1: reproducción de extremo a extremo (Git real, no solo
+        # scope_rules.evaluate) de que "docs/**" en prohibidos caza una ruta
+        # con LF embebido exactamente igual que "docs/*" en permitidos.
+        _write_contract(self.repo, ["docs/*"], ["docs/**"])
+        base = self.repo.commit("base")
+        self.repo.write_text("docs/a\nb.md", "x\n")
+        self.repo.add()
+        head = self.repo.commit("head")
+
+        code, lines = self.run_cli(f"{base}...{head}")
+        self.assertEqual(code, 1)
+        payload = json.loads(lines[1])
+        self.assertEqual(payload["ruta"], "docs/a\nb.md")
+        self.assertEqual(payload["motivo"], "prohibido")
+        self.assertEqual(payload["patron"], "docs/**")
+
+    def test_dir_suffix_forbidden_catches_lf_path_via_real_git(self):
+        _write_contract(self.repo, ["docs/*"], ["docs/"])
+        base = self.repo.commit("base")
+        self.repo.write_text("docs/a\nb.md", "x\n")
+        self.repo.add()
+        head = self.repo.commit("head")
+
+        code, lines = self.run_cli(f"{base}...{head}")
+        self.assertEqual(code, 1)
+        payload = json.loads(lines[1])
+        self.assertEqual(payload["motivo"], "prohibido")
+        self.assertEqual(payload["patron"], "docs/")
+
+    def test_double_star_allowed_authorizes_lf_path_via_real_git(self):
+        _write_contract(self.repo, ["docs/**"], [])
+        base = self.repo.commit("base")
+        self.repo.write_text("docs/a\nb.md", "x\n")
+        self.repo.add()
+        head = self.repo.commit("head")
+
+        code, lines = self.run_cli(f"{base}...{head}")
+        self.assertEqual(code, 0)
 
     def test_embedded_newline_does_not_forge_log_lines(self):
         _write_contract(self.repo, ["docs/**"], [])
@@ -373,6 +493,17 @@ class TestExitTwo(CheckScopeCliTestCase):
         payload = json.loads(lines[1])
         self.assertIn("WP-ID mal formado", payload["motivo"])
 
+    def test_wp_id_with_unicode_digits_is_exit_2(self):
+        # WP015-F7 (revisión Astra, C1): "WP-٩٠١" usa dígitos indo-árabes
+        # (U+0669 U+0660 U+0661), que \d en modo Unicode aceptaba. El WP-ID
+        # debe cumplir ASCII exacto WP-[0-9]{3}.
+        _write_contract(self.repo, ["docs/**"], [])
+        base = self.repo.commit("base")
+        code, lines = self.run_cli(f"{base}...{base}", wp_id="WP-٩٠١")
+        self.assertEqual(code, 2)
+        payload = json.loads(lines[1])
+        self.assertIn("WP-ID mal formado", payload["motivo"])
+
     def test_range_without_triple_dot_is_exit_2(self):
         _write_contract(self.repo, ["docs/**"], [])
         base = self.repo.commit("base")
@@ -446,6 +577,30 @@ class TestContractManipulationIgnored(CheckScopeCliTestCase):
         payload = json.loads(lines[1])
         self.assertEqual(payload["ruta"], "rogue/new.py")
 
+    def test_head_committed_contract_expansion_has_no_effect(self):
+        # WP015-F6 (revisión Astra, C1): la ampliación del contrato NO se
+        # deja solo en el working tree, sino que se COMMITEA de verdad en
+        # HEAD. check_scope sigue leyendo el contrato del merge-base (=
+        # `base`, anterior a ambos commits de `head`), nunca de HEAD.
+        _write_contract(self.repo, ["src/**"], [])
+        base = self.repo.commit("base")
+        self.repo.write_text("rogue/new.py", "x = 1\n")
+        self.repo.add()
+        self.repo.commit("head con violacion")
+
+        self.repo.write_text(
+            "work-packages/WP-901-sandbox.md",
+            _contract_text(["src/**", "rogue/**"], []),
+        )
+        self.repo.add("work-packages/WP-901-sandbox.md")
+        head = self.repo.commit("amplia el contrato, committeado en HEAD")
+
+        code, lines = self.run_cli(f"{base}...{head}")
+        self.assertEqual(code, 1)
+        blocks = [json.loads(lines[i + 1]) for i in range(0, len(lines), 2)]
+        rutas = {b["ruta"] for b in blocks}
+        self.assertIn("rogue/new.py", rutas)
+
 
 class TestPureParsers(unittest.TestCase):
     """Parsers puros de check_scope.py, sin invocar git ni el filesystem."""
@@ -486,6 +641,76 @@ class TestPureParsers(unittest.TestCase):
         path, sha = check_scope.select_contract(entries, WP_ID)
         self.assertEqual(path, "work-packages/WP-901-uno.md")
         self.assertEqual(sha, "a1")
+
+    # --- WP015-F3 (revisión Astra, C1): respuestas Git controladas --------
+
+    def test_status_letter_with_garbage_suffix_is_error(self):
+        # "AWRONG": letra válida, cola arbitraria. Debe rechazarse, nunca
+        # tratarse como "A" seguido de una ruta que no existe.
+        raw = b"AWRONG\x00some/path\x00"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_name_status_z(raw)
+
+    def test_rename_score_non_digit_is_error(self):
+        raw = b"Rxxx\x00src/old.py\x00src/new.py\x00"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_name_status_z(raw)
+
+    def test_rename_score_empty_is_error(self):
+        raw = b"R\x00src/old.py\x00src/new.py\x00"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_name_status_z(raw)
+
+    def test_missing_trailing_nul_is_error(self):
+        # Salida bien formada salvo por el NUL final ausente: truncada.
+        raw = b"A\x00some/path"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_name_status_z(raw)
+
+    def test_empty_path_in_add_record_is_error(self):
+        raw = b"A\x00\x00"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_name_status_z(raw)
+
+    def test_empty_destination_in_rename_record_is_error(self):
+        raw = b"R100\x00src/old.py\x00\x00"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_name_status_z(raw)
+
+    def test_ls_tree_missing_trailing_nul_is_error(self):
+        raw = b"100644 blob " + b"a" * 40 + b"\tdocs/x.md"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_ls_tree_z(raw)
+
+    def test_ls_tree_invalid_mode_is_error(self):
+        # "180000" no es un modo Git válido (dígito 8 fuera de octal).
+        raw = b"180000 blob " + b"a" * 40 + b"\tdocs/x.md\x00"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_ls_tree_z(raw)
+
+    def test_ls_tree_unknown_object_type_is_error(self):
+        raw = b"100644 gitlink " + b"a" * 40 + b"\tdocs/x.md\x00"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_ls_tree_z(raw)
+
+    def test_ls_tree_invalid_object_id_is_error(self):
+        raw = b"100644 blob deadbeef\tdocs/x.md\x00"  # demasiado corto
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_ls_tree_z(raw)
+
+    def test_ls_tree_empty_path_is_error(self):
+        raw = b"100644 blob " + b"a" * 40 + b"\t\x00"
+        with self.assertRaises(check_scope.CheckScopeError):
+            check_scope.parse_ls_tree_z(raw)
+
+    def test_ls_tree_valid_entry_parses(self):
+        sha = "a" * 40
+        raw = f"100644 blob {sha}\tdocs/x.md\x00".encode("utf-8")
+        entries = check_scope.parse_ls_tree_z(raw)
+        self.assertEqual(entries, [("100644", "blob", sha, "docs/x.md")])
+
+    def test_empty_ls_tree_output_is_no_entries(self):
+        self.assertEqual(check_scope.parse_ls_tree_z(b""), [])
 
 
 if __name__ == "__main__":

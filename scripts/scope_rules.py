@@ -168,6 +168,18 @@ def compile_glob(pattern: str) -> re.Pattern:
     * no cruza '/'; ** sí; ? es un carácter distinto de '/'; un patrón acabado
     en '/' cubre todo su contenido; el resto es literal (_TEMPLATE.md,
     DEC-002). No se consulta el sistema de archivos.
+
+    WP015-F1 (revisión Astra, C1): '**' y el sufijo '/' se traducen a '.*',
+    y '.' NO consume '\\n' salvo que el patrón se compile con `re.DOTALL`.
+    Como '*' se traduce a '[^/]*' —que sí consume '\\n', al no ser '/'—,
+    sin DOTALL '**' y '/' cubrían MENOS que '*' ante una ruta con salto de
+    línea embebido: un prohibido 'docs/**' no cazaba 'docs/a\\nb.md' aunque
+    un permitido 'docs/*' sí, dejando pasar una ruta que debía denegarse.
+    Se compila siempre con `re.DOTALL` para que '.' cubra cualquier byte,
+    incluido '\\n', igualando la cobertura de '*' y preservando que el resto
+    de la gramática (literales escapados, '?') no cambia de significado:
+    DOTALL solo afecta al metacaracter '.' sin escapar, que aquí únicamente
+    proviene de '**' y del sufijo '/'.
     """
     out: List[str] = []
     i = 0
@@ -188,7 +200,7 @@ def compile_glob(pattern: str) -> re.Pattern:
     ere = "".join(out)
     if pattern.endswith("/"):
         ere = ere + ".*"
-    return re.compile(ere)
+    return re.compile(ere, re.DOTALL)
 
 
 _GLOB_CACHE: dict = {}

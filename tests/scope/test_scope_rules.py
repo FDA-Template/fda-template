@@ -271,6 +271,52 @@ class TestGlobMatching(unittest.TestCase):
         self.assertFalse(rx.fullmatch("claude.md"))
 
 
+class TestDoubleStarAndDirSuffixConsumeLF(unittest.TestCase):
+    """WP015-F1 (revisión Astra, C1): '**' y el sufijo '/' deben cubrir LF
+    exactamente igual que '*', para que un prohibido recursivo no pueda ser
+    eludido con una ruta que contenga un salto de línea embebido."""
+
+    def test_double_star_matches_path_with_embedded_lf(self):
+        rx = scope_rules.compile_glob("docs/**")
+        self.assertTrue(rx.fullmatch("docs/a\nb.md"))
+
+    def test_trailing_slash_matches_path_with_embedded_lf(self):
+        rx = scope_rules.compile_glob("docs/")
+        self.assertTrue(rx.fullmatch("docs/a\nb.md"))
+
+    def test_reproduccion_exacta_del_hallazgo(self):
+        # evaluate("docs/a\nb.md", ["docs/*"], ["docs/**"]) NO debe permitir:
+        # el prohibido "docs/**" debe cazar la misma ruta que el permitido
+        # "docs/*" ya cazaba, precisamente porque contiene un LF.
+        verdict = scope_rules.evaluate(
+            "docs/a\nb.md", ["docs/*"], ["docs/**"]
+        )
+        self.assertFalse(verdict.ok)
+        self.assertEqual(verdict.motivo, "prohibido")
+        self.assertEqual(verdict.patron, "docs/**")
+
+    def test_single_star_already_matched_lf_before_the_fix(self):
+        # Control: '*' ([^/]*) siempre cubrió LF; lo que fallaba era '**'.
+        rx = scope_rules.compile_glob("docs/*")
+        self.assertTrue(rx.fullmatch("docs/a\nb.md"))
+
+    def test_dir_suffix_forbidden_wins_over_star_allowed(self):
+        verdict = scope_rules.evaluate(
+            "docs/a\nb.md", ["docs/*"], ["docs/"]
+        )
+        self.assertFalse(verdict.ok)
+        self.assertEqual(verdict.motivo, "prohibido")
+        self.assertEqual(verdict.patron, "docs/")
+
+    def test_double_star_allowed_authorizes_path_with_lf(self):
+        verdict = scope_rules.evaluate("docs/a\nb.md", ["docs/**"], [])
+        self.assertTrue(verdict.ok)
+
+    def test_dir_suffix_allowed_authorizes_path_with_lf(self):
+        verdict = scope_rules.evaluate("docs/a\nb.md", ["docs/"], [])
+        self.assertTrue(verdict.ok)
+
+
 class TestDec002TraversalTable(unittest.TestCase):
     """Las ocho filas de DEC-002 §7, vinculantes."""
 
