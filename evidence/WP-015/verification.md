@@ -3,10 +3,13 @@
 Implementación inicial (no C1 ni C2). Autor único: Claude Code (implementer).
 
 **Los doce comandos de `## Verificación` se ejecutaron literalmente, en el
-orden exacto del contrato, sobre `TESTED_HEAD`.** La salida íntegra y el
-código de salida de cada uno están, sin editar, en el archivo versionado
-`evidence/WP-015/verificacion.log`. Este archivo resume y referencia esa
-transcripción; donde ambos difieran en la letra, prevalece el `.log`.
+orden exacto del contrato, con
+`HEAD=4876e8be85f615cac92e63c7a58be47c0b1b8b87`.** Ese commit es posterior a
+`TESTED_HEAD` y solo añade `evidence/WP-015/**`; las rutas de código, pruebas y
+manual eran idénticas bit a bit a `TESTED_HEAD`, como acredita el diff cero
+de abajo. La salida íntegra y el código de salida de cada comando están, sin
+editar, en `evidence/WP-015/verificacion.log`. Este archivo resume y referencia
+esa transcripción; donde ambos difieran en la letra, prevalece el `.log`.
 
 ## Identidad de `TESTED_HEAD`
 
@@ -75,11 +78,16 @@ quedan con modo `100644` (no `100755`), a diferencia de `tests/guard/run-suite.s
 como `bash <script>`, nunca como `./<script>`. Deuda declarada — ver resumen
 final.
 
-**Prueba de identidad frente al head presentado.** El head presentado en esta
-entrega es exactamente `TESTED_HEAD` (`718ce294fe592c2b6df7c13c5f56caea4199d7f2`);
-no hay ningún commit posterior. Cuando existan commits posteriores solo de
-evidencia, deberán demostrar diff cero en las ocho rutas de esta tabla
-respecto de `TESTED_HEAD` mediante:
+**Prueba de identidad frente al head presentado.** El head presentado es el
+`HEAD` actual de `wp/WP-015-check-scope-local`. Es posterior a `TESTED_HEAD` y
+sus commits posteriores modifican exclusivamente `evidence/WP-015/**`. Antes
+de esta actualización quedaron identificados los commits de evidencia
+`4876e8be85f615cac92e63c7a58be47c0b1b8b87`,
+`acaaf340236da84fc91b2890de48f101c781490d` y
+`dd5b8abf99ea88de7a9df0980f9cf26a0537e955`; este propio archivo vuelve a
+registrar la comprobación sin intentar incluir recursivamente el SHA del commit
+que lo contiene. La identidad de las rutas probadas frente a `TESTED_HEAD` se
+demuestra mediante:
 
 ```bash
 git diff --exit-code 718ce294fe592c2b6df7c13c5f56caea4199d7f2 -- scripts/check_scope.py scripts/scope_rules.py tests/scope docs/manual/02-ciclo-de-un-wp.md
@@ -87,7 +95,9 @@ git diff --exit-code 718ce294fe592c2b6df7c13c5f56caea4199d7f2 -- scripts/check_s
 
 ## Comandos de verificación, salida y código de salida
 
-Todos ejecutados desde la raíz del repositorio, sobre `TESTED_HEAD`.
+Todos ejecutados desde la raíz del repositorio con
+`HEAD=4876e8be85f615cac92e63c7a58be47c0b1b8b87`, cuyas rutas probadas eran
+idénticas a `TESTED_HEAD`.
 
 ### 1. `git diff --exit-code HEAD -- scripts/check_scope.py scripts/scope_rules.py tests/scope docs/manual/02-ciclo-de-un-wp.md`
 
@@ -543,12 +553,12 @@ exacta; la salida íntegra de esa ejecución real está en
 arriba. Ningún resultado se fabricó, ni en la comprobación equivalente
 original ni en esta ejecución literal posterior.
 
-## Verificación de esta consolidación
+## Verificación de las consolidaciones de evidencia
 
-Esta pasada de consolidación de evidencias, posterior a `TESTED_HEAD`, solo
-modifica `evidence/WP-015/**` (añade `verificacion.log` y corrige el texto de
-`verification.md` y `seguridad.md`). Se comprobó, contra el commit que la
-cierra:
+Las consolidaciones posteriores a `TESTED_HEAD` solo modifican
+`evidence/WP-015/**`: incorporan el expediente inicial, `verificacion.log`, la
+captura externa anterior de secretos, el registro de coste y este ajuste de
+identidad. Se comprobó sobre el head presentado:
 
 ```bash
 git diff --exit-code 718ce294fe592c2b6df7c13c5f56caea4199d7f2 -- scripts/check_scope.py scripts/scope_rules.py tests/scope docs/manual/02-ciclo-de-un-wp.md
