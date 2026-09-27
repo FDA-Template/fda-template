@@ -4,6 +4,7 @@
 posterior a DEC-009, reserva del primer sucesor y composición normativa de
 operador; no crea ni activa ningún WP
 **Enmendada el 2026-09-21 por [`DEC-012`](DEC-012-gramatica-patrones-alcance.md):** resuelve la gramática de las listas de alcance, amplía de forma acotada la excepción temporal del parser histórico y exige replantear la candidata externa de WP-015; no crea, aprueba, admite ni activa el WP.
+**Enmendada el 2026-09-27 por [`DEC-015`](DEC-015-productor-externo-check-scope.md):** antepone un productor externo mediante GitHub App a WP-016, sin reservar su WP-ID, y mantiene en reposo la secuencia hasta decisiones y contratos posteriores.
 
 **Base de decisión:** `f85163f93fe193ce177466dadfea63821f39e68f`.
 
@@ -93,14 +94,20 @@ decisiones; dos parsers coincidentes solo en los contratos existentes no bastan.
 Solo si WP-015 queda `done`, el operador podrá autorizar por separado, uno cada
 vez, los siguientes hitos:
 
-1. **Integración en CI y ruleset.** **Reserva posterior y condicionada:**
+1. **Productor externo, integración en CI y ruleset.** Antes de WP-016 se
+   requiere una GitHub App externa que produzca el check desde bytes confiables,
+   con reconciliación, permisos y custodia conforme a DEC-015. Ese prerrequisito
+   todavía no tiene WP-ID: una decisión posterior deberá reservarlo antes de
+   crear o ejecutar su contrato.
+
+   **Reserva posterior y condicionada:**
    [`DEC-014`](DEC-014-reserva-sucesor-wp005.md)
    identifica `WP-016` como ese sucesor únicamente desde la fusión humana de
    su composición. La reserva no crea, aprueba, admite ni activa el contrato,
    no autoriza ejecutar este hito y no cambia las demás cláusulas de esta §3.
 
-   Un sucesor limpio de WP-005 integrará el
-   mismo verificador en CI. El job deberá ejecutarse en toda PR relevante, no
+   WP-016 integrará después el mismo verificador en CI. El check deberá existir
+   para toda PR relevante, no
    quedar ausente ni saltado, fallar cerrado y distinguir ramas de operador
    mediante una autorización verificable ligada al `HEAD SHA`. Una persona
    aplicará el parche de workflow y, después de pruebas roja y verde, añadirá

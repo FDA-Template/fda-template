@@ -189,7 +189,9 @@ WP-013. WP-014 se completó después: PR #40 fusionada, contrato `done` y
 de salida de DEC-003 §6. WP-015 se completó después: PR #53 fusionada, contrato
 `done`, ejecutable local acreditado y `ACTIVE` de nuevo en reposo. El job de CI,
 el check requerido, la convergencia del guard, el runtime y E2 siguen pendientes.
-WP-007 sigue `ready`, WP-002 `blocked`, WP-005 `draft` y WP-008 `blocked`. D3 hace normativa
+WP-016 existe en `draft`, tiene 645 líneas frente al límite de 300 y permanece
+bloqueado por `WP016-DOR-1`. WP-007 sigue `ready`, WP-002 `blocked`, WP-005
+`draft` y WP-008 `blocked`. D3 hace normativa
 `docs/03`; `docs/04` y `docs/05` quedan como procedencia y fotos fijas. La lista
 cerrada y las transiciones siguen en DEC-003.
 
@@ -423,24 +425,33 @@ supera la parada **técnica** ni cierra la pausa. WP-015 ya completó el primer
 hito: PR #53 fusionada, contrato `done`, ejecutable local y biblioteca única
 acreditados, y `ACTIVE` de nuevo en reposo. DEC-014 reserva `WP-016` como
 identificador del sucesor limpio de WP-005 únicamente desde la fusión humana
-de su composición. La reserva no crea, aprueba, admite ni activa el contrato,
-no autoriza ejecutar el paso y no mueve `ACTIVE`, que permanece en reposo.
+de su composición. DEC-015 elige una GitHub App externa como productor previo,
+pero no reserva su WP-ID ni autoriza crearla o ejecutarla. WP-016 ya tiene
+contrato `draft`, no aprobado, admitido o activo. `ACTIVE` permanece en reposo.
 
 El orden futuro vinculante de dependencias es:
 
 1. `WP-015`, sucesor limpio de WP-002, **completado**: produjo `check_scope`
    local y la biblioteca única; no produjo CI ni bloqueo de fusión;
-2. `WP-016`, identificador reservado por DEC-014 para el sucesor limpio de
-   WP-005, todavía sin contrato y sujeto a autorizaciones separadas, para integrar el mismo
-   verificador en CI; después, mutación humana del ruleset que lo haga requerido;
-3. convergencia humana del guard sobre la misma biblioteca y cierre de WP-007
+2. productor externo mediante GitHub App conforme a DEC-015, todavía sin WP-ID,
+   pendiente de otra decisión, contrato, implementación, instalación y prueba;
+3. `WP-016`, identificador reservado por DEC-014 para el sucesor limpio de
+   WP-005, con contrato `draft` bloqueado y sujeto a corrección y autorizaciones
+   separadas, para integrar el mismo verificador en CI; después, mutación humana
+   del ruleset que lo haga requerido;
+4. convergencia humana del guard sobre la misma biblioteca y cierre de WP-007
    por superación mediante PR de operador, con `ACTIVE` siempre en reposo y
    previa recomprobación y custodia de su candidata;
-4. sucesor limpio de WP-008 para instalar el runtime fail-closed y realizar un
+5. sucesor limpio de WP-008 para instalar el runtime fail-closed y realizar un
    humo seguro cuyo oráculo haya superado su Definition of Ready;
-5. E2, con identificador y contrato aprobados por otra autorización; adopción
+6. E2, con identificador y contrato aprobados por otra autorización; adopción
    T3 separada solo si el resultado es positivo;
-6. PR humana de cierre de la pausa cuando se cumpla el criterio adaptado.
+7. PR humana de cierre de la pausa cuando se cumpla el criterio adaptado.
+
+Una ausencia o permanencia en pendiente causada por infraestructura nunca es
+terminal ni verde: detiene cierre y operación. La seguridad exige el par exacto,
+la política estricta y la semántica monotónica de DEC-015; la disponibilidad se
+recupera por reconciliación, sin fabricar conclusiones.
 
 La lista fija dependencias. El cierre de WP-015 **no autoriza ejecutar ningún
 paso siguiente**. Cada WP exige contrato, presupuesto, autorización, rama, PR

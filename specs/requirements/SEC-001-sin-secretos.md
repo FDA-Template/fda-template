@@ -8,7 +8,10 @@ El repositorio no contiene, en ningún commit ni en el árbol de trabajo, creden
 
 Tampoco aparecen secretos en las salidas versionadas: logs de CI, archivos de `evidence/**`, mensajes de commit ni descripciones de PR.
 
-Los secretos operativos viven **exclusivamente** en el almacén de secretos de GitHub Actions y se inyectan en tiempo de ejecución.
+Los secretos operativos viven exclusivamente en el almacén de secretos de
+GitHub Actions o, cuando una decisión lo apruebe expresamente, en el gestor de
+secretos de un servicio externo gobernado. Se inyectan en tiempo de ejecución,
+con acceso por rol, rotación y revocación; ningún agente lee sus valores.
 
 ## Justificación
 
@@ -38,7 +41,15 @@ La superficie es más amplia de lo que parece: la FDA genera evidencias automát
 
 5. **Higiene de evidencias:** ningún archivo bajo `evidence/**` contiene cadenas con forma de credencial (`sk-`, `gho_`, `ghp_`, `AKIA`, `-----BEGIN * PRIVATE KEY-----`).
 
-6. **Prohibición operativa:** el valor de un secreto **nunca** se escribe en un archivo, ni siquiera temporalmente. Se configura con `gh secret set`, que lo lee de forma interactiva y lo transmite cifrado.
+6. **Incorporación operativa:** para Actions se usa `gh secret set`, que lee el
+   valor interactivamente y lo transmite cifrado. Para una GitHub App aprobada,
+   una persona recibe el PEM generado por GitHub en una ubicación local
+   protegida fuera de cualquier repositorio, verifica su huella, lo importa
+   inmediatamente en un key vault con uso solo para firma y elimina de forma
+   segura la copia local tras verificar la importación. Pueden registrarse el
+   nombre, la huella pública, los roles, las fechas y el resultado; nunca el
+   valor, los bytes ni salidas que los revelen. Ningún agente participa ni
+   obtiene acceso.
 
 ## Verificación actual
 
