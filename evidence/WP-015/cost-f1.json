@@ -4,7 +4,7 @@
   "fuente_coste": "F1",
   "instrumento": "claude-code 2.1.272 --output-format json",
   "capture_conformance": "incomplete",
-  "capture_note": "La primera invocacion y el intento fallido fueron observados como resultados JSON estructurados por el coordinador, pero sus envoltorios completos no se conservaron como archivos. Se preservaron sus importes y campos conocidos. La tercera y la cuarta invocacion si se capturaron completas. Por DEC-004, el agregado se clasifica como estimado, no medido.",
+  "capture_note": "La primera invocacion y el intento fallido fueron observados como resultados JSON estructurados por el coordinador, pero sus envoltorios completos no se conservaron como archivos. Se preservaron sus importes y campos conocidos. Las invocaciones tercera, cuarta y quinta si se capturaron completas. Por DEC-004, el agregado se clasifica como estimado, no medido.",
   "session_id_sha256": "0e0a8182835dc3c476b0b1183474c671eadbb0b421b985b0addb5a796741de52",
   "invocations": [
     {
@@ -83,8 +83,34 @@
         }
       ],
       "total_cost_usd": 8.905483599999997
+    },
+    {
+      "index": 5,
+      "purpose": "C2 - correccion de WP015-F2, WP015-F3, WP015-F4 y WP015-F6",
+      "capture": "structured_result_preserved_and_sanitized",
+      "timestamp_utc": "2026-09-27T00:58:39Z",
+      "terminal_reason": "api_error",
+      "result_summary": "Limite temporal de la cuenta alcanzado despues de comprometer el codigo C2; el coordinador completo solo verificaciones y evidencias deterministas.",
+      "subtype": "success",
+      "is_error": true,
+      "duration_ms": 595788,
+      "duration_api_ms": 558905,
+      "num_turns": 47,
+      "models": [
+        {
+          "model": "claude-sonnet-5",
+          "input_tokens": 76,
+          "output_tokens": 52372,
+          "thinking_tokens": 29672,
+          "cache_read_input_tokens": 24870660,
+          "cache_creation_input_tokens": 106210,
+          "web_search_requests": 0,
+          "cost_usd": 5.9228439999999996
+        }
+      ],
+      "total_cost_usd": 5.9228439999999996
     }
   ],
-  "total_cost_usd": 19.913622599999999,
+  "total_cost_usd": 25.8364665999999986,
   "red_used_by_author_tools": false
 }

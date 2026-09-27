@@ -1,5 +1,62 @@
 # WP-015 — Verificación
 
+## C2 — candidato para revalidación enfocada final
+
+Claude Code abrió C2 previamente en `d59c9c6` y comprometió las correcciones
+de `WP015-F2`, `WP015-F3`, `WP015-F4` y `WP015-F6` antes de que el servicio
+interrumpiera la invocación por límite temporal. No se sustituyó al autor ni
+se modificó su código: el coordinador ejecutó después las verificaciones y
+generó las evidencias deterministas previstas por ese commit.
+
+| Campo | Valor |
+|---|---|
+| Base autorizada | `30939377590a3c3b49ba705ef0f20c4832df61bd` |
+| Candidato C1 revalidado | `ce17110a71c39eb6533ae54ca438ededf765fceb` |
+| Apertura C2 previa | `d59c9c64d0401032768530cea8010dff2f314ccf` |
+| `TESTED_HEAD` C2 | `a855c2f2505a0a1a92310d71218444d6a0987bff` |
+| Árbol de `TESTED_HEAD` C2 | `8f04016927bed6b21a284ad25ab198536e8675f4` |
+| Autor/corrector | Claude Code (implementer) |
+| Estado | C2 consumido; revalidación enfocada final pendiente |
+
+El commit C2 modifica únicamente `scripts/check_scope.py` y `tests/scope/**`:
+añade la regresión con gitlink real, validación cerrada de puntuaciones y
+pares modo/tipo, la regresión completa de separadores Unicode y un regenerador
+determinista de evidencias de symlinks. `scripts/scope_rules.py` y el manual no
+cambian en C2.
+
+Los doce comandos del contrato se ejecutaron literalmente, en orden, con
+`HEAD=a855c2f2505a0a1a92310d71218444d6a0987bff`. Todos terminaron con exit `0`;
+la salida íntegra está en `evidence/WP-015/verificacion-c2-literal.log`:
+
+| # | Resultado C2 |
+|---|---|
+| 1–3 | rutas probadas limpias, sin staged ni archivos sin seguimiento |
+| 4 | 152/152 pruebas en verde |
+| 5 | 14/14 pruebas de seguridad estática en verde |
+| 6 | `run-suite.sh`: 152/152, mismo HEAD antes/después |
+| 7 | `check_scope.py WP-015 origin/main...HEAD`: `OK`, cero violaciones |
+| 8 | shellcheck limpio |
+| 9 | gobierno: 10 correctas, 0 fallidas |
+| 10 | guard: 68 correctas, 0 fallidas, 10 huecos conocidos |
+| 11 | manual: 0 fallos, 66 enlaces |
+| 12 | `git diff --check`: limpio |
+
+Correspondencia de C2:
+
+| Hallazgo | Cierre implementado y probado |
+|---|---|
+| `WP015-F2` | `TestGitlinkIgnoreOverrideRegression` crea un repositorio anidado registrado como gitlink y conserva exit `1`, ruta `vendor` e inventario idéntico sin manipulación, con `.gitmodules` no versionado `ignore=all` y con configuración local `ignore=all`. |
+| `WP015-F3` | puntuaciones R/C limitadas a 0..100; conjunto cerrado y coherente de modos/tipos; reproducciones `R101`, `777777 blob` y `100644 commit` llegan a la CLI real y devuelven exit `2`. |
+| `WP015-F4` | regresión con U+0085, U+2028, U+2029, LF y tab: cinco violaciones, diez líneas, ASCII y recuperación exacta; falla si se restaura `ensure_ascii=False`. |
+| `WP015-F6` | `regenerate-symlink-evidence.sh` reproduce SHA concretos para A/M/D/T/R; `symlinks.md` registra revisión, ruta/rol, modo, blob y veredicto. |
+
+El manifiesto ordenado de los diez archivos probados está en
+`evidence/WP-015/manifiesto-tested-head-c2.json`, ligado a `TESTED_HEAD` C2.
+Los commits posteriores de evidencia deben mantener diff cero respecto a
+`a855c2f2505a0a1a92310d71218444d6a0987bff` en código, pruebas y manual.
+
+## Evidencia histórica de C1
+
 `C1`: corrección de `WP015-F1` a `WP015-F8` (revisión completa de Astra en
 `evidence/WP-015/revision-astra.md`), conforme a DEC-010. Autor y corrector
 único: Claude Code (implementer). No es C2 y no se abre C2 en este

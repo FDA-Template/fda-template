@@ -57,6 +57,35 @@ Todas las pruebas siguientes están en verde (comando 6 de
 | `M` | `120000` en ambas revisiones (mismo modo, blob distinto) | mismo enlace `docs/link.md`; el destino cambia de `target.md` (permitido) a `../secrets/token` (fuera de permitidos) | `test_modified_symlink_target_changed_outside_allowed` | `symlink_fuera_de_permitidos` |
 | `R` | `120000` en ambas revisiones (mismo blob de destino, ruta distinta) | `docs/a/b/link.md` → `docs/link.md`; el texto del destino no cambia (`../../ok.md`), pero el traslado de directorio hace que el mismo destino relativo salga de la raíz al resolverse desde la nueva ubicación | `test_renamed_symlink_target_now_escapes_root` | `symlink_fuera_de_raiz` (rol `destino`) |
 
+### Identificadores concretos y reproducibles de A/M/D/T/R (C2)
+
+Generados en solo lectura sobre FDA mediante
+`bash tests/scope/regenerate-symlink-evidence.sh`. El script crea y destruye
+un repositorio temporal, fija identidad y fecha Git y produce siempre estos
+commits:
+
+| Fixture | Revisión concreta |
+|---|---|
+| `c0` | `c626abb3047ffbb6c6dfead24b21fd90f0cd1d2f` |
+| `c1` | `40ff330cc6d43421f3373d46ed423e882e29f50e` |
+| `c2` | `7c14fb944e67337c7da199c0dcdf47bd6f742978` |
+| `c3` | `534a4b9b481d78f88e6816f078af9a921b0e0873` |
+| `c4` | `e48bc610736419e8b938944aa329218d612d4c0a` |
+
+| Estado | Rango y revisión inspeccionada | Ruta / rol | Modo y blob reales | Veredicto real |
+|---|---|---|---|---|
+| `A` | `c0...c1`; `c1=40ff330cc6d43421f3373d46ed423e882e29f50e` | `docs/newlink.md` / `ruta` | `120000 blob d117b0588308ee2a5e8b094ccb207915564c5869` | `symlink_fuera_de_permitidos` |
+| `D` | `c0...c1`; `c0=c626abb3047ffbb6c6dfead24b21fd90f0cd1d2f` | `docs/absolute_link.md` / `ruta` | `120000 blob 3594e94c04db171e2767224db355f514b13715c5` | `symlink_absoluto` |
+| `T` | `c0...c1`; base `c0` y head `c1` | `docs/note.txt` / `ruta` | base `100644 blob 764df4e2bf5c8afd5ab625cda76bdc30ece1eeef`; head `120000 blob 90c204cd10f441cfa820cda7f010f171eda31fa4` | `symlink_fuera_de_permitidos` en el extremo symlink |
+| `M` | `c1...c2`; `c2=7c14fb944e67337c7da199c0dcdf47bd6f742978` | `docs/newlink.md` / `ruta` | `120000 blob 467139323c0f4f91ff096dc681575df671d58596` | `symlink_fuera_de_permitidos` |
+| `R` origen | `c3...c4`; `c3=534a4b9b481d78f88e6816f078af9a921b0e0873` | `docs/a/b/renlink.md` / `origen` | `120000 blob e4d9d8941f3782edb64a834068b4731936d276b0` | origen conforme |
+| `R` destino | `c3...c4`; `c4=e48bc610736419e8b938944aa329218d612d4c0a` | `docs/renlink.md` / `destino` | `120000 blob e4d9d8941f3782edb64a834068b4731936d276b0` | `symlink_fuera_de_raiz` |
+
+La ejecución del regenerador del 2026-09-27 reprodujo exactamente esos cinco
+commits, modos, blobs y veredictos. La igualdad del blob en ambos extremos de
+`R` demuestra que cambia el veredicto por la ruta y el rol, no por leer el
+working tree.
+
 Las filas `D`, `M` y `R` demuestran juntas que la revisión inspeccionada
 depende exclusivamente del estado del diff y del rol del extremo (origen o
 destino), nunca del working tree: `D` se juzga desde `merge-base` aunque el

@@ -56,14 +56,14 @@ línea en general), de modo que un lector que no reconstruyera el JSON de
 verdad podía leer una sola violación como si fueran varias líneas de log,
 incluida una línea `VIOLACION` forjada. Con `ensure_ascii=True` todo carácter
 no ASCII se escapa como `\uXXXX`: la línea física sigue siendo una sola.
-Esto no tiene una prueba dedicada nueva en `test_security_static.py` —no es
-una API prohibida, es un parámetro de serialización—; su corrección está
-cubierta transversalmente porque cada línea JSON de las 134 pruebas de la
-batería pasa por esa misma función, y de forma más directa por
-`test_embedded_newline_does_not_forge_log_lines` (que ya cubría LF antes de
-C1 y sigue en verde) y por la ausencia de cualquier regresión en las
-aserciones de `json.loads(...)` de toda la suite, que dependen de que la
-línea sea JSON válido de una sola pieza.
+La regresión dedicada
+`test_full_output_regression_unicode_line_separators_stays_ascii` crea en una
+misma ejecución cinco rutas Git reales con U+0085, U+2028, U+2029, LF y
+tabulador. Exige exit `1`, cinco violaciones, exactamente diez líneas físicas
+marcador/JSON, salida puramente ASCII y recuperación byte a byte de los cinco
+nombres mediante `json.loads`. La prueba falla si `_emit_json` vuelve a
+`ensure_ascii=False`. Está incluida en las 152 pruebas de C2 y su salida
+íntegra figura en `evidence/WP-015/verificacion-c2-literal.log`.
 
 **Por qué es fiel al contrato.** `scripts/check_scope.py` solo invoca
 `subprocess.run(["git", *args], ..., shell=False)` (lista de argumentos, sin

@@ -1,0 +1,62 @@
+[
+  {
+    "blob": "81d0f9ba84c60c8087d0cdb1241c0c85f885eac4",
+    "modo": "100644",
+    "ruta": "docs/manual/02-ciclo-de-un-wp.md",
+    "sha256": "dc54cd96e996ef8f92f0f364517137a2731c18ced13d3dc9ba66873f6372a18a"
+  },
+  {
+    "blob": "a002a3d887cae5ff467c4f2c4a8d689d7d87b8c9",
+    "modo": "100644",
+    "ruta": "scripts/check_scope.py",
+    "sha256": "3eac49b8182e489ef3c0aed4c9a9c3790ecfa80a59768b06b70f8ad50addb5ed"
+  },
+  {
+    "blob": "2d9f17eb758426547d0eeb952250f115c656c3c1",
+    "modo": "100644",
+    "ruta": "scripts/scope_rules.py",
+    "sha256": "a17ff7c1915861a737dd8b5b1dad45972f436c1b449fb8f77d5c32374f18526d"
+  },
+  {
+    "blob": "f0faa8cd5d740dc6fc9658006f94fef7a48c70ba",
+    "modo": "100644",
+    "ruta": "tests/scope/_repo.py",
+    "sha256": "cdcb3674eee2ace6f13689422eee08f3419f967a8518cd549b0fa4c7adbaec8c"
+  },
+  {
+    "blob": "9c45777f02bff1268a0a9a04e2113221c0600f07",
+    "modo": "100644",
+    "ruta": "tests/scope/generate-evidence-hashes.sh",
+    "sha256": "24ed90baaeb6108362c133b9059a2964f289856024b169bbb19aa7731a72c0e9"
+  },
+  {
+    "blob": "23bf3b2ad5c0ebd5047579d95f8c43ccd6bcf08d",
+    "modo": "100644",
+    "ruta": "tests/scope/regenerate-symlink-evidence.sh",
+    "sha256": "767d204c5eeadf28806ade3cdf705a92f9d1d93acec9b439f16a46c22ff74131"
+  },
+  {
+    "blob": "17f0ca836cd6b93b694894c53721a09e03dbd93c",
+    "modo": "100644",
+    "ruta": "tests/scope/run-suite.sh",
+    "sha256": "66afe7375d18466fc2ce0cf9f48465cf6de7b32f82f1697dfb235fb53fbd3201"
+  },
+  {
+    "blob": "cd563b570441ea7828af89fb3c9c0b56dcdf5d8f",
+    "modo": "100644",
+    "ruta": "tests/scope/test_check_scope_cli.py",
+    "sha256": "3618c9d5c87371f6d3d17ec593e3325299dd0bff9ce83000cd0de0d3c8fa1164"
+  },
+  {
+    "blob": "ecd8ee2526840be1c167db7e103f0e679b8913a6",
+    "modo": "100644",
+    "ruta": "tests/scope/test_scope_rules.py",
+    "sha256": "bce0f542197a0c84c50bc3ffd4decec8830f86c77a4c441afbc4031af36cc152"
+  },
+  {
+    "blob": "90eb7dd9b7ec5f92f2ff4d9e91ff7dc3cf12d2ea",
+    "modo": "100644",
+    "ruta": "tests/scope/test_security_static.py",
+    "sha256": "1e0e13029a51fb76c35b341cbefa2f132fc44372f87cd8f095bcd2f9486ce8cd"
+  }
+]
