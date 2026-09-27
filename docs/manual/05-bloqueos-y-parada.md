@@ -421,15 +421,17 @@ análisis, no como autorización ejecutable. **Un WP activo cada vez.** Mientras
 DEC-011 supera la parada de **deliberación**: el rumbo ya está elegido. No
 supera la parada **técnica** ni cierra la pausa. WP-015 ya completó el primer
 hito: PR #53 fusionada, contrato `done`, ejecutable local y biblioteca única
-acreditados, y `ACTIVE` de nuevo en reposo. No existe autorización para el paso
-siguiente.
+acreditados, y `ACTIVE` de nuevo en reposo. DEC-014 reserva `WP-016` como
+identificador del sucesor limpio de WP-005 únicamente desde la fusión humana
+de su composición. La reserva no crea, aprueba, admite ni activa el contrato,
+no autoriza ejecutar el paso y no mueve `ACTIVE`, que permanece en reposo.
 
 El orden futuro vinculante de dependencias es:
 
 1. `WP-015`, sucesor limpio de WP-002, **completado**: produjo `check_scope`
    local y la biblioteca única; no produjo CI ni bloqueo de fusión;
-2. sucesor limpio de WP-005, todavía inexistente y sujeto a autorizaciones
-   separadas, para integrar el mismo
+2. `WP-016`, identificador reservado por DEC-014 para el sucesor limpio de
+   WP-005, todavía sin contrato y sujeto a autorizaciones separadas, para integrar el mismo
    verificador en CI; después, mutación humana del ruleset que lo haga requerido;
 3. convergencia humana del guard sobre la misma biblioteca y cierre de WP-007
    por superación mediante PR de operador, con `ACTIVE` siempre en reposo y

@@ -13,6 +13,7 @@
 **Actualizada el 2026-09-22 por la admisión de `WP-015`:** §§2, 4 y 5 incorporan a la lista cerrada el contrato aprobado de `WP-015`, SHA-256 `e0037b17aaeffbc70a901aa88abe92ac20ac79b75cf7e287d760c424b0b8899d`. `ACTIVE` permanece en reposo; la admisión no activa ni autoriza implementar el WP.
 **Enmendada el 2026-09-27 por [`DEC-013`](DEC-013-c3-excepcional-wp015.md):** §4 admite la composición normativa de tres archivos que habilita, sin iniciarlo, un C3 mínimo y último para el único residual `WP015-F2`. No modifica el contrato ni `ACTIVE`, no autoriza C4, PR o fusión de WP-015 y exige otra autorización humana para comenzar la pasada.
 **Actualizada el 2026-09-27 por el cierre de `WP-015`:** §§2, 4, 5 y 6 registran la PR #53 fusionada, el contrato `done`, el primer estado local de `check_scope` acreditado y `ACTIVE` de nuevo en reposo. No autoriza el sucesor de WP-005 ni cierra la pausa.
+**Enmendada el 2026-09-27 por [`DEC-014`](DEC-014-reserva-sucesor-wp005.md):** §4 admite una composición normativa de cinco archivos que reserva `WP-016` como identificador del sucesor limpio de WP-005 únicamente desde su fusión humana. `ACTIVE` permanece en reposo; la reserva no crea, aprueba, admite, activa ni autoriza ejecutar el contrato.
 
 ## Problema
 
@@ -436,6 +437,7 @@ Los tres checks obligatorios son jobs de `ci.yml` y siguen operando. La contenci
 | `DEC-011` | Recuperación híbrida posterior a DEC-009; composición normativa de cinco archivos y reserva de `WP-015`, sin crear, aprobar, admitir para ejecución ni activar su contrato |
 | `DEC-012` | Gramática inequívoca de patrones de alcance; composición normativa de ocho archivos, sin crear, modificar, aprobar, admitir ni activar `WP-015` |
 | `DEC-013` | Excepción mínima, previa y no autoejecutable para un C3 final de WP-015, limitada al residual `WP015-F2`, su fixture y sus evidencias; no inicia la pasada ni autoriza C4 |
+| `DEC-014` | Reserva condicionada de `WP-016` y límites del sucesor limpio de WP-005; composición normativa de cinco archivos, sin crear, aprobar, admitir, activar ni ejecutar su contrato |
 | `WP-013` | Cierre bloqueado tras C3 excepcional, preservación de la candidata histórica no conforme y transición solidaria a reposo conforme a la enmienda de recuperación de `DEC-008` |
 | `WP-014` | Cerrado `done` tras la aplicación humana exacta de los diez pins por SHA, revisión independiente, PR #40 fusionada y transición solidaria a reposo; no dependió de fusionar WP-013 |
 | `WP-015` | Cerrado `done` tras C3 excepcional, PR #53 fusionada y transición solidaria a reposo; acredita solo el ejecutable local y la biblioteca única, no CI ni bloqueo de fusión |
@@ -446,7 +448,8 @@ Los tres checks obligatorios son jobs de `ci.yml` y siguen operando. La contenci
 | `docs/02-guia-fabrica-desarrollo-agentica.md` | Especificación vinculante. Solo las frases sobre el hook afectadas por D3 y el enlace a la hoja de ruta |
 | `docs/manual/MANUAL.md` | Índice del manual. Modelo de controles y navegación hacia `docs/03–05` |
 | `WP-002` | Entrada histórica, no ejecutable: permanece `blocked` y fue sustituido para el alcance local por `WP-015`, ya cerrado `done`; no se reabre |
-| `WP-005` | Entrada histórica, no ejecutable: permanece `draft` y será sustituido por un sucesor limpio todavía sin identificador ni admisión |
+| `WP-005` | Entrada histórica, no ejecutable: permanece `draft` y será sustituido por `WP-016`, reservado por `DEC-014` únicamente desde la fusión humana de su composición |
+| `WP-016` | Identificador reservado para el sucesor limpio de WP-005; todavía sin contrato, aprobación, admisión, activación ni autorización de ejecución |
 | `WP-007` | Permanece `ready` y congelado; DEC-011 prevé su cierre posterior por superación, con autorización separada y sin transición de `ACTIVE` |
 | Prueba de humo de D1 | **No es una entrada propia**: será alcance de un sucesor limpio de `WP-008`, todavía sin identificador ni admisión |
 | Parche humano del guard delgado | Acto de operador sobre `.claude/hooks/**`, carril T3, posterior a `WP-002` y `WP-005` |
@@ -466,8 +469,10 @@ materializa; no se autoautoriza.
 
 `WP-002`, `WP-005` y `WP-007` fueron admitidos porque la secuencia anterior los
 programaba. DEC-011 retira WP-002 y WP-005 de la cola ejecutable sin borrar su
-historia; sus sucesores requieren admisión posterior. WP-007 sigue `ready` y
-congelado hasta su cierre separado por superación.
+historia. WP-015 ya completó el sucesor local de WP-002; DEC-014 reserva
+`WP-016` como sucesor de WP-005, pero su contrato todavía requiere creación,
+aprobación, admisión y activación posteriores y separadas. WP-007 sigue `ready`
+y congelado hasta su cierre separado por superación.
 
 La composición exacta de esa PR es de **nueve archivos** bajo D3 ratificada, y está fijada en `DEC-007`. Si D3 quedara resuelta por su default, esta admisión se limita a `DEC-007` y no alcanza a `docs/03–05` ni a las tres rutas de gobierno, y la PR es la variante separada de tres archivos.
 
@@ -565,6 +570,16 @@ operador. La composición cerrada consta exactamente de seis archivos: esta
 código, pruebas, workflows, ruleset, DEC-011, DEC-012, DEC-013, ramas,
 worktrees o candidatas; no se ejecuta C4 ni se crea, aprueba, admite o activa
 otro WP.
+
+**Admisión atómica de `DEC-014` y de la reserva condicionada de `WP-016`.** Se
+modifica directamente esta lista en el mismo diff; la decisión no se
+autoautoriza. La composición cerrada consta exactamente de cinco archivos:
+`DEC-014`, esta `DEC-003`, `DEC-011`, `docs/03-hoja-de-ruta.md` y
+`docs/manual/05-bloqueos-y-parada.md`. Todos viajan juntos o ninguno. Es un
+acto normativo de operador con `ACTIVE` en reposo: reserva `WP-016` únicamente
+desde la fusión humana de esta composición, pero no crea, aprueba, admite,
+activa ni autoriza ejecutar su contrato; tampoco modifica código, pruebas,
+workflows, ruleset, evidencias, ramas, worktrees o candidatas.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 
@@ -686,6 +701,7 @@ Sin versionar en el árbol de trabajo a fecha de hoy:
 - [`DEC-011`](DEC-011-recuperacion-post-dec009.md) — recuperación híbrida y reserva de WP-015
 - [`DEC-012`](DEC-012-gramatica-patrones-alcance.md) — gramática inequívoca de los patrones de alcance
 - [`DEC-013`](DEC-013-c3-excepcional-wp015.md) — excepción mínima y no autoejecutable de C3 para el residual WP015-F2
+- [`DEC-014`](DEC-014-reserva-sucesor-wp005.md) — reserva condicionada de WP-016 y límites del sucesor limpio de WP-005
 - [`CLAUDE.md`](../../CLAUDE.md) — constitución; ruta de la composición de esa PR
 - [`docs/02-guia-fabrica-desarrollo-agentica.md`](../../docs/02-guia-fabrica-desarrollo-agentica.md) — especificación vinculante; ruta de la composición
 - [`docs/manual/MANUAL.md`](../../docs/manual/MANUAL.md) — índice y modelo de controles; ruta de la composición
