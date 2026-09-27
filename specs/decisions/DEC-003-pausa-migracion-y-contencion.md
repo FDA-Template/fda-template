@@ -11,6 +11,7 @@
 **Enmendada el 2026-09-21 por [`DEC-011`](DEC-011-recuperacion-post-dec009.md):** §§2, 4, 5 y 6 fijan una recuperación híbrida y reservan `WP-015` como primer contrato técnico futuro. `ACTIVE` permanece en reposo; `WP-015` no se crea, aprueba, admite para ejecución ni activa.
 **Enmendada el 2026-09-21 por [`DEC-012`](DEC-012-gramatica-patrones-alcance.md):** §§2, 4 y 5 admiten la composición normativa que resuelve la gramática de alcance y exige replantear la candidata de `WP-015`. `ACTIVE` permanece en reposo y WP-015 no se crea, modifica, aprueba, admite ni activa.
 **Actualizada el 2026-09-22 por la admisión de `WP-015`:** §§2, 4 y 5 incorporan a la lista cerrada el contrato aprobado de `WP-015`, SHA-256 `e0037b17aaeffbc70a901aa88abe92ac20ac79b75cf7e287d760c424b0b8899d`. `ACTIVE` permanece en reposo; la admisión no activa ni autoriza implementar el WP.
+**Enmendada el 2026-09-27 por [`DEC-013`](DEC-013-c3-excepcional-wp015.md):** §4 admite la composición normativa de tres archivos que habilita, sin iniciarlo, un C3 mínimo y último para el único residual `WP015-F2`. No modifica el contrato ni `ACTIVE`, no autoriza C4, PR o fusión de WP-015 y exige otra autorización humana para comenzar la pasada.
 
 ## Problema
 
@@ -426,6 +427,7 @@ Los tres checks obligatorios son jobs de `ci.yml` y siguen operando. La contenci
 | `DEC-010` | Separación de autor y revisor, revalidaciones enfocadas y bucle ordinario de dos ciclos; composición normativa de operador sin transición de `ACTIVE` |
 | `DEC-011` | Recuperación híbrida posterior a DEC-009; composición normativa de cinco archivos y reserva de `WP-015`, sin crear, aprobar, admitir para ejecución ni activar su contrato |
 | `DEC-012` | Gramática inequívoca de patrones de alcance; composición normativa de ocho archivos, sin crear, modificar, aprobar, admitir ni activar `WP-015` |
+| `DEC-013` | Excepción mínima, previa y no autoejecutable para un C3 final de WP-015, limitada al residual `WP015-F2`, su fixture y sus evidencias; no inicia la pasada ni autoriza C4 |
 | `WP-013` | Cierre bloqueado tras C3 excepcional, preservación de la candidata histórica no conforme y transición solidaria a reposo conforme a la enmienda de recuperación de `DEC-008` |
 | `WP-014` | Cerrado `done` tras la aplicación humana exacta de los diez pins por SHA, revisión independiente, PR #40 fusionada y transición solidaria a reposo; no dependió de fusionar WP-013 |
 | `WP-015` | Sucesor limpio de WP-002 con contrato `ready`, presupuesto de 40 EUR y dos ciclos; admitido para una activación posterior separada. `ACTIVE` sigue en reposo y no hay implementación autorizada |
@@ -534,6 +536,16 @@ Este acto incorpora `WP-015` a la lista cerrada, pero no modifica su contrato,
 `ACTIVE`, código, tests, evidencias, workflows, hooks, ruleset, ramas,
 worktrees o candidatas. La admisión lo hace elegible para una activación
 humana posterior y separada; no activa ni autoriza implementación.
+
+**Admisión atómica de `DEC-013` y de la excepción mínima de C3 para WP-015.**
+Se modifica directamente esta lista en el mismo diff; la decisión no se
+autoautoriza. La composición cerrada consta exactamente de tres archivos:
+`DEC-013`, esta `DEC-003` y `docs/manual/05-bloqueos-y-parada.md`. Todos viajan
+juntos o ninguno. La composición eleva únicamente el techo excepcional de
+WP-015 de `2 / 2` a `2 / 3`, para el conjunto cerrado formado por el residual
+`WP015-F2`; no inicia C3, no autoriza C4 y no modifica contrato, `ACTIVE`,
+código, pruebas, evidencias, ramas o worktrees. El comienzo de la pasada exige
+otra autorización humana posterior y la apertura previamente versionada de C3.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 
@@ -654,6 +666,7 @@ Sin versionar en el árbol de trabajo a fecha de hoy:
 - [`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) — separación de autor y revisor y bucle ordinario de dos ciclos
 - [`DEC-011`](DEC-011-recuperacion-post-dec009.md) — recuperación híbrida y reserva de WP-015
 - [`DEC-012`](DEC-012-gramatica-patrones-alcance.md) — gramática inequívoca de los patrones de alcance
+- [`DEC-013`](DEC-013-c3-excepcional-wp015.md) — excepción mínima y no autoejecutable de C3 para el residual WP015-F2
 - [`CLAUDE.md`](../../CLAUDE.md) — constitución; ruta de la composición de esa PR
 - [`docs/02-guia-fabrica-desarrollo-agentica.md`](../../docs/02-guia-fabrica-desarrollo-agentica.md) — especificación vinculante; ruta de la composición
 - [`docs/manual/MANUAL.md`](../../docs/manual/MANUAL.md) — índice y modelo de controles; ruta de la composición
