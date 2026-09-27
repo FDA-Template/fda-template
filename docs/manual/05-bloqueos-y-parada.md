@@ -122,6 +122,15 @@ cerrados que puede tratar, el alcance exacto, el presupuesto adicional y el
 techo final. No reinicia ni renombra la cuenta y no autoriza C4. Conceder una
 excepción sucesiva exige otra decisión; no es continuidad automática.
 
+**Excepción de instancia para WP-015.**
+[`DEC-013`](../../specs/decisions/DEC-013-c3-excepcional-wp015.md) eleva
+únicamente el techo de WP-015 de `2 / 2` a `2 / 3` para el residual cerrado
+`WP015-F2`, una vez fusionada su composición normativa de tres archivos. Esa
+fusión no inicia C3: todavía exige otra autorización humana y que la fila C3
+quede versionada en `evidence/WP-015/ciclos.md` antes de cualquier corrección.
+La regla general de dos ciclos, la salida ordinaria tras C2 y la prohibición de
+C4 no cambian.
+
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
 Ver [DEC-010](../../specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md).
