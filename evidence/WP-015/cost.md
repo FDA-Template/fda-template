@@ -3,44 +3,34 @@
 Conforme a [`DEC-001`](../../specs/decisions/DEC-001-divisa-costes.md) y
 [`DEC-004`](../../specs/decisions/DEC-004-estados-del-coste.md).
 
-## Registro
+## Registro normativo
 
 | Campo | Valor |
 |---|---|
-| `estado_coste` | `no_disponible` |
-| `causa` | El agente autor, en este entorno de ejecución, no tiene acceso a un capturador F1 (JSON estructurado por invocación) ni F2 (agregación OpenTelemetry) instrumental sobre su propia sesión. No existe ningún comando en el entorno autorizado de este WP (`python3`, `bash`, `git` de solo lectura, `shellcheck`, `shasum`, `find`, `sort`, `mktemp`) que produzca ese artefacto. La adquisición F3 exige una persona leyendo un panel (`/usage` o `/cost`), lo que este agente tampoco puede ejecutar por sí mismo. |
-| `coste_usd` | *(ausente — prohibido en `no_disponible`)* |
-| `fuente_coste` | *(ausente)* |
-| `base_estimacion` | *(ausente)* |
-| `fecha_medicion` | *(ausente)* |
-| `operador` | Claude Code (implementer) — automatización que registra esta entrada; no sustituye a la persona que debe aportar F1/F2/F3 |
-| `instrumento` | *(ausente)* |
-| `wp_id` | WP-015 |
-| `artefacto` · `artefacto_sha256` | *(ausentes)* |
-| `excepcion` | *(ausente)* |
-| `tipo_eurusd` · `fuente` · `coste_eur` · `consumo` | *(ausentes)* |
-| `presupuesto_eur` | 40 |
+| `estado_coste` | `estimado` |
+| `causa` | La captura F1 produjo cifras estructuradas por invocación, pero los envoltorios JSON completos de la implementación inicial y del intento fallido de reanudación no se conservaron como archivos. El resultado completo de la consolidación sí se conservó. Esta incompletitud degrada el agregado a `estimado` conforme a DEC-004 §3 y §12. |
+| `coste_usd` | `11.008139000000002` |
+| `fuente_coste` | `F1` |
+| `base_estimacion` | Suma de las tres invocaciones atribuibles exclusivamente a WP-015: `8.825610200000002 + 0 + 2.1825288 USD`. Los tres valores proceden de `total_cost_usd` de resultados `claude -p --output-format json`; el segundo fue un error de autenticación sin consumo. El desglose y los campos preservados están en `evidence/WP-015/cost-f1.json`. |
+| `fecha_medicion` | `2026-09-27` |
+| `operador` | Iván (`@ivanes189`), mediante la coordinación Codex de esta sesión autorizada |
+| `instrumento` | `claude-code 2.1.272 --output-format json` |
+| `wp_id` | `WP-015` |
+| `artefacto` | `evidence/WP-015/cost-f1.json` |
+| `artefacto_sha256` | `0f58ab69ed37fef3e6b09f37e1f5f3f146eef380add58df238949a06e1a4caeb` |
+| `tipo_eurusd` | `1.1590` |
+| `fuente` | BCE, referencia EUR/USD del `2026-09-01`, registrada en `specs/finops/fx-rates.md` |
+| `coste_eur` | `9.50` |
+| `presupuesto_eur` | `40` |
+| `consumo` | `23.7 %` |
 
-## Bloqueo residual para el coordinador
+## Cálculo
 
-Este dato no se fabrica. El coordinador (u otra persona con acceso a la
-telemetría real de esta sesión) debe aportar la medición estructurada F1 o
-F2 — o, en su defecto, F3 con base concreta y reconstruible — y completar
-este archivo con los campos que exige `DEC-004` §4 antes de que el WP pueda
-declararse `APTO`. Mientras `estado_coste` sea `no_disponible`, el resultado
-es `NO APTO` por este concepto exclusivamente de coste (`DEC-004` §11), con
-independencia del resultado técnico de la implementación.
+`11.008139000000002 / 1.1590 = 9.497962899... EUR`, redondeado a
+`9.50 EUR`. El consumo es `9.497962899... / 40 × 100 = 23.7 %`.
 
-## Contexto informativo, explícitamente no conformante con F1/F2
-
-Durante esta sesión, el propio entorno de ejecución mostró, en avisos de
-sistema sucesivos, una cifra acumulada de presupuesto en USD que fue
-creciendo a lo largo de la conversación (última observada, antes de escribir
-este archivo: del orden de 7,7 USD sobre un tope de sesión de 46,36 USD). Se
-menciona **solo como contexto para el coordinador**, no como `coste_usd`:
-carece de los campos obligatorios de un artefacto F1 o F2 —instrumento y
-versión exacta, ruta y SHA-256 del extracto, atribución explícita a
-`WP-015`— y no se sabe si esa cifra de la interfaz corresponde a la misma
-definición de "coste de la sesión" que `DEC-004` exige medir. Presentarla
-como `coste_usd` sin esos requisitos sería fabricar una cifra sin origen
-verificable, exactamente lo que `DEC-004` §10.3 prohíbe.
+La cifra queda dentro del presupuesto máximo de `40 EUR`. `estimado` describe
+la conformidad de la captura, no una extrapolación: todos los importes USD son
+los valores estructurados de las invocaciones reales de este WP. El artefacto
+es un extracto saneado; no contiene prompts, resultados, cargas de herramientas,
+identidad de cuenta ni el identificador de sesión en claro.
