@@ -119,3 +119,45 @@ Los falsos verdes activan la parada contractual. La corrección requiere `C1`
 abierto y versionado antes de editar. Después, esta misma Astra realizará una
 revalidación enfocada de los ocho hallazgos y de sus efectos; no se repetirá la
 revisión completa.
+
+## Revalidación enfocada de C1
+
+| Campo | Valor |
+|---|---|
+| Fecha | 2026-09-27 |
+| Revisor | La misma GPT-6 Astra, razonamiento Alto, solo lectura |
+| Candidato C1 | `ce17110a71c39eb6533ae54ca438ededf765fceb` |
+| `TESTED_HEAD` C1 | `513d68c422a9d8380e0100944e7eb68d8f42ece9` |
+| Tipo | Revalidación enfocada; no segunda revisión completa |
+| Veredicto | **NO APTO — C2 necesario** |
+
+Estado de los hallazgos originales:
+
+| Hallazgo | Estado tras C1 | Evidencia resumida |
+|---|---|---|
+| `WP015-F1` | `CERRADO` | Los patrones `**` y `/` cubren LF en Git real, tanto permitidos como prohibidos. |
+| `WP015-F2` | `NO CERRADO` | El bypass está corregido en ejecución real, pero falta la regresión versionada con gitlink, `.gitmodules` no versionado y configuración local `ignore=all`. |
+| `WP015-F3` | `NO CERRADO` | Rechaza las muestras iniciales, pero acepta `R101`, modo `777777` y pareja incoherente `100644 commit`, incluso hasta exit `0`. |
+| `WP015-F4` | `NO CERRADO` | El escape funciona, pero las 134 pruebas siguen pasando si se restaura `ensure_ascii=False`; falta una regresión específica de salida completa. |
+| `WP015-F5` | `CERRADO` | Detecta `os.path.realpath`, `io.open` y alias comprobados sin falsos positivos benignos observados. |
+| `WP015-F6` | `NO CERRADO` | Las integraciones M/R, UTF-8 y contrato en HEAD pasan; `symlinks.md` sigue sin SHA concretos de revisiones y blobs por estado. |
+| `WP015-F7` | `CERRADO` | WP-ID limitado a dígitos ASCII con regresión CLI exit `2`. |
+| `WP015-F8` | `CERRADO` | Manifiesto JSON ordenado de nueve entradas, hashes y modos verificados. |
+
+Corrección mínima autorizada para `C2`, sin ampliar el contrato:
+
+1. `F2`: prueba Git real sin `git submodule add`, construyendo el gitlink con
+   repositorio anidado y solo `init/config/add/commit`; mismo rango, HEAD e
+   inventario con ambas manipulaciones de `ignore=all`.
+2. `F3`: rechazar puntuaciones fuera de forma/rango, modos desconocidos y
+   combinaciones modo/tipo incoherentes; negativas de CLI exit `2` y positivos
+   de formas válidas.
+3. `F4`: regresión de salida completa con U+0085, U+2028, U+2029, LF y tab,
+   recuento exacto y recuperación de rutas; debe fallar con
+   `ensure_ascii=False`.
+4. `F6`: versionar SHA reales de revisión y blob, estado, ruta/rol, modo y
+   resultado de cada caso de symlink cubierto.
+
+Esta revalidación confirmó además 134/134 pruebas, doce comandos literales en
+verde, diff cero desde `TESTED_HEAD` en las rutas probadas, alcance correcto y
+coste acumulado de `17.18 EUR`. Astra no modificó ningún archivo.
