@@ -426,15 +426,17 @@ hito: PR #53 fusionada, contrato `done`, ejecutable local y biblioteca única
 acreditados, y `ACTIVE` de nuevo en reposo. DEC-014 reserva `WP-016` como
 identificador del sucesor limpio de WP-005 únicamente desde la fusión humana
 de su composición. DEC-015 elige una GitHub App externa como productor previo,
-pero no reserva su WP-ID ni autoriza crearla o ejecutarla. WP-016 ya tiene
+pero no autoriza crearla o ejecutarla. DEC-016 reserva `WP-017` para ese
+productor, todavía sin contrato. WP-016 ya tiene
 contrato `draft`, no aprobado, admitido o activo. `ACTIVE` permanece en reposo.
 
 El orden futuro vinculante de dependencias es:
 
 1. `WP-015`, sucesor limpio de WP-002, **completado**: produjo `check_scope`
    local y la biblioteca única; no produjo CI ni bloqueo de fusión;
-2. productor externo mediante GitHub App conforme a DEC-015, todavía sin WP-ID,
-   pendiente de otra decisión, contrato, implementación, instalación y prueba;
+2. `WP-017`, reservado por DEC-016 para el productor externo mediante GitHub
+   App conforme a DEC-015, todavía sin contrato y pendiente de creación,
+   aprobación, admisión, activación, implementación, instalación y prueba;
 3. `WP-016`, identificador reservado por DEC-014 para el sucesor limpio de
    WP-005, con contrato `draft` bloqueado y sujeto a corrección y autorizaciones
    separadas, para integrar el mismo verificador en CI; después, mutación humana

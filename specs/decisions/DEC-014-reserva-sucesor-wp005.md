@@ -11,6 +11,10 @@ fusiona humanamente.
 externa como productor previo, distingue seguridad de disponibilidad y fija la
 semántica monotónica de la autorización; no modifica WP-016 ni reserva otro
 WP-ID.
+**Enmendada el 2026-09-27 por
+[`DEC-016`](DEC-016-reserva-productor-externo-alcance.md):** reserva `WP-017`
+para ese productor previo, todavía sin contrato, y no modifica los gates ni el
+estado de WP-016.
 
 Los rótulos `DEC-014` y `WP-016` son propuestas sin efecto normativo hasta esa
 eventual fusión.
@@ -135,7 +139,8 @@ El check se identifica por el par exacto `{context, integration_id}`. Un
 contexto homónimo de otro productor no vale.
 
 DEC-015 resuelve la alternativa: una GitHub App externa es el único productor
-elegido y constituye un prerrequisito separado, todavía sin WP-ID. WP-016 no
+elegido y constituye el prerrequisito separado reservado como `WP-017` por
+DEC-016, todavía sin contrato. WP-016 no
 puede pasar a `ready` hasta que ese productor esté implementado, instalado y
 probado mediante autorizaciones propias. `pull_request_target` continúa
 prohibido y REQ-FDA-002 no cambia.
