@@ -204,3 +204,41 @@ corresponde parar y decidir humanamente entre dividir, replantear o cerrar
 La revalidación final confirmó 152/152 pruebas, 14/14 AST, doce comandos
 literales, manifiesto de diez archivos, diff cero desde `TESTED_HEAD`, alcance
 correcto y coste acumulado de `22.29 EUR`. Astra no modificó ningún archivo.
+
+## Revalidación enfocada final de C3 excepcional
+
+| Campo | Valor |
+|---|---|
+| Fecha | 2026-09-27 |
+| Revisor | La misma GPT-6 Astra, razonamiento Alto, solo lectura |
+| Autoridad | `DEC-013`, fusionada en `7d1b26afcb3285e29ee17dee7548b34351948330` |
+| Apertura C3 previa | `eb085a115ab6ac24078d8b4b551305f5ac99f2d8` |
+| `TESTED_HEAD` C3 | `333eb072e62f3298f465c32c9d47a69b043cb8c1` |
+| Candidato revalidado | `1c14c797814ef98dd0b48721557c92a267add2f7` |
+| Tipo | Revalidación enfocada final de `WP015-F2`; no revisión general |
+| Veredicto | **APTO — WP015-F2 cerrado; ningún hallazgo pendiente** |
+
+La misma Astra confirmó independientemente que:
+
+- `.gitmodules` no versionada contiene solo la asociación `path = vendor`, y
+  `ignore=all` reside exclusivamente en configuración Git local;
+- el diff sin override omite `vendor`, mientras la CLI real conserva exit `1`
+  y `vendor/fuera_de_permitidos`;
+- retirar el override mediante mutación solo en memoria hace fallar la
+  regresión con `0 != 1`;
+- 152/152 pruebas y 14/14 controles AST pasan; los doce comandos registran
+  exit `0`; manifiesto, árbol, aislamiento e identidad coinciden;
+- producción permanece intacta, el cambio técnico se limita a la prueba
+  autorizada y F1/F3–F8 no se reabren;
+- el coste C3 es `0.68 EUR` y el acumulado `22.97 EUR`, dentro de los techos de
+  `6.00 EUR` y `28.29 EUR`, manteniendo la clasificación `estimado`.
+
+Durante la primera lectura enfocada, Astra detectó que tres referencias
+documentales expandían incorrectamente el prefijo `eb085a1` a un SHA
+inexistente. El coordinador sustituyó únicamente esas tres referencias, en
+`evidence/WP-015/{ciclos.md,verification.md}`, por el commit real de apertura.
+La misma Astra cotejó el delta, confirmó que la apertura real es padre
+inmediato de `TESTED_HEAD` y cerró el dictamen en `APTO`.
+
+Astra no modificó archivos, no delegó y no autorizó PR, fusión, cierre del
+contrato, C4, CI, ruleset, runtime ni producto.

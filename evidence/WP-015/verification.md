@@ -1,6 +1,6 @@
 # WP-015 — Verificación
 
-## C3 excepcional — candidato para revalidación enfocada
+## C3 excepcional — entrega revalidada
 
 `DEC-013`, fusionada en `7d1b26afcb3285e29ee17dee7548b34351948330`,
 habilitó un único C3 para el residual cerrado `WP015-F2`. La rama incorporó
@@ -22,7 +22,8 @@ como `TESTED_HEAD` antes de ejecutar la batería completa.
 | Árbol de `TESTED_HEAD` C3 | `4efabe75db5bfb1eb845e5e0a8db0d906e0d1eeb` |
 | Autor/corrector | Claude Code (implementer), una invocación, sin subagentes |
 | Coste C3 | `0.784279 USD` = `0.68 EUR` |
-| Estado antes de Astra | **Batería APTO; revalidación enfocada de F2 pendiente** |
+| Candidato revalidado por Astra | `1c14c797814ef98dd0b48721557c92a267add2f7` |
+| Estado | **APTO; WP015-F2 cerrado y ningún hallazgo pendiente** |
 
 ### Corrección y falsabilidad de WP015-F2
 
@@ -73,7 +74,7 @@ código de retorno están en `evidence/WP-015/verificacion-c3-literal.log`.
 | 6 | Suite deja idénticos HEAD y estado Git | **CUMPLE** — comando 6, aislamiento intacto |
 | 7 | Inventario completo y límite local documentado | **CUMPLE** — comando 7 y evidencia existente |
 | 8 | Biblioteca única importada por CLI | **CUMPLE** — AST y suite en verde; producción sin cambios en C3 |
-| 9 | Identidad de bytes y suelo T3 | **PENDIENTE DE GATE** — manifiesto C3 generado; falta dictamen enfocado de la misma Astra |
+| 9 | Identidad de bytes y suelo T3 | **CUMPLE** — manifiesto C3 verificado y la misma Astra emitió `APTO` enfocado |
 
 El manifiesto ordenado de los diez archivos probados está en
 `evidence/WP-015/manifiesto-tested-head-c3.json`. Los nueve archivos sin
@@ -81,9 +82,10 @@ cambios conservan los blobs de C2; `tests/scope/test_check_scope_cli.py` pasa a
 blob `c98ab0af21679d4fd541a3883b4fd6e594751195` y SHA-256
 `62df84cd2d815feab810ecd1a43f741679ac77ea6ce2b058b7fc6508c53d6734`.
 
-**VEREDICTO DE BATERÍA: APTO.** Comandos: `12 / 12` en verde. Criterios:
-`8` cumplidos, `0` incumplidos, `1` pendiente del gate T3. El candidato no se
-declara todavía APTO de entrega: requiere la revalidación enfocada de Astra.
+**VEREDICTO FINAL: APTO.** Comandos: `12 / 12` en verde. Criterios: `9`
+cumplidos, `0` incumplidos, `0` no evaluables. La misma Astra cerró
+`WP015-F2` en revalidación enfocada sobre el candidato
+`1c14c797814ef98dd0b48721557c92a267add2f7`; no quedan hallazgos pendientes.
 
 ## C2 — candidato para revalidación enfocada final
 
