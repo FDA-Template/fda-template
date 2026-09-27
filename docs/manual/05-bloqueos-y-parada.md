@@ -427,8 +427,8 @@ acreditados, y `ACTIVE` de nuevo en reposo. DEC-014 reserva `WP-016` como
 identificador del sucesor limpio de WP-005 únicamente desde la fusión humana
 de su composición. DEC-015 elige una GitHub App externa como productor previo,
 pero no autoriza crearla o ejecutarla. DEC-016 reserva `WP-017` para ese
-productor. WP-017 ya tiene contrato `draft`: DOR-1 y DOR-2 están resueltos y
-esta enmienda resuelve solo DOR-3; DOR-4 a DOR-9 permanecen abiertos y no existe
+productor. WP-017 ya tiene contrato `draft`: DOR-1 a DOR-3 están resueltos y
+esta enmienda resuelve solo DOR-4; DOR-5 a DOR-9 permanecen abiertos y no existe
 autorización de ejecución. WP-016 sigue `draft`, no aprobado, admitido o activo.
 `ACTIVE` permanece en reposo.
 
@@ -437,8 +437,8 @@ El orden futuro vinculante de dependencias es:
 1. `WP-015`, sucesor limpio de WP-002, **completado**: produjo `check_scope`
    local y la biblioteca única; no produjo CI ni bloqueo de fusión;
 2. `WP-017`, reservado por DEC-016 para el productor externo mediante GitHub
-   App conforme a DEC-015, con contrato `draft`, DOR-1 a DOR-3 resueltos y los
-   seis bloqueos DOR-4 a DOR-9 todavía abiertos; permanece pendiente de
+   App conforme a DEC-015, con contrato `draft`, DOR-1 a DOR-4 resueltos y los
+   cinco bloqueos DOR-5 a DOR-9 todavía abiertos; permanece pendiente de
    aprobación, admisión, activación, implementación, instalación y prueba;
 3. `WP-016`, identificador reservado por DEC-014 para el sucesor limpio de
    WP-005, con contrato `draft` bloqueado y sujeto a corrección y autorizaciones
