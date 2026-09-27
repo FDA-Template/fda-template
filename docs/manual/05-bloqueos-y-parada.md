@@ -427,18 +427,29 @@ acreditados, y `ACTIVE` de nuevo en reposo. DEC-014 reserva `WP-016` como
 identificador del sucesor limpio de WP-005 únicamente desde la fusión humana
 de su composición. DEC-015 elige una GitHub App externa como productor previo,
 pero no autoriza crearla o ejecutarla. DEC-016 reserva `WP-017` para ese
-productor. WP-017 ya tiene contrato `draft`: DOR-1 a DOR-3 están resueltos y
-esta enmienda resuelve solo DOR-4; DOR-5 a DOR-9 permanecen abiertos y no existe
+productor. WP-017 ya tiene contrato `draft`: DOR-1 a DOR-4 están resueltos y
+esta enmienda resuelve solo DOR-5; DOR-6 a DOR-9 permanecen abiertos y no existe
 autorización de ejecución. WP-016 sigue `draft`, no aprobado, admitido o activo.
 `ACTIVE` permanece en reposo.
 
+### Superficie implementable de WP-017
+
+DOR-5 queda resuelto directamente en el contrato `draft` de WP-017 porque
+DEC-016 le delega estas elecciones. Esta sección es solo un resumen operativo:
+no forma parte del contrato ni añade obligaciones. La única especificación
+normativa de rutas, stack, recursos, IAM, esquemas, eventos, red y verificación
+está íntegramente en `work-packages/WP-017-productor-externo-alcance.md`, que
+permanece dentro del máximo de 300 líneas. El diseño reserva dos servicios con
+máximo agregado de tres instancias, persiste únicamente los campos ya admitidos
+por DOR-3 y mantiene DOR-6 a DOR-9 abiertos. Nada se crea o ejecuta por esta
+enmienda. Si este resumen difiere del WP, prevalece el WP y se corrige el manual.
 El orden futuro vinculante de dependencias es:
 
 1. `WP-015`, sucesor limpio de WP-002, **completado**: produjo `check_scope`
    local y la biblioteca única; no produjo CI ni bloqueo de fusión;
 2. `WP-017`, reservado por DEC-016 para el productor externo mediante GitHub
-   App conforme a DEC-015, con contrato `draft`, DOR-1 a DOR-4 resueltos y los
-   cinco bloqueos DOR-5 a DOR-9 todavía abiertos; permanece pendiente de
+   App conforme a DEC-015, con contrato `draft`, DOR-1 a DOR-5 resueltos y los
+   cuatro bloqueos DOR-6 a DOR-9 todavía abiertos; permanece pendiente de
    aprobación, admisión, activación, implementación, instalación y prueba;
 3. `WP-016`, identificador reservado por DEC-014 para el sucesor limpio de
    WP-005, con contrato `draft` bloqueado y sujeto a corrección y autorizaciones

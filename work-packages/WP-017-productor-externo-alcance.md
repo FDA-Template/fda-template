@@ -56,10 +56,13 @@ Esta candidata no puede pasar a `ready` mientras permanezca abierto cualquiera:
   La rotación programada máxima es de noventa días y la de emergencia es inmediata. Para la clave se genera otra clave GitHub, se importa y verifica otra versión KMS, se cambia el pin, se prueba con mensaje conocido y se admite solape de las dos claves GitHub durante un máximo de veinticuatro horas; después se elimina la anterior en GitHub, se deshabilita su versión KMS y, tras siete días sin necesidad de rollback, se programa su destrucción conforme al periodo de KMS. Para el webhook se añade otra versión, el receptor acepta exclusivamente las dos versiones numeradas durante un máximo de diez minutos mientras Iván actualiza GitHub, una entrega firmada con la nueva debe validarse, y entonces se deshabilita la anterior; tras siete días se destruye. La clave puede volver al pin anterior solo antes de eliminarla; el webhook nunca revierte solo el pin local: mantiene ambos durante la ventana para realinear GitHub y, si no verifica a tiempo, detiene la recepción y exige otra rotación.
   Ante sospecha de clave se detienen emisión y servicio, se retira el binding de firma y se suspenden humanamente las instalaciones afectadas; si la comprometida es la única clave GitHub, Iván genera primero una sustituta bajo esta custodia, elimina y verifica inmediatamente la ausencia de la afectada en GitHub y deshabilita su versión KMS, sin esperar a importar la nueva. Revoca los tokens conocidos; solo reactiva instalaciones con sustituta importada y verificada, bindings auditados y una vez transcurrida la vida máxima documentada de cualquier token desde la retirada verificada de la última capacidad afectada de emisión, incluida la clave GitHub. Ante sospecha del webhook se detiene la aceptación hasta sustituirlo; ante compromiso de identidad se deshabilita o desvincula y se rota todo secreto que pudiera usar, considerando que `signer` permite firmar aunque no extraer.
   Se habilitan logs de Data Access para acceso al secreto y operaciones criptográficas, además de Admin Activity; alertas y evidencias usan solo identidad, recurso, versión, operación, tiempo, resultado y huella pública. Esta resolución no crea recursos ni resuelve WP017-DOR-5 a DOR-9.
-- **WP017-DOR-5 — superficie implementable.** Fijar archivos permitidos y
-  prohibidos, lenguaje, dependencias, lockfiles, IaC, versiones y comandos
-  headless exactos; cerrar además la matriz de eventos, acciones, eventos
-  suscritos y entregas automáticas. Hasta entonces la lista permanece vacía.
+- **WP017-DOR-5 — resuelto por decisión humana del 2026-09-27.** DEC-016
+  delega estas elecciones al contrato, por lo que no hace falta otra decisión.
+  Las listas hoja, stack, recursos, IAM, esquemas, red, matriz de eventos y
+  comandos quedan cerrados íntegramente en este contrato. La resolución no crea ni
+  ejecuta nada y no elige propietario, instalación o ensayo real, operación,
+  política evaluada ni semántica de SHA compartido: DOR-6 a DOR-9 siguen
+  abiertos.
 - **WP017-DOR-6 — ensayo real.** Elegir App propietaria, repositorio o fixture de
   prueba, instalación limitada, required status check preexistente de ensayo,
   operador, ventana, coste, limpieza y rollback sin tocar el ruleset productivo.
@@ -73,7 +76,7 @@ Esta candidata no puede pasar a `ready` mientras permanezca abierto cualquiera:
   opuestos; `pull_number` o `external_id` no demuestran aislamiento en GitHub.
 
 Cada resolución debe quedar versionada en este contrato mediante acto humano.
-Los cinco bloqueos restantes no se sustituyen por defaults o conjeturas.
+Los cuatro bloqueos restantes no se sustituyen por defaults o conjeturas.
 
 ## Alcance incluido y fuera de alcance
 
@@ -103,134 +106,125 @@ Los cinco bloqueos restantes no se sustituyen por defaults o conjeturas.
 
 ## Archivos permitidos
 
-- ninguno
-Nota: lista vacía deliberada y fail-closed hasta resolver WP017-DOR-5.
+- services/alcance_fda/.dockerignore
+- services/alcance_fda/.python-version
+- services/alcance_fda/Dockerfile
+- services/alcance_fda/OPERATION.md
+- services/alcance_fda/pyproject.toml
+- services/alcance_fda/uv.lock
+- services/alcance_fda/src/alcance_fda/__init__.py
+- services/alcance_fda/src/alcance_fda/app.py
+- services/alcance_fda/src/alcance_fda/config.py
+- services/alcance_fda/src/alcance_fda/evaluator.py
+- services/alcance_fda/src/alcance_fda/gcp.py
+- services/alcance_fda/src/alcance_fda/github.py
+- services/alcance_fda/src/alcance_fda/models.py
+- services/alcance_fda/src/alcance_fda/policy.py
+- services/alcance_fda/src/alcance_fda/storage.py
+- services/alcance_fda/src/alcance_fda/telemetry.py
+- services/alcance_fda/infra/.terraform.lock.hcl
+- services/alcance_fda/infra/iam.tf
+- services/alcance_fda/infra/logging.tf
+- services/alcance_fda/infra/main.tf
+- services/alcance_fda/infra/outputs.tf
+- services/alcance_fda/infra/schemas/event-v1.avsc
+- services/alcance_fda/infra/variables.tf
+- services/alcance_fda/infra/versions.tf
+- tests/alcance_fda/conftest.py
+- tests/alcance_fda/fixtures.json
+- tests/alcance_fda/test_container.py
+- tests/alcance_fda/test_evaluator.py
+- tests/alcance_fda/test_events.py
+- tests/alcance_fda/test_github.py
+- tests/alcance_fda/test_iac.py
+- tests/alcance_fda/test_idempotency.py
+- tests/alcance_fda/test_models.py
+- tests/alcance_fda/test_policy.py
+- tests/alcance_fda/test_reconcile.py
+- tests/alcance_fda/test_security.py
+- tests/alcance_fda/test_shared_sha.py
+- tests/alcance_fda/test_webhook.py
+- tests/alcance_fda/verify.py
+- work-packages/WP-017-productor-externo-alcance.md
+- evidence/WP-017/CIERRE.md
+- evidence/WP-017/artifacts.json
+- evidence/WP-017/ciclos.md
+- evidence/WP-017/commands.log
+- evidence/WP-017/cost.md
+- evidence/WP-017/matrix.json
+
+Lista cerrada: toda ruta no enumerada queda denegada. `OPERATION.md`,
+`policy.py`, `test_policy.py` y `test_shared_sha.py` reservan el destino de las
+resoluciones DOR-7 a DOR-9, pero DOR-5 no autoriza ni inventa su contenido.
 
 ## Archivos prohibidos
 
-- **
-Nota: antes de `ready`, otro acto humano sustituirá ambas listas por rutas
-concretas, disjuntas de WP-016 y de las rutas protegidas excluidas.
+- .github/**
+- .claude/**
+- .agents/**
+- .codex/**
+- AGENTS.md
+- CLAUDE.md
+- CODEOWNERS
+- work-packages/ACTIVE
+- work-packages/WP-016-check-scope-ci.md
+- scripts/check_scope.py
+- scripts/scope_rules.py
+- tests/guard/run-suite.sh
+- specs/**
+- docs/**
+
+Estas prohibiciones son redundantes y explícitas: prevalecen ante cualquier
+solapamiento accidental. Los dos scripts se importan desde la revisión
+confiable, pero WP-017 no los modifica.
 
 ## Contratos técnicos
 
-### 1. Identidad, autenticación y permisos
+**Stack cerrado.** CPython `3.11.16`, Git Debian `1:2.47.3-0+deb13u1` e imagen `ghcr.io/astral-sh/uv:0.12.19-python3.11-trixie-slim@sha256:e8375931acd70cca124f409b4b80316f78dd9c6c55e2563795bed61495952ae4`, OCI `linux/amd64`. Producción fija Flask `3.1.3`, Gunicorn `26.2.0`, HTTPX `0.28.1`, Pydantic `2.13.5`, google-cloud-firestore `2.32.0`, google-cloud-kms `3.17.0`, google-cloud-pubsub `2.41.0` y google-cloud-secret-manager `2.30.0`; desarrollo fija pytest `9.1.1`, pytest-cov `7.1.0`, Ruff `0.16.9`, mypy `2.3.1`, pip-audit `2.10.1`, respx `0.23.1`, pytest-socket `0.8.1`, Bandit `1.9.4` y python-hcl2 `8.1.4`. `pyproject.toml` usa igualdad exacta; `uv.lock` se versiona. IaC fija Terraform `1.16.4`, proveedor `hashicorp/google` `8.4.0` y lockfile con checksums firmados; verificación fija uv `0.12.19`, Gitleaks `8.30.0` con canarios, Docker Engine `29.7.2` y Buildx `0.37.1`; toda deriva detiene.
 
-- GitHub App cuya propiedad y visibilidad fija WP017-DOR-6, instalada solo en
-  los repositorios expresamente aprobados.
-- Autenticación como App mediante JWT solo para generar tokens de instalación y
-  administrar recursos propios de la App, incluida la recuperación de webhooks.
-- API de repositorio mediante installation access token efímero; nunca PAT,
-  contraseña ni user access token.
-- Permisos exactos: `Checks: read and write`, `Commit statuses: read and write`,
-  `Contents: read`, `Pull requests: read` y `Metadata: read` implícito.
-- Eventos de evaluación: `check_suite` `requested`/`rerequested`; `pull_request` para
-  apertura, reapertura, sincronización, edición, draft/ready y cambio de base;
-  y `push` de `main`. `installation` e `installation_repositories`, entregados
-  automáticamente, se tratan como control de acceso y disparan reconciliación.
-- No se amplían permisos o eventos sin corregir y volver a aprobar el contrato.
+**Artefacto e IaC.** Artifact Registry: repositorio Docker `alcance-fda`, imagen `producer`, tags inmutables y despliegue exclusivo de `europe-west1-docker.pkg.dev/PROJECT_ID/alcance-fda/producer@sha256:DIGEST`; la imagen etiqueta revisión fuente, `evaluator_revision` y SHA-256 de los dos scripts confiables. No se autoriza backend ni bucket: solo `init -backend=false` y `validate`; `plan`, `apply` y estado real siguen bloqueados hasta DOR-7.
 
-`Commit statuses: write` existe únicamente para que GitHub permita seleccionar
-la App como fuente esperada. El productor emite un check run, no un status.
+**Recursos exactos.** En `europe-west1`: Cloud Run `alcance-fda-ingress` —ingress `all`, 1 CPU, 512 MiB, concurrencia 20, timeout 10 s, min 0, máximo de servicio 1— y `alcance-fda-worker` —ingress `internal`, 1 CPU, 1 GiB, concurrencia 1, timeout 600 s, min 0, máximo de servicio 2—; todo rollout conserva máximo agregado 3. Pub/Sub: schema Avro/JSON `alcance-fda-envelope-v1`, topic `alcance-fda-events`, push subscription `alcance-fda-worker-push`, no confirmados 3 días, sin retención de topic ni snapshots, ack 600 s. Firestore Standard regional: database_id `alcance-fda`, no `(default)`, PITR ni backups. Scheduler: `alcance-fda-reconcile`, `*/5 * * * *`, UTC, POST OIDC a `/reconcile`. Logging: bucket regional `alcance-fda-app` 14 días, sink `alcance-fda-app`, exclusión `alcance-fda-app-default` de aplicación en `_Default`. KMS: ring `alcance-fda`, key `github-app-signing`; secreto regional `github-webhook-secret`. Se reservan, sin crear, `alcance-fda-monthly-budget`, `alcance-fda-queue-age`, `alcance-fda-errors` y `alcance-fda-cost-stop`; no hay VPC, NAT, SQL, Storage, Functions, GKE ni otros recursos.
 
-### 2. Entrada de webhooks y cola
+**IAM exacto de runtime.** SAs `alcance-fda-ingress`, `alcance-fda-worker`, `alcance-fda-push` y `alcance-fda-scheduler` bajo `PROJECT_ID.iam.gserviceaccount.com`, sin keys. `allUsers` obtiene `roles/run.invoker` solo en ingress; push y scheduler, solo en worker. Ingress obtiene `roles/secretmanager.secretAccessor` solo en el secreto regional —configuración fija versión numérica— y `roles/pubsub.publisher` solo en el topic. Worker obtiene `roles/cloudkms.signer` solo en la key, `roles/datastore.user` condicionado a `resource.name == "projects/PROJECT_ID/databases/alcance-fda"` y publisher solo en el topic; nunca el secreto. `service-PROJECT_NUMBER@gcp-sa-pubsub.iam.gserviceaccount.com` obtiene `roles/iam.serviceAccountTokenCreator` solo sobre la SA push; se conservan sin ampliar roles administrados Pub/Sub/Scheduler. Sin roles básicos, humanos ni de build/deploy; DOR-7 fija operador dentro de DOR-4.
 
-- Se valida el cuerpo bruto con `X-Hub-Signature-256`, HMAC-SHA-256 y comparación
-  de tiempo constante antes de parsear o encolar; ausencia o fallo se rechazan.
-- Se validan tipo, acción, repositorio, instalación y esquema contra allowlists.
-- `X-GitHub-Delivery` es clave de deduplicación; una redelivery conserva el GUID.
-- El receptor persiste duraderamente la entrega aceptada y responde `2xx` en
-  menos de diez segundos; la evaluación ocurre fuera de la petición.
-- Payloads rechazados no llegan a la cola y no se registran íntegros.
+**Pub/Sub cerrado.** Cada sobre exige `delivery_guid:string`, `event` enum `check_suite|pull_request|push|installation|installation_repositories`, `received_at:timestamp-millis`, `installation_id:long`, `evaluator_revision:string`; solo admite nullable `action:string`, `repository_id:long`, `pull_number:long`, `head_sha:string`, `base_sha:string`, `before_sha:string`, `after_sha:string`, `head_ref:string`, `base_ref:string`, `check_suite_id:long`, `check_run_id:long`, `redelivery:boolean`. Schema Pub/Sub y Pydantic rechazan extras.
 
-### 3. Trabajo idempotente y fuente confiable
+**Firestore cerrado.** `deliveries/{delivery_key}` contiene exclusivamente `delivery_guid,event,installation_id,evaluator_revision,action,repository_id,pull_number,head_sha,base_sha,before_sha,after_sha,head_ref,base_ref,check_suite_id,check_run_id,redelivery,status,reason_code,attempt_count,created_at,updated_at,lease_until,expires_at`: no persiste `received_at`; `delivery_key` es GUID, `GUID:repository_id` o `GUID:all`. `evaluations/{sha256(identity)}` contiene exclusivamente `installation_id,repository_id,pull_number,head_sha,base_sha,evaluator_revision,status,conclusion,reason_code,attempt_count,check_suite_id,check_run_id,created_at,updated_at,lease_until,expires_at`. `access/{installation_id}--{repository_id}` contiene exclusivamente ambos IDs, `status,created_at,updated_at,expires_at`. IDs/contadores son integer, fechas timestamp y el resto string salvo redelivery boolean; `status=queued|leased|evaluating|reported|stale|disabled|error`, `conclusion=success|failure`, `reason_code=duplicate|unsupported|invalid_schema|installation_disabled|stale|rate_limited|github_unavailable|evaluator_error|policy_failure|timeout`; extra falla cerrado y `expires_at` cumple DOR-3.
 
-La identidad de una evaluación es:
+**Entrada y matriz.** Primero HMAC de bytes brutos, `X-GitHub-Event`, `X-GitHub-Delivery` y, salvo `ping`, `installation.id`; firma mala/ausente: 401 sin cola; schema admitido inválido: 400; tipo/acción no admitido: 204 sin persistencia; válido: 202 solo tras cola durable y antes de 10 s. Seleccionados únicamente `pull_request` y `push`; automáticos por GitHub: `check_suite`, `check_run`, `installation`, `installation_repositories` y `ping`.
 
-```text
-repository_id + pull_number + head_sha + base_sha + evaluator_revision
-```
+| Evento | Acciones admitidas | Obligatorios además de los comunes | Efecto |
+|---|---|---|---|
+| `check_suite` | `requested,rerequested` | `action,repository_id,check_suite_id,head_sha`; PR solo si viene | evaluar/reconciliar |
+| `check_suite` | `completed` | ninguno persistido | 204 |
+| `check_run` | `created,completed,rerequested,requested_action` | ninguno persistido | 204 anti-bucle |
+| `pull_request` | `opened,reopened,synchronize,edited,converted_to_draft,ready_for_review,closed` | `action,repository_id,pull_number,head_sha,base_sha,head_ref,base_ref` | evaluar/invalidar/cerrar evaluación |
+| `push` | sin acción; solo `refs/heads/main` | `repository_id,before_sha,after_sha` | reconciliar PR abiertas |
+| `installation` | `created,deleted,suspend,unsuspend,new_permissions_accepted` | `action`; repo ausente | reconciliar/deshabilitar instalación |
+| `installation_repositories` | `added,removed`, array no vacío | `action` y sobre por `repository_id` | reconciliar/borrar acceso |
+| `installation_repositories` | `added,removed`, array vacío | `action`; repo ausente, key `GUID:all` | reconciliar instalación completa sin inventar ID |
+| `ping` | ninguna | nada persistido | validar firma y 204 |
 
-- un duplicado no crea doble efecto;
-- reintentos usan backoff y respetan `Retry-After` y `x-ratelimit-*`;
-- antes de publicar la conclusión se reobtienen PR, `HEAD`, base y revisión;
-- un trabajo obsoleto no sobrescribe ni concluye el check del estado vigente;
-- árbol, blobs, commits, diffs y mensajes de la PR son datos no confiables;
-- solo se ejecutan servicio, política y `scripts/check_scope.py` /
-  `scripts/scope_rules.py` de la revisión inmutable aprobada;
-- no se hace checkout ejecutable ni se importan módulos desde la PR juzgada.
+Permisos exactos: `Checks: read/write`, `Commit statuses: read/write`, `Contents: read`, `Pull requests: read`, `Metadata: read` implícito; no `installation_target`. Statuses write solo permite seleccionar productor; no se publica status. REST fija `X-GitHub-Api-Version: 2026-03-10`; campo ausente se resuelve por API o falla, nunca se inventa. Redelivery conserva GUID; GitHub no reentrega fallos solo, por lo que el reconciliador inventariaría las entregas fallidas y solicitaría redelivery cuando DOR-6 lo autorice.
 
-### 4. Política y check run
+**Red exacta.** Entrada: ingress `POST /webhook`; worker interno `POST /pubsub` OIDC y `POST /reconcile` OIDC; ambos tokens fijan `audience` a la URI base exacta del worker devuelta por Cloud Run, sin ruta ni parámetros, y IaC verifica esa igualdad. Runtime saliente: `api.github.com:443` HTTPS `GET|POST|PATCH`; `github.com:443` Git smart HTTP `GET|POST` a bare efímero, token solo en `http.extraHeader` por entorno; `pubsub.europe-west1.rep.googleapis.com:443` RPC `Publish`; `firestore.europe-west1.rep.googleapis.com:443` RPC `BatchGetDocuments|RunQuery|Commit`; `secretmanager.europe-west1.rep.googleapis.com:443` RPC `AccessSecretVersion`; `europe-west1-cloudkms.googleapis.com:443` RPC `AsymmetricSign`; `metadata.google.internal:80` GET para ADC/OIDC. Build únicamente: `ghcr.io:443` HEAD/GET; `pypi.org|files.pythonhosted.org|deb.debian.org|registry.terraform.io|releases.hashicorp.com:443` GET; `europe-west1-docker.pkg.dev:443` HEAD/GET/POST/PUT, carga monolítica. Pub/Sub usa endpoint regional con `enforceInTransit=true`; tests niegan red salvo loopback. Otro host, puerto, método o RPC falla cerrado.
 
-- WP017-DOR-8 versiona la política completa en rutas propias de WP-017; el
-  contrato actual de WP-016 no es dependencia ejecutable ni fuente aprobada.
-- El nombre es exactamente `Alcance FDA` y el `head_sha` coincide con la PR.
-- `wp/*` extrae el WP-ID con la gramática que el contrato revisado fije y delega
-  el alcance exclusivamente en el verificador WP-015 confiable.
-- `ops/*` aplica la autorización firmada, digest y semántica `B0`/`B1`/`P` de
-  DEC-015; el prefijo de rama no autentica a nadie.
-- Rama inválida, contrato ausente o ambiguo, bytes no verificables, política
-  incumplida o error evaluable terminan en `failure`.
-- Solo una evaluación completa del estado vigente termina en `success`.
-- Caída de infraestructura deja ausencia, cola o ejecución no exitosa y alerta;
-  nunca inventa `success` ni `failure` como si hubiera evaluado.
-- No se usan `neutral`, `skipped` o `success` parcial como verde contractual.
-- GitHub asocia checks externamente al repositorio y SHA, no a la PR: mientras
-  WP017-DOR-9 no cierre el caso de SHA compartido, no existe verde admisible.
-
-### 5. Reconciliación y recuperación
-
-- Cada cinco minutos como máximo se enumeran PRs abiertas y se garantiza una
-  evaluación para la identidad vigente.
-- Un `push` a `main` reevalúa las PRs abiertas afectadas por la base.
-- Se inventariarán y reentregarán programáticamente webhooks fallidos de la App
-  mediante endpoints autenticados con JWT; GitHub no los reentrega solo.
-- Una entrega perdida se recupera en diez minutos como máximo cuando GitHub y
-  el servicio están disponibles.
-- Reinicio, duplicado, desorden y concurrencia preservan idempotencia y evitan
-  conclusiones obsoletas.
-
-### 6. Datos, secretos y artefactos
-
-- La resolución de WP017-DOR-3 aplica minimización y tiempos de borrado
-  verificables a payload, cola, objetos Git, logs, métricas, backups y alertas.
-- Ningún secreto, token, PEM, cuerpo sensible, URL firmada o variable de entorno
-  aparece en repositorio, salida, evidencia, commit o PR.
-- La clave privada reside en key vault con uso solo para firma; ningún agente
-  accede a ella ni al secreto del webhook.
-- Tokens de instalación se limitan al repositorio y permisos necesarios, se
-  cachean solo durante su vigencia y no se persisten en claro.
-- Artefacto, configuración no secreta y revisión del evaluador quedan fijados
-  por identificadores y SHA-256 reproducibles.
+**Invariantes.** JWT App solo para tokens de instalación y redelivery; token efímero y limitado; check run exacto `Alcance FDA`; identidad `repository_id+pull_number+head_sha+base_sha+evaluator_revision`; repositorio Git bare sin checkout; solo se ejecutan servicio, política y scripts de revisión confiable; cola antes de 202; dedupe/reintento/obsolescencia y reconciliación cada cinco minutos; ningún byte de PR se ejecuta o importa. DOR-8 y DOR-9 impiden todo verde admisible hasta resolverse.
 
 ## Entorno autorizado
 
-- Herramientas: PENDIENTE (WP017-DOR-5)
-- Comandos: PENDIENTE (WP017-DOR-5)
-- Red: NINGUNA mientras el contrato sea `draft`; antes de `ready` se enumerarán
-  hosts, métodos y finalidad exactos, limitados a GitHub y proveedor aprobado.
-- Secretos: NINGUNO para agentes. Los actos humanos usarán solo el key vault
-  aprobado y nunca expondrán valores a comandos, logs o evidencias del agente.
-- Infraestructura, cuentas y gasto: no autorizados por este contrato `draft`.
+Secretos: ninguno para agentes; actos humanos usan exclusivamente DOR-4. Infraestructura, cuenta, facturación, estado Terraform, build, push y despliegue no quedan autorizados por este contrato `draft`. Las únicas herramientas, versiones y comunicaciones futuras permitidas son las anteriores.
 
 ## Verificación
 
-No hay comandos de implementación ejecutables mientras la DoR esté abierta.
-Antes de `ready`, WP017-DOR-5 y DOR-6 deberán sustituir este párrafo por comandos
-headless exactos que cubran, al menos:
+Contrato de comandos futuro, no autorización actual; una sola cadena headless conserva todo fallo:
 
-1. lint, tipos, tests, SAST cuando aplique, dependencias, verificación de
-   lockfiles y escaneo de secretos; toda no aplicabilidad queda justificada;
-2. firma válida/ausente/incorrecta y comparación constante;
-3. eventos y acciones permitidos/rechazados;
-4. idempotencia, duplicado, desorden, reintento y obsolescencia;
-5. rojo y verde para `wp/*` y `ops/*`, incluido SHA compartido con resultados
-   opuestos, sin ejecutar bytes de PR;
-6. `[skip ci]` con check de la App presente;
-7. avance de `main` en los dos casos de DEC-015;
-8. caída, reinicio, reconciliación y recuperación dentro del límite;
-9. permisos exactos, token efímero, rate limit y redacción de logs;
-10. rollback y desinstalación en seco, más ensayo real autorizado.
+```bash
+uv lock --project services/alcance_fda --check && uv sync --project services/alcance_fda --frozen --all-groups --no-python-downloads && uv run --project services/alcance_fda --frozen ruff check services/alcance_fda tests/alcance_fda && uv run --project services/alcance_fda --frozen mypy services/alcance_fda tests/alcance_fda && uv run --project services/alcance_fda --frozen bandit -q -r services/alcance_fda/src && uv run --project services/alcance_fda --frozen pip-audit && uv run --project services/alcance_fda --frozen pytest -q --disable-socket --cov=alcance_fda --cov-fail-under=100 tests/alcance_fda && terraform -chdir=services/alcance_fda/infra fmt -check -recursive && env TF_DATA_DIR=/tmp/wp017-terraform-data terraform -chdir=services/alcance_fda/infra init -backend=false -input=false -lockfile=readonly && env TF_DATA_DIR=/tmp/wp017-terraform-data terraform -chdir=services/alcance_fda/infra validate && gitleaks dir --no-banner --redact --exit-code 1 services/alcance_fda && gitleaks dir --no-banner --redact --exit-code 1 tests/alcance_fda && uv run --project services/alcance_fda --frozen python tests/alcance_fda/verify.py
+```
+
+`verify.py` rechaza TTY/prompts/derivas; valida canario positivo y control limpio Gitleaks, esquemas, IAM, red, recursos, matriz positiva/negativa, HMAC, dedupe, fan-out incluido array vacío, desorden, obsolescencia, rate limit, reconciliación, redacción, código confiable, `terraform apply` ausente, imagen desde digest y autoensayo `--network none`. Los oráculos DOR-6/8/9 fallan cerrado hasta existir.
 
 ## Criterios de aceptación
 
@@ -298,3 +292,4 @@ payloads o configuraciones no verificadas.
 - GitHub Docs, <https://docs.github.com/en/apps/creating-github-apps/writing-code-for-a-github-app/building-ci-checks-with-a-github-app>, <https://docs.github.com/en/rest/checks/runs>, <https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets>, <https://docs.github.com/en/webhooks/webhook-events-and-payloads>, <https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries>, <https://docs.github.com/en/webhooks/using-webhooks/best-practices-for-using-webhooks>, <https://docs.github.com/en/webhooks/using-webhooks/handling-failed-webhook-deliveries>, <https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/viewing-webhook-deliveries>, <https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/redelivering-webhooks>, <https://docs.github.com/en/rest/apps/webhooks>, <https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/authenticating-as-a-github-app-installation>, <https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/best-practices-for-creating-a-github-app>, <https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/managing-private-keys-for-github-apps>, <https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-json-web-token-jwt-for-a-github-app>, <https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/choosing-permissions-for-a-github-app>, <https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/rate-limits-for-github-apps>, <https://docs.github.com/en/rest/git>, <https://docs.github.com/en/rest/git/commits>, <https://docs.github.com/en/rest/git/trees> y <https://docs.github.com/en/rest/git/blobs>.
 - Google Cloud Docs, <https://cloud.google.com/run/docs/locations>, <https://cloud.google.com/run/pricing>, <https://cloud.google.com/run/docs/configuring/max-instances>, <https://cloud.google.com/run/docs/deploying>, <https://cloud.google.com/run/docs/managing/revisions>, <https://cloud.google.com/run/docs/container-contract>, <https://cloud.google.com/artifact-registry/docs/docker/names>, <https://cloud.google.com/artifact-registry/docs/container-concepts>, <https://cloud.google.com/pubsub/pricing>, <https://cloud.google.com/pubsub/docs/resource-location-restriction>, <https://cloud.google.com/pubsub/docs/subscription-message-retention>, <https://cloud.google.com/pubsub/docs/subscription-properties>, <https://cloud.google.com/firestore/pricing>, <https://cloud.google.com/firestore/docs/locations>, <https://cloud.google.com/firestore/native/docs/ttl>, <https://cloud.google.com/firestore/docs/backups>, <https://cloud.google.com/firestore/native/docs/use-pitr>, <https://cloud.google.com/scheduler/pricing>, <https://cloud.google.com/logging/docs/region-support>, <https://cloud.google.com/logging/docs/buckets>, <https://cloud.google.com/logging/docs/store-log-entries>, <https://cloud.google.com/logging/docs/audit>, <https://cloud.google.com/monitoring/quotas>, <https://cloud.google.com/docs/security/encryption/default-encryption>, <https://cloud.google.com/security/encryption>, <https://cloud.google.com/docs/security/deletion>, <https://cloud.google.com/run/docs/securing/security> y <https://cloud.google.com/kms/pricing>.
 - Google Cloud Docs, <https://cloud.google.com/kms/docs/key-import>, <https://cloud.google.com/kms/docs/importing-a-key>, <https://cloud.google.com/kms/docs/create-validate-signatures>, <https://cloud.google.com/kms/docs/reference/permissions-and-roles>, <https://cloud.google.com/kms/docs/destroy-restore>, <https://cloud.google.com/kms/docs/key-states>, <https://cloud.google.com/kms/docs/audit-logging>, <https://cloud.google.com/secret-manager/docs/locations>, <https://cloud.google.com/secret-manager/regional-secrets/best-practices-rs>, <https://cloud.google.com/secret-manager/regional-secrets/manage-access-regional-secrets>, <https://cloud.google.com/secret-manager/docs/access-control>, <https://cloud.google.com/secret-manager/docs/rotation-recommendations> y <https://cloud.google.com/secret-manager/docs/audit-logging>.
+- Fuentes de DOR-5: GitHub Docs, <https://docs.github.com/en/rest/about-the-rest-api/api-versions>; Google Cloud Docs, <https://docs.cloud.google.com/pubsub/docs/authenticate-push-subscriptions>, <https://docs.cloud.google.com/pubsub/docs/reference/service_apis_overview>, <https://docs.cloud.google.com/run/docs/securing/ingress>, <https://cloud.google.com/firestore/docs/manage-databases>, <https://docs.cloud.google.com/firestore/native/docs/regional-endpoints>, <https://docs.cloud.google.com/secret-manager/regional-secrets/config-sm-rs> y <https://docs.cloud.google.com/kms/docs/reference/service-apis-overview>; Python.org, <https://www.python.org/downloads/release/python-31116/>; Astral, <https://docs.astral.sh/uv/concepts/projects/sync/> y <https://github.com/astral-sh/uv/pkgs/container/uv>; HashiCorp, <https://releases.hashicorp.com/terraform/>, <https://releases.hashicorp.com/terraform-provider-google/> y <https://developer.hashicorp.com/terraform/cli/commands/init>; proyectos oficiales, <https://github.com/gitleaks/gitleaks/releases/tag/v8.30.0>, <https://docs.docker.com/engine/release-notes/29/> y las páginas de versión fijadas en <https://pypi.org/>.
