@@ -1,6 +1,6 @@
 # WP-015 — Verificador local de alcance y biblioteca única
 
-estado: ready
+estado: done
 prioridad: P0
 riesgo: T3
 agente_responsable: Claude Code (implementer)

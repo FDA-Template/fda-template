@@ -186,8 +186,10 @@ La migración de DEC-002 sigue **pausada tras PR-2**. DEC-007 registra el
 terminarla. DEC-008 registra el 2026-09-13 los cierres bloqueados de WP-009 y
 WP-013. WP-014 se completó después: PR #40 fusionada, contrato `done` y
 `ACTIVE` de nuevo en reposo. Con ello queda satisfecha solo la segunda condición
-de salida de DEC-003 §6. WP-007 sigue `ready`, WP-002 `blocked`, WP-005 `draft`
-y WP-008 suspendido hasta una transición humana separada. D3 hace normativa
+de salida de DEC-003 §6. WP-015 se completó después: PR #53 fusionada, contrato
+`done`, ejecutable local acreditado y `ACTIVE` de nuevo en reposo. El job de CI,
+el check requerido, la convergencia del guard, el runtime y E2 siguen pendientes.
+WP-007 sigue `ready`, WP-002 `blocked`, WP-005 `draft` y WP-008 `blocked`. D3 hace normativa
 `docs/03`; `docs/04` y `docs/05` quedan como procedencia y fotos fijas. La lista
 cerrada y las transiciones siguen en DEC-003.
 
@@ -402,7 +404,7 @@ Los trece archivos sin versionar del undécimo ciclo de WP-008 —cuatro princip
 
 **Distribución temporal vinculante.** Antes de activar WP-005 solo se exige que la política esté definida en un contrato aprobado y verificable. La implementación y las pruebas roja/verde ocurren durante WP-005; hasta que pasen, no se toca el ruleset ni se cierra el WP. En el punto 3, «elección probada» se interpreta conforme a esta secuencia.
 
-**Los tres estados de `check_scope`, que no deben fundirse.** *(1)* **ejecutable local** creado por WP-002, que invocan a mano el operador y los revisores y **no bloquea ninguna fusión**; *(2)* **job ejecutándose en CI** por WP-005, **todavía no requerido**, que puede ponerse rojo pero **no impide fusionar**; *(3)* **check incorporado a `required_status_checks`** por una persona, único estado que **bloquea la fusión**. «Bloqueante para la fusión» se reserva **en exclusiva** al estado 3. **Hoy no existe ninguno de los tres.**
+**Los tres estados de `check_scope`, que no deben fundirse.** *(1)* **ejecutable local** y biblioteca única, ya entregados por WP-015, que invocan a mano el operador y los revisores y **no bloquean ninguna fusión**; *(2)* **job ejecutándose en CI**, todavía pendiente y no requerido, que podría ponerse rojo pero **no impediría fusionar**; *(3)* **check incorporado a `required_status_checks`** por una persona, único estado que **bloquea la fusión**. «Bloqueante para la fusión» se reserva **en exclusiva** al estado 3. Hoy existe solo el primero.
 
 **Fuera de la columna `ACTIVE`, porque no son WPs.** El humo seguro **no** es un estado de `ACTIVE`: es **alcance de WP-008**. El parche del guard delgado es un **acto de operador** sobre ruta vedada. El **cierre de la pausa** es una **PR de operador con `ACTIVE` en reposo**. Y el experimento **E2** del sandbox y su eventual **WP T3** de adopción **no tienen identificador reservado**: mientras se resuelven, `ACTIVE` sigue en reposo, y **no pueden ejecutarse** hasta que una decisión o enmienda posterior fije su `WP-NNN`, apruebe el contrato y lo admita en la lista cerrada de DEC-003 §4.
 
@@ -417,17 +419,17 @@ análisis, no como autorización ejecutable. **Un WP activo cada vez.** Mientras
 ## Recuperación vigente tras DEC-011
 
 DEC-011 supera la parada de **deliberación**: el rumbo ya está elegido. No
-supera la parada **técnica** ni cierra la pausa. El contrato replanteado de
-`WP-015` ya existe, está `ready` y queda admitido en la lista cerrada de
-DEC-003. `ACTIVE` permanece en reposo: todavía no hay activación ni
-implementación autorizada.
+supera la parada **técnica** ni cierra la pausa. WP-015 ya completó el primer
+hito: PR #53 fusionada, contrato `done`, ejecutable local y biblioteca única
+acreditados, y `ACTIVE` de nuevo en reposo. No existe autorización para el paso
+siguiente.
 
 El orden futuro vinculante de dependencias es:
 
-1. `WP-015`, sucesor limpio de WP-002, ya tiene contrato `ready` y está
-   admitido para ejecución posterior; falta un acto humano separado que lo
-   active antes de producir `check_scope` local y la biblioteca;
-2. sucesor limpio de WP-005, autorizado por separado, para integrar el mismo
+1. `WP-015`, sucesor limpio de WP-002, **completado**: produjo `check_scope`
+   local y la biblioteca única; no produjo CI ni bloqueo de fusión;
+2. sucesor limpio de WP-005, todavía inexistente y sujeto a autorizaciones
+   separadas, para integrar el mismo
    verificador en CI; después, mutación humana del ruleset que lo haga requerido;
 3. convergencia humana del guard sobre la misma biblioteca y cierre de WP-007
    por superación mediante PR de operador, con `ACTIVE` siempre en reposo y
@@ -438,15 +440,13 @@ El orden futuro vinculante de dependencias es:
    T3 separada solo si el resultado es positivo;
 6. PR humana de cierre de la pausa cuando se cumpla el criterio adaptado.
 
-La lista fija dependencias. Esta composición autoriza únicamente la admisión de
-`WP-015`; **no autoriza ejecutar ningún paso**. Cada WP exige contrato,
-presupuesto, autorización, rama, PR y ciclos propios. La excepción temporal a
-la igualdad de DEC-002 §8 comienza solo cuando una autorización posterior
-active WP-015; cubre su implementación, verificación y fusión, y termina con la
-convergencia del guard. Aprobación y admisión, sin activación, no inician esa
-ventana.
+La lista fija dependencias. El cierre de WP-015 **no autoriza ejecutar ningún
+paso siguiente**. Cada WP exige contrato, presupuesto, autorización, rama, PR
+y ciclos propios. La excepción temporal a la igualdad de DEC-002 §8 comenzó
+con la activación de WP-015 y continúa hasta la convergencia posterior del
+guard; cerrar WP-015 no la termina ni autoriza esa convergencia.
 
-### Gramática resuelta; WP-015 aprobado y admitido, activación pendiente
+### Gramática resuelta y WP-015 cerrado `done`
 
 La primera candidata externa de WP-015 agotó dos correcciones con una
 contradicción normativa abierta: la plantilla decía a la vez que eliminaba
@@ -462,9 +462,26 @@ resuelve la contradicción fuera del WP:
 
 La decisión no corrigió ni aprobó la candidata agotada, que se preserva con su
 `NO APTO`. La PR #48 materializó el contrato replanteado y la PR #49 lo aprobó
-como `ready`. Esta composición lo admite en DEC-003 sin modificar el contrato.
-`ACTIVE` permanece en reposo: admisión no es activación y el WP no puede
-implementarse hasta un acto humano posterior y separado.
+como `ready`; la PR #50 lo admitió y la PR #51 lo activó. La PR #53 fusionó la
+implementación local revisada y el cierre posterior deja el contrato `done` y
+`ACTIVE` en reposo. La evidencia reconstruible está en
+`evidence/WP-015/CIERRE.md`.
+
+### Cierre de WP-015 el 2026-09-27
+
+La PR #53 fusionó la cabeza `eccae059c31daa569254f7096a30ca0bd094171a`
+mediante `99e5f82e08a22ac11dd20c08a778e5389a26b337`; `Gobierno FDA`,
+`Lint · Shell · Tests · Manual` y `Escaneo de secretos` terminaron en
+`SUCCESS`. La revalidación enfocada de C3 emitió `APTO`, cerró `WP015-F2` y no
+dejó hallazgos pendientes. El contador final es `3 / 3`, no existe C4 y el
+coste queda `estimado` en 22,97 EUR, dentro de 40 EUR y del techo excepcional
+de 28,29 EUR.
+
+El contrato queda `done` y `ACTIVE` vuelve a reposo en el mismo diff de
+operador. Este cierre acredita únicamente el ejecutable local determinista y la
+biblioteca única. No acredita job de CI, check requerido, bloqueo de fusión,
+convergencia del guard, runtime, humo, E2, cierre de la pausa ni instalación en
+producto. Tampoco crea, aprueba, admite o activa el sucesor de WP-005.
 
 El humo no se retira, pero su oráculo anterior queda retirado. Antes de aprobar
 el sucesor de WP-008 debe existir una señal positiva y atribuible basada en
@@ -503,7 +520,7 @@ historia y no se ejecuta su runner por analogía.
 **Un E2 negativo no es una garantía.** Si E2 no supera su gate, la condición se cumple con sus dos primeras partes, pero **no se materializa ninguna garantía del sistema operativo**: la arquitectura objetivo sigue **incompleta**, la garantía del kernel **solo existe tras la adopción efectiva** del sandbox, y **cerrar la pausa tras un E2 negativo no autoriza a describir la capa 2 como conseguida**.
 
 
-**Ninguna de las tres partes demuestra la semántica general del runtime, y el criterio no lo afirma.** El humo seguro acredita un caso concreto; `check_scope` acreditará que ninguna escritura fuera de alcance sobrevive al diff cuando exista; y la tercera parte acredita que el gate del sandbox se resolvió. La garantía de kernel solo aparecería tras instalar, superar el gate y adoptar efectivamente el sandbox.
+**Ninguna de las tres partes demuestra la semántica general del runtime, y el criterio no lo afirma.** El humo seguro acreditará un caso concreto; `check_scope` local ya puede juzgar un diff cuando se invoca manualmente, pero la garantía de que una PR fusionable no conserva escrituras fuera de alcance solo existirá tras integrarlo en CI y hacerlo requerido; y la tercera parte acredita que el gate del sandbox se resolvió. La garantía de kernel solo aparecería tras instalar, superar el gate y adoptar efectivamente el sandbox.
 
 El **WP de mantenimiento de alcance mínimo** descrito más arriba sigue siendo el protocolo general y legítimo para reparar el gobierno cuando el fail-closed lo bloquea. **Para esta pausa concreta, el operador ha decidido no emplear esa vía** y ha elegido **preparación en solo lectura más materialización humana**: los contratos de los WPs admitidos se redactan sin escribir en el repositorio, y los materializa y activa el operador.
 

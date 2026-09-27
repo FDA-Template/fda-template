@@ -1,6 +1,6 @@
 # Hoja de ruta — de la FDA al AI Agent Operating System
 
-**Creada:** 2026-08-30 · **Última revisión: 2026-09-22** (admisión de WP-015 — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011 y DEC-012 y actualizada por la admisión de WP-015; D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
+**Creada:** 2026-08-30 · **Última revisión: 2026-09-27** (cierre de WP-015 — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011, DEC-012 y DEC-013 y actualizada por el cierre de WP-015; D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
 
 **Procedencia.** v1 (30-08): las cinco conversaciones del operador con otras IAs — síntesis en [`04-analisis-conversaciones-ia.md`](04-analisis-conversaciones-ia.md)—, el repositorio completo, el estado de los demás repos y fuentes externas. v2 (01-09): además, los **cuatro documentos de investigación de Leandro** y una **línea base de investigación independiente registrada antes de leerlos** — análisis completo, veredictos y red team en [`05-analisis-investigacion-leandro-y-revalidacion.md`](05-analisis-investigacion-leandro-y-revalidacion.md). Lo redactaron y materializaron sesiones de Claude Code por encargo directo del operador, como actos de operador (§9).
 
@@ -20,6 +20,7 @@
 | 2026-09-21 | Recuperación híbrida elegida: sucesor limpio de `check_scope` primero, luego CI requerido, convergencia/WP-007, runtime con humo atribuible y E2. `WP-015` queda reservado, no creado ni activo; `ACTIVE` sigue en reposo | `DEC-011` |
 | 2026-09-21 | Gramática de alcance inequívoca: la línea ejecutable completa es el patrón, sin comentarios o anotaciones inline; `docs/(draft).md` es literal. La candidata agotada de WP-015 se preserva y deberá replantearse por autorización separada | `DEC-012` |
 | 2026-09-22 | WP-015 materializado por PR #48 y aprobado contractualmente por PR #49; contrato `ready` admitido en la lista cerrada de DEC-003, con `ACTIVE` en reposo y activación aún pendiente | `DEC-003` §4 |
+| 2026-09-27 | WP-015 fusionado por PR #53 y cerrado `done` tras C3 excepcional; ejecutable local y biblioteca única acreditados, coste estimado 22,97/40 EUR, `ACTIVE` vuelve a reposo. No acredita CI, check requerido, guard convergente, runtime, E2 ni cierre de la pausa | `DEC-003` §4 · `evidence/WP-015/CIERRE.md` |
 
 ---
 
@@ -116,10 +117,20 @@ contrato. `ACTIVE` permanece en reposo: la admisión no es activación y no
 autoriza implementación. El siguiente acto posible es una autorización humana
 separada para activar exclusivamente `WP-015`.
 
+**Actualización operativa posterior — cierre de WP-015.** La activación se
+fusionó por PR #51 y la implementación local por PR #53, cabeza revisada
+`eccae059c31daa569254f7096a30ca0bd094171a`, mediante el commit de `main`
+`99e5f82e08a22ac11dd20c08a778e5389a26b337`. Los tres checks terminaron en
+`SUCCESS`. WP-015 queda `done` tras C3 excepcional (`3 / 3`, sin C4), sin
+hallazgos pendientes y con coste estimado de 22,97 EUR. `ACTIVE` vuelve a
+reposo. Esto acredita solo el ejecutable local y la biblioteca única: CI,
+ruleset, convergencia del guard, runtime, E2 y cierre de la pausa siguen
+pendientes y requieren autorizaciones separadas.
+
 **Tres verdades incómodas, con los datos delante:**
 
 1. **En cinco semanas la fábrica solo ha producido meta-trabajo.** ~27 PRs fusionadas y todas son gobierno del gobierno. El contrato vigente de WP-008 tiene 1.862 líneas para un cambio que, en esencia, ancla la invocación de un hook y ocho reglas de permisos.
-2. **El control concluyente sigue sin construirse.** El diseño original (diagnóstico de Fase 1, B2) ya lo decía: el hook es preventivo y evitable; la verificación definitiva es el **check de alcance sobre el diff de la PR en CI** (WP-002 y después WP-005, dos WPs secuenciales). Cinco semanas de endurecimiento se invirtieron en la capa débil mientras la capa fuerte sigue en `draft`/`blocked`.
+2. **El control concluyente sigue incompleto.** WP-015 ya construyó el ejecutable local determinista y la biblioteca única, pero todavía no existe un job de alcance en CI ni un check requerido en el ruleset. El hook sigue siendo preventivo y evitable; la barrera concluyente exige completar esos dos estados posteriores sin confundirlos con el ejecutable local.
 3. **El producto real está parado.** `AI-Comercial-System` lleva medio año sin un commit.
 
 Nada de esto significa que el trabajo hecho sea malo. Significa que el rumbo necesita corrección: es la causa raíz n.º 2 del manual (§8 de [05-bloqueos-y-parada](manual/05-bloqueos-y-parada.md)) aplicada al proceso entero.
@@ -142,7 +153,7 @@ La base conceptual de la FDA es sólida y **no se toca**. Las cinco conversacion
 
 **Causa 3 — Calibración invertida.** La Fase 1 existía para medir el proceso ANTES de perfeccionarlo; el proceso empezó a perfeccionarse sin datos.
 
-**Causa 4 — Una prueba desproporcionada (WP-012).** Demostrar empíricamente que Claude Code aplica su configuración es testear el producto del proveedor. El control concluyente **previsto** —`check_scope` sobre el diff de la PR en CI— **atraparía** cualquier escritura fuera de alcance aunque el hook no funcionara, **cuando `WP-002` y `WP-005` lo materialicen**; y desde la v2, el **sandbox de kernel aportaría** una garantía de kernel superior a la que WP-012 pretendía demostrar, **solo si E2 supera su gate y el WP T3 lo adopta efectivamente** ([05](05-analisis-investigacion-leandro-y-revalidacion.md) §5.1). **Ninguno de los dos existe hoy:** `check_scope` no está implementado y el sandbox no está instalado (P1). El argumento de esta causa es de **arquitectura objetivo y coste futuro**, no de control disponible.
+**Causa 4 — Una prueba desproporcionada (WP-012).** Demostrar empíricamente que Claude Code aplica su configuración es testear el producto del proveedor. El control concluyente previsto —`check_scope` sobre el diff de la PR en CI— atrapará cualquier escritura fuera de alcance aunque el hook no funcione **cuando** el ejecutable local ya entregado por WP-015 se integre en CI y se incorpore como check requerido; y el **sandbox de kernel aportaría** una garantía superior a la que WP-012 pretendía demostrar **solo si** E2 supera su gate y el WP T3 lo adopta efectivamente ([05](05-analisis-investigacion-leandro-y-revalidacion.md) §5.1). Hoy existen el ejecutable local y la biblioteca, pero no la barrera de CI ni el sandbox (P1).
 
 ## 4. Principios de la ruta
 
@@ -154,7 +165,7 @@ La base conceptual de la FDA es sólida y **no se toca**. Las cinco conversacion
   |---|---|
   | 1 · Plataforma | **Parcialmente materializada.** Es lo único que hoy funciona como frontera, pero **no entera**: ver el desglose en cinco niveles justo debajo |
   | 2 · Sandbox del SO | **No instalado.** Gate futuro: depende del experimento E2 (§5, Etapa 2). Mientras no se instale y se mida, **no aporta ninguna garantía efectiva** y no puede contarse como control |
-  | 3 · `check_scope` sobre el diff en CI | **No implementado.** Lo construyen WP-002 (`blocked`) y WP-005 (`draft`), en ese orden. **Tres estados que no deben fundirse:** *(1)* **ejecutable local** de `WP-002`, que no bloquea nada; *(2)* **job ejecutándose en CI** por `WP-005`, **todavía no requerido**; *(3)* **check incorporado a `required_status_checks`** por una persona, único estado **bloqueante para la fusión**. **Hoy no existe ninguno de los tres** |
+  | 3 · `check_scope` sobre el diff en CI | **Parcialmente materializado.** WP-015 entregó el estado *(1)*: **ejecutable local** y biblioteca única, que no bloquean fusiones. Siguen pendientes *(2)* el **job ejecutándose en CI**, todavía no requerido, y *(3)* el **check incorporado a `required_status_checks`** por una persona, único estado bloqueante para la fusión |
 
   **Desglose de la capa 1, en cinco niveles que no deben fundirse:**
 
@@ -164,7 +175,7 @@ La base conceptual de la FDA es sólida y **no se toca**. Las cinco conversacion
   4. **Restricciones operativas actuales:** las allowlists de herramientas de `.claude/agents/*.md` y los workflows de agente desactivados (`DEC-003` §3). Reducen la superficie, pero **no son garantía universal**: no se han auditado todos los actores ni todas las credenciales.
   5. **Declarado necesario y todavía NO impuesto técnicamente:** al menos una aprobación humana y la revisión de `CODEOWNERS`. El ruleset registra hoy `required_approving_review_count: 0` y `require_code_owner_review: false`; `DEC-003` lo consigna como **riesgo abierto y no aprobado**, con destino **WP-011**. **Riesgo pendiente:** con cero aprobaciones exigidas, el ruleset no impide por sí solo que el autor de una PR la fusione si tiene permisos suficientes.
 
-  **La protección de rama no comprueba el alcance del WP.** Ese control es `check_scope`, que no existe todavía; hasta entonces la revisión del diff es una **práctica humana**, no una barrera automática ni obligatoria del ruleset. **Dos cosas distintas, que no deben fundirse:** `check_scope` es **código que se ejecutaría en CI**, y su carácter **bloqueante para la fusión** dependería de que ese check se **incorpore como *required status check* del ruleset**. **Hoy no existe ninguna de las dos.** Y esa incorporación **no crearía un quinto tipo de regla**: el ruleset acredita **cuatro tipos** —`deletion`, `non_fast_forward`, `pull_request` y `required_status_checks`—, y añadir `check_scope` significa **añadir una cuarta comprobación requerida dentro de la regla `required_status_checks` ya existente**, que hoy contiene tres.
+  **La protección de rama todavía no comprueba el alcance del WP.** `check_scope` ya existe como ejecutable local, pero aún no se ejecuta en CI y no está incorporado como *required status check* del ruleset. Hasta completar ambos pasos, la revisión del diff es una **práctica humana**, no una barrera automática obligatoria. **Tres cosas distintas, que no deben fundirse:** código local, job de CI y check requerido. La incorporación futura **no crearía un quinto tipo de regla**: el ruleset acredita **cuatro tipos** —`deletion`, `non_fast_forward`, `pull_request` y `required_status_checks`—, y añadir `check_scope` significa **añadir una cuarta comprobación requerida dentro de la regla `required_status_checks` ya existente**, que hoy contiene tres.
 
   El **guard** es hoy **feedback preventivo best-effort**: deniega en el momento lo que reconoce, falla abierto si no es ejecutable o no llega a invocarse, y su analizador de `Bash` tiene huecos documentados. Sigue siendo obligatorio. **Dirección aprobada:** no invertir más en endurecer su parsing, porque el retorno está en las capas 2 y 3. **Lo que esta dirección todavía NO hace:** declarar consumada la democión formal y definitiva de ese parser. Esa democión se declara cuando **E2 se resuelva y su gate quede decidido** —así lo condiciona [05](05-analisis-investigacion-leandro-y-revalidacion.md) §8—, no antes. Hasta entonces el guard conserva su papel y su mantenimiento correctivo.
 - **P2. Ceremonia proporcional al riesgo, decidida por script** (§6). Lo barato de revertir se procesa barato; el suelo de seguridad automatizado (SAST, secretos, tests, lockfiles) es uniforme en todos los niveles.
@@ -211,12 +222,11 @@ Secuencia (ajustada por D1/D6 y DEC-008; cada transición de `ACTIVE` sigue sien
 4. **WP-008 D6-A — CERRADO `blocked`.** Consumió `5 / 2`, no ejecutó el A/B
    final y no fusionó la implementación. La candidata queda preservada como
    histórica no conforme y `ACTIVE` vuelve a reposo mediante DEC-009.
-5. **WP-015 APROBADO Y ADMITIDO; ACTIVACIÓN PENDIENTE.** El sucesor limpio de
-   WP-002 existe con contrato `ready` y figura en la lista cerrada de DEC-003.
-   `ACTIVE` permanece en reposo y ningún trabajo técnico está autorizado hasta
-   una activación humana posterior y separada.
-6. **ORDEN FUTURO CONDICIONADO; ACTIVACIÓN AÚN NO AUTORIZADA:** `WP-015` para `check_scope`
-   local → sucesor limpio de WP-005 para CI y mutación humana del ruleset →
+5. **WP-015 — `check_scope` LOCAL: CUMPLIDO.** La PR #53 fusionó el ejecutable
+   local y la biblioteca única; el cierre deja el contrato `done` y `ACTIVE` en
+   reposo. No acredita CI ni bloqueo de fusión.
+6. **ORDEN FUTURO CONDICIONADO; NINGÚN PASO SIGUIENTE AUTORIZADO:** sucesor
+   limpio de WP-005 para CI y mutación humana del ruleset →
    convergencia del guard y cierre de WP-007 por superación sin transición de
    `ACTIVE` → sucesor limpio de WP-008 con runtime y humo atribuible → E2 →
    cierre humano de la pausa. Cada paso requiere contrato y autorización
@@ -354,7 +364,7 @@ Con la foto corregida de §1, la candidata local **existe** y su tratamiento for
 - **WP (work package)**: un encargo pequeño con contrato: qué se hace, qué archivos se pueden tocar, cómo se verifica.
 - **Guard / hook**: el programa que avisa y deniega en el momento las escrituras fuera del contrato que reconoce. **Feedback rápido, no garantía**: falla abierto si no es ejecutable o no llega a invocarse, y no cubre todos los vectores de shell.
 - **Sandbox**: jaula a nivel de sistema operativo — el agente físicamente no podría escribir fuera de su carpeta ni salir a internet salvo a dominios permitidos. **Todavía no está instalado**: es un gate futuro (experimento E2), y hasta que se instale y se mida no aporta ninguna protección real.
-- **Check de alcance en CI** (`check_scope`): la comprobación en GitHub que revisará el resultado final (el diff) contra el contrato. **Se ejecutaría en CI**, y **solo sería bloqueante para la fusión una vez incorporado como *required status check* del ruleset**. Es el **juez final previsto** y **todavía no existe**, como tampoco esa incorporación: lo construyen WP-002 y después WP-005.
+- **Check de alcance** (`check_scope`): el ejecutable local y la biblioteca única ya existen por WP-015. La comprobación en GitHub que revisará el diff contra el contrato **todavía no existe** y solo será bloqueante cuando, tras integrarse en CI, se incorpore como *required status check* del ruleset.
 - **Blast radius**: «radio de impacto» de un cambio; un script lo calcula y decide cuánta ceremonia y revisión necesita.
 - **Upstream / downstream (carriles A/B)**: la plantilla canónica y sus instalaciones; las mejoras probadas abajo vuelven arriba.
 - **Pausa (DEC-003)**: freno de emergencia del 03-08; se sale cumpliendo condiciones medibles.
