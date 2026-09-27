@@ -161,3 +161,46 @@ Corrección mínima autorizada para `C2`, sin ampliar el contrato:
 Esta revalidación confirmó además 134/134 pruebas, doce comandos literales en
 verde, diff cero desde `TESTED_HEAD` en las rutas probadas, alcance correcto y
 coste acumulado de `17.18 EUR`. Astra no modificó ningún archivo.
+
+## Revalidación enfocada final de C2
+
+| Campo | Valor |
+|---|---|
+| Fecha | 2026-09-27 |
+| Revisor | La misma GPT-6 Astra, razonamiento Alto, solo lectura |
+| Candidato C2 | `935c3cbc6e366231aa2b69d919100a4178e9da34` |
+| `TESTED_HEAD` C2 | `a855c2f2505a0a1a92310d71218444d6a0987bff` |
+| Tipo | Revalidación enfocada final; no revisión general |
+| Veredicto | **NO APTO — ciclos agotados; no procede C3** |
+
+| Hallazgo | Estado final | Evidencia resumida |
+|---|---|---|
+| `WP015-F2` | `NO CERRADO` | La regresión de `.gitmodules` detecta el defecto y la implementación conserva la violación. La variante de configuración local fija `submodule.vendor.ignore=all` sin asociar `vendor` mediante `.gitmodules`; Git no aplica ese ignorado y la prueba también pasa al retirar `--ignore-submodules=none`. |
+| `WP015-F3` | `CERRADO` | `R101`, `777777 blob` y `100644 commit` producen exit `2`; positivos válidos pasan. |
+| `WP015-F4` | `CERRADO` | Los cinco separadores producen cinco violaciones, diez líneas ASCII y recuperación exacta; restaurar `ensure_ascii=False` hace fallar la regresión. |
+| `WP015-F6` | `CERRADO` | El regenerador reproduce exactamente los commits, modos, blobs, rutas/roles y veredictos A/M/D/T/R de `symlinks.md`. |
+
+### Residual único — WP015-F2
+
+La prueba `test_gitlink_violation_survives_local_config_ignore_all` usa una
+configuración local inefectiva porque el fixture no contiene la asociación:
+
+```ini
+[submodule "vendor"]
+    path = vendor
+```
+
+Con esa asociación y `ignore=all` exclusivamente en configuración local, el
+diff sin override queda vacío y el código corregido conserva `M vendor`. La
+implementación funciona; falta una regresión versionada capaz de fallar si se
+retira el override.
+
+La corrección técnica mínima sería añadir esa asociación al fixture, mantener
+`ignore=all` solo en configuración local y comprobar sensibilidad retirando el
+override. Esta observación **no autoriza C3**. Con `2 / 2` ciclos consumidos,
+corresponde parar y decidir humanamente entre dividir, replantear o cerrar
+`blocked`.
+
+La revalidación final confirmó 152/152 pruebas, 14/14 AST, doce comandos
+literales, manifiesto de diez archivos, diff cero desde `TESTED_HEAD`, alcance
+correcto y coste acumulado de `22.29 EUR`. Astra no modificó ningún archivo.

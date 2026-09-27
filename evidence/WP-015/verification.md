@@ -16,7 +16,7 @@ generó las evidencias deterministas previstas por ese commit.
 | `TESTED_HEAD` C2 | `a855c2f2505a0a1a92310d71218444d6a0987bff` |
 | Árbol de `TESTED_HEAD` C2 | `8f04016927bed6b21a284ad25ab198536e8675f4` |
 | Autor/corrector | Claude Code (implementer) |
-| Estado | C2 consumido; revalidación enfocada final pendiente |
+| Estado | **NO APTO tras revalidación enfocada final; 2/2 ciclos agotados** |
 
 El commit C2 modifica únicamente `scripts/check_scope.py` y `tests/scope/**`:
 añade la regresión con gitlink real, validación cerrada de puntuaciones y
@@ -54,6 +54,13 @@ El manifiesto ordenado de los diez archivos probados está en
 `evidence/WP-015/manifiesto-tested-head-c2.json`, ligado a `TESTED_HEAD` C2.
 Los commits posteriores de evidencia deben mantener diff cero respecto a
 `a855c2f2505a0a1a92310d71218444d6a0987bff` en código, pruebas y manual.
+
+La revalidación final de Astra cerró F3, F4 y F6. F2 queda abierto únicamente
+porque la prueba de configuración local no asocia `vendor` mediante
+`.gitmodules`, por lo que no activa realmente `submodule.vendor.ignore=all` y
+no detectaría la retirada del override. El código corregido sí conservó la
+violación en la reproducción efectiva de Astra. Con C2 consumido no procede
+otra corrección sin una decisión humana nueva, previa, fechada y versionada.
 
 ## Evidencia histórica de C1
 
