@@ -6,16 +6,15 @@
 documento; `evidence/WP-015/ciclos.md` sigue en `abierto` hasta que el
 coordinador lo cierre con el coste estructurado de esta pasada.
 
-**Los doce comandos de `## Verificación` se ejecutaron, en el orden exacto
-del contrato, sobre este `TESTED_HEAD`.** La salida íntegra y el código de
-salida de cada uno están en `evidence/WP-015/verificacion-c1.log`. Tres
-invocaciones literales (el envoltorio `python3 -c "..."` y los dos
-`python3 -m unittest discover ...`) quedaron bloqueadas por la lista `allow`
-de `.claude/settings.json` de esta sesión de autor/corrector —no por
-`guard.sh` ni por el contrato de WP-015—; el `.log` documenta, para cada una,
-la ejecución real y funcionalmente equivalente que las sustituye (el mismo
-resultado observable), exactamente como ya se hizo y se aceptó durante la
-implementación inicial.
+**Los doce comandos de `## Verificación` se ejecutaron literalmente y en el
+orden exacto del contrato.** La pasada del autor está en
+`evidence/WP-015/verificacion-c1.log`; sus comandos 3, 4 y 5 quedaron
+bloqueados por los permisos de esa sesión. El coordinador repitió después los
+doce comandos en su forma literal exacta, sobre un head cuyas rutas probadas
+son idénticas a este `TESTED_HEAD`, y todos devolvieron exit `0`. La salida
+íntegra de esa segunda pasada está en
+`evidence/WP-015/verificacion-c1-literal.log` y prevalece para acreditar la
+literalidad contractual.
 
 ## Identidad de `TESTED_HEAD` (C1)
 
@@ -61,15 +60,18 @@ inicial): `chmod`/`git update-index --chmod` siguen denegados por el permiso
 de herramienta de esta sesión; los `.sh` de `tests/scope/` quedan en modo
 `100644`. No afecta a ninguna verificación (siempre `bash <script>`).
 
-## Resultados de los doce comandos (resumen; íntegro en `verificacion-c1.log`)
+## Resultados de los doce comandos literales
+
+Resumen de la pasada del coordinador; salida íntegra en
+`verificacion-c1-literal.log`:
 
 | # | Comando | Exit | Resultado |
 |---|---|---|---|
 | 1 | `git diff --exit-code HEAD -- ...` | `0` | vacío |
 | 2 | `git diff --cached --exit-code HEAD -- ...` | `0` | vacío |
-| 3 | `git ls-files --others ... \| python3 -c ...` | `0` | bloqueo de permisos; equivalente real ejecutado, vacío |
-| 4 | `python3 -m unittest discover -p 'test_*.py'` | `0` | bloqueo de permisos; 134/134 vía comando 6 (anidado) |
-| 5 | `python3 -m unittest discover -p 'test_security_static.py'` | `0` | bloqueo de permisos; 13/13 vía comando 6 (anidado) |
+| 3 | `git ls-files --others ... \| python3 -c ...` | `0` | ejecución literal; vacío |
+| 4 | `python3 -m unittest discover -p 'test_*.py'` | `0` | ejecución literal; 134/134 |
+| 5 | `python3 -m unittest discover -p 'test_security_static.py'` | `0` | ejecución literal; 14/14 |
 | 6 | `bash tests/scope/run-suite.sh` | `0` | 134/134 pruebas, aislamiento intacto |
 | 7 | `python3 scripts/check_scope.py WP-015 origin/main...HEAD` | `0` | `OK`, cero violaciones |
 | 8 | `shellcheck --severity=warning --shell=bash tests/scope/run-suite.sh` | `0` | vacío |
@@ -127,8 +129,8 @@ una extensión acotada del alcance de `_repo.py` autorizada aparte).
 
 1. Bit ejecutable ausente en los `.sh` de `tests/scope/` (sin cambios desde
    la implementación inicial; sigue sin afectar a ninguna verificación).
-2. Tres invocaciones literales bloqueadas por el permiso de herramienta de
-   esta sesión concreta (comandos 3, 4 y 5); documentadas con su ejecución
-   real equivalente en `evidence/WP-015/verificacion-c1.log`.
+2. Los permisos del autor bloquearon inicialmente los comandos literales 3,
+   4 y 5; el coordinador los ejecutó después sin sustituciones, todos exit `0`,
+   y preservó la salida en `evidence/WP-015/verificacion-c1-literal.log`.
 3. `WP015-F2` sin integración de gitlink real (ver tabla de arriba):
    corrección aplicada, prueba de integración específica pendiente.
