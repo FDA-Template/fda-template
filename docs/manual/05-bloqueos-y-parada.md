@@ -142,6 +142,15 @@ autorización humana, custodiar sin cambios la preimagen C2 en una rama candidat
 y versionar la fila C3 antes de corregir. No se crea un identificador normativo
 nuevo, no se renombra ningún ciclo y no existe C4.
 
+**Cierre de esa excepción antes de C3.** DEC-010 §9 constata después que C1 y
+C2 no dejaron coste F1, F2 o F3 reconstruible. La condición de parada de §8.5
+se cumple: C3 nunca se abre, su habilitación queda sin efecto sin uso y la
+transición DOR-7 queda `blocked`. La rama candidata permanece histórica
+`NO APTO`; no se fusiona ni corrige. WP-017 continúa `draft`, con DOR-1 a
+DOR-6 resueltos y DOR-7 a DOR-9 abiertos. Un `no_disponible` sería una
+declaración veraz pero `NO APTO`, no una vía para abrir C3 durante la pausa.
+Otro rumbo exige decisión humana nueva y no puede inventar coste ni WP-ID.
+
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
 Ver [DEC-010](../../specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md).
@@ -438,10 +447,12 @@ acreditados, y `ACTIVE` de nuevo en reposo. DEC-014 reserva `WP-016` como
 identificador del sucesor limpio de WP-005 únicamente desde la fusión humana
 de su composición. DEC-015 elige una GitHub App externa como productor previo,
 pero no autoriza crearla o ejecutarla. DEC-016 reserva `WP-017` para ese
-productor. WP-017 ya tiene contrato `draft`: DOR-1 a DOR-5 están resueltos y
-esta enmienda resuelve solo DOR-6; DOR-7 a DOR-9 permanecen abiertos y no existe
-autorización de creación o ejecución. WP-016 sigue `draft`, no aprobado, admitido o activo.
-`ACTIVE` permanece en reposo.
+productor. WP-017 ya tiene contrato `draft`: DOR-1 a DOR-6 están resueltos;
+la transición candidata de DOR-7 queda `blocked` antes de C3 por coste
+irrecuperable, y DOR-7 a DOR-9 permanecen abiertos. La secuencia queda detenida
+hasta otra decisión humana nueva y no existe autorización de aprobación,
+admisión, activación o ejecución. WP-016 sigue `draft`, no aprobado, admitido o
+activo. `ACTIVE` permanece en reposo.
 
 ### Superficie implementable de WP-017
 
@@ -469,9 +480,9 @@ El orden futuro vinculante de dependencias es:
 1. `WP-015`, sucesor limpio de WP-002, **completado**: produjo `check_scope`
    local y la biblioteca única; no produjo CI ni bloqueo de fusión;
 2. `WP-017`, reservado por DEC-016 para el productor externo mediante GitHub
-   App conforme a DEC-015, con contrato `draft`, DOR-1 a DOR-6 resueltos y los
-   tres bloqueos DOR-7 a DOR-9 todavía abiertos; permanece pendiente de
-   aprobación, admisión, activación, implementación, instalación y prueba;
+   App conforme a DEC-015, con contrato `draft`, DOR-1 a DOR-6 resueltos,
+   transición DOR-7 `blocked` antes de C3 y DOR-7 a DOR-9 todavía abiertos;
+   la secuencia se detiene aquí hasta otra decisión humana nueva;
 3. `WP-016`, identificador reservado por DEC-014 para el sucesor limpio de
    WP-005, con contrato `draft` bloqueado y sujeto a corrección y autorizaciones
    separadas, para integrar el mismo verificador en CI; después, mutación humana

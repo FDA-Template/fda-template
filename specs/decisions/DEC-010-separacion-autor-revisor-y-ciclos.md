@@ -14,6 +14,11 @@ habilita, sin iniciarlo, un C3 único para la candidata externa que resuelve
 `WP017-DOR-7`. No crea otro identificador normativo, no corrige la candidata y
 no altera la regla general de dos ciclos.
 
+**Enmendada de nuevo el 2026-09-28 por decisión humana de instancia:** el
+apartado 9 constata que el coste acumulado de C1 y C2 no puede reconstruirse,
+cierra la transición `WP017-DOR-7` como bloqueada antes de abrir C3 y deja sin
+efecto su autorización excepcional todavía no usada.
+
 ## Problema
 
 La FDA ya separaba implementador y revisor, limitaba las correcciones ordinarias
@@ -314,3 +319,88 @@ y el inicio de C3 son actos humanos posteriores y separados.
 Fuentes primarias revalidadas el 2026-09-28: documentación de Google Cloud
 «Resource attributes for IAM Conditions», «Attribute reference for IAM
 Conditions» y referencia REST `projects.locations.secrets` de Secret Manager.
+
+## 9. Enmienda de instancia del 2026-09-28 — cierre antes de C3 por coste irrecuperable
+
+### 9.1. Hechos verificables y estado de la candidata
+
+La base normativa es `origin/main`
+`d0b01bf7a14beae7ea32aaf5f5c618350e1a6b83`. La rama gobernada
+`ops/wp-017-dor7-candidata` está en
+`a15483b7c05d64431fde8866aca27e2d339017c6`, merge explícito cuyos padres son
+el primer commit de custodia
+`7e72df1ce2e061bb7a0471e006a3390115074127` y esa base normativa. La
+custodia conserva la postimagen C2 de WP-017 con SHA-256
+`ad2053893d7416a30a564c33416ddd7ac8e77220575f071906e8c0cb131086ee` y
+`evidence/WP-017/ciclos.md` con SHA-256
+`588b2689ffd5ecd6f6b109ea78ba522b096388f3266de903cf9caf66f836f73b`.
+
+El registro versionado dice para C1 y C2 `coste no reconstruido`, no contiene
+fila C3 y declara que la pasada no comienza sin coste acumulado verificable.
+En ninguna referencia versionada del repositorio existe
+`evidence/WP-017/cost.md`, un artefacto F1 o F2 de WP-017, una lectura F3
+fechada y atribuible, ni otro importe defendible para esas dos pasadas. La
+conversación, una cifra de memoria, una ventana horaria, otro WP o un artefacto
+externo no versionado no son fuente de verdad ni satisfacen DEC-004.
+
+Por tanto se ha materializado exactamente la condición de parada de §8.5:
+el coste acumulado no puede reconstruirse. C3 nunca se abrió, Claude Code no
+fue invocado para C3 y `WP017-DOR7-F1` no fue corregido.
+
+### 9.2. Alternativas comparadas
+
+**Cierre bloqueado de esta transición — elegido.** Conserva el expediente
+`NO APTO`, hace explícita la causa y mantiene abiertas las decisiones futuras
+sobre WP-017. Es la salida ordinaria de §5 cuando una precondición de C3 falla.
+
+**Excepción económica para continuar — rechazada.** No existe una variante
+que preserve simultáneamente la verdad del coste y las normas vigentes:
+
+- `estado_coste: no_disponible` sería veraz, pero DEC-004 §11 lo deja
+  `NO APTO` y, mientras dure DEC-003, no existe el registro único de
+  excepciones que debe crear WP-010;
+- cargar `95.00 EUR` o cualquier otra reserva cautelar al presupuesto no
+  transforma esa cifra en coste F1, F2 o F3 y no prueba el umbral de §8.5;
+- elevar el techo, excluir retroactivamente C1/C2 o atribuirles cero ocultaría
+  la ausencia en vez de reconstruirla;
+- crear aquí otro mecanismo de excepción duplicaría el mecanismo único de
+  DEC-004 y convertiría una parada concreta en precedente transversal.
+
+La excepción solo desplazaría el mismo bloqueo al cierre de WP-017, después de
+consumir otro ciclo. No es una salida proporcional ni verificable.
+
+### 9.3. Decisión y efectos exactos
+
+1. La transición externa que intentaba resolver `WP017-DOR-7` queda cerrada
+   `blocked` antes de C3. Los dos ciclos ordinarios permanecen consumidos y no
+   se renombran ni reinician.
+2. La habilitación excepcional de §8.2 queda sin efecto sin haber sido usada.
+   No existe C3 ni C4 y no se crea ninguna fila nueva en el registro de ciclos.
+3. La rama `ops/wp-017-dor7-candidata`, sus dos commits y sus bytes se
+   preservan como candidata histórica `NO APTO`. No se fusionan, corrigen,
+   ejecutan, importan, rebasan ni limpian.
+4. F1 permanece abierto. F2, F3 y F4 permanecen cerrados únicamente como
+   hechos del expediente preservado y no conceden autoridad adicional.
+5. En `main`, WP-017 permanece `draft`: DOR-1 a DOR-6 están resueltos y
+   DOR-7 a DOR-9 siguen abiertos. WP-016 y `ACTIVE` permanecen intactos.
+6. No se crea `evidence/WP-017/cost.md`: hacerlo con un número inventado o con
+   `no_disponible` no satisfaría §8.5 ni abriría C3.
+7. No se reserva ni inventa otro WP-ID. Elegir el cierre definitivo de WP-017,
+   dividirlo o replantear DOR-7 requiere otra decisión humana nueva, previa y
+   versionada. Este acto no prepara ni autoriza esa decisión posterior.
+
+### 9.4. Composición atómica y límites
+
+Esta enmienda viaja en una composición atómica de exactamente cuatro archivos;
+todos o ninguno:
+
+1. `specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md`;
+2. `specs/decisions/DEC-003-pausa-migracion-y-contencion.md`;
+3. `docs/03-hoja-de-ruta.md`;
+4. `docs/manual/05-bloqueos-y-parada.md`.
+
+La composición parte de la base exacta de §9.1. No contiene WP-017, WP-016,
+`ACTIVE`, `evidence/**`, código, pruebas, workflows, ruleset, infraestructura,
+cuentas, roles, secretos, permisos, ramas, worktrees ni candidatas. Su
+materialización, publicación y fusión son actos humanos posteriores y
+separados; esta candidata externa no los autoriza.

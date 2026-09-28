@@ -1,6 +1,6 @@
 # Hoja de ruta — de la FDA al AI Agent Operating System
 
-**Creada:** 2026-08-30 · **Última revisión: 2026-09-27** (cierre de WP-015 — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011, DEC-012 y DEC-013 y actualizada por el cierre de WP-015; D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
+**Creada:** 2026-08-30 · **Última revisión: 2026-09-28** (cierre bloqueado de la transición WP017-DOR-7 — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011, DEC-012 y DEC-013 y actualizada por el cierre de WP-015; la secuencia está detenida en WP017-DOR-7, D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
 
 **Procedencia.** v1 (30-08): las cinco conversaciones del operador con otras IAs — síntesis en [`04-analisis-conversaciones-ia.md`](04-analisis-conversaciones-ia.md)—, el repositorio completo, el estado de los demás repos y fuentes externas. v2 (01-09): además, los **cuatro documentos de investigación de Leandro** y una **línea base de investigación independiente registrada antes de leerlos** — análisis completo, veredictos y red team en [`05-analisis-investigacion-leandro-y-revalidacion.md`](05-analisis-investigacion-leandro-y-revalidacion.md). Lo redactaron y materializaron sesiones de Claude Code por encargo directo del operador, como actos de operador (§9).
 
@@ -24,6 +24,7 @@
 | 2026-09-27 | `WP-016` queda reservado por DEC-014, únicamente desde la fusión humana de su composición, como identificador del sucesor limpio de WP-005. La reserva no crea, aprueba, admite, activa ni autoriza ejecutar el contrato; `ACTIVE` permanece en reposo | `DEC-014` |
 | 2026-09-27 | DEC-015 elige una GitHub App externa como productor previo a WP-016, sin reservarle WP-ID. WP-016 existe en `draft`, sigue bloqueado por `WP016-DOR-1`, tiene 645 líneas frente al límite de 300 y no puede avanzar; `ACTIVE` permanece en reposo | `DEC-015` |
 | 2026-09-27 | DEC-016 reserva `WP-017` para el productor externo de `Alcance FDA`, todavía sin contrato ni autorización de ejecución. WP-016 continúa `draft` y bloqueado; `ACTIVE` permanece en reposo | `DEC-016` |
+| 2026-09-28 | WP-017 existe en `draft` con DOR-1 a DOR-6 resueltos; la candidata DOR-7 agotó C1/C2, no puede acreditar coste acumulado y queda cerrada `blocked` antes de C3. DOR-7 a DOR-9 siguen abiertos, la candidata se preserva y la secuencia queda detenida sin otro WP-ID | `DEC-010` §9 |
 
 ---
 
@@ -130,6 +131,14 @@ reposo. Esto acredita solo el ejecutable local y la biblioteca única: CI,
 ruleset, convergencia del guard, runtime, E2 y cierre de la pausa siguen
 pendientes y requieren autorizaciones separadas.
 
+**Parada de WP017-DOR-7 antes de C3.** La candidata externa consumió C1 y C2,
+conservó un único residual mecánico y fue custodiada en una rama gobernada,
+pero sus pasadas no dejaron coste F1, F2 o F3 reconstruible. DEC-010 §8.5
+prohíbe abrir C3 en esa situación. La transición queda `blocked`, la
+habilitación excepcional no usada queda sin efecto y WP-017 permanece `draft`
+con DOR-7 a DOR-9 abiertos. No se crea `cost.md`, no se corrige F1 y no se
+decide aquí el cierre, división o replanteamiento posterior del WP.
+
 **Tres verdades incómodas, con los datos delante:**
 
 1. **En cinco semanas la fábrica solo ha producido meta-trabajo.** ~27 PRs fusionadas y todas son gobierno del gobierno. El contrato vigente de WP-008 tiene 1.862 líneas para un cambio que, en esencia, ancla la invocación de un hook y ocho reglas de permisos.
@@ -229,10 +238,11 @@ Secuencia (ajustada por D1/D6 y DEC-008; cada transición de `ACTIVE` sigue sien
    local y la biblioteca única; el cierre deja el contrato `done` y `ACTIVE` en
    reposo. No acredita CI ni bloqueo de fusión.
 6. **ORDEN FUTURO CONDICIONADO; NINGÚN PASO SIGUIENTE AUTORIZADO:** `WP-017`,
-   reservado para el productor externo mediante GitHub App y todavía sin contrato →
-   `WP-016`, cuyo contrato `draft` de 645 líneas continúa bloqueado y deberá
-   corregirse y reducirse antes de `ready`, para CI y mutación humana posterior
-   del ruleset →
+   con contrato `draft`, DOR-1 a DOR-6 resueltos y la transición DOR-7
+   `blocked` antes de C3. La secuencia se detiene aquí hasta otra decisión
+   humana nueva. Solo después podría continuar hacia `WP-016`, cuyo contrato
+   `draft` de 645 líneas continúa bloqueado y deberá corregirse y reducirse
+   antes de `ready`, para CI y mutación humana posterior del ruleset →
    convergencia del guard y cierre de WP-007 por superación sin transición de
    `ACTIVE` → sucesor limpio de WP-008 con runtime y humo atribuible → E2 →
    cierre humano de la pausa. Cada paso requiere contrato y autorización
