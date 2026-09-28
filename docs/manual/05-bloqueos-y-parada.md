@@ -427,8 +427,8 @@ acreditados, y `ACTIVE` de nuevo en reposo. DEC-014 reserva `WP-016` como
 identificador del sucesor limpio de WP-005 únicamente desde la fusión humana
 de su composición. DEC-015 elige una GitHub App externa como productor previo,
 pero no autoriza crearla o ejecutarla. DEC-016 reserva `WP-017` para ese
-productor. WP-017 ya tiene contrato `draft`: DOR-1 a DOR-5 están resueltos y
-esta enmienda resuelve solo DOR-6; DOR-7 a DOR-9 permanecen abiertos y no existe
+productor. WP-017 ya tiene contrato `draft`: DOR-1 a DOR-6 están resueltos y
+esta enmienda resuelve solo DOR-7; DOR-8 y DOR-9 permanecen abiertos y no existe
 autorización de creación o ejecución. WP-016 sigue `draft`, no aprobado, admitido o activo.
 `ACTIVE` permanece en reposo.
 
@@ -441,7 +441,7 @@ normativa de rutas, stack, recursos, IAM, esquemas, eventos, red y verificación
 está íntegramente en `work-packages/WP-017-productor-externo-alcance.md`, que
 permanece dentro del máximo de 300 líneas. El diseño reserva dos servicios con
 máximo agregado de tres instancias, persiste únicamente los campos ya admitidos
-por DOR-3 y mantiene DOR-7 a DOR-9 abiertos. Nada se crea o ejecuta por esta
+por DOR-3 y mantiene DOR-8 y DOR-9 abiertos. Nada se crea o ejecuta por esta
 enmienda. Si este resumen difiere del WP, prevalece el WP y se corrige el manual.
 
 ### Ensayo real aislado de WP-017
@@ -453,13 +453,25 @@ humana de 120 minutos y 5 EUR, oráculos rojo/verde y rollback reversible. DOR-8
 aportará antes los bytes y resultados de política y DOR-9 el caso de SHA
 compartido; DOR-7 sigue designando la operación continuada. La App, el lab, la
 instalación, la infraestructura y el ensayo aún no existen ni están autorizados.
+
+### Operación fail-closed de WP-017
+
+DOR-7 queda resuelto directamente en el contrato. Iván es el único propietario,
+operador, guardia y receptor de alertas; no existe sustituto humano y se acepta
+el riesgo de persona única. S0 tiene guardia 24×7; S1/S2, cobertura limitada,
+roles temporales sin `Owner`/`Editor`, despliegue por digest con revisión anterior,
+rollback, recuperación regional sin backups, suspensión y desinstalación humanas,
+y parada preventiva antes de 5 EUR. Suspender no invalida un verde previo: la
+parada cierra humanamente las PR afectadas y solo las reabre tras nueva evaluación.
+La falta de Iván o de infraestructura nunca se convierte en verde. Nada crea roles,
+alertas, presupuesto, App o recursos, ni autoriza ejecución.
 El orden futuro vinculante de dependencias es:
 
 1. `WP-015`, sucesor limpio de WP-002, **completado**: produjo `check_scope`
    local y la biblioteca única; no produjo CI ni bloqueo de fusión;
 2. `WP-017`, reservado por DEC-016 para el productor externo mediante GitHub
-   App conforme a DEC-015, con contrato `draft`, DOR-1 a DOR-6 resueltos y los
-   tres bloqueos DOR-7 a DOR-9 todavía abiertos; permanece pendiente de
+   App conforme a DEC-015, con contrato `draft`, DOR-1 a DOR-7 resueltos y los
+   dos bloqueos DOR-8 y DOR-9 todavía abiertos; permanece pendiente de
    aprobación, admisión, activación, implementación, instalación y prueba;
 3. `WP-016`, identificador reservado por DEC-014 para el sucesor limpio de
    WP-005, con contrato `draft` bloqueado y sujeto a corrección y autorizaciones
