@@ -19,6 +19,7 @@
 **Enmendada el 2026-09-28 por la decisión de instancia de [`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §8:** §4 admite una composición normativa de tres archivos que habilita, sin iniciarlo, un C3 mínimo y último para el único residual `WP017-DOR7-F1`. No crea otro identificador normativo, no modifica WP-017 ni `ACTIVE`, conserva cerrados F2–F4 y exige otra autorización humana y la preimagen C2 versionada antes de corregir.
 **Enmendada de nuevo el 2026-09-28 por la decisión de instancia de [`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §9:** §§2 y 4 admiten la composición normativa de cuatro archivos que cierra la transición `WP017-DOR-7` como bloqueada antes de C3 porque su coste acumulado no puede reconstruirse. WP-017 permanece `draft`, DOR-7 a DOR-9 siguen abiertos y `ACTIVE` permanece en reposo.
 **Enmendada por tercera vez el 2026-09-28 por la decisión de instancia de [`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §10:** §§2 y 4 admiten la composición normativa de cinco archivos que deja WP-017 `blocked`, elige una división limpia posterior sin reservar sucesor y mantiene `ACTIVE` en reposo.
+**Enmendada el 2026-09-28 por [`DEC-017`](DEC-017-reserva-sucesor-limpio-wp017.md):** §§2 y 4 reservan `WP-018` como sucesor limpio de WP-017, fijan coste F1 desde la primera invocación, presupuesto y dos ciclos, y admiten una composición normativa de nueve archivos. WP-017, WP-016 y `ACTIVE` permanecen intactos.
 
 ## Problema
 
@@ -192,24 +193,30 @@ autorizaciones.
 2. `WP-017` queda `blocked`, nunca `done`: DOR-1 a DOR-6 están resueltos, la
    transición candidata de DOR-7 quedó `blocked` antes de C3 y DOR-7 a DOR-9
    permanecen abiertos. No se replantea dentro del mismo WP porque su coste
-   acumulado es irrecuperable. La división limpia elegida exige otra decisión
-   humana para investigar y, si procede, reservar un sucesor; no existe todavía
-   otro WP-ID ni autorización para redactarlo o ejecutarlo.
-3. `WP-016`, cuyo contrato existe en `draft` y bloqueado, integrará el mismo
+   acumulado es irrecuperable. DEC-017 reserva `WP-018` como sucesor limpio,
+   todavía sin contrato, aprobación, admisión, activación o autorización de
+   ejecución. DOR-7 a DOR-9 no quedan resueltos por la reserva.
+3. `WP-018` deberá redactarse desde cero sobre `main`: hereda por referencia
+   DOR-1 a DOR-4, reafirma DOR-5 y DOR-6, y no usa bytes de la candidata
+   histórica. Su presupuesto máximo es `100 EUR`,
+   `max_ciclos_correccion: 2` y toda invocación de Claude Code se adquiere por
+   F1 desde la primera; la preparación y la implementación inicial no consumen
+   ciclo.
+4. `WP-016`, cuyo contrato existe en `draft` y bloqueado, integrará el mismo
    verificador en CI solo después de acreditar ese productor. Una persona
    incorporará después el par
    `{context, integration_id}` al ruleset con evidencia reproducible. Solo ese
    tercer estado será bloqueante para la fusión.
-4. En actos posteriores separados se hará converger el guard sobre la misma
+5. En actos posteriores separados se hará converger el guard sobre la misma
    biblioteca y se cerrará WP-007 por superación mediante PR de operador, sin
    transición de `ACTIVE`, tras recomprobar y custodiar su candidata.
-5. Un sucesor limpio de WP-008, también autorizado por separado, instalará el
+6. Un sucesor limpio de WP-008, también autorizado por separado, instalará el
    runtime fail-closed y ejecutará un humo seguro con oráculo atribuible que
    haya superado su Definition of Ready.
-6. E2 recibirá identificador y contrato solo mediante otra autorización; se
+7. E2 recibirá identificador y contrato solo mediante otra autorización; se
    ejecutará y registrará desde reposo y, si es positivo, su adopción T3 será
    otro acto separado.
-7. Solo al cumplir el criterio adaptado de §6 podrá una PR de operador cerrar
+8. Solo al cumplir el criterio adaptado de §6 podrá una PR de operador cerrar
    la pausa. La instalación posterior en producto no es condición de cierre.
 
 Cada WP conserva contrato, autorización, presupuesto, rama, PR y ciclos propios.
@@ -452,6 +459,7 @@ Los tres checks obligatorios son jobs de `ci.yml` y siguen operando. La contenci
 | `DEC-014` | Reserva condicionada de `WP-016` y límites del sucesor limpio de WP-005; composición normativa de cinco archivos, sin crear, aprobar, admitir, activar ni ejecutar su contrato |
 | `DEC-015` | Productor externo mediante GitHub App, semántica cerrada de autorización y distinción seguridad/disponibilidad; composición normativa de siete archivos, sin reservar otro WP-ID ni autorizar implementación |
 | `DEC-016` | Reserva condicionada de `WP-017` y límites del productor externo de `Alcance FDA`; composición normativa de siete archivos, sin crear, aprobar, admitir, activar ni ejecutar su contrato |
+| `DEC-017` | Reserva condicionada de `WP-018` como sucesor limpio de WP-017; composición normativa de nueve archivos, sin crear contrato, copiar la candidata histórica ni autorizar ejecución |
 | `WP-013` | Cierre bloqueado tras C3 excepcional, preservación de la candidata histórica no conforme y transición solidaria a reposo conforme a la enmienda de recuperación de `DEC-008` |
 | `WP-014` | Cerrado `done` tras la aplicación humana exacta de los diez pins por SHA, revisión independiente, PR #40 fusionada y transición solidaria a reposo; no dependió de fusionar WP-013 |
 | `WP-015` | Cerrado `done` tras C3 excepcional, PR #53 fusionada y transición solidaria a reposo; acredita solo el ejecutable local y la biblioteca única, no CI ni bloqueo de fusión |
@@ -464,7 +472,8 @@ Los tres checks obligatorios son jobs de `ci.yml` y siguen operando. La contenci
 | `WP-002` | Entrada histórica, no ejecutable: permanece `blocked` y fue sustituido para el alcance local por `WP-015`, ya cerrado `done`; no se reabre |
 | `WP-005` | Entrada histórica, no ejecutable: permanece `draft` y será sustituido por `WP-016`, reservado por `DEC-014` únicamente desde la fusión humana de su composición |
 | `WP-016` | Identificador reservado para el sucesor limpio de WP-005; contrato existente en `draft`, bloqueado por `WP016-DOR-1`, no aprobado, admitido, activo ni autorizado para ejecución |
-| `WP-017` | Contrato `blocked`, nunca entregado; DOR-1 a DOR-6 resueltos, transición candidata de DOR-7 cerrada antes de C3 y DOR-7 a DOR-9 abiertos; retirado de la cola ejecutable y dividido solo en forma, sin sucesor identificado o autorizado |
+| `WP-017` | Contrato `blocked`, nunca entregado; DOR-1 a DOR-6 resueltos, transición candidata de DOR-7 cerrada antes de C3 y DOR-7 a DOR-9 abiertos; retirado de la cola ejecutable y preservado como historia |
+| `WP-018` | Identificador reservado por DEC-017 para el sucesor limpio de WP-017; sin contrato, aprobación, admisión, activación, ciclos o autorización de ejecución |
 | `WP-007` | Permanece `ready` y congelado; DEC-011 prevé su cierre posterior por superación, con autorización separada y sin transición de `ACTIVE` |
 | Prueba de humo de D1 | **No es una entrada propia**: será alcance de un sucesor limpio de `WP-008`, todavía sin identificador ni admisión |
 | Parche humano del guard delgado | Acto de operador sobre `.claude/hooks/**`, carril T3, posterior a `WP-002` y `WP-005` |
@@ -651,6 +660,16 @@ elige únicamente una división limpia posterior. No crea `cost.md`, filas de
 ciclos, excepción económica, contrato o WP-ID sucesor; no modifica WP-016,
 `ACTIVE`, evidencias o candidatas y no autoriza investigación posterior,
 ejecución, infraestructura, ramas, worktrees, commits o PRs.
+
+**Admisión atómica de `DEC-017` y de la reserva condicionada de `WP-018`.** Se
+modifica directamente esta lista en el mismo diff; la decisión no se
+autoautoriza. La composición cerrada consta exactamente de `DEC-017`, esta
+`DEC-003`, `DEC-010`, `DEC-011`, `DEC-014`, `DEC-015`, `DEC-016`,
+`docs/03-hoja-de-ruta.md` y `docs/manual/05-bloqueos-y-parada.md`; todos viajan
+juntos o ninguno. Reserva `WP-018` con `100 EUR`, F1 desde la primera invocación
+y `max_ciclos_correccion: 2`, pero no crea su contrato, ciclos o evidencias, no modifica WP-017,
+WP-016 o `ACTIVE`, no traslada la candidata histórica y no autoriza ejecución,
+infraestructura, ramas, worktrees, commits o PRs.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 

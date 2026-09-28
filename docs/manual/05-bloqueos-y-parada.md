@@ -157,9 +157,9 @@ el productor previo a WP-016; `done` no cabe porque no hubo entrega. Tampoco se
 replantea DOR-7 dentro de WP-017: medir un intento nuevo no reconstruiría el
 total y C1/C2 propios borrarían en la práctica los dos ciclos consumidos.
 WP-017 pasa a `blocked` y queda fuera de la cola ejecutable; se elige una
-división limpia posterior. Todavía no se reserva sucesor ni se autoriza
-investigarlo, redactarlo o ejecutarlo. La candidata histórica se conserva
-intacta y no es fuente de bytes para el trabajo futuro.
+división limpia posterior. DEC-017 reserva después `WP-018` como sucesor limpio,
+sin crear su contrato ni autorizar redactarlo o ejecutarlo. La candidata
+histórica se conserva intacta y no es fuente de bytes para el trabajo futuro.
 
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
@@ -460,9 +460,9 @@ pero no autoriza crearla o ejecutarla. DEC-016 reserva `WP-017` para ese
 productor. WP-017 queda `blocked`, nunca `done`: DOR-1 a DOR-6 están resueltos,
 la transición candidata de DOR-7 queda cerrada antes de C3 por coste
 irrecuperable y DOR-7 a DOR-9 permanecen abiertos. DEC-010 §10 elige una
-división limpia posterior, todavía sin WP-ID sucesor. La secuencia queda
-detenida y no existe autorización para investigar, redactar o ejecutar ese
-sucesor. WP-016 sigue `draft`, no aprobado, admitido o activo. `ACTIVE`
+división limpia posterior y DEC-017 reserva `WP-018` como sucesor limpio, sin
+contrato ni autorización para redactarlo o ejecutarlo. WP-016 sigue `draft`, no
+aprobado, admitido o activo. `ACTIVE`
 permanece en reposo.
 
 ### Superficie implementable de WP-017
@@ -492,20 +492,24 @@ El orden futuro vinculante de dependencias es:
    local y la biblioteca única; no produjo CI ni bloqueo de fusión;
 2. `WP-017`, reservado por DEC-016 para el productor externo mediante GitHub
    App conforme a DEC-015, queda `blocked`, nunca `done`, con DOR-7 a DOR-9
-   abiertos y su candidata histórica preservada; la división limpia elegida no
-   tiene todavía WP-ID sucesor y la secuencia se detiene antes de investigarlo;
-3. `WP-016`, identificador reservado por DEC-014 para el sucesor limpio de
+   abiertos y su candidata histórica preservada;
+3. `WP-018`, reservado por DEC-017 como sucesor limpio, sin contrato: hereda por
+   referencia DOR-1 a DOR-4, debe reafirmar DOR-5 y DOR-6 y mantiene DOR-7 a
+   DOR-9 abiertos; exige F1 desde la primera invocación, 100 EUR y
+   `max_ciclos_correccion: 2`; la preparación y la implementación inicial no
+   consumen ciclo;
+4. `WP-016`, identificador reservado por DEC-014 para el sucesor limpio de
    WP-005, con contrato `draft` bloqueado y sujeto a corrección y autorizaciones
    separadas, para integrar el mismo verificador en CI; después, mutación humana
    del ruleset que lo haga requerido;
-4. convergencia humana del guard sobre la misma biblioteca y cierre de WP-007
+5. convergencia humana del guard sobre la misma biblioteca y cierre de WP-007
    por superación mediante PR de operador, con `ACTIVE` siempre en reposo y
    previa recomprobación y custodia de su candidata;
-5. sucesor limpio de WP-008 para instalar el runtime fail-closed y realizar un
+6. sucesor limpio de WP-008 para instalar el runtime fail-closed y realizar un
    humo seguro cuyo oráculo haya superado su Definition of Ready;
-6. E2, con identificador y contrato aprobados por otra autorización; adopción
+7. E2, con identificador y contrato aprobados por otra autorización; adopción
    T3 separada solo si el resultado es positivo;
-7. PR humana de cierre de la pausa cuando se cumpla el criterio adaptado.
+8. PR humana de cierre de la pausa cuando se cumpla el criterio adaptado.
 
 Una ausencia o permanencia en pendiente causada por infraestructura nunca es
 terminal ni verde: detiene cierre y operación. La seguridad exige el par exacto,

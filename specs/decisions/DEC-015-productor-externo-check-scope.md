@@ -10,6 +10,10 @@ modifica WP-016 y no autoriza implementación, instalación ni mutación remota.
 [`DEC-016`](DEC-016-reserva-productor-externo-alcance.md):** reserva `WP-017`
 para el prerrequisito aquí decidido, todavía sin contrato, sin alterar esta
 arquitectura ni autorizar ejecución.
+**Enmendada el 2026-09-28 por
+[`DEC-017`](DEC-017-reserva-sucesor-limpio-wp017.md):** conserva WP-017 como
+intento `blocked` y reserva `WP-018` como sucesor limpio del mismo
+prerrequisito, sin alterar esta arquitectura ni autorizar ejecución.
 
 ## Problema
 
@@ -184,9 +188,10 @@ decisión **no reserva ni inventa su WP-ID**. Un acto normativo humano posterior
 deberá reservarlo, fijar sus límites y admitir después un contrato propio de no
 más de 300 líneas antes de cualquier implementación.
 
-DEC-016 satisface posteriormente solo el primer paso: reserva `WP-017` y fija
-sus límites. Su contrato sigue sin existir y requiere creación, aprobación,
-admisión y activación separadas antes de cualquier implementación.
+DEC-016 reservó posteriormente WP-017, cuyo intento quedó `blocked` por
+DEC-010 §10. DEC-017 reserva `WP-018` como sucesor limpio y fija sus límites.
+Su contrato todavía no existe y requiere creación, aprobación, admisión y
+activación separadas antes de cualquier implementación.
 
 Hasta que ese prerrequisito esté implementado, desplegado, instalado y probado
 mediante autorización separada:
