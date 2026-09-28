@@ -5,6 +5,11 @@ candidata se materializa y fusiona mediante actos humanos posteriores.
 **Fecha propuesta:** 2026-09-27.
 **Base:** `origin/main`
 `332e64543164820ca8ca7ee0af30d2c97fe9ada0`.
+
+**Actualizada el 2026-09-28 por
+[`DEC-017`](DEC-017-reserva-sucesor-limpio-wp017.md):** conserva íntegra esta
+reserva histórica y el bloqueo posterior de WP-017; reserva `WP-018` como
+sucesor limpio sin reescribir ni reactivar WP-017.
 **Ámbito:** reservar y delimitar un único WP previo a WP-016; no crear su
 contrato ni autorizar infraestructura, secretos, implementación o mutaciones
 remotas.
@@ -172,6 +177,11 @@ La parte relevante de la pausa queda:
 8. runtime, humo seguro y E2 mediante actos posteriores independientes.
 
 Esta secuencia expresa dependencias. No autoriza en cadena ninguno de sus pasos.
+
+**Estado posterior.** DEC-010 §10 dejó WP-017 `blocked`, nunca `done`, y eligió
+una división limpia. DEC-017 reserva después `WP-018` como sucesor, con contrato
+todavía inexistente. Las fronteras de esta decisión permanecen vigentes por
+referencia; WP-017 no se reabre y su candidata histórica no se traslada.
 
 ## Composición atómica mínima
 

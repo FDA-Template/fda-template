@@ -24,6 +24,11 @@ el apartado 10 bloquea WP-017 sin declararlo entregado, elige una división
 limpia posterior y prohíbe reiniciar ciclos o trasladar la candidata histórica.
 No reserva otro WP-ID ni autoriza redactar su sucesor.
 
+**Actualizada el 2026-09-28 por [`DEC-017`](DEC-017-reserva-sucesor-limpio-wp017.md):**
+materializa únicamente el siguiente acto previsto por §10 y reserva `WP-018`
+como sucesor limpio. No altera los ciclos, el coste irrecuperable, el bloqueo de
+WP-017 ni la preservación de su candidata histórica.
+
 ## Problema
 
 La FDA ya separaba implementador y revisor, limitaba las correcciones ordinarias
@@ -470,6 +475,11 @@ decisión elige la forma, pero no inventa ni reserva el identificador sucesor.
    decisión no asigna identificador, presupuesto o contrato al sucesor, no
    corrige `WP017-DOR7-F1` y no resuelve DOR-8 o DOR-9.
 6. WP-016 y `ACTIVE` permanecen intactos; la secuencia continúa detenida.
+
+DEC-017 ejecuta posteriormente y solo ese siguiente acto: identifica `WP-018`,
+fija `100 EUR`, F1 desde la primera invocación y `max_ciclos_correccion: 2`, y
+clasifica la herencia de DOR-1 a DOR-6. No redacta el contrato, no abre ciclos,
+no resuelve DOR-7 a DOR-9 y no modifica ninguno de los hechos de esta §10.
 
 ### 10.4. Composición atómica
 

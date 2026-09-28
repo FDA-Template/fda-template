@@ -6,6 +6,7 @@ operador; no crea ni activa ningún WP
 **Enmendada el 2026-09-21 por [`DEC-012`](DEC-012-gramatica-patrones-alcance.md):** resuelve la gramática de las listas de alcance, amplía de forma acotada la excepción temporal del parser histórico y exige replantear la candidata externa de WP-015; no crea, aprueba, admite ni activa el WP.
 **Enmendada el 2026-09-27 por [`DEC-015`](DEC-015-productor-externo-check-scope.md):** antepone un productor externo mediante GitHub App a WP-016, sin reservar su WP-ID, y mantiene en reposo la secuencia hasta decisiones y contratos posteriores.
 **Enmendada el 2026-09-27 por [`DEC-016`](DEC-016-reserva-productor-externo-alcance.md):** reserva `WP-017` para ese productor externo, todavía sin contrato, y conserva separados todos los actos posteriores.
+**Enmendada el 2026-09-28 por [`DEC-017`](DEC-017-reserva-sucesor-limpio-wp017.md):** mantiene WP-017 bloqueado y reserva `WP-018` como su sucesor limpio, sin contrato ni autorización de ejecución.
 
 **Base de decisión:** `f85163f93fe193ce177466dadfea63821f39e68f`.
 
@@ -98,8 +99,9 @@ vez, los siguientes hitos:
 1. **Productor externo, integración en CI y ruleset.** Antes de WP-016 se
    requiere una GitHub App externa que produzca el check desde bytes confiables,
    con reconciliación, permisos y custodia conforme a DEC-015. `WP-017` queda
-   reservado para ese prerrequisito por DEC-016, todavía sin contrato: crearlo,
-   aprobarlo, admitirlo, activarlo o ejecutarlo exige actos separados.
+   como intento histórico `blocked`; DEC-017 reserva `WP-018` como sucesor
+   limpio para ese prerrequisito, todavía sin contrato. Crearlo, aprobarlo,
+   admitirlo, activarlo o ejecutarlo exige actos separados.
 
    **Reserva posterior y condicionada:**
    [`DEC-014`](DEC-014-reserva-sucesor-wp005.md)
