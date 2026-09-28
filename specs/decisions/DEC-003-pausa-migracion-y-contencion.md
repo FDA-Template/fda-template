@@ -16,6 +16,7 @@
 **Enmendada el 2026-09-27 por [`DEC-014`](DEC-014-reserva-sucesor-wp005.md):** §4 admite una composición normativa de cinco archivos que reserva `WP-016` como identificador del sucesor limpio de WP-005 únicamente desde su fusión humana. `ACTIVE` permanece en reposo; la reserva no crea, aprueba, admite, activa ni autoriza ejecutar el contrato.
 **Enmendada el 2026-09-27 por [`DEC-015`](DEC-015-productor-externo-check-scope.md):** §§2 y 4 anteponen a `WP-016` un productor externo mediante GitHub App todavía sin WP-ID, admiten la composición normativa de siete archivos y registran el contrato existente de `WP-016` como `draft` y bloqueado. `ACTIVE` permanece en reposo; no se reserva, crea, aprueba, admite, activa ni implementa otro WP.
 **Enmendada el 2026-09-27 por [`DEC-016`](DEC-016-reserva-productor-externo-alcance.md):** §§2 y 4 reservan `WP-017` para el productor externo previo a `WP-016` y admiten su composición normativa de siete archivos. `ACTIVE` permanece en reposo; la reserva no crea, aprueba, admite, activa ni implementa el contrato.
+**Enmendada el 2026-09-28 por la decisión de instancia de [`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §8:** §4 admite una composición normativa de tres archivos que habilita, sin iniciarlo, un C3 mínimo y último para el único residual `WP017-DOR7-F1`. No crea otro identificador normativo, no modifica WP-017 ni `ACTIVE`, conserva cerrados F2–F4 y exige otra autorización humana y la preimagen C2 versionada antes de corregir.
 
 ## Problema
 
@@ -611,6 +612,18 @@ juntos o ninguno. Es un acto normativo de operador con `ACTIVE` en reposo:
 reserva `WP-017`, pero no crea, aprueba, admite, activa o implementa su contrato,
 no modifica `WP-016` y no autoriza infraestructura, secretos, pruebas reales,
 workflows, ruleset, ramas, commits, PRs ni actos posteriores.
+
+**Admisión atómica de la decisión de instancia de `DEC-010` §8.** Se modifica
+directamente esta lista en el mismo diff; la enmienda no se autoautoriza. La
+composición cerrada consta exactamente de `DEC-010`, esta `DEC-003` y
+`docs/manual/05-bloqueos-y-parada.md`; todos viajan juntos o ninguno. Habilita
+únicamente un C3 final para `WP017-DOR7-F1`, limitado a sustituir el identificador
+IAM por el nombre canónico basado en `PROJECT_NUMBER` y a exigir oráculos
+positivo y negativo. No corrige ni modifica WP-017, no reabre F2–F4, no inicia
+C3, no autoriza C4 y no cambia `ACTIVE`, código, pruebas, evidencias,
+infraestructura, secretos, permisos, ramas, worktrees o candidatas. El inicio
+exige fusión previa de estos tres archivos, otra autorización humana y la
+preimagen C2 y la fila C3 versionadas conforme a DEC-010 §8.3.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 

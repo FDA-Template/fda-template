@@ -131,6 +131,17 @@ quede versionada en `evidence/WP-015/ciclos.md` antes de cualquier corrección.
 La regla general de dos ciclos, la salida ordinaria tras C2 y la prohibición de
 C4 no cambian.
 
+**Excepción de instancia para la candidata externa de WP017-DOR-7.**
+[`DEC-010` §8](../../specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md)
+habilita, solo después de fusionarse su composición normativa de tres archivos,
+un C3 único para `WP017-DOR7-F1`: cambiar `PROJECT_ID` por `PROJECT_NUMBER` en
+el nombre canónico que compara la condición IAM y exigir una comprobación
+positiva sobre el secreto autorizado y otra negativa sobre un secreto distinto.
+F2, F3 y F4 permanecen cerrados. La fusión no inicia C3: hace falta otra
+autorización humana, custodiar sin cambios la preimagen C2 en una rama candidata
+y versionar la fila C3 antes de corregir. No se crea un identificador normativo
+nuevo, no se renombra ningún ciclo y no existe C4.
+
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
 Ver [DEC-010](../../specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md).
