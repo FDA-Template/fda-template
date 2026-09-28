@@ -9,6 +9,11 @@ bloqueado de WP-008 y revisión independiente de esta candidata normativa. Se
 materializa desde reposo como acto de operador, sin reanudar la secuencia
 técnica detenida por [`DEC-009`](DEC-009-cierre-bloqueado-wp-008.md).
 
+**Enmendada el 2026-09-28 por decisión humana de instancia:** el apartado 8
+habilita, sin iniciarlo, un C3 único para la candidata externa que resuelve
+`WP017-DOR-7`. No crea otro identificador normativo, no corrige la candidata y
+no altera la regla general de dos ciclos.
+
 ## Problema
 
 La FDA ya separaba implementador y revisor, limitaba las correcciones ordinarias
@@ -181,3 +186,131 @@ una sesión.
 **No autorizado:** fusionar sin acto humano posterior; cambiar `ACTIVE`; crear
 o ejecutar un WP; tocar protegidos; decidir o reanudar la recuperación de
 WP-008; limpiar ramas, worktrees o candidatas.
+
+## 8. Enmienda de instancia del 2026-09-28 — C3 excepcional de WP017-DOR-7
+
+### 8.1. Hechos, identidad y conjunto cerrado
+
+Sobre `origin/main` `ec8cb8113df8c209e9340d9841192dd46cd11a5a`, la
+candidata externa de resolución de `WP017-DOR-7` consumió C1 y C2 y quedó
+`NO APTO`. La preimagen agotada y preservada es
+`WP017-DOR7-candidata-NO-APTA-C2.patch`, SHA-256
+`e4877b02a05ad65be1579d333758808393f3a6b4473e1b719ebaa43e8c4709a7`.
+Aplicada solo para reconstrucción sobre esa base, deja
+`work-packages/WP-017-productor-externo-alcance.md` con SHA-256
+`ad2053893d7416a30a564c33416ddd7ac8e77220575f071906e8c0cb131086ee` y
+`docs/manual/05-bloqueos-y-parada.md` con SHA-256
+`ae49c644cd7a2361b1ed7e251cf98e5cac1ed026cbb465ba86d1cc6f0cf37206`.
+
+La revisión completa abrió `WP017-DOR7-F1` a `WP017-DOR7-F4`. C1 cerró F2,
+F3 y F4 y dejó F1 por la ausencia de autoridad para fijar la política IAM del
+secreto. C2 sustituyó los bindings sobre el secreto por bindings de proyecto
+condicionados, pero F1 permaneció abierto porque la condición usa `PROJECT_ID`
+donde `resource.name` exige el nombre canónico basado en `PROJECT_NUMBER`.
+F2, F3 y F4 permanecen cerrados y no autorizan ningún cambio.
+
+La documentación oficial de IAM distingue expresamente ID y número de
+proyecto y prohíbe sustituir uno por otro en los formatos de nombres de
+recursos. La API regional puede aceptar un ID al direccionar una solicitud,
+pero eso no cambia el valor canónico que compara `resource.name`. Por tanto el
+residual es único, conocido y comprobable sin elegir nueva política.
+
+### 8.2. Elección excepcional, no transición nueva
+
+Se habilita un C3 mínimo y último. No se replantea como candidata nueva porque
+eso reiniciaría de hecho una transición cuyo contrato, alcance y controles no
+cambian y ocultaría los dos ciclos ya consumidos. Tampoco se divide o cierra
+`blocked`: solo queda una sustitución mecánica dentro de una condición ya
+decidida y dos oráculos deterministas. Esta decisión de instancia es la
+decisión humana nueva, previa, fechada y versionada que exige el apartado 5;
+enmendar DEC-010 evita inventar o reservar otro identificador normativo.
+
+La excepción no empieza C3. Solo entra en vigor tras la materialización y
+fusión humana de la composición de §8.7 y requiere después otra autorización
+humana que identifique el commit fusionado, la preimagen C2 y el procedimiento
+de custodia de §8.3. No existe C4.
+
+### 8.3. Preimagen versionada antes de corregir
+
+La candidata C2 externa no se corrige in situ. Con autorización posterior, se
+creará desde la base exacta citada una rama candidata gobernada y se aplicarán
+sin cambios sus bytes preservados. El primer commit de custodia contendrá esa
+preimagen C2 y `evidence/WP-017/ciclos.md`, que reconstruirá C1 y C2 como
+historia consumida mediante sus dictámenes y huellas, sin renombrarlos. Después
+se incorporará, sin reescribir historia, el `main` que contenga esta enmienda.
+
+En un commit posterior y todavía anterior a cualquier corrección, la fila C3
+de `evidence/WP-017/ciclos.md` quedará versionada con: estado `abierto`, origen
+C2, `WP017-DOR7-F1`, fecha, SHA de esta enmienda ya vigente, presupuesto de
+§8.5 y cabeza candidata. Solo entonces puede comenzar la pasada. Si la
+preimagen reconstruida, cualquiera de sus dos SHA-256 o la historia difieren,
+se detiene; no se adapta ni regenera la candidata por conveniencia.
+
+### 8.4. Única corrección autorizable y oráculos
+
+Claude Code sigue siendo el único autor y corrector. C3 solo puede modificar
+`work-packages/WP-017-productor-externo-alcance.md` y las evidencias cerradas
+de §8.6. En la condición de DOR-4 debe sustituir exclusivamente las dos
+apariciones del prefijo
+`projects/PROJECT_ID/locations/europe-west1/secrets/github-webhook-secret`
+por
+`projects/PROJECT_NUMBER/locations/europe-west1/secrets/github-webhook-secret`:
+una igualdad para el secreto y un `startsWith` terminado en `/versions/`.
+
+El mismo cambio contractual debe exigir que la futura verificación headless:
+
+1. evalúe positivamente la condición para el secreto autorizado y para una de
+   sus versiones numéricas;
+2. evalúe negativamente la misma condición para
+   `projects/PROJECT_NUMBER/locations/europe-west1/secrets/otro-secreto` y una
+   de sus versiones;
+3. falle si cualquiera de los cuatro resultados no coincide con lo esperado.
+
+No se autoriza cambiar roles, miembros, ámbito, región, nombre del secreto,
+recursos, operación, DOR-8, DOR-9, manual, F2, F3 o F4. La misma Astra que
+emitió el dictamen enfocado de C2 realizará una sola revalidación enfocada de
+F1 y de los efectos directos de esta corrección; no habrá otra revisión general.
+
+### 8.5. Presupuesto y techo
+
+- Presupuesto adicional máximo para C3: `5.00 EUR`.
+- Techo final acumulado de WP-017: `100.00 EUR`, sin modificar el máximo
+  contractual vigente.
+- Antes de abrir C3, `evidence/WP-017/cost.md` debe fijar el coste acumulado
+  verificable. Si no puede reconstruirse, si supera `95.00 EUR` o si C3 alcanza
+  `5.00 EUR`, la pasada no comienza o se detiene sin otra invocación del autor.
+
+### 8.6. Evidencia y salida
+
+C3 solo puede crear o actualizar, además del único contrato de §8.4:
+
+- `evidence/WP-017/ciclos.md`;
+- `evidence/WP-017/revision-astra.md`;
+- `evidence/WP-017/cost.md`;
+- `evidence/WP-017/verificacion-dor7-c3.md`, limitado a los cuatro oráculos de
+  §8.4, sin secretos, identificadores reales ni prueba sobre infraestructura.
+
+La revalidación `APTO` cerraría exclusivamente F1 y permitiría una autorización
+humana posterior para materializar la resolución de DOR-7. No aprueba, admite,
+activa o implementa WP-017. Si F1 continúa abierto, aparece otro hallazgo,
+resulta necesaria otra ruta o se agota el presupuesto, la candidata se
+preserva `NO APTO` y se detiene; no existe corrección posterior.
+
+### 8.7. Composición normativa y límites
+
+Esta enmienda de instancia viaja en una composición atómica de exactamente
+tres archivos; todos o ninguno:
+
+1. `specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md`;
+2. `specs/decisions/DEC-003-pausa-migracion-y-contencion.md`;
+3. `docs/manual/05-bloqueos-y-parada.md`.
+
+La composición no modifica WP-017, WP-016, `ACTIVE`, candidatas, evidencias,
+código, pruebas, infraestructura, cuentas, roles, secretos, permisos, Google
+Cloud, GitHub, workflows o ruleset. No crea rama, worktree, commit o PR y no
+inicia C3. Su materialización, publicación y fusión, la custodia de la preimagen
+y el inicio de C3 son actos humanos posteriores y separados.
+
+Fuentes primarias revalidadas el 2026-09-28: documentación de Google Cloud
+«Resource attributes for IAM Conditions», «Attribute reference for IAM
+Conditions» y referencia REST `projects.locations.secrets` de Secret Manager.
