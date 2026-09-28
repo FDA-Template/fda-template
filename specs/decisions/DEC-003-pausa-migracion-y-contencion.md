@@ -18,6 +18,7 @@
 **Enmendada el 2026-09-27 por [`DEC-016`](DEC-016-reserva-productor-externo-alcance.md):** §§2 y 4 reservan `WP-017` para el productor externo previo a `WP-016` y admiten su composición normativa de siete archivos. `ACTIVE` permanece en reposo; la reserva no crea, aprueba, admite, activa ni implementa el contrato.
 **Enmendada el 2026-09-28 por la decisión de instancia de [`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §8:** §4 admite una composición normativa de tres archivos que habilita, sin iniciarlo, un C3 mínimo y último para el único residual `WP017-DOR7-F1`. No crea otro identificador normativo, no modifica WP-017 ni `ACTIVE`, conserva cerrados F2–F4 y exige otra autorización humana y la preimagen C2 versionada antes de corregir.
 **Enmendada de nuevo el 2026-09-28 por la decisión de instancia de [`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §9:** §§2 y 4 admiten la composición normativa de cuatro archivos que cierra la transición `WP017-DOR-7` como bloqueada antes de C3 porque su coste acumulado no puede reconstruirse. WP-017 permanece `draft`, DOR-7 a DOR-9 siguen abiertos y `ACTIVE` permanece en reposo.
+**Enmendada por tercera vez el 2026-09-28 por la decisión de instancia de [`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §10:** §§2 y 4 admiten la composición normativa de cinco archivos que deja WP-017 `blocked`, elige una división limpia posterior sin reservar sucesor y mantiene `ACTIVE` en reposo.
 
 ## Problema
 
@@ -188,11 +189,12 @@ autorizaciones.
 1. `WP-015`, sucesor limpio de WP-002, queda `done`: construyó exclusivamente
    el ejecutable local determinista y la biblioteca única de matching. Su
    cierre no acredita CI ni bloqueo de fusión.
-2. `WP-017` tiene contrato `draft`, con DOR-1 a DOR-6 resueltos. La transición
-   candidata de DOR-7 queda `blocked` antes de C3 por coste irrecuperable;
-   DOR-7 a DOR-9 permanecen abiertos. La secuencia se detiene aquí hasta otra
-   decisión humana nueva; aprobar, admitir, activar o ejecutar el WP continúa
-   prohibido.
+2. `WP-017` queda `blocked`, nunca `done`: DOR-1 a DOR-6 están resueltos, la
+   transición candidata de DOR-7 quedó `blocked` antes de C3 y DOR-7 a DOR-9
+   permanecen abiertos. No se replantea dentro del mismo WP porque su coste
+   acumulado es irrecuperable. La división limpia elegida exige otra decisión
+   humana para investigar y, si procede, reservar un sucesor; no existe todavía
+   otro WP-ID ni autorización para redactarlo o ejecutarlo.
 3. `WP-016`, cuyo contrato existe en `draft` y bloqueado, integrará el mismo
    verificador en CI solo después de acreditar ese productor. Una persona
    incorporará después el par
@@ -462,7 +464,7 @@ Los tres checks obligatorios son jobs de `ci.yml` y siguen operando. La contenci
 | `WP-002` | Entrada histórica, no ejecutable: permanece `blocked` y fue sustituido para el alcance local por `WP-015`, ya cerrado `done`; no se reabre |
 | `WP-005` | Entrada histórica, no ejecutable: permanece `draft` y será sustituido por `WP-016`, reservado por `DEC-014` únicamente desde la fusión humana de su composición |
 | `WP-016` | Identificador reservado para el sucesor limpio de WP-005; contrato existente en `draft`, bloqueado por `WP016-DOR-1`, no aprobado, admitido, activo ni autorizado para ejecución |
-| `WP-017` | Contrato existente en `draft`; DOR-1 a DOR-6 resueltos, transición candidata de DOR-7 cerrada `blocked` antes de C3 y DOR-7 a DOR-9 abiertos; no aprobado, admitido, activo ni autorizado para ejecución |
+| `WP-017` | Contrato `blocked`, nunca entregado; DOR-1 a DOR-6 resueltos, transición candidata de DOR-7 cerrada antes de C3 y DOR-7 a DOR-9 abiertos; retirado de la cola ejecutable y dividido solo en forma, sin sucesor identificado o autorizado |
 | `WP-007` | Permanece `ready` y congelado; DEC-011 prevé su cierre posterior por superación, con autorización separada y sin transición de `ACTIVE` |
 | Prueba de humo de D1 | **No es una entrada propia**: será alcance de un sucesor limpio de `WP-008`, todavía sin identificador ni admisión |
 | Parche humano del guard delgado | Acto de operador sobre `.claude/hooks/**`, carril T3, posterior a `WP-002` y `WP-005` |
@@ -638,6 +640,17 @@ inicio y cierra solo esa transición como bloqueada. No crea `cost.md`, fila C3,
 otro identificador o excepción de coste; no modifica WP-017, WP-016, `ACTIVE`,
 evidencias o candidatas y no autoriza ejecución, infraestructura, secretos,
 permisos, ramas, worktrees, commits o PRs.
+
+**Admisión atómica de la decisión de instancia de `DEC-010` §10.** Se modifica
+directamente esta lista en el mismo diff; la enmienda no se autoautoriza. La
+composición cerrada consta exactamente de `DEC-010`, esta `DEC-003`,
+`docs/03-hoja-de-ruta.md`, `docs/manual/05-bloqueos-y-parada.md` y
+`work-packages/WP-017-productor-externo-alcance.md`; todos viajan juntos o
+ninguno. Marca WP-017 `blocked`, no `done`, preserva abiertos DOR-7 a DOR-9 y
+elige únicamente una división limpia posterior. No crea `cost.md`, filas de
+ciclos, excepción económica, contrato o WP-ID sucesor; no modifica WP-016,
+`ACTIVE`, evidencias o candidatas y no autoriza investigación posterior,
+ejecución, infraestructura, ramas, worktrees, commits o PRs.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 
