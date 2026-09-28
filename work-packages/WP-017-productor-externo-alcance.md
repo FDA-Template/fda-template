@@ -1,6 +1,6 @@
 # WP-017 — Productor externo de Alcance FDA
 
-estado: draft
+estado: blocked
 prioridad: P0
 riesgo: T3
 agente_responsable: Claude Code (implementer)
@@ -11,9 +11,11 @@ decision: [DEC-003, DEC-010, DEC-011, DEC-014, DEC-015, DEC-016]
 presupuesto_max_eur: 100
 max_ciclos_correccion: 2
 
-Esta candidata es deliberadamente `draft`. Su materialización no la aprueba,
-admite, activa ni autoriza ejecutar. La base de redacción es `origin/main`
-`9d69fcc6031cd2a4a98621f0e8a17056e172c6c2`.
+Este contrato queda `blocked`, nunca `done`, por DEC-010 §10: no fue aprobado,
+admitido, activado o implementado; su transición DOR-7 agotó C1/C2 sin coste
+reconstruible y DOR-7 a DOR-9 siguen abiertos. Queda retirado de la cola
+ejecutable; otro productor exige una decisión posterior y otro WP-ID todavía no
+reservado. La base histórica de redacción fue `origin/main` `9d69fcc6031cd2a4a98621f0e8a17056e172c6c2`.
 
 ## Objetivo y contexto
 
@@ -265,7 +267,8 @@ locales sensibles, variables de entorno, URLs firmadas o capturas voluminosas.
 
 ## Puertas y condiciones de parada
 
-0. `draft`: DoR abierta; no se aprueba, admite, activa ni implementa.
+0. `blocked`: retirado de la cola ejecutable por DEC-010 §10; no se aprueba,
+   admite, activa, implementa o reactiva mediante este contrato.
 1. `ready`: solo tras resolver DOR-1 a DOR-9 y revisar el contrato actualizado.
 2. Admisión y activación: actos humanos posteriores y separados.
 3. Implementación: solo Claude Code autorizado, dentro de rutas y presupuesto.

@@ -19,6 +19,11 @@ apartado 9 constata que el coste acumulado de C1 y C2 no puede reconstruirse,
 cierra la transición `WP017-DOR-7` como bloqueada antes de abrir C3 y deja sin
 efecto su autorización excepcional todavía no usada.
 
+**Enmendada por tercera vez el 2026-09-28 por decisión humana de instancia:**
+el apartado 10 bloquea WP-017 sin declararlo entregado, elige una división
+limpia posterior y prohíbe reiniciar ciclos o trasladar la candidata histórica.
+No reserva otro WP-ID ni autoriza redactar su sucesor.
+
 ## Problema
 
 La FDA ya separaba implementador y revisor, limitaba las correcciones ordinarias
@@ -404,3 +409,82 @@ La composición parte de la base exacta de §9.1. No contiene WP-017, WP-016,
 cuentas, roles, secretos, permisos, ramas, worktrees ni candidatas. Su
 materialización, publicación y fusión son actos humanos posteriores y
 separados; esta candidata externa no los autoriza.
+
+## 10. Enmienda de instancia del 2026-09-28 — bloqueo de WP-017 y división limpia
+
+### 10.1. Hechos y restricción económica
+
+La base normativa es `origin/main`
+`630b095b009211475dd30666f7525a7b7d3eecbe`. WP-017 permanece `draft`, nunca
+fue aprobado, admitido, activado o implementado: DOR-1 a DOR-6 están resueltos,
+DOR-7 a DOR-9 abiertos y la transición de DOR-7 cerrada `blocked` antes de C3.
+La rama `ops/wp-017-dor7-candidata` permanece en
+`a15483b7c05d64431fde8866aca27e2d339017c6` como candidata histórica
+`NO APTO`; esta enmienda no la lee como fuente de bytes ni la modifica.
+
+DEC-010 §9 acredita que C1 y C2 no tienen coste F1, F2 o F3 reconstruible.
+DEC-004 §11 impide cerrar como APTO un WP con `estado_coste: no_disponible`
+mientras dure DEC-003 y no exista el registro único que debe crear WP-010.
+Medir desde cero un intento posterior no reconstruiría el total de WP-017 y un
+contador nuevo bajo el mismo WP ocultaría los dos ciclos ya consumidos.
+
+### 10.2. Alternativas comparadas
+
+**Abandono definitivo de WP-017 como `blocked`, sin sucesor — viable pero no
+elegido.** Es una salida administrativa lícita de DEC-010 §5: preservaría el
+expediente sin afirmar entrega ni exigir `done`. Se rechaza porque dejaría sin
+continuidad el productor externo que DEC-015 y DEC-016 mantienen como
+prerrequisito de WP-016, no porque incumpla la regla de parada. `done` sí queda
+prohibido: afirmaría una entrega inexistente y criterios no cumplidos. Tampoco
+se crea `cost.md`, se inventa coste o se usa `done` como sinónimo de abandono.
+
+**Replanteamiento directo dentro de WP-017 — rechazado.** Una transición nueva
+podría medir sus propias invocaciones, pero no el coste acumulado del WP. Darle
+C1/C2 propios bajo el mismo identificador convertiría el replanteamiento en un
+reinicio material de la cuenta cerrada por §9 y dejaría el mismo bloqueo para
+el cierre, después de más gasto.
+
+**División limpia posterior — elegida.** WP-017 queda como expediente bloqueado
+y el productor pendiente deberá ser objeto de un sucesor limpio. Es la única
+opción que permite que presupuesto, coste y ciclos nazcan juntos y sean
+atribuibles desde la primera invocación, sin alterar la historia agotada. Esta
+decisión elige la forma, pero no inventa ni reserva el identificador sucesor.
+
+### 10.3. Decisión y límites del siguiente acto
+
+1. WP-017 pasa de `draft` a `blocked`, nunca a `done`. DOR-7 a DOR-9 permanecen
+   abiertos y sus criterios no se declaran cumplidos.
+2. WP-017 queda retirado de la cola ejecutable: no puede aprobarse, admitirse,
+   activarse, implementarse o reactivarse sin otra decisión humana nueva,
+   previa, fechada y versionada que resuelva expresamente esta enmienda y
+   DEC-004 §11.
+3. La candidata histórica, sus dos commits, ciclos reconstruidos y hallazgos se
+   preservan íntegros. No se fusionan, corrigen, importan, rebasan, ejecutan,
+   limpian ni se copian a un sucesor.
+4. El siguiente acto posible es únicamente investigar y, si procede, reservar
+   un nuevo WP-ID para un sucesor limpio. Debe fijar antes de redactar contrato:
+   adquisición F1 desde la primera invocación con WP-ID explícito, presupuesto
+   máximo, `max_ciclos_correccion: 2`, alcance material y relación con DOR-8 y
+   DOR-9. No puede abrir una transición o fila de ciclos bajo WP-017.
+5. Ese acto posterior no está preparado ni autorizado aquí. La presente
+   decisión no asigna identificador, presupuesto o contrato al sucesor, no
+   corrige `WP017-DOR7-F1` y no resuelve DOR-8 o DOR-9.
+6. WP-016 y `ACTIVE` permanecen intactos; la secuencia continúa detenida.
+
+### 10.4. Composición atómica
+
+Esta enmienda y el bloqueo contractual viajan en exactamente cinco archivos;
+todos o ninguno:
+
+1. `specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md`;
+2. `specs/decisions/DEC-003-pausa-migracion-y-contencion.md`;
+3. `docs/03-hoja-de-ruta.md`;
+4. `docs/manual/05-bloqueos-y-parada.md`;
+5. `work-packages/WP-017-productor-externo-alcance.md`.
+
+No contiene WP-016, `ACTIVE`, `evidence/**`, código, pruebas, workflows,
+ruleset, infraestructura, cuentas, roles, secretos, permisos, ramas,
+worktrees o candidatas. No crea `cost.md`, filas de ciclos, otro WP-ID ni una
+excepción económica; no autoriza ejecución o actos posteriores. Su
+materialización, publicación y fusión requieren autorizaciones humanas
+separadas.
