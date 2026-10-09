@@ -204,19 +204,22 @@ su expiración verificada. Como los recursos aún no están fijados, la decisió
 no resuelve F2, no abre candidata técnica ni crea recursos. DOR-7 a DOR-9 siguen
 abiertos, WP-018 `draft` y `ACTIVE` en reposo.
 
-**Cuando el entorno protegido todavía no existe o los parámetros no están
-fijados.** DEC-010 §15 impide preparar o materializar el workflow de
-`WP018-DOR-7` mientras no se acrediten antes `PROJECT_ID`, `PROJECT_NUMBER` y
-su correspondencia y no exista el entorno protegido completo. El paso 1 ya
-acredita `PROJECT_ID=fda-template`, `PROJECT_NUMBER=615273535351`, `ACTIVE`,
-parent ausente y `billingEnabled: true`, sin mutar proyecto o facturación; el
-entorno sigue inexistente y mantiene el bloqueo. GitHub puede
-crear automáticamente un entorno inexistente cuando un workflow lo referencia;
-esa creación implícita es siempre `NO APTO`. El orden obligatorio es: identidad
-del proyecto, entorno con dos revisores y sin autoaprobación o bypass, bytes
-exactos revisados, WIF inicialmente deshabilitado sin bindings, C0 sin
-privilegios, instalación posterior de ambos bindings con WIF deshabilitado y
-C1 privilegiado. El
+**Gate previo al workflow de WP018-DOR-7.** DEC-010 §15 impide preparar o
+materializar el workflow mientras no se acrediten antes la identidad del
+proyecto y el entorno protegido completo. El paso 1 acredita
+`PROJECT_ID=fda-template`, `PROJECT_NUMBER=615273535351`, `ACTIVE`, parent
+ausente y `billingEnabled: true`, sin mutar proyecto o facturación. El paso 2
+acredita desde una preimagen de cero entornos el único entorno
+`wp018-dor7-emergency-push`: revisores `ivanes189` y `de-lean788`,
+`prevent_self_review: true`, `can_admins_bypass: false`, política personalizada
+con la única rama `main`, sin temporizador, secrets o vars. Su historial web
+registra creación, regla de revisores, política de rama y patrón `main`; la
+lectura REST saneada confirma la postimagen. La consulta REST del audit log no
+está disponible (`404`), por lo que no se usa como evidencia inexistente ni se
+oculta esa limitación. El siguiente acto separado es preparar y revisar los
+bytes exactos; el workflow todavía no existe. El orden posterior sigue siendo:
+WIF inicialmente deshabilitado sin bindings, C0 sin privilegios, instalación
+posterior de ambos bindings con WIF deshabilitado y C1 privilegiado. El
 workflow no usa acciones; `ubuntu-24.04` no se describe como pin inmutable. La
 candidata debe fijar `ImageOS` y `ImageVersion` y fallar antes de OIDC ante
 cualquier diferencia. Si se exige una imagen realmente inmutable, se detiene y
