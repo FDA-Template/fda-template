@@ -21,33 +21,65 @@ no hace falta otra decisión previa.
 - organización: `FDA-Template`, `repository_owner_id: 340040486`;
 - humanos admitidos: `ivanes189`, `actor_id: 74557686`, y `de-lean788`,
   `actor_id: 260103530`;
+- proyecto exclusivo de Google Cloud: nombre e ID `fda-template`, número
+  `615273535351`, estado `ACTIVE` y parent ausente (`No organization`);
 - workflow: `.github/workflows/wp018-dor7-emergency-push.yml`;
 - entorno: `wp018-dor7-emergency-push`;
 - pool global: `wp018-dor7-emergency`;
 - proveedor OIDC: `github-oidc`;
 - issuer: `https://token.actions.githubusercontent.com/`;
-- audiencia: `//iam.googleapis.com/projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/wp018-dor7-emergency/providers/github-oidc`;
-- suscripción única: `projects/${PROJECT_ID}/subscriptions/alcance-fda-wp018-worker-push`;
-- cuenta única: `alcance-fda-wp018-push@${PROJECT_ID}.iam.gserviceaccount.com`;
+- audiencia: `//iam.googleapis.com/projects/615273535351/locations/global/workloadIdentityPools/wp018-dor7-emergency/providers/github-oidc`;
+- suscripción única: `projects/fda-template/subscriptions/alcance-fda-wp018-worker-push`;
+- cuenta única: `alcance-fda-wp018-push@fda-template.iam.gserviceaccount.com`;
 - suscripción negativa existente:
-  `projects/${PROJECT_ID}/subscriptions/alcance-fda-wp018-worker-push-denied`;
+  `projects/fda-template/subscriptions/alcance-fda-wp018-worker-push-denied`;
 - cuentas negativas existentes: scheduler, ingress, worker y
-  `alcance-fda-wp018-push-denied@${PROJECT_ID}.iam.gserviceaccount.com`;
+  `alcance-fda-wp018-push-denied@fda-template.iam.gserviceaccount.com`;
 - endpoint y audience de la ceremonia:
   `https://wp018-dor7.invalid/pubsub`;
 - roles personalizados de proyecto:
-  `projects/${PROJECT_ID}/roles/wp018Dor7SubscriptionUpdate`, con solo
+  `projects/fda-template/roles/wp018Dor7SubscriptionUpdate`, con solo
   `pubsub.subscriptions.update`, y
-  `projects/${PROJECT_ID}/roles/wp018Dor7PushActAs`, con solo
+  `projects/fda-template/roles/wp018Dor7PushActAs`, con solo
   `iam.serviceAccounts.actAs`, ambos en fase `GA`.
 
-`${PROJECT_ID}` y `${PROJECT_NUMBER}` no son entradas del workflow. Antes de
-crear recursos, el operador los obtiene del proyecto exclusivo aprobado,
-prueba su correspondencia mutua y los inserta como literales en el parche de
-operador y en la evidencia. `${WORKFLOW_SHA}` es el commit completo de `main`
+`PROJECT_ID=fda-template` y `PROJECT_NUMBER=615273535351` son literales cerrados
+y no son entradas del workflow. El acto humano del 2026-10-09 ejecutó únicamente
+estas dos lecturas canónicas saneadas:
+
+```text
+gcloud projects describe fda-template --format='json(projectId,projectNumber,lifecycleState,parent)'
+gcloud billing projects describe fda-template --format='json(projectId,billingEnabled)'
+```
+
+Las salidas acreditan exactamente `projectId: fda-template`,
+`projectNumber: 615273535351`, `lifecycleState: ACTIVE`, parent ausente y
+`billingEnabled: true`. Google define este último valor como asociación a una
+cuenta abierta. No se solicitó ni conservó `billingAccountName`. La consola
+acredita además una única cuenta humana propietaria de Iván, vinculación a una
+cuenta directa compartida con otros proyectos y coste observado `0,00 EUR`.
+No se creó proyecto, cambió facturación ni aceptó gasto; Cloud Shell se retiró
+tras las lecturas. La frontera aprobada es el proyecto exclusivo: la cuenta no
+tiene que ser exclusiva y el control de coste debe filtrar por `fda-template`.
+`${WORKFLOW_SHA}` es el commit completo de `main`
 que contenga los bytes revisados del workflow. La ceremonia no depende de un
 Cloud Run existente: usa el endpoint `.invalid` cerrado anterior, sin publicar
 mensajes. Ausencia, discrepancia o variable seleccionable detiene el acto.
+
+La preimagen cerrada del paso 2 de DEC-010 §15 es: repositorio público
+`FDA-Template/fda-template`; rama predeterminada `main`; cero entornos; los
+usuarios `74557686` (`ivanes189`) y `260103530` (`de-lean788`) con acceso
+administrativo. El acto posterior, todavía no autorizado, debe crear únicamente
+`wp018-dor7-emergency-push` con `wait_timer: 0`, esos dos revisores de tipo
+`User`, `prevent_self_review: true` y política personalizada de ramas; después
+debe crear una única regla exacta `main`. La API REST documentada no expone un
+campo para deshabilitar el bypass administrativo: una persona debe desmarcar en
+la interfaz **Allow administrators to bypass configured protection rules** y
+acreditar `can_admins_bypass=false` mediante interfaz e historial de auditoría.
+La postimagen exige además `total_count: 0` tanto para secrets como para vars.
+Si el entorno aparece antes de ese acto, cambia la visibilidad, falta acceso de
+algún revisor o la historia no permite probar el delta completo, se detiene y
+no se adopta ni se recrea por conjetura.
 
 ## 3. Entorno protegido y control dual
 
@@ -156,7 +188,7 @@ repositorio conserva subject inmutable, plan y visibilidad compatibles.
 El único miembro de ambos bindings es:
 
 ```text
-principalSet://iam.googleapis.com/projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/wp018-dor7-emergency/attribute.repository_id/1310040618
+principalSet://iam.googleapis.com/projects/615273535351/locations/global/workloadIdentityPools/wp018-dor7-emergency/attribute.repository_id/1310040618
 ```
 
 El rol `wp018Dor7SubscriptionUpdate` se vincula únicamente en la suscripción;
@@ -276,10 +308,10 @@ roles, provider/pool, workflow, entorno y fixtures, tras exportar postimágenes.
 Cada mutación se verifica por lectura y delta; no se reabre el pool.
 
 La prueba es una ceremonia humana preadmisión, no implementación de WP-018.
-DEC-010 §15 corrige su orden. Primero, un acto humano separado fija y acredita
-los literales `PROJECT_ID` y `PROJECT_NUMBER`; crear el proyecto o vincular
-facturación exige autorización propia. Segundo, otro acto crea y verifica el
-entorno protegido completo antes de que el workflow exista en `main`. Solo
+DEC-010 §15 corrige su orden. El primer acto humano separado ya acreditó
+canónicamente `fda-template` y `615273535351` sin mutar proyecto o facturación.
+Otro acto, todavía no autorizado, debe crear y verificar el entorno protegido
+completo antes de que el workflow exista en `main`. Solo
 después se preparan y revisan sus bytes exactos. Crear topic, suscripciones,
 cuentas, pool/provider y logging sin bindings; ejecutar y cerrar C0; instalar
 después roles y bindings con todo deshabilitado; ejecutar C1; capturar
@@ -290,9 +322,9 @@ APTO; solo entonces puede cerrarse F2/DOR-7 y evaluarse su futura admisión.
 
 La composición mínima de esta enmienda contractual es exactamente estos tres
 archivos: WP-018, `MANUAL.md` y este capítulo. No incluye workflow ni políticas.
-Su materialización no autoriza las mutaciones externas. Éstas requieren, en
-orden, actos humanos separados para: (1) fijar la identidad no secreta del
-proyecto; (2) crear y verificar el entorno protegido, todavía sin workflow;
+Su materialización no autoriza las mutaciones externas. El acto (1), fijar la
+identidad no secreta del proyecto, ya está cumplido; siguen requiriéndose, en
+orden, actos humanos separados para: (2) crear y verificar el entorno protegido, todavía sin workflow;
 (3) preparar, revisar y materializar los bytes exactos del workflow; (4)
 configurar fixtures, logging y WIF inicialmente deshabilitado, sin roles o
 bindings; (5) ejecutar y cerrar C0 sin privilegios; (6) instalar y verificar
@@ -300,8 +332,24 @@ los dos roles y bindings con WIF deshabilitado; y (7) ejecutar C1, sus oráculos
 la única mutación y el rollback. El workflow no se despacha entre los pasos 3
 y 5 ni entre C0 y C1. Solo evidencia real completa puede cerrar F2 y DOR-7.
 
+La composición atómica mínima de este primer acto de preadmisión es exactamente
+WP-018, la hoja de ruta, `05-bloqueos-y-parada.md` y este capítulo. No modifica
+DEC-010 ni DEC-003 porque ejecuta el orden que ya fijó §15; no incluye
+`MANUAL.md` porque no crea capítulo; y no crea `evidence/**` porque no abre un
+ciclo. Materializar esos cuatro archivos no crea ni configura el entorno y no
+autoriza el segundo acto.
+
 Fuentes primarias revalidadas el 2026-10-09: documentación oficial de Google
 Cloud sobre productos compatibles con identidad federada, WIF para pipelines,
 acceso directo, políticas de cuentas de servicio, IAM de Pub/Sub, permisos en
 roles personalizados, STS y autenticación push; y documentación oficial de
-GitHub sobre OIDC y entornos protegidos.
+GitHub sobre OIDC y entornos protegidos. Para este acto se revalidaron además:
+`https://docs.cloud.google.com/resource-manager/docs/creating-managing-projects`,
+`https://docs.cloud.google.com/resource-manager/docs/view-update-projects`,
+`https://docs.cloud.google.com/billing/docs/how-to/verify-billing-enabled`,
+`https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments`,
+`https://docs.github.com/en/rest/deployments/environments`,
+`https://docs.github.com/en/rest/deployments/branch-policies`,
+`https://docs.github.com/en/rest/actions/secrets`,
+`https://docs.github.com/en/rest/actions/variables` y
+`https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/reviewing-the-audit-log-for-your-organization`.

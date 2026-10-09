@@ -207,7 +207,10 @@ abiertos, WP-018 `draft` y `ACTIVE` en reposo.
 **Cuando el entorno protegido todavía no existe o los parámetros no están
 fijados.** DEC-010 §15 impide preparar o materializar el workflow de
 `WP018-DOR-7` mientras no se acrediten antes `PROJECT_ID`, `PROJECT_NUMBER` y
-su correspondencia y no exista el entorno protegido completo. GitHub puede
+su correspondencia y no exista el entorno protegido completo. El paso 1 ya
+acredita `PROJECT_ID=fda-template`, `PROJECT_NUMBER=615273535351`, `ACTIVE`,
+parent ausente y `billingEnabled: true`, sin mutar proyecto o facturación; el
+entorno sigue inexistente y mantiene el bloqueo. GitHub puede
 crear automáticamente un entorno inexistente cuando un workflow lo referencia;
 esa creación implícita es siempre `NO APTO`. El orden obligatorio es: identidad
 del proyecto, entorno con dos revisores y sin autoaprobación o bypass, bytes
