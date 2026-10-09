@@ -20,6 +20,11 @@
 **Enmendada de nuevo el 2026-09-28 por la decisión de instancia de [`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §9:** §§2 y 4 admiten la composición normativa de cuatro archivos que cierra la transición `WP017-DOR-7` como bloqueada antes de C3 porque su coste acumulado no puede reconstruirse. WP-017 permanece `draft`, DOR-7 a DOR-9 siguen abiertos y `ACTIVE` permanece en reposo.
 **Enmendada por tercera vez el 2026-09-28 por la decisión de instancia de [`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §10:** §§2 y 4 admiten la composición normativa de cinco archivos que deja WP-017 `blocked`, elige una división limpia posterior sin reservar sucesor y mantiene `ACTIVE` en reposo.
 **Enmendada el 2026-09-28 por [`DEC-017`](DEC-017-reserva-sucesor-limpio-wp017.md):** §§2 y 4 reservan `WP-018` como sucesor limpio de WP-017, fijan coste F1 desde la primera invocación, presupuesto y dos ciclos, y admiten una composición normativa de nueve archivos. WP-017, WP-016 y `ACTIVE` permanecen intactos.
+**Enmendada el 2026-10-09 por la decisión humana de instancia de
+[`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §11:** §§2 y 4 cierran
+`blocked` tras C2 la transición agotada de `WP018-DOR-7` y eligen un
+replanteamiento como transición nueva. `ACTIVE` permanece en reposo.
+
 
 ## Problema
 
@@ -670,6 +675,18 @@ juntos o ninguno. Reserva `WP-018` con `100 EUR`, F1 desde la primera invocació
 y `max_ciclos_correccion: 2`, pero no crea su contrato, ciclos o evidencias, no modifica WP-017,
 WP-016 o `ACTIVE`, no traslada la candidata histórica y no autoriza ejecución,
 infraestructura, ramas, worktrees, commits o PRs.
+
+**Admisión atómica de la decisión de instancia de `DEC-010` §11.** Se modifica
+directamente esta lista en el mismo diff; la enmienda no se autoautoriza. La
+composición cerrada consta exactamente de `DEC-010`, esta `DEC-003`,
+`docs/03-hoja-de-ruta.md` y `docs/manual/05-bloqueos-y-parada.md`; todos viajan
+juntos o ninguno. Cierra `blocked` después de C2 solo la transición externa de
+`WP018-DOR-7`, preserva su candidata `NO APTO`, mantiene F2 abierto y conserva
+cerrados F1 y F3 a F7. No abre C3, no crea C4 ni otro identificador, y no
+modifica WP-018, WP-017, WP-016, `ACTIVE`, evidencias, infraestructura,
+identidades, roles, secretos, permisos, ramas, worktrees o candidatas. Elige
+únicamente un replanteamiento como transición nueva, cuya investigación y
+preparación requieren otra autorización humana posterior.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 

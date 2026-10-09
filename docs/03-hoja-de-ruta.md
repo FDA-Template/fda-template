@@ -1,6 +1,6 @@
 # Hoja de ruta — de la FDA al AI Agent Operating System
 
-**Creada:** 2026-08-30 · **Última revisión: 2026-09-28** (WP-018 reservado como sucesor limpio de WP-017 — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013 y DEC-017 y actualizada por el cierre de WP-015; la secuencia está detenida antes de redactar el contrato de WP-018, D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
+**Creada:** 2026-08-30 · **Última revisión: 2026-10-09** (transición `WP018-DOR-7` cerrada `blocked` tras C2 — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013 y DEC-017 y actualizada por el cierre de WP-015; WP-018 permanece `draft` y la secuencia está detenida antes de investigar su transición replanteada de DOR-7, D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
 
 **Procedencia.** v1 (30-08): las cinco conversaciones del operador con otras IAs — síntesis en [`04-analisis-conversaciones-ia.md`](04-analisis-conversaciones-ia.md)—, el repositorio completo, el estado de los demás repos y fuentes externas. v2 (01-09): además, los **cuatro documentos de investigación de Leandro** y una **línea base de investigación independiente registrada antes de leerlos** — análisis completo, veredictos y red team en [`05-analisis-investigacion-leandro-y-revalidacion.md`](05-analisis-investigacion-leandro-y-revalidacion.md). Lo redactaron y materializaron sesiones de Claude Code por encargo directo del operador, como actos de operador (§9).
 
@@ -27,6 +27,7 @@
 | 2026-09-28 | WP-017 existe en `draft` con DOR-1 a DOR-6 resueltos; la candidata DOR-7 agotó C1/C2, no puede acreditar coste acumulado y queda cerrada `blocked` antes de C3. DOR-7 a DOR-9 siguen abiertos, la candidata se preserva y la secuencia queda detenida sin otro WP-ID | `DEC-010` §9 |
 | 2026-09-28 | WP-017 pasa a `blocked`, nunca `done`: el replanteamiento bajo el mismo WP se rechaza porque no repararía su coste irrecuperable; se elige una división limpia posterior, todavía sin reservar otro WP-ID | `DEC-010` §10 |
 | 2026-09-28 | DEC-017 reserva `WP-018`, primer identificador libre y no reservado, como sucesor limpio de WP-017; hereda por referencia DOR-1 a DOR-4, exige reafirmar DOR-5 y DOR-6, mantiene DOR-7 a DOR-9 abiertos y fija F1 desde la primera invocación, 100 EUR y `max_ciclos_correccion: 2`. No crea contrato ni autoriza ejecución | `DEC-017` |
+| 2026-10-09 | La candidata externa de `WP018-DOR-7` agota C1/C2 con F2 abierto: `actAs` no puede añadirse como C3 sin ampliar autoridad ordinaria o el alcance del binding. La transición queda `blocked`, WP-018 sigue `draft` y se elige un replanteamiento como transición nueva, todavía no abierto | `DEC-010` §11 |
 
 ---
 
@@ -149,6 +150,15 @@ total del WP. WP-017 queda `blocked` y fuera de la cola ejecutable. DEC-017
 reserva después `WP-018` como sucesor limpio, todavía sin contrato ni
 autorización para redactarlo o ejecutarlo. La candidata histórica no se copia.
 
+**Parada y replanteamiento de WP018-DOR-7.** WP-018 ya existe en `draft` con
+DOR-7 a DOR-9 abiertos. Su primera candidata de continuidad consumió C1/C2 y
+conserva solo F2 abierto: el `actAs` necesario para restaurar push. Un binding
+permanente se combinaría con el acceso ordinario de Cloud Run y PAM no puede
+limitar ese role binding a una sola cuenta de servicio. DEC-010 §11 cierra esa
+transición `blocked`, preserva la candidata `NO APTO` y elige replantear DOR-7
+como transición nueva. No abre esa transición, no crea C3 o C4, no reabre los
+hallazgos cerrados ni resuelve DOR-8 o DOR-9.
+
 **Tres verdades incómodas, con los datos delante:**
 
 1. **En cinco semanas la fábrica solo ha producido meta-trabajo.** ~27 PRs fusionadas y todas son gobierno del gobierno. El contrato vigente de WP-008 tiene 1.862 líneas para un cambio que, en esencia, ancla la invocación de un hook y ocho reglas de permisos.
@@ -247,13 +257,16 @@ Secuencia (ajustada por D1/D6 y DEC-008; cada transición de `ACTIVE` sigue sien
 5. **WP-015 — `check_scope` LOCAL: CUMPLIDO.** La PR #53 fusionó el ejecutable
    local y la biblioteca única; el cierre deja el contrato `done` y `ACTIVE` en
    reposo. No acredita CI ni bloqueo de fusión.
-6. **ORDEN FUTURO CONDICIONADO; NINGÚN PASO SIGUIENTE AUTORIZADO:** `WP-017`
-   queda `blocked`, nunca `done`, con DOR-7 a DOR-9 abiertos. DEC-017 reserva
-   `WP-018` como sucesor limpio con F1 desde la primera invocación, presupuesto
-   de 100 EUR y un máximo de dos ciclos de corrección; todavía no existe su contrato ni autorización para
-   redactarlo o ejecutarlo. Solo después podría continuar hacia `WP-016`, cuyo contrato
-   `draft` de 645 líneas continúa bloqueado y deberá corregirse y reducirse
-   antes de `ready`, para CI y mutación humana posterior del ruleset →
+6. **ORDEN FUTURO CONDICIONADO; NINGÚN PASO SIGUIENTE AUTORIZADO:** WP-017
+   queda `blocked`, nunca `done`. WP-018 existe en `draft`, conserva DOR-7 a
+   DOR-9 abiertos y su primera transición DOR-7 queda `blocked` tras C2. El
+   siguiente acto posible es una autorización humana separada para investigar
+   en solo lectura y preparar una candidata replanteada de DOR-7; todavía no se
+   abre esa transición ni se autoriza ejecutar Claude Code, pruebas o
+   infraestructura. Solo después de resolver DOR-7 a DOR-9, aprobar, admitir,
+   activar e implementar WP-018 podría continuarse hacia `WP-016`, cuyo
+   contrato `draft` de 645 líneas continúa bloqueado y deberá corregirse y
+   reducirse antes de `ready`, para CI y mutación humana posterior del ruleset →
    convergencia del guard y cierre de WP-007 por superación sin transición de
    `ACTIVE` → sucesor limpio de WP-008 con runtime y humo atribuible → E2 →
    cierre humano de la pausa. Cada paso requiere contrato y autorización

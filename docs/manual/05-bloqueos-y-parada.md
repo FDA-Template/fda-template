@@ -161,6 +161,15 @@ división limpia posterior. DEC-017 reserva después `WP-018` como sucesor limpi
 sin crear su contrato ni autorizar redactarlo o ejecutarlo. La candidata
 histórica se conserva intacta y no es fuente de bytes para el trabajo futuro.
 
+**Cierre de la primera transición de WP018-DOR-7.** DEC-010 §11 cierra
+`blocked` después de C2 la candidata de continuidad: F2 permanece abierto y F1
+y F3 a F7 permanecen cerrados. Un binding permanente de `actAs` sobre la
+identidad push se combinaría con el acceso ordinario de Cloud Run; concederlo
+por PAM a nivel de proyecto excedería esa identidad. No se abre C3 ni C4. Se
+elige una transición nueva limitada a rederivar el mecanismo de autorización,
+pero su investigación y preparación requieren otra autorización humana. WP-018
+permanece `draft`, DOR-7 a DOR-9 abiertos y `ACTIVE` en reposo.
+
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
 Ver [DEC-010](../../specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md).
