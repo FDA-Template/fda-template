@@ -17,15 +17,19 @@ WP-018 es el sucesor limpio reservado por DEC-017. Se redacta desde cero sobre `
 ## Definition of Ready
 
 - DOR-1 heredada por DEC-017 §3: `ivanes189/fda-template`, Iván propietario, revisión confiable en `main` y artefacto por digest.
-- DOR-2 heredada por DEC-017 §3: Google Cloud, proyecto exclusivo, `europe-west1`, facturación humana, `100 EUR` y `<=5 EUR/mes`.
+- DOR-2 heredada por DEC-017 §3: Google Cloud, proyecto exclusivo,
+  `europe-west1`, facturación humana, `100 EUR` y `<=5 EUR/mes`. DEC-010 §15
+  acredita `PROJECT_ID=fda-template`, `PROJECT_NUMBER=615273535351`, estado
+  `ACTIVE`, parent ausente y `billingEnabled: true` sin mutación.
 - DOR-3 heredada por DEC-017 §3 y WP-017: minimización, residencia, cifrado, retención, borrado, accesos, copias y telemetría.
 - DOR-4 heredada por DEC-017 §3 y WP-017: custodia humana, KMS solo-firma, secretos regionales, mínimo privilegio, rotación y emergencia.
 - DOR-5 rederivada y reafirmada íntegramente en este contrato (§§3-8).
 - DOR-6 rederivada y reafirmada íntegramente en este contrato (§9).
 - **WP018-DOR-7 abierto:** DEC-010 §14 fija la arquitectura y
-  `docs/manual/08-productor-alcance-fda-wp018.md` su acto técnico mínimo; F2 y
-  DOR-7 no cierran hasta completar la ceremonia humana preadmisión, positiva,
-  negativa y con rollback, allí definida.
+  `docs/manual/08-productor-alcance-fda-wp018.md` su acto técnico mínimo. El
+  paso 1 de DEC-010 §15 está acreditado; el entorno protegido del paso 2 todavía
+  no existe. F2 y DOR-7 no cierran hasta completar la ceremonia humana
+  preadmisión, positiva, negativa y con rollback, allí definida.
 - **WP018-DOR-8 abierto:** falta la política evaluada y sus oráculos completos.
 - **WP018-DOR-9 abierto:** falta la regla conservadora para SHA compartido y concurrencia.
 
@@ -139,7 +143,7 @@ lectura `.agents/`, `.codex/`, ramas, worktrees y candidatas históricas.
 - Worker recibe `roles/cloudkms.signer` solo en la clave y
   `roles/pubsub.publisher` solo en el topic. `roles/datastore.user` se concede
   en proyecto con condición `resource.name ==
-  "projects/${PROJECT_ID}/databases/alcance-fda-wp018"`.
+  "projects/fda-template/databases/alcance-fda-wp018"`.
 - El service agent Pub/Sub recibe `roles/iam.serviceAccountTokenCreator` solo
   sobre la cuenta push. Runtime no recibe roles básicos ni Admin.
 - En ceremonias DOR-4, Iván recibe temporalmente `roles/cloudkms.admin` y
