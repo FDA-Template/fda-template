@@ -32,6 +32,10 @@ WP-017 ni la preservación de su candidata histórica.
 el apartado 11 cierra `blocked` tras C2 la transición agotada de
 `WP018-DOR-7` y elige un replanteamiento como transición nueva. No abre C3,
 no reabre los demás hallazgos y no altera la regla general de dos ciclos.
+**Enmendada por quinta vez el 2026-10-09 por decisión humana de instancia:**
+el apartado 12 elige la decisión previa necesaria para aislar el `actAs` de
+emergencia de `WP018-DOR-7`. Acepta de forma condicionada un tag Pre-GA,
+pero no abre la transición nueva, resuelve F2 ni modifica WP-018.
 
 
 ## Problema
@@ -650,3 +654,264 @@ Fuentes primarias revalidadas el 2026-10-09:
 - Cloud Run, identidad de servicio y permisos para configurarla:
   https://docs.cloud.google.com/run/docs/configuring/services/service-identity
   https://docs.cloud.google.com/run/docs/configuring/services/containers
+
+## 12. Enmienda de instancia del 2026-10-09 — decisión previa para aislar `actAs` en WP018-DOR-7
+
+### 12.1. Hecho nuevo y por qué esta decisión es previa
+
+La base normativa es `origin/main`
+`bfed45ec92d53ac2a19272d91fa383963e89735f`. DEC-010 §11 cerró `blocked`
+después de C2 la primera transición de `WP018-DOR-7` y autorizó únicamente
+investigar una transición nueva. F2 sigue abierto; F1 y F3 a F7 permanecen
+cerrados como resultados exigibles. WP-018 continúa `draft`, DOR-7 a DOR-9
+abiertos y `ACTIVE` en reposo.
+
+La rederivación desde documentación oficial vigente identifica una vía
+potencial: una concesión PAM temporal a nivel de proyecto con role binding
+condicionado por tag; el tag puede estar ligado directamente a una cuenta de
+servicio y `iam.serviceAccounts.actAs` está soportado en roles personalizados.
+Sin embargo, usar tags directamente sobre cuentas de servicio es una capacidad
+Preview sujeta a términos Pre-GA. Además, tanto la referencia REST v1 como la
+v1beta de PAM afirman que sus condiciones excluyen tags, mientras que la
+documentación vigente de PAM, actualizada el 2026-10-06, afirma expresamente
+que PAM admite condiciones basadas en tags y todos los atributos admitidos por
+los bindings `allow`. Por esa contradicción oficial no se afirma todavía que la
+vía sea técnicamente utilizable.
+
+No cabe resolver esa dependencia ni esa divergencia documental como una
+corrección técnica de F2. También hacen falta un tag, un rol personalizado, una
+condición y un entitlement todavía no fijados. Por tanto, el primer acto es
+esta decisión humana previa, sin nuevo identificador normativo ni modificación
+del contrato. La transición nueva no comienza aquí.
+
+### 12.2. Alternativas comparadas
+
+**Binding directo permanente sobre la identidad push — rechazado.** Aunque
+`roles/iam.serviceAccountUser` puede ligarse a una sola cuenta de servicio,
+mantendría `actAs` efectivo fuera de la emergencia. Al combinarse con el
+entitlement ordinario y `roles/run.developer`, permitiría usar
+`run.services.update` para adjuntar esa identidad a una revisión de Cloud Run.
+
+**PAM de proyecto sin condición — rechazado.** Haría temporal la concesión,
+pero `actAs` alcanzaría también `alcance-fda-wp018-scheduler` y las demás
+cuentas de servicio del proyecto.
+
+**Condición por `resource.name` — rechazada.** La lista oficial de atributos de
+recurso no acredita `resource.name` como filtro válido para
+`iam.serviceAccounts.actAs`; un predicado no soportado no es un límite de
+seguridad.
+
+**Principal Access Boundary — rechazada.** Su frontera se expresa sobre
+organización, carpeta o proyecto y no selecciona una cuenta de servicio dentro
+del proyecto; además no sustituye el binding que concede `actAs`.
+
+**Binding temporal añadido y retirado manualmente — rechazado.** Exigiría a los
+operadores capacidad para mutar IAM durante cada emergencia, ampliaría la
+superficie de recuperación y no aportaría el cierre automático de PAM.
+
+**PAM condicionado por tag directo de cuenta de servicio — elegido con gates.**
+Es la única opción oficial encontrada que combina activación temporal con un
+predicado dirigido a la identidad objeto. Se acepta de forma expresa y
+limitada la dependencia Pre-GA del tag de cuenta de servicio, pero no se da por
+demostrada la compatibilidad efectiva de PAM hasta superar los gates de
+§12.5. No existe fallback permisivo.
+
+### 12.3. Recursos y política exactos que podrá usar la transición futura
+
+La futura candidata nueva solo podrá proponer los siguientes elementos para
+resolver F2; los valores generados se obtendrán de las APIs y nunca se
+inventarán:
+
+1. Tag key con nombre corto `wp018-emergency-actas`, parent
+   `projects/${PROJECT_NUMBER}` y descripción limitada a aislar el `actAs` de
+   emergencia de WP-018.
+2. Tag value con nombre corto `push-only`, hijo de esa key.
+3. Un único tag binding directo entre el `tagValues/${TAG_VALUE_ID}` obtenido y
+   `//iam.googleapis.com/projects/${PROJECT_ID}/serviceAccounts/${PUSH_SA_UNIQUE_ID}`,
+   donde `${PUSH_SA_UNIQUE_ID}` es el ID numérico devuelto para
+   `alcance-fda-wp018-push`. El mismo tag no se liga al proyecto, carpeta,
+   organización ni a otra cuenta de servicio.
+4. Rol personalizado de proyecto
+   `projects/${PROJECT_ID}/roles/alcanceFdaWp018EmergencyActAs`, con una sola
+   permission incluida: `iam.serviceAccounts.actAs`. No incluye `getAccessToken`,
+   `getOpenIdToken`, `signBlob`, `signJwt`, creación de claves, `setIamPolicy`,
+   gestión de tags ni permisos de Cloud Run o Pub/Sub.
+5. Un único entitlement PAM de proyecto
+   `alcance-fda-wp018-emergency-push`, ubicación `global`, elegible solo para
+   los dos humanos ya designados, justificación obligatoria, duración máxima y
+   solicitada `1800s`, sin service accounts, grupos, dominios o identidades
+   federadas elegibles. El mismo grant indivisible contiene tanto el role
+   binding temporal que F1 ya exige para modificar la suscripción como el role
+   binding de `actAs` de (6); no existe entitlement o grant independiente para
+   uno de los dos permisos.
+6. El segundo role binding del entitlement concede exclusivamente el rol de
+   (4) mediante
+   `conditionExpression` exacta
+   `resource.matchTagId('tagKeys/${TAG_KEY_ID}', 'tagValues/${TAG_VALUE_ID}')`,
+   usando los IDs permanentes devueltos, no nombres cortos o namespaced names.
+7. La personalización de alcance queda deshabilitada: una solicitud no puede
+   seleccionar solo uno de los bindings, acortar su conjunto o activar
+   `actAs` sin el permiso temporal de F1. Si PAM no permite garantizar esa
+   atomicidad para la versión concreta elegida, esta vía falla.
+
+Crear, enlazar o conceder cualquiera de esos elementos sigue prohibido hasta
+que WP-018 esté listo, aprobado, admitido y activo y exista una autorización
+humana de implementación. Esta decisión no fija los IDs generados ni permite
+simularlos. La futura IaC deberá capturarlos como outputs y fijar su relación
+en evidencia saneada.
+
+### 12.4. Composición de permisos y riesgo aceptado
+
+La capacidad solo existe cuando el único grant PAM de emergencia de §12.3 está
+`active`; sus dos bindings nacen y caducan juntos. El entitlement ordinario,
+incluso si concede temporalmente `roles/run.developer`, no concede
+`iam.serviceAccounts.actAs`; por sí solo no permite adjuntar ninguna de las
+cuatro identidades de WP-018.
+
+La combinación de `run.services.update` y `actAs` permitiría adjuntar la
+identidad push a una revisión de Cloud Run. Esa revisión podría seguir
+ejecutándose y obteniendo tokens de la identidad push después de caducar el
+grant: retirar `actAs` no revierte una adjunción ya realizada. Por tanto no se
+acepta el solapamiento. Antes de solicitar el grant de emergencia, cualquier
+grant ordinario de los dos humanos debe estar retirado o expirado y los dos
+deben carecer efectivamente de `run.services.create`, `run.services.update`,
+`run.jobs.create`, `run.jobs.update`, `run.workerpools.create` y
+`run.workerpools.update`. Esa negativa se vigila durante toda la emergencia.
+
+Si aparece cualquiera de esos permisos, un grant ordinario simultáneo o una
+mutación Cloud Run durante la ventana, la restauración se detiene y el estado
+no vuelve a considerarse ordinario. Se revocan o terminan ambos grants, se
+comparan servicios, jobs, worker pools y todas sus revisiones con la preimagen,
+se restaura la identidad previa, se retira todo tráfico y se elimina toda
+revisión eliminable que use push. Cualquier revisión restante, workload activo
+o posible credencial residual mantiene la parada hasta su eliminación y hasta
+que expire el máximo oficial de las credenciales potencialmente emitidas; si
+ese máximo no puede acotarse sin secretos, se solicita decisión humana.
+
+Fuera de un grant de emergencia activo, incluso aunque el entitlement ordinario
+esté activo, ningún operador puede obtener `actAs` por esta política. El rol
+personalizado no permite credenciales ni impersonación directa. Ninguna otra
+asignación, rol básico, binding directo, herencia, tag o identidad puede actuar
+como vía alternativa; si aparece, la transición se detiene.
+
+### 12.5. Gates de contrato y oráculos posteriores fail-closed
+
+La futura candidata puede cerrar F2 **contractualmente**, todavía sin recursos,
+solo si una fuente oficial inequívoca resuelve la contradicción de PAM v1 y
+v1beta para la versión exacta elegida, confirma tag conditions sobre el permiso
+elegido y mantiene disponible el tag directo de service accounts. También debe
+validar de forma local y sin aplicación la sintaxis completa de tag, rol,
+entitlement, bindings y condición. Una prueba empírica aislada no corrige por sí
+sola una contradicción oficial. Si cualquiera de estos gates documentales o de
+definición falla, la candidata no es `APTO` y F2 continúa abierto.
+
+Los oráculos siguientes son criterios de aceptación de la implementación y del
+ensayo posteriores a que WP-018 esté `ready`, aprobado, admitido, activo y
+expresamente autorizado. No son precondición circular para resolver la DoR ni
+se ejecutan durante esta transición normativa:
+
+1. **Inventario del tag:** exactamente un binding directo del valor elegido a
+   la identidad push por unique ID; cero binding del mismo tag al proyecto o a
+   las identidades scheduler, ingress y worker; cero valor heredado que haga
+   coincidir la condición.
+2. **Rol:** el rol personalizado contiene exactamente
+   `iam.serviceAccounts.actAs`; cualquier permiso adicional falla.
+3. **Acoplamiento:** una sola solicitud y un solo grant entregan o retiran a la
+   vez el permiso temporal de F1 y `actAs`. La configuración no permite elegir
+   bindings; no existe estado en que `actAs` esté efectivo y el permiso de
+   modificar la suscripción no lo esté.
+4. **Operación ordinaria negativa:** para cada uno de los dos humanos,
+   con el grant ordinario activo y sin grant de emergencia,
+   `projects.serviceAccounts.testIamPermissions` no devuelve `actAs` sobre
+   push, scheduler, ingress ni worker.
+5. **Emergencia positiva:** para cada humano, con el grant de emergencia
+   activo, `testIamPermissions` devuelve `iam.serviceAccounts.actAs` sobre
+   `alcance-fda-wp018-push` y el permiso temporal cerrado por F1 permite
+   restaurar la suscripción push autenticada con esa cuenta, el endpoint y el
+   audience ya gobernados.
+6. **Emergencia negativa:** durante el mismo grant, `testIamPermissions` no
+   devuelve `actAs` sobre scheduler, ingress, worker ni una quinta cuenta
+   sintética `-denied`; tampoco aparecen permisos de token, firma o claves.
+7. **Composición Cloud Run:** antes y durante la emergencia ambos humanos
+   carecen de los seis permisos de creación o actualización enumerados en
+   §12.4, no existe grant ordinario activo y los audit logs no contienen una
+   mutación Cloud Run atribuible a ellos. La preimagen y postimagen de servicios,
+   jobs, worker pools y revisiones conserva todas las identidades; cualquier
+   diferencia activa el saneamiento y la parada de §12.4.
+8. **Caducidad:** terminado, retirado o expirado el único grant, tanto el
+   permiso de F1 como el oráculo positivo
+   de push pasan a negativo tras la propagación oficial; hasta entonces se
+   mantiene la parada y no se declara restaurada la operación ordinaria.
+9. **Sin fallback:** eliminar o sustituir el tag, fallar la condición, cambiar
+   el rol, no poder comprobar un oráculo o hallar una concesión paralela produce
+   parada. Nunca se degrada a binding permanente, PAM sin condición o alcance
+   de proyecto sin aislamiento.
+
+`testIamPermissions` es un oráculo de evidencia y no una autorización de
+aplicación. La futura transición deberá añadir preimagen, postimagen, delta,
+grant, tiempos de propagación, audit logs y rollback sin valores secretos. Esta
+decisión no ejecuta esos oráculos.
+
+### 12.6. Efectos, límites y siguiente acto
+
+1. Se acepta únicamente como base normativa la solución de §12.3, su riesgo
+   temporal de §12.4 y sus gates de §12.5. No se crea ningún recurso ni se
+   resuelve F2 o DOR-7.
+2. F1 y F3 a F7 continúan cerrados; la futura transición no puede reabrirlos
+   salvo regresión directa y demostrada de este mecanismo. DOR-8 y DOR-9
+   permanecen abiertos.
+3. La candidata C2 continúa preservada `NO APTO`. Sus bytes, diffs, ciclos y
+   evidencias no son preimagen ni fuente de la transición nueva.
+4. WP-018 permanece `draft`; WP-017, WP-016, `ACTIVE` y `evidence/**` no cambian.
+   No se crea C3 o C4, `cost.md` o fila de ciclos.
+5. Si se materializa y fusiona esta composición, el único siguiente acto
+   posible será autorizar investigación en solo lectura y preparación externa
+   desde cero de la nueva candidata `WP018-DOR-7`, limitada a F2 y a demostrar
+   la no regresión de los resultados cerrados. Ese acto no queda autorizado
+   aquí.
+6. La transición futura conserva presupuesto propio máximo `5.00 EUR`, dentro
+   del techo contractual de `100.00 EUR`, y `max_ciclos_correccion: 2`. F1 se
+   adquiere desde la primera futura invocación de Claude Code atribuible a
+   WP-018; esta decisión no autoriza invocarla.
+
+### 12.7. Composición normativa mínima
+
+Esta enmienda de instancia viaja en una composición atómica de exactamente
+cuatro archivos; todos o ninguno:
+
+1. `specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md`;
+2. `specs/decisions/DEC-003-pausa-migracion-y-contencion.md`;
+3. `docs/03-hoja-de-ruta.md`;
+4. `docs/manual/05-bloqueos-y-parada.md`.
+
+La composición no contiene o modifica WP-018, WP-017, WP-016, `ACTIVE`,
+`evidence/**`, código, pruebas, infraestructura, cuentas, identidades, roles,
+tags, secretos, permisos, Google Cloud, GitHub, workflows, ruleset, ramas,
+worktrees o candidatas. Materialización, publicación, fusión y apertura de la
+transición nueva requieren actos humanos posteriores y separados.
+
+Fuentes primarias revalidadas el 2026-10-09:
+
+- PAM, alcance, condiciones y temporalidad, incluidas las dos referencias en
+  conflicto:
+  https://docs.cloud.google.com/iam/docs/pam-overview
+  https://docs.cloud.google.com/iam/docs/pam-create-entitlements
+  https://docs.cloud.google.com/iam/docs/pam-best-practices
+  https://docs.cloud.google.com/iam/docs/reference/pam/rest/v1/PrivilegedAccess
+  https://docs.cloud.google.com/iam/docs/reference/pam/rest/v1beta/PrivilegedAccess
+- Tags directos de service accounts y su condición Pre-GA:
+  https://docs.cloud.google.com/iam/docs/service-accounts-tags
+  https://docs.cloud.google.com/resource-manager/docs/tags/tags-overview
+- Atributos de condición y `resource.matchTagId`:
+  https://docs.cloud.google.com/iam/docs/conditions-attribute-reference
+- `actAs`, roles personalizados y adjunción de identidades:
+  https://docs.cloud.google.com/iam/docs/service-account-permissions
+  https://cloud.google.com/iam/docs/custom-roles-permissions-support
+  https://docs.cloud.google.com/iam/docs/attach-service-accounts
+- Cloud Run, `roles/run.developer` y `run.services.update`:
+  https://docs.cloud.google.com/run/docs/reference/iam/roles
+  https://docs.cloud.google.com/run/docs/configuring/services/service-identity
+  https://docs.cloud.google.com/run/docs/securing/service-identity
+  https://docs.cloud.google.com/run/docs/managing/revisions
+- Oráculo por cuenta de servicio:
+  https://docs.cloud.google.com/iam/docs/reference/rest/v1/projects.serviceAccounts/testIamPermissions
