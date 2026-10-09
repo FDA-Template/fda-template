@@ -33,6 +33,12 @@ condicionado por tag. No abre la transición ni modifica `ACTIVE`.
 admiten la composición que cierra `blocked`, antes de candidata técnica, la
 transición nueva de `WP018-DOR-7` por contradicción oficial no resuelta. F2 y
 DOR-7 permanecen abiertos y `ACTIVE` permanece en reposo.
+**Enmendada por la decisión humana de instancia de
+[`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §14:** §§2 y 4
+admiten la decisión previa que sustituye PAM por una ejecución GitHub Actions
++ WIF directa con control dual auditable, confianza administrativa declarada y
+sin claves. F2 y DOR-7 permanecen
+abiertos; no se crea ni configura ningún recurso y `ACTIVE` sigue en reposo.
 
 
 ## Problema
@@ -720,6 +726,23 @@ sin regresión, DOR-8 y DOR-9 abiertos, WP-018 `draft` y `ACTIVE` en reposo. No
 crea coste, infraestructura, tags, roles, entitlements, bindings, permisos o
 otro identificador; no modifica contratos, evidencias, GitHub, Google Cloud,
 ramas, worktrees o candidatas históricas.
+
+**Admisión atómica de la decisión de instancia de `DEC-010` §14.** Se modifica
+directamente esta lista en el mismo diff; la enmienda no se autoautoriza. La
+composición cerrada consta exactamente de `DEC-010`, esta `DEC-003`,
+`docs/03-hoja-de-ruta.md` y `docs/manual/05-bloqueos-y-parada.md`; todos viajan
+juntos o ninguno. Elige como sustituto arquitectónico una ejecución manual de
+GitHub Actions protegida por iniciador y aprobador distintos, bajo la frontera
+de confianza administrativa declarada entre ambos propietarios, y autenticada
+ante Google Cloud por WIF directo, sin claves ni cuenta intermediaria.
+La identidad efímera futura deberá acoplar solo
+`pubsub.subscriptions.update` sobre la suscripción push y
+`iam.serviceAccounts.actAs` sobre la identidad push, sin permisos Cloud Run.
+F2 y DOR-7 permanecen abiertos; F1 y F3 a F7 siguen cerrados, DOR-8 y DOR-9
+abiertos, WP-018 `draft` y `ACTIVE` en reposo. No crea workflow, entorno, pool,
+proveedor, rol, binding, coste, ciclo u otro identificador; no modifica
+contratos, evidencias, infraestructura, GitHub, Google Cloud, ramas, worktrees
+o candidatas históricas.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 
