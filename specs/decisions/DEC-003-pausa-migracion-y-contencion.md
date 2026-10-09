@@ -24,6 +24,10 @@
 [`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §11:** §§2 y 4 cierran
 `blocked` tras C2 la transición agotada de `WP018-DOR-7` y eligen un
 replanteamiento como transición nueva. `ACTIVE` permanece en reposo.
+**Enmendada de nuevo el 2026-10-09 por la decisión humana de instancia de
+[`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §12:** §§2 y 4
+admiten la decisión previa que aísla el `actAs` de emergencia mediante PAM
+condicionado por tag. No abre la transición ni modifica `ACTIVE`.
 
 
 ## Problema
@@ -687,6 +691,17 @@ modifica WP-018, WP-017, WP-016, `ACTIVE`, evidencias, infraestructura,
 identidades, roles, secretos, permisos, ramas, worktrees o candidatas. Elige
 únicamente un replanteamiento como transición nueva, cuya investigación y
 preparación requieren otra autorización humana posterior.
+
+**Admisión atómica de la decisión de instancia de `DEC-010` §12.** Se modifica
+directamente esta lista en el mismo diff; la enmienda no se autoautoriza. La
+composición cerrada consta exactamente de `DEC-010`, esta `DEC-003`,
+`docs/03-hoja-de-ruta.md` y `docs/manual/05-bloqueos-y-parada.md`; todos viajan
+juntos o ninguno. Elige y limita la decisión previa para un PAM temporal
+condicionado por tag directo de la identidad push, acepta su dependencia
+Pre-GA con gates fail-closed y conserva F2 abierto y F1 y F3 a F7 cerrados.
+No crea tags, roles, entitlements, bindings o permisos; no abre la transición,
+ciclos o coste; no modifica WP-018, WP-017, WP-016, `ACTIVE`, evidencias,
+infraestructura, GitHub, Google Cloud, ramas, worktrees o candidatas.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 

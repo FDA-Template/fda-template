@@ -170,6 +170,18 @@ elige una transición nueva limitada a rederivar el mecanismo de autorización,
 pero su investigación y preparación requieren otra autorización humana. WP-018
 permanece `draft`, DOR-7 a DOR-9 abiertos y `ACTIVE` en reposo.
 
+**Cuando el replanteamiento depende de una capacidad Pre-GA.** DEC-010 §12
+elige como única vía admisible un grant PAM indivisible que acopla el permiso
+temporal de modificar la suscripción con un rol personalizado que solo contiene
+`iam.serviceAccounts.actAs`, condicionado por un tag directo y único de
+`alcance-fda-wp018-push`. La elección no resuelve F2: los tags de service
+accounts son Preview y las referencias PAM v1 y v1beta contradicen la guía
+vigente. El gate documental debe cerrarse antes del `APTO` contractual; los
+oráculos reales son aceptación posterior a activación, no precondición circular
+de DoR. El grant ordinario con `roles/run.developer` no puede solaparse con la
+emergencia; cualquier permiso de mutación Cloud Run o diferencia de revisiones
+activa parada y saneamiento. WP-018 sigue `draft`; DOR-8 y DOR-9 no se resuelven.
+
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
 Ver [DEC-010](../../specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md).
