@@ -39,6 +39,12 @@ admiten la decisión previa que sustituye PAM por una ejecución GitHub Actions
 + WIF directa con control dual auditable, confianza administrativa declarada y
 sin claves. F2 y DOR-7 permanecen
 abiertos; no se crea ni configura ningún recurso y `ACTIVE` sigue en reposo.
+**Enmendada por la decisión humana de instancia de
+[`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §15:** §§2 y 4
+admiten el gate previo que corrige el orden de la ceremonia de
+`WP018-DOR-7`: identidad de proyecto y entorno protegido se fijan antes de
+preparar bytes exactos del workflow. F2 y DOR-7 a DOR-9 permanecen abiertos;
+no se crea ni configura recurso alguno y `ACTIVE` sigue en reposo.
 
 
 ## Problema
@@ -743,6 +749,22 @@ abiertos, WP-018 `draft` y `ACTIVE` en reposo. No crea workflow, entorno, pool,
 proveedor, rol, binding, coste, ciclo u otro identificador; no modifica
 contratos, evidencias, infraestructura, GitHub, Google Cloud, ramas, worktrees
 o candidatas históricas.
+
+**Admisión atómica de la decisión de instancia de `DEC-010` §15.** Se modifica
+directamente esta lista en el mismo diff; la enmienda no se autoautoriza. La
+composición cerrada consta exactamente de `DEC-010`, esta `DEC-003`,
+`docs/03-hoja-de-ruta.md`, `docs/manual/05-bloqueos-y-parada.md` y
+`docs/manual/08-productor-alcance-fda-wp018.md`; todos viajan juntos o ninguno.
+Registra que la autorización normativa del parche humano ya existía, pero
+detiene su candidata exacta porque GitHub puede auto-crear un entorno
+inexistente sin protecciones, el repositorio no fija `PROJECT_ID` o
+`PROJECT_NUMBER` y el runner hospedado no es un artefacto inmutable. Reordena la
+ceremonia: identidad del proyecto, entorno protegido, bytes revisados, WIF
+deshabilitado y, solo después, ejecución. F2 y DOR-7 continúan abiertos; F1 y
+F3 a F7 siguen cerrados; DOR-8 y DOR-9 permanecen abiertos; WP-018 continúa
+`draft` y `ACTIVE` en reposo. No crea workflow, entorno, proyecto, facturación,
+infraestructura, rol, binding, coste, ciclo u otro identificador y no configura
+GitHub o Google Cloud.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 
