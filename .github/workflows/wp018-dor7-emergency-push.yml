@@ -1,0 +1,281 @@
+name: WP018 DOR7 emergency push authentication
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+
+concurrency:
+  group: wp018-dor7-emergency-push
+  cancel-in-progress: false
+
+jobs:
+  restore:
+    if: ${{ github.run_attempt == '1' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    environment: wp018-dor7-emergency-push
+    steps:
+      - name: Validate, authenticate, and verify emergency push restoration
+        shell: /usr/bin/bash --noprofile --norc -euo pipefail {0}
+        run: |
+          readonly EXPECTED_IMAGE_OS='ubuntu24'
+          readonly EXPECTED_IMAGE_VERSION='20261004.327.1'
+          readonly EXPECTED_BASH_VERSION='5.2.21(1)-release'
+          readonly EXPECTED_CURL_VERSION='8.5.0-2ubuntu10.15'
+          readonly EXPECTED_JQ_VERSION='1.7.1-3ubuntu0.24.04.2'
+          readonly EXPECTED_REPOSITORY='FDA-Template/fda-template'
+          readonly EXPECTED_REPOSITORY_ID='1310040618'
+          readonly EXPECTED_OWNER_ID='340040486'
+          readonly EXPECTED_WORKFLOW_REF='FDA-Template/fda-template/.github/workflows/wp018-dor7-emergency-push.yml@refs/heads/main'
+          readonly EXPECTED_SUBJECT='repo:FDA-Template@340040486/fda-template@1310040618:environment:wp018-dor7-emergency-push'
+          readonly WIF_AUDIENCE='//iam.googleapis.com/projects/615273535351/locations/global/workloadIdentityPools/wp018-dor7-emergency/providers/github-oidc'
+          readonly PROJECT_ID='fda-template'
+          readonly AUTHORIZED_SUBSCRIPTION='projects/fda-template/subscriptions/alcance-fda-wp018-worker-push'
+          readonly DENIED_SUBSCRIPTION='projects/fda-template/subscriptions/alcance-fda-wp018-worker-push-denied'
+          readonly PUSH_ACCOUNT='alcance-fda-wp018-push@fda-template.iam.gserviceaccount.com'
+          readonly SCHEDULER_ACCOUNT='alcance-fda-wp018-scheduler@fda-template.iam.gserviceaccount.com'
+          readonly INGRESS_ACCOUNT='alcance-fda-wp018-ingress@fda-template.iam.gserviceaccount.com'
+          readonly WORKER_ACCOUNT='alcance-fda-wp018-worker@fda-template.iam.gserviceaccount.com'
+          readonly DENIED_ACCOUNT='alcance-fda-wp018-push-denied@fda-template.iam.gserviceaccount.com'
+          readonly PUSH_ENDPOINT='https://wp018-dor7.invalid/pubsub'
+
+          fail() {
+            printf '::error::%s\n' "$1"
+            exit 1
+          }
+
+          require_equal() {
+            [[ "$1" == "$2" ]] || fail "$3"
+          }
+
+          require_empty_permissions() {
+            local body="$1"
+            jq -e '(.permissions // []) == []' <<<"$body" >/dev/null || fail "$2"
+          }
+
+          require_single_permission() {
+            local body="$1"
+            local permission="$2"
+            jq -e --arg permission "$permission" '(.permissions // []) == [$permission]' <<<"$body" >/dev/null || fail "$3"
+          }
+
+          api_call() {
+            local method="$1"
+            local url="$2"
+            local body="$3"
+            local response
+            local sanitized_request
+            local sanitized_response
+            response="$({ printf 'Authorization: Bearer %s\n' "$ACCESS_TOKEN"; printf 'Content-Type: application/json\n'; } |
+              /usr/bin/curl --silent --show-error --request "$method" --header @- --data-binary "$body" --write-out $'\n%{http_code}' "$url")"
+            API_STATUS="${response##*$'\n'}"
+            API_BODY="${response%$'\n'*}"
+            sanitized_request="$(jq -c 'walk(if type == "object" then del(.access_token, .id_token, .subject_token, .token) else . end)' <<<"$body")" || fail 'request API no saneable'
+            sanitized_response="$(jq -c 'walk(if type == "object" then del(.access_token, .id_token, .subject_token, .token) else . end)' <<<"$API_BODY")" || fail 'response API no saneable'
+            printf 'API_EVIDENCE method=%s url=%s actor_id=%s run_id=%s request=%s status=%s response=%s\n' \
+              "$method" "$url" "$GITHUB_ACTOR_ID" "$GITHUB_RUN_ID" "$sanitized_request" "$API_STATUS" "$sanitized_response"
+          }
+
+          test_subscription_permission() {
+            local subscription="$1"
+            api_call POST "https://pubsub.googleapis.com/v1/${subscription}:testIamPermissions" '{"permissions":["pubsub.subscriptions.update"]}'
+            require_equal "$API_STATUS" '200' 'subscriptions.testIamPermissions no devolvio HTTP 200'
+          }
+
+          test_service_account_permission() {
+            local account="$1"
+            local encoded_account
+            encoded_account="$(jq -nr --arg value "$account" '$value | @uri')"
+            api_call POST "https://iam.googleapis.com/v1/projects/-/serviceAccounts/${encoded_account}:testIamPermissions" '{"permissions":["iam.serviceAccounts.actAs"]}'
+            require_equal "$API_STATUS" '200' 'serviceAccounts.testIamPermissions no devolvio HTTP 200'
+          }
+
+          [[ "${ImageOS-}" == "$EXPECTED_IMAGE_OS" ]] || fail 'ImageOS no coincide; se detiene antes de OIDC'
+          [[ "${ImageVersion-}" == "$EXPECTED_IMAGE_VERSION" ]] || fail 'ImageVersion no coincide; se detiene antes de OIDC'
+          require_equal "$BASH_VERSION" "$EXPECTED_BASH_VERSION" 'Bash no coincide; se detiene antes de OIDC'
+          require_equal "$(command -v bash)" '/usr/bin/bash' 'ruta de Bash no coincide; se detiene antes de OIDC'
+          require_equal "$(command -v curl)" '/usr/bin/curl' 'ruta de curl no coincide; se detiene antes de OIDC'
+          require_equal "$(command -v jq)" '/usr/bin/jq' 'ruta de jq no coincide; se detiene antes de OIDC'
+          require_equal "$(dpkg-query -W -f='${Version}' curl)" "$EXPECTED_CURL_VERSION" 'curl no coincide; se detiene antes de OIDC'
+          require_equal "$(dpkg-query -W -f='${Version}' jq)" "$EXPECTED_JQ_VERSION" 'jq no coincide; se detiene antes de OIDC'
+
+          require_equal "${GITHUB_REPOSITORY-}" "$EXPECTED_REPOSITORY" 'repositorio inesperado'
+          require_equal "${GITHUB_REPOSITORY_ID-}" "$EXPECTED_REPOSITORY_ID" 'repository_id inesperado'
+          require_equal "${GITHUB_REPOSITORY_OWNER_ID-}" "$EXPECTED_OWNER_ID" 'repository_owner_id inesperado'
+          require_equal "${GITHUB_EVENT_NAME-}" 'workflow_dispatch' 'evento inesperado'
+          require_equal "${GITHUB_REF-}" 'refs/heads/main' 'ref inesperada'
+          require_equal "${GITHUB_REF_TYPE-}" 'branch' 'ref_type inesperado'
+          require_equal "${GITHUB_WORKFLOW_REF-}" "$EXPECTED_WORKFLOW_REF" 'workflow_ref inesperado'
+          require_equal "${GITHUB_WORKFLOW_SHA-}" "${GITHUB_SHA-}" 'workflow_sha no coincide con GITHUB_SHA'
+          [[ "${GITHUB_SHA-}" =~ ^[0-9a-f]{40}$ ]] || fail 'GITHUB_SHA no es un SHA completo'
+          [[ "${GITHUB_ACTOR_ID-}" == '74557686' || "${GITHUB_ACTOR_ID-}" == '260103530' ]] || fail 'actor_id no autorizado'
+          [[ "${GITHUB_RUN_ID-}" =~ ^[0-9]+$ ]] || fail 'run_id invalido'
+          require_equal "${GITHUB_RUN_ATTEMPT-}" '1' 'los reruns estan prohibidos'
+          require_equal "${RUNNER_ENVIRONMENT-}" 'github-hosted' 'runner_environment inesperado'
+          [[ -n "${ACTIONS_ID_TOKEN_REQUEST_URL-}" ]] || fail 'falta URL OIDC de GitHub'
+          [[ -n "${ACTIONS_ID_TOKEN_REQUEST_TOKEN-}" ]] || fail 'falta token de solicitud OIDC de GitHub'
+
+          printf 'Runtime aceptado: ImageOS=%s ImageVersion=%s Bash=%s curl=%s jq=%s\n' \
+            "$ImageOS" "$ImageVersion" "$BASH_VERSION" "$EXPECTED_CURL_VERSION" "$EXPECTED_JQ_VERSION"
+          printf 'Ejecucion aceptada: repository_id=%s owner_id=%s actor_id=%s run_id=%s run_attempt=1 workflow_sha=%s\n' \
+            "$GITHUB_REPOSITORY_ID" "$GITHUB_REPOSITORY_OWNER_ID" "$GITHUB_ACTOR_ID" "$GITHUB_RUN_ID" "$GITHUB_WORKFLOW_SHA"
+
+          audience_encoded="$(jq -nr --arg value "$WIF_AUDIENCE" '$value | @uri')"
+          oidc_response="$({ printf 'Authorization: Bearer %s\n' "$ACTIONS_ID_TOKEN_REQUEST_TOKEN"; } |
+            /usr/bin/curl --silent --show-error --request GET --header @- --write-out $'\n%{http_code}' "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=${audience_encoded}")"
+          oidc_status="${oidc_response##*$'\n'}"
+          oidc_body="${oidc_response%$'\n'*}"
+          require_equal "$oidc_status" '200' 'GitHub OIDC no devolvio HTTP 200'
+          OIDC_TOKEN="$(jq -er '.value | select(type == "string" and length > 0)' <<<"$oidc_body")" || fail 'respuesta OIDC invalida'
+          printf '::add-mask::%s\n' "$OIDC_TOKEN"
+          unset ACTIONS_ID_TOKEN_REQUEST_TOKEN oidc_body oidc_response
+
+          oidc_payload="${OIDC_TOKEN#*.}"
+          oidc_payload="${oidc_payload%%.*}"
+          OIDC_CLAIMS="$(jq -Rn --arg value "$oidc_payload" '
+            $value
+            | gsub("-"; "+")
+            | gsub("_"; "/")
+            | . + ("=" * ((4 - (length % 4)) % 4))
+            | @base64d
+            | fromjson
+          ')" || fail 'JWT OIDC no decodificable'
+
+          jq -e \
+            --arg iss 'https://token.actions.githubusercontent.com' \
+            --arg aud "$WIF_AUDIENCE" \
+            --arg sub "$EXPECTED_SUBJECT" \
+            --arg repository "$EXPECTED_REPOSITORY" \
+            --arg repository_id "$EXPECTED_REPOSITORY_ID" \
+            --arg owner_id "$EXPECTED_OWNER_ID" \
+            --arg workflow_ref "$EXPECTED_WORKFLOW_REF" \
+            --arg workflow_sha "$GITHUB_WORKFLOW_SHA" \
+            --arg actor_id "$GITHUB_ACTOR_ID" \
+            --arg run_id "$GITHUB_RUN_ID" '
+              .iss == $iss and
+              .aud == $aud and
+              .sub == $sub and
+              .repository == $repository and
+              .repository_id == $repository_id and
+              .repository_owner_id == $owner_id and
+              .environment == "wp018-dor7-emergency-push" and
+              .event_name == "workflow_dispatch" and
+              .ref == "refs/heads/main" and
+              .ref_type == "branch" and
+              .workflow_ref == $workflow_ref and
+              .workflow_sha == $workflow_sha and
+              .actor_id == $actor_id and
+              .run_id == $run_id and
+              .run_attempt == "1" and
+              .runner_environment == "github-hosted" and
+              (.iat | type == "number") and
+              (.exp | type == "number") and
+              (.jti | type == "string" and length > 0)
+            ' <<<"$OIDC_CLAIMS" >/dev/null || fail 'claims OIDC no conformes'
+
+          oidc_iat="$(jq -r '.iat' <<<"$OIDC_CLAIMS")"
+          oidc_exp="$(jq -r '.exp' <<<"$OIDC_CLAIMS")"
+          oidc_jti="$(jq -r '.jti' <<<"$OIDC_CLAIMS")"
+          printf 'OIDC validado: iat=%s exp=%s jti=%s actor_id=%s run_id=%s workflow_sha=%s\n' \
+            "$oidc_iat" "$oidc_exp" "$oidc_jti" "$GITHUB_ACTOR_ID" "$GITHUB_RUN_ID" "$GITHUB_WORKFLOW_SHA"
+
+          exchange_started="$EPOCHSECONDS"
+          sts_form="$(jq -nr \
+            --arg audience "$WIF_AUDIENCE" \
+            --arg subject_token "$OIDC_TOKEN" '
+              [
+                ["audience", $audience],
+                ["grant_type", "urn:ietf:params:oauth:grant-type:token-exchange"],
+                ["requested_token_type", "urn:ietf:params:oauth:token-type:access_token"],
+                ["scope", "https://www.googleapis.com/auth/cloud-platform"],
+                ["subject_token_type", "urn:ietf:params:oauth:token-type:jwt"],
+                ["subject_token", $subject_token]
+              ]
+              | map(map(@uri) | join("="))
+              | join("&")
+          ')"
+          sts_response="$(printf '%s' "$sts_form" |
+            /usr/bin/curl --silent --show-error --request POST \
+              --header 'Content-Type: application/x-www-form-urlencoded' \
+              --data-binary @- --write-out $'\n%{http_code}' \
+              'https://sts.googleapis.com/v1/token')"
+          exchange_received="$EPOCHSECONDS"
+          sts_status="${sts_response##*$'\n'}"
+          sts_body="${sts_response%$'\n'*}"
+          require_equal "$sts_status" '200' 'STS no devolvio HTTP 200'
+          ACCESS_TOKEN="$(jq -er '.access_token | select(type == "string" and length > 0)' <<<"$sts_body")" || fail 'STS no devolvio access_token'
+          printf '::add-mask::%s\n' "$ACCESS_TOKEN"
+          expires_in="$(jq -er '.expires_in | select(type == "number" and . > 0 and . <= 3600)' <<<"$sts_body")" || fail 'expires_in STS invalido'
+          require_equal "$(jq -r '.issued_token_type' <<<"$sts_body")" 'urn:ietf:params:oauth:token-type:access_token' 'issued_token_type inesperado'
+          require_equal "$(jq -r '.token_type' <<<"$sts_body")" 'Bearer' 'token_type inesperado'
+          access_exp="$((exchange_received + expires_in))"
+          printf 'STS validado: request_epoch=%s received_epoch=%s expires_in=%s conservative_access_exp=%s\n' \
+            "$exchange_started" "$exchange_received" "$expires_in" "$access_exp"
+          unset OIDC_TOKEN OIDC_CLAIMS sts_form sts_body sts_response
+
+          test_subscription_permission "$AUTHORIZED_SUBSCRIPTION"
+          authorized_subscription_permissions="$API_BODY"
+          test_subscription_permission "$DENIED_SUBSCRIPTION"
+          require_empty_permissions "$API_BODY" 'la suscripcion negativa tiene permisos efectivos'
+
+          test_service_account_permission "$PUSH_ACCOUNT"
+          push_account_permissions="$API_BODY"
+          for account in "$SCHEDULER_ACCOUNT" "$INGRESS_ACCOUNT" "$WORKER_ACCOUNT" "$DENIED_ACCOUNT"; do
+            test_service_account_permission "$account"
+            require_empty_permissions "$API_BODY" 'una cuenta negativa tiene actAs efectivo'
+          done
+
+          api_call POST "https://cloudresourcemanager.googleapis.com/v1/projects/${PROJECT_ID}:testIamPermissions" \
+            '{"permissions":["iam.serviceAccounts.actAs","pubsub.subscriptions.update","run.jobs.create","run.jobs.update","run.services.create","run.services.update","run.workerpools.create","run.workerpools.update"]}'
+          require_equal "$API_STATUS" '200' 'projects.testIamPermissions no devolvio HTTP 200'
+          require_empty_permissions "$API_BODY" 'el principal federado tiene permisos de proyecto prohibidos'
+
+          if jq -e '(.permissions // []) == []' <<<"$authorized_subscription_permissions" >/dev/null &&
+             jq -e '(.permissions // []) == []' <<<"$push_account_permissions" >/dev/null; then
+            mode='C0'
+          else
+            require_single_permission "$authorized_subscription_permissions" 'pubsub.subscriptions.update' 'permiso positivo Pub/Sub no es exacto'
+            require_single_permission "$push_account_permissions" 'iam.serviceAccounts.actAs' 'permiso positivo actAs no es exacto'
+            mode='C1'
+          fi
+          printf 'Modo federado determinado por permisos efectivos: %s\n' "$mode"
+
+          if [[ "$mode" == 'C1' ]]; then
+            positive_body="$(jq -nc \
+              --arg endpoint "$PUSH_ENDPOINT" \
+              --arg account "$PUSH_ACCOUNT" '
+                {pushConfig:{pushEndpoint:$endpoint,oidcToken:{serviceAccountEmail:$account,audience:$endpoint},pubsubWrapper:{}}}
+            ')"
+            scheduler_body="$(jq -nc \
+              --arg endpoint "$PUSH_ENDPOINT" \
+              --arg account "$SCHEDULER_ACCOUNT" '
+                {pushConfig:{pushEndpoint:$endpoint,oidcToken:{serviceAccountEmail:$account,audience:$endpoint},pubsubWrapper:{}}}
+            ')"
+
+            api_call POST "https://pubsub.googleapis.com/v1/${AUTHORIZED_SUBSCRIPTION}:modifyPushConfig" "$scheduler_body"
+            require_equal "$API_STATUS" '403' 'oraculo negativo actAs no devolvio HTTP 403'
+            jq -e '.error.status == "PERMISSION_DENIED"' <<<"$API_BODY" >/dev/null || fail 'oraculo negativo actAs no devolvio PERMISSION_DENIED'
+
+            api_call POST "https://pubsub.googleapis.com/v1/${DENIED_SUBSCRIPTION}:modifyPushConfig" "$positive_body"
+            require_equal "$API_STATUS" '403' 'oraculo negativo Pub/Sub no devolvio HTTP 403'
+            jq -e '.error.status == "PERMISSION_DENIED"' <<<"$API_BODY" >/dev/null || fail 'oraculo negativo Pub/Sub no devolvio PERMISSION_DENIED'
+
+            api_call POST "https://pubsub.googleapis.com/v1/${AUTHORIZED_SUBSCRIPTION}:modifyPushConfig" "$positive_body"
+            require_equal "$API_STATUS" '200' 'mutacion positiva no devolvio HTTP 200'
+            jq -e 'type == "object" and length == 0' <<<"$API_BODY" >/dev/null || fail 'mutacion positiva no devolvio el objeto vacio esperado'
+            printf 'C1 completo: dos negativos 403 y una unica mutacion positiva 200; atributos omitidos se conservan y pubsubWrapper queda explicito\n'
+          else
+            printf 'C0 completo: credencial sin ambos permisos y ninguna llamada modifyPushConfig\n'
+          fi
+
+          expiry="$oidc_exp"
+          (( access_exp > expiry )) && expiry="$access_exp"
+          remaining="$((expiry + 60 - EPOCHSECONDS))"
+          (( remaining > 0 )) && /usr/bin/sleep "$remaining"
+
+          api_call POST "https://pubsub.googleapis.com/v1/${AUTHORIZED_SUBSCRIPTION}:testIamPermissions" '{"permissions":["pubsub.subscriptions.update"]}'
+          require_equal "$API_STATUS" '401' 'el mismo token no devolvio HTTP 401 tras la expiracion'
+          printf 'Cierre temporal acreditado: el mismo token devolvio HTTP 401 tras la expiracion\n'
+          unset ACCESS_TOKEN API_BODY

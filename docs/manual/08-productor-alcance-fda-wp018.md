@@ -105,7 +105,7 @@ trazabilidad detiene la operación.
 
 ## 4. Workflow cerrado
 
-El futuro archivo usa exactamente:
+El archivo protegido incorporado por el tercer acto usa exactamente:
 
 ```yaml
 name: WP018 DOR7 emergency push authentication
@@ -125,13 +125,13 @@ jobs:
 ```
 
 `ubuntu-24.04` fija la familia del sistema, no una imagen inmutable: GitHub
-publica actualizaciones periódicas. La candidata futura debe fijar los valores
-oficiales aceptados de `ImageOS` e `ImageVersion` y comprobarlos, junto con las
-versiones de Bash, `curl` y `jq`, antes de solicitar OIDC. Cualquier diferencia
-termina el job sin credencial. Esta comprobación es fail-closed frente a drift
-observable, no un pin criptográfico del host. Exigir una imagen inmutable real
-obliga a otra decisión previa porque contenedores y runners propios permanecen
-fuera de este diseño.
+publica actualizaciones periódicas. Los bytes exactos fijan y comprueban antes
+de solicitar OIDC `ImageOS=ubuntu24`, `ImageVersion=20261004.327.1`, Bash
+`5.2.21(1)-release`, curl `8.5.0-2ubuntu10.15` y jq
+`1.7.1-3ubuntu0.24.04.2`. Cualquier diferencia termina el job sin credencial.
+Esta comprobación es fail-closed frente a drift observable, no un pin
+criptográfico del host. Exigir una imagen inmutable real obliga a otra decisión
+previa porque contenedores y runners propios permanecen fuera de este diseño.
 
 No usa `checkout`, acciones de terceros, reusable workflows, contenedores,
 secrets, vars ni inputs. El script único del job está versionado íntegramente
@@ -315,10 +315,13 @@ Cada mutación se verifica por lectura y delta; no se reabre el pool.
 La prueba es una ceremonia humana preadmisión, no implementación de WP-018.
 DEC-010 §15 corrige su orden. El primer acto humano separado acreditó
 canónicamente `fda-template` y `615273535351` sin mutar proyecto o facturación;
-el segundo creó y verificó el entorno protegido completo antes de que exista el
-workflow en `main`. El siguiente acto, todavía no autorizado, es preparar,
-revisar y custodiar sus bytes exactos. Crear topic, suscripciones,
-cuentas, pool/provider y logging sin bindings; ejecutar y cerrar C0; instalar
+el segundo creó y verificó el entorno protegido completo antes de que existiera
+el workflow en `main`. El tercer acto incorpora el workflow exacto de 281 líneas
+y SHA-256
+`7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594`
+sobre base `9093182a5c15699e9c33836e752fe63fb9ee88fc`, pero no lo despacha. Crear
+topic, suscripciones, cuentas, pool/provider y logging sin bindings; ejecutar y
+cerrar C0; instalar
 después roles y bindings con todo deshabilitado; ejecutar C1; capturar
 evidencia; y eliminar fixtures siguen requiriendo autorizaciones separadas. No
 usa Claude Code ni código del servicio. Esta excepción acotada rompe la
@@ -328,11 +331,11 @@ APTO; solo entonces puede cerrarse F2/DOR-7 y evaluarse su futura admisión.
 La composición mínima de esta enmienda contractual es exactamente estos tres
 archivos: WP-018, `MANUAL.md` y este capítulo. No incluye workflow ni políticas.
 Su materialización no autoriza las mutaciones externas. Los actos (1), fijar la
-identidad no secreta del proyecto, y (2), crear y verificar el entorno
-protegido todavía sin workflow, ya están cumplidos; siguen requiriéndose, en
-orden, actos humanos separados para: (3) preparar, revisar y materializar los
-bytes exactos del workflow; (4)
-configurar fixtures, logging y WIF inicialmente deshabilitado, sin roles o
+identidad no secreta del proyecto, (2), crear y verificar el entorno protegido,
+y (3), preparar, revisar y materializar los bytes exactos del workflow sin
+despacharlo, están cumplidos por composiciones humanas separadas. Siguen
+requiriéndose, en orden, actos humanos separados para: (4) configurar fixtures,
+logging y WIF inicialmente deshabilitado, sin roles o
 bindings; (5) ejecutar y cerrar C0 sin privilegios; (6) instalar y verificar
 los dos roles y bindings con WIF deshabilitado; y (7) ejecutar C1, sus oráculos,
 la única mutación y el rollback. El workflow no se despacha entre los pasos 3
@@ -345,6 +348,18 @@ ejecuta el orden ya fijado por §15; no incluye `MANUAL.md` porque no crea
 capítulo; y no crea `evidence/**` porque no abre un ciclo. Materializar esos
 cuatro archivos no crea o modifica el entorno, no incorpora el workflow y no
 autoriza el tercer acto.
+
+La composición atómica mínima del tercer acto contiene exactamente cinco
+archivos: el workflow, WP-018, la hoja de ruta, `05-bloqueos-y-parada.md` y
+este capítulo. Los cuatro documentos acompañan el cambio protegido, eliminan
+las afirmaciones que lo describían como inexistente y satisfacen la regla de
+gobierno que exige actualizar `docs/manual/**` al cambiar `.github/**`. No
+modifica decisiones, `MANUAL.md`, `ACTIVE`, evidencias, infraestructura o
+configuración externa. La revisión completa y C1 enfocada dejaron APTO los
+bytes del workflow; el fallo posterior de gobierno solo corrige esta
+composición documental y requiere revalidación enfocada C2 antes de tocar la
+rama. Ni esa revalidación ni la futura fusión autorizan despachar el workflow o
+avanzar al paso 4.
 
 Fuentes primarias revalidadas el 2026-10-09: documentación oficial de Google
 Cloud sobre productos compatibles con identidad federada, WIF para pipelines,

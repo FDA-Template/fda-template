@@ -1,6 +1,6 @@
 # Hoja de ruta — de la FDA al AI Agent Operating System
 
-**Creada:** 2026-08-30 · **Última revisión: 2026-10-09** (segundo acto de preadmisión de `WP018-DOR-7` — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013 y DEC-017 y actualizada por el cierre de WP-015; WP-018 permanece `draft`, la identidad del proyecto exclusivo y el entorno protegido están acreditados y la secuencia está detenida antes de preparar los bytes exactos del workflow de DOR-7; D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
+**Creada:** 2026-08-30 · **Última revisión: 2026-10-09** (tercer acto de preadmisión de `WP018-DOR-7` — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013 y DEC-017 y actualizada por el cierre de WP-015; WP-018 permanece `draft`, la identidad del proyecto exclusivo, el entorno protegido y los bytes exactos del workflow de DOR-7 están acreditados, el workflow no se ha despachado y la secuencia está detenida antes de crear fixtures, logging o WIF; D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
 
 **Procedencia.** v1 (30-08): las cinco conversaciones del operador con otras IAs — síntesis en [`04-analisis-conversaciones-ia.md`](04-analisis-conversaciones-ia.md)—, el repositorio completo, el estado de los demás repos y fuentes externas. v2 (01-09): además, los **cuatro documentos de investigación de Leandro** y una **línea base de investigación independiente registrada antes de leerlos** — análisis completo, veredictos y red team en [`05-analisis-investigacion-leandro-y-revalidacion.md`](05-analisis-investigacion-leandro-y-revalidacion.md). Lo redactaron y materializaron sesiones de Claude Code por encargo directo del operador, como actos de operador (§9).
 
@@ -33,6 +33,7 @@
 | 2026-10-09 | La revalidación previa al workflow detecta que GitHub auto-crea entornos inexistentes, que faltan los literales del proyecto y que el runner hospedado no es inmutable. DEC-010 §15 corrige el orden y detiene la candidata hasta fijar proyecto y entorno protegido | `DEC-010` §15 |
 | 2026-10-09 | Lecturas canónicas saneadas acreditan el proyecto exclusivo `fda-template` (`PROJECT_NUMBER=615273535351`), `ACTIVE`, sin parent y con `billingEnabled: true`. El entorno protegido continúa inexistente y requiere otro acto humano | `DEC-010` §15 · `docs/manual/08-productor-alcance-fda-wp018.md` |
 | 2026-10-09 | El acto humano separado crea y verifica `wp018-dor7-emergency-push` desde una preimagen de cero entornos: dos revisores exactos, sin autoaprobación ni bypass, solo `main`, espera cero y cero secrets o vars. El workflow continúa inexistente y requiere otra candidata | `DEC-010` §15 · `docs/manual/08-productor-alcance-fda-wp018.md` |
+| 2026-10-09 | El tercer acto incorpora mediante PR de operador el workflow protegido exacto, SHA-256 `7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594`, sobre base `9093182a5c15699e9c33836e752fe63fb9ee88fc`. No lo despacha, no crea WIF o infraestructura y no cierra F2 ni DOR-7 | `DEC-010` §15 · `docs/manual/08-productor-alcance-fda-wp018.md` |
 
 ---
 
@@ -200,10 +201,14 @@ no es fail-closed. El paso 1 acredita `PROJECT_ID=fda-template`,
 `billingEnabled: true`. El paso 2 acredita el único entorno
 `wp018-dor7-emergency-push`, con los dos revisores previstos,
 `prevent_self_review: true`, `can_admins_bypass: false`, política personalizada
-limitada a `main`, sin temporizador, secrets o vars. `ubuntu-24.04` recibe
-actualizaciones semanales y tampoco es un pin criptográfico. DEC-010 §15 deja
-como siguiente acto separado preparar y revisar externamente los bytes exactos;
-no existe workflow ni se cierra F2 o DOR-7. DOR-8 y DOR-9 continúan abiertos.
+limitada a `main`, sin temporizador, secrets o vars. El paso 3 incorpora el
+workflow exacto revisado con `ubuntu-24.04`, `ImageOS=ubuntu24`,
+`ImageVersion=20261004.327.1`, Bash `5.2.21(1)-release`, curl
+`8.5.0-2ubuntu10.15` y jq `1.7.1-3ubuntu0.24.04.2`; estos controles detectan
+deriva observable, pero no convierten el runner en un pin criptográfico. El
+workflow permanece sin despachar. El siguiente acto separado es configurar
+fixtures, logging y WIF inicialmente deshabilitado y sin bindings; no se cierra
+F2 o DOR-7. DOR-8 y DOR-9 continúan abiertos.
 
 **Tres verdades incómodas, con los datos delante:**
 
