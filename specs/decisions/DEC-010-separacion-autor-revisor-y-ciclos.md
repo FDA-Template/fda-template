@@ -28,6 +28,11 @@ No reserva otro WP-ID ni autoriza redactar su sucesor.
 materializa únicamente el siguiente acto previsto por §10 y reserva `WP-018`
 como sucesor limpio. No altera los ciclos, el coste irrecuperable, el bloqueo de
 WP-017 ni la preservación de su candidata histórica.
+**Enmendada por cuarta vez el 2026-10-09 por decisión humana de instancia:**
+el apartado 11 cierra `blocked` tras C2 la transición agotada de
+`WP018-DOR-7` y elige un replanteamiento como transición nueva. No abre C3,
+no reabre los demás hallazgos y no altera la regla general de dos ciclos.
+
 
 ## Problema
 
@@ -498,3 +503,150 @@ worktrees o candidatas. No crea `cost.md`, filas de ciclos, otro WP-ID ni una
 excepción económica; no autoriza ejecución o actos posteriores. Su
 materialización, publicación y fusión requieren autorizaciones humanas
 separadas.
+
+## 11. Enmienda de instancia del 2026-10-09 — cierre tras C2 y replanteamiento de WP018-DOR-7
+
+### 11.1. Hechos, identidad y conjunto cerrado
+
+Sobre `origin/main` `10ae4d96e95d8a5ba449420ab35999e56b4860a2`, la
+candidata externa del primer acto previo a `WP018-DOR-7` consumió C1 y C2 y
+quedó `NO APTO`. La preimagen C2 preservada consta de:
+
+- `DEC-018-continuidad-operativa-wp018.md`, SHA-256
+  `f8bf4996ff4fcf86c96356dc13b0478b3f6a926e9067796e3c1c848cb7bfba4f`;
+- `PATCH-EXISTING.diff`, SHA-256
+  `eafcfb14a9c49b0e88eb0b135d5ef90402642b8c0399268bd00db00c7c9d84a6`.
+
+El parche se limita a siete archivos existentes y sus 22 hunks fueron
+contrastados con esa base; junto con la nueva DEC-018 forma una composición
+candidata de ocho archivos. Ningún byte está materializado en el repositorio.
+
+La revisión completa abrió F1 a F7. C1 cerró F1, F3, F5, F6 y F7; C2 cerró
+F4. Permanece abierto solo F2: restaurar la configuración push autenticada de
+`alcance-fda-wp018-worker-push` requiere que el humano que la modifica tenga
+`iam.serviceAccounts.actAs` sobre `alcance-fda-wp018-push`, y la matriz C2 no
+lo concede. Los demás hallazgos permanecen cerrados como resultados exigibles;
+no autorizan otros cambios.
+
+La documentación oficial confirma que `roles/iam.serviceAccountUser` contiene
+`iam.serviceAccounts.actAs` y puede ligarse directamente a una cuenta de
+servicio. También confirma que quien posee `roles/run.developer` y `actAs`
+puede actualizar un servicio Cloud Run para usar esa identidad. Los dos humanos
+ya reciben temporalmente `roles/run.developer` en la operación ordinaria de la
+candidata C2. Por tanto, un binding directo permanente sobre la identidad push
+ampliaría capacidades fuera de la emergencia y no es una corrección mecánica
+sin efectos laterales.
+
+Privileged Access Manager concede role bindings sobre su recurso padre —en
+este caso el proyecto—, no un binding directo sobre una sola cuenta de servicio.
+Conceder allí `roles/iam.serviceAccountUser` ampliaría `actAs` a otras
+identidades del proyecto y rompería el límite negativo exigido. La vía C3 no
+puede conservar simultáneamente el modelo C2, la temporalidad y el mínimo
+privilegio sin elegir un mecanismo nuevo o revisar permisos relacionados.
+
+### 11.2. Alternativas y decisión
+
+**C3 excepcional sobre la candidata C2 — rechazado.** El residual es único,
+pero no la corrección: el binding directo permanente interactúa con el acceso
+ordinario de Cloud Run y el binding PAM a nivel de proyecto excede la identidad
+push. Elegir una de esas variantes como simple F2 ocultaría una ampliación de
+autoridad; introducir identidades, condiciones, tags, políticas o servicios
+nuevos excedería una revalidación enfocada y requeriría decisiones no cerradas.
+
+**Replanteamiento como transición nueva dentro de `WP018-DOR-7` — elegido.**
+La candidata C2 se conserva `NO APTO` y su transición termina `blocked` después
+de C2. No se abre C3, no existe C4 y los ciclos consumidos no se renombran,
+reinician ni atribuyen a la transición futura. El replanteamiento deberá
+rederivar únicamente el mecanismo de autorización que resuelve F2, manteniendo
+como restricciones los resultados cerrados de F1 y F3 a F7.
+
+Esta enmienda no inicia ni prepara la transición nueva. Solo entra en vigor
+tras materializar y fusionar humanamente los cuatro archivos de §11.5. Después
+hará falta otra autorización humana, limitada a investigación en solo lectura y
+preparación externa de una candidata nueva. No se crea, inventa o reserva otro
+identificador normativo o WP-ID.
+
+### 11.3. Efectos exactos del cierre
+
+1. La transición externa de la candidata identificada en §11.1 queda cerrada
+   `blocked` después de C2. Su único residual F2 sigue abierto.
+2. La candidata, sus dos archivos y sus huellas se preservan como historia
+   externa `NO APTO`; no se materializan, corrigen, importan, ejecutan, mezclan
+   ni usan como autorización.
+3. F1 y F3 a F7 permanecen cerrados como resultados del expediente. Una futura
+   candidata debe conservar esos resultados y demostrar que no regresan, pero
+   no recibe autoridad para cambiar otras materias.
+4. WP-018 permanece `draft`; `WP018-DOR-7`, DOR-8 y DOR-9 permanecen abiertos.
+   WP-017, WP-016 y `ACTIVE` permanecen intactos.
+5. No se crea `evidence/WP-018/ciclos.md`, `cost.md`, artefacto F1 o fila C3.
+   Esta preparación y su revisión no ejecutaron Claude Code ni generaron coste
+   atribuible por ese mecanismo.
+
+### 11.4. Límites de la transición nueva y del siguiente acto
+
+El siguiente acto posible es únicamente autorizar investigación en solo lectura
+y preparar fuera del repositorio una candidata nueva para `WP018-DOR-7`. Esa
+candidata deberá:
+
+1. rederivar desde fuentes oficiales vigentes un mecanismo que permita a los
+   dos humanos ya designados restaurar push autenticado con
+   `iam.serviceAccounts.actAs` sobre `alcance-fda-wp018-push` durante la
+   emergencia, sin otorgarlo sobre `alcance-fda-wp018-scheduler` ni convertirlo
+   en capacidad efectiva durante la operación ordinaria;
+2. analizar expresamente la composición de permisos con el entitlement
+   ordinario, `roles/run.developer`, `run.services.update` y cualquier permiso
+   que permita adjuntar una identidad a Cloud Run;
+3. fijar oráculos positivos y negativos que fallen si `actAs` resulta efectivo
+   fuera de la emergencia, sobre otra identidad o sin el permiso temporal que
+   habilita modificar la suscripción;
+4. conservar sin reapertura los resultados cerrados de F1 y F3 a F7, salvo una
+   regresión directa y demostrada del nuevo mecanismo;
+5. detenerse y pedir decisión si la solución exige una identidad, proveedor,
+   servicio, tag, política, condición, permiso o recurso no fijado, o si no puede
+   mantener el mínimo privilegio de forma verificable.
+
+La transición futura comienza únicamente cuando una autorización humana
+posterior identifique esta enmienda fusionada y autorice preparar y revisar la
+candidata nueva. Recibirá una revisión completa independiente de GPT-6 Astra,
+razonamiento Alto, contexto nuevo y solo lectura; el autor podrá efectuar como
+máximo dos correcciones concretas con revalidaciones enfocadas de la misma
+Astra. Su presupuesto propio máximo será `5.00 EUR`, dentro del techo contractual
+de `100.00 EUR`; F1 se adquirirá desde la primera futura invocación de Claude
+Code atribuible a WP-018. Esta enmienda no autoriza esa invocación ni fija una
+solución técnica.
+
+No se puede copiar la candidata C2 como sustituto del replanteamiento. Sus
+resultados cerrados son restricciones verificables y sus hashes son custodia,
+no una nueva preimagen ejecutable. La autorización posterior deberá fijar la
+base, el alcance material, la composición y las evidencias exactas antes de
+abrir la transición.
+
+### 11.5. Composición normativa mínima
+
+Esta enmienda de instancia viaja en una composición atómica de exactamente
+cuatro archivos; todos o ninguno:
+
+1. `specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md`;
+2. `specs/decisions/DEC-003-pausa-migracion-y-contencion.md`;
+3. `docs/03-hoja-de-ruta.md`;
+4. `docs/manual/05-bloqueos-y-parada.md`.
+
+La composición no contiene o modifica DEC-018, WP-018, WP-017, WP-016,
+`ACTIVE`, `evidence/**`, código, pruebas, infraestructura, cuentas, identidades,
+roles, secretos, permisos, Google Cloud, GitHub, workflows, ruleset, ramas,
+worktrees o candidatas. Materialización, publicación, fusión y apertura de la
+transición nueva son actos humanos posteriores y separados.
+
+Fuentes primarias revalidadas el 2026-10-09:
+
+- Pub/Sub, creación y modificación de push autenticado:
+  https://docs.cloud.google.com/pubsub/docs/create-push-subscription
+  https://docs.cloud.google.com/pubsub/docs/authenticate-push-subscriptions
+- IAM, `actAs` y `roles/iam.serviceAccountUser`:
+  https://docs.cloud.google.com/iam/docs/service-account-permissions
+  https://docs.cloud.google.com/iam/docs/attach-service-accounts
+- PAM, alcance de los entitlements y role bindings:
+  https://docs.cloud.google.com/iam/docs/pam-create-entitlements
+- Cloud Run, identidad de servicio y permisos para configurarla:
+  https://docs.cloud.google.com/run/docs/configuring/services/service-identity
+  https://docs.cloud.google.com/run/docs/configuring/services/containers
