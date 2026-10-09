@@ -204,6 +204,23 @@ su expiración verificada. Como los recursos aún no están fijados, la decisió
 no resuelve F2, no abre candidata técnica ni crea recursos. DOR-7 a DOR-9 siguen
 abiertos, WP-018 `draft` y `ACTIVE` en reposo.
 
+**Cuando el entorno protegido todavía no existe o los parámetros no están
+fijados.** DEC-010 §15 impide preparar o materializar el workflow de
+`WP018-DOR-7` mientras no se acrediten antes `PROJECT_ID`, `PROJECT_NUMBER` y
+su correspondencia y no exista el entorno protegido completo. GitHub puede
+crear automáticamente un entorno inexistente cuando un workflow lo referencia;
+esa creación implícita es siempre `NO APTO`. El orden obligatorio es: identidad
+del proyecto, entorno con dos revisores y sin autoaprobación o bypass, bytes
+exactos revisados, WIF inicialmente deshabilitado sin bindings, C0 sin
+privilegios, instalación posterior de ambos bindings con WIF deshabilitado y
+C1 privilegiado. El
+workflow no usa acciones; `ubuntu-24.04` no se describe como pin inmutable. La
+candidata debe fijar `ImageOS` y `ImageVersion` y fallar antes de OIDC ante
+cualquier diferencia. Si se exige una imagen realmente inmutable, se detiene y
+se solicita otra decisión: contenedor o runner propio están fuera del diseño
+aprobado. No se inventan identificadores ni se usan inputs, secrets o vars para
+aportarlos.
+
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
 Ver [DEC-010](../../specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md).

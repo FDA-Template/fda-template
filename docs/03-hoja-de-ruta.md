@@ -1,6 +1,6 @@
 # Hoja de ruta — de la FDA al AI Agent Operating System
 
-**Creada:** 2026-08-30 · **Última revisión: 2026-10-09** (decisión previa de `WP018-DOR-7` — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013 y DEC-017 y actualizada por el cierre de WP-015; WP-018 permanece `draft` y la secuencia está detenida antes de preparar su transición nueva de DOR-7, cuya vía tag-conditioned PAM requiere gates previos, D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
+**Creada:** 2026-08-30 · **Última revisión: 2026-10-09** (gate previo al workflow de `WP018-DOR-7` — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013 y DEC-017 y actualizada por el cierre de WP-015; WP-018 permanece `draft` y la secuencia está detenida antes de fijar la identidad del proyecto y crear el entorno protegido que deben preceder a cualquier candidata exacta del workflow de DOR-7; D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
 
 **Procedencia.** v1 (30-08): las cinco conversaciones del operador con otras IAs — síntesis en [`04-analisis-conversaciones-ia.md`](04-analisis-conversaciones-ia.md)—, el repositorio completo, el estado de los demás repos y fuentes externas. v2 (01-09): además, los **cuatro documentos de investigación de Leandro** y una **línea base de investigación independiente registrada antes de leerlos** — análisis completo, veredictos y red team en [`05-analisis-investigacion-leandro-y-revalidacion.md`](05-analisis-investigacion-leandro-y-revalidacion.md). Lo redactaron y materializaron sesiones de Claude Code por encargo directo del operador, como actos de operador (§9).
 
@@ -29,6 +29,8 @@
 | 2026-09-28 | DEC-017 reserva `WP-018`, primer identificador libre y no reservado, como sucesor limpio de WP-017; hereda por referencia DOR-1 a DOR-4, exige reafirmar DOR-5 y DOR-6, mantiene DOR-7 a DOR-9 abiertos y fija F1 desde la primera invocación, 100 EUR y `max_ciclos_correccion: 2`. No crea contrato ni autoriza ejecución | `DEC-017` |
 | 2026-10-09 | La candidata externa de `WP018-DOR-7` agota C1/C2 con F2 abierto: `actAs` no puede añadirse como C3 sin ampliar autoridad ordinaria o el alcance del binding. La transición queda `blocked`, WP-018 sigue `draft` y se elige un replanteamiento como transición nueva, todavía no abierto | `DEC-010` §11 |
 | 2026-10-09 | El replanteamiento encuentra una vía PAM condicionada por tag directo de service account. Como ese tag es Pre-GA y exige recursos nuevos, DEC-010 §12 fija primero la decisión, límites y gates fail-closed; F2 y DOR-7 siguen abiertos y la transición aún no comienza | `DEC-010` §12 |
+| 2026-10-09 | La contradicción documental de PAM persiste y la vía queda `blocked`; DEC-010 §14 elige en su lugar GitHub Actions protegido con WIF directo y la PR #75 materializa únicamente el contrato del acto técnico mínimo | `DEC-010` §§13–14 · `docs/manual/08-productor-alcance-fda-wp018.md` |
+| 2026-10-09 | La revalidación previa al workflow detecta que GitHub auto-crea entornos inexistentes, que faltan los literales del proyecto y que el runner hospedado no es inmutable. DEC-010 §15 corrige el orden y detiene la candidata hasta fijar proyecto y entorno protegido | `DEC-010` §15 |
 
 ---
 
@@ -187,6 +189,16 @@ Como exige workflow, entorno protegido, pool, proveedor, roles y bindings aún
 no fijados, la decisión no prepara la candidata técnica ni crea recursos. F2 y
 DOR-7 siguen abiertos; F1 y F3 a F7 cerrados; WP-018 continúa `draft`, DOR-8 y
 DOR-9 abiertos y `ACTIVE` en reposo.
+
+**Gate previo al workflow.** La autorización de arquitectura no basta para
+producir bytes exactos. GitHub documenta que ejecutar un workflow que referencia
+un entorno inexistente crea ese entorno; el orden «workflow antes que entorno»
+no es fail-closed. Además, WIF exige número de proyecto, el YAML necesita ID de
+proyecto y ninguno está fijado en el repositorio. `ubuntu-24.04` recibe
+actualizaciones semanales y tampoco es un pin criptográfico. DEC-010 §15
+reordena la ceremonia: identidad del proyecto, entorno protegido, bytes exactos
+revisados, WIF deshabilitado y solo entonces ejecución. No crea recursos ni
+cierra F2 o DOR-7; DOR-8 y DOR-9 continúan abiertos.
 
 **Tres verdades incómodas, con los datos delante:**
 

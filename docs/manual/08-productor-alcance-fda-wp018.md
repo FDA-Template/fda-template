@@ -87,6 +87,15 @@ jobs:
     environment: wp018-dor7-emergency-push
 ```
 
+`ubuntu-24.04` fija la familia del sistema, no una imagen inmutable: GitHub
+publica actualizaciones periódicas. La candidata futura debe fijar los valores
+oficiales aceptados de `ImageOS` e `ImageVersion` y comprobarlos, junto con las
+versiones de Bash, `curl` y `jq`, antes de solicitar OIDC. Cualquier diferencia
+termina el job sin credencial. Esta comprobación es fail-closed frente a drift
+observable, no un pin criptográfico del host. Exigir una imagen inmutable real
+obliga a otra decisión previa porque contenedores y runners propios permanecen
+fuera de este diseño.
+
 No usa `checkout`, acciones de terceros, reusable workflows, contenedores,
 secrets, vars ni inputs. El script único del job está versionado íntegramente
 en el mismo YAML, usa `bash --noprofile --norc -euo pipefail`, `curl` y `jq`
@@ -267,10 +276,14 @@ roles, provider/pool, workflow, entorno y fixtures, tras exportar postimágenes.
 Cada mutación se verifica por lectura y delta; no se reabre el pool.
 
 La prueba es una ceremonia humana preadmisión, no implementación de WP-018.
-Tras materializar esta enmienda requiere autorizaciones separadas para crear,
-en el proyecto exclusivo, solo el topic vacío, las dos suscripciones, cinco
-cuentas, workflow, entorno, pool/provider, roles, bindings y logging aquí
-enumerados; ejecutar una vez; capturar evidencia; y eliminar los fixtures. No
+DEC-010 §15 corrige su orden. Primero, un acto humano separado fija y acredita
+los literales `PROJECT_ID` y `PROJECT_NUMBER`; crear el proyecto o vincular
+facturación exige autorización propia. Segundo, otro acto crea y verifica el
+entorno protegido completo antes de que el workflow exista en `main`. Solo
+después se preparan y revisan sus bytes exactos. Crear topic, suscripciones,
+cuentas, pool/provider y logging sin bindings; ejecutar y cerrar C0; instalar
+después roles y bindings con todo deshabilitado; ejecutar C1; capturar
+evidencia; y eliminar fixtures siguen requiriendo autorizaciones separadas. No
 usa Claude Code ni código del servicio. Esta excepción acotada rompe la
 dependencia circular: el WP continúa `draft` hasta que ceremonia y rollback sean
 APTO; solo entonces puede cerrarse F2/DOR-7 y evaluarse su futura admisión.
@@ -278,9 +291,14 @@ APTO; solo entonces puede cerrarse F2/DOR-7 y evaluarse su futura admisión.
 La composición mínima de esta enmienda contractual es exactamente estos tres
 archivos: WP-018, `MANUAL.md` y este capítulo. No incluye workflow ni políticas.
 Su materialización no autoriza las mutaciones externas. Éstas requieren, en
-orden, actos humanos separados para: (1) introducir y revisar el workflow;
-(2) configurar entorno, WIF, roles y bindings; (3) ejecutar una única prueba
-real y su rollback. Solo evidencia real completa puede cerrar F2 y DOR-7.
+orden, actos humanos separados para: (1) fijar la identidad no secreta del
+proyecto; (2) crear y verificar el entorno protegido, todavía sin workflow;
+(3) preparar, revisar y materializar los bytes exactos del workflow; (4)
+configurar fixtures, logging y WIF inicialmente deshabilitado, sin roles o
+bindings; (5) ejecutar y cerrar C0 sin privilegios; (6) instalar y verificar
+los dos roles y bindings con WIF deshabilitado; y (7) ejecutar C1, sus oráculos,
+la única mutación y el rollback. El workflow no se despacha entre los pasos 3
+y 5 ni entre C0 y C1. Solo evidencia real completa puede cerrar F2 y DOR-7.
 
 Fuentes primarias revalidadas el 2026-10-09: documentación oficial de Google
 Cloud sobre productos compatibles con identidad federada, WIF para pipelines,

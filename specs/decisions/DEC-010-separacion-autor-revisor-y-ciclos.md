@@ -1250,3 +1250,153 @@ Fuentes primarias revalidadas el 2026-10-09:
   https://docs.cloud.google.com/iam/docs/configuring-temporary-access
   https://docs.cloud.google.com/identity/docs/how-to/manage-expirations
   https://cloud.google.com/identity/pricing
+
+## 15. Enmienda de instancia del 2026-10-09 — gate previo al workflow de WP018-DOR-7
+
+### 15.1. Base y causa de parada
+
+La base normativa es `origin/main`
+`7221571d5c8718398dd71241aab68ffe3bd7e839`. La PR #75 materializó el acto
+técnico mínimo de §14 únicamente como contrato y manual. F2 y
+`WP018-DOR-7` siguen abiertos; F1 y F3 a F7 permanecen cerrados; DOR-8 y
+DOR-9 siguen abiertos; WP-018 continúa `draft` y `ACTIVE` en reposo.
+
+§14.3.10 y `docs/manual/08-productor-alcance-fda-wp018.md` ya separan el
+workflow como parche de operador humano, fuera de los archivos implementables
+por WP-018. No hace falta otra decisión por esa separación. Sí hace falta este
+acto previo porque la revalidación oficial descubre tres gates que impiden
+preparar ahora bytes exactos y fail-closed:
+
+1. GitHub crea automáticamente un entorno inexistente cuando se ejecuta un
+   workflow que lo referencia. El orden versionado «introducir workflow» antes
+   de «configurar entorno» permite por tanto crear el objeto sin los revisores,
+   `prevent_self_review`, política de rama y bloqueo de bypass exigidos.
+2. La audiencia WIF y los principales federados requieren el número de proyecto
+   y las URL de recursos requieren el ID de proyecto. El repositorio contiene
+   solo `${PROJECT_NUMBER}` y `${PROJECT_ID}`; no acredita sus literales ni que
+   el proyecto exclusivo exista. Una candidata exacta no puede inventarlos ni
+   recibirlos mediante inputs, secrets o vars.
+3. GitHub considera inmutable únicamente una acción fijada por SHA completo,
+   pero el diseño no usa acciones. La etiqueta hospedada `ubuntu-24.04` recibe
+   actualizaciones ordinarias y no fija una imagen concreta; `curl` y `jq`
+   preinstalados también cambian. Presentarla como pin inmutable sería falso.
+
+El fallo prevenido es ejecutar o aprobar una ceremonia sobre un entorno
+auto-creado sin protección, identificadores conjeturados o un runtime descrito
+como inmutable cuando no lo es. WIF deshabilitado y los bindings ausentes
+reducen impacto, pero no corrigen esas precondiciones. El coste de mantenimiento
+se limita a una preimagen humana y, si cambia la imagen antes de la ceremonia,
+a una revisión enfocada nueva; no añade servicio permanente.
+
+### 15.2. Decisión y orden fail-closed
+
+Se detiene la candidata directa del workflow. La ceremonia se reordena así;
+ningún paso autoriza el siguiente:
+
+1. **Identidad de proyecto:** un acto humano separado crea o selecciona el
+   proyecto exclusivo ya aprobado, comprueba su identidad, estado y pertenencia,
+   y fija los literales `PROJECT_ID` y `PROJECT_NUMBER` y su correspondencia.
+   Crear o vincular facturación requiere su autorización propia. `europe-west1`
+   se conserva como restricción para los recursos regionales aplicables cuando
+   se preparen; el recurso Project y el pool WIF global no reciben una región
+   inventada. Solo se registran identificadores no secretos y lecturas saneadas;
+   ausencia o discrepancia detiene el proceso.
+2. **Entorno antes del workflow:** otro acto humano separado crea y verifica
+   `wp018-dor7-emergency-push` antes de que exista el workflow en `main`, con
+   exactamente `ivanes189` y `de-lean788` como revisores,
+   `prevent_self_review: true`, política personalizada que admite únicamente la
+   rama `main`, bypass administrativo deshabilitado y cero secrets o vars. Se
+   capturan inexistencia o preimagen, postimagen, delta e historial. Un entorno
+   preexistente no se adopta sin acreditar toda su historia y configuración.
+3. **Bytes exactos:** solo con 1 y 2 conformes se prepara externamente el YAML
+   completo con los dos literales, sin inputs, secrets, vars, `checkout`,
+   acciones, reusable workflows o contenedores. La misma candidata fija el
+   `ImageOS` y `ImageVersion` oficiales aceptados y falla antes de pedir OIDC si
+   difieren. Registra además versiones de Bash, `curl` y `jq`; una diferencia no
+   se corrige ni instala en runtime.
+4. **Revisión y custodia:** los bytes exactos reciben una revisión completa
+   independiente; correcciones, si existen, siguen DEC-010. SHA-256, diff,
+   base, composición y revisión se fijan antes de materialización humana. La
+   fusión humana produce `${WORKFLOW_SHA}`; cualquier cambio de bytes o base
+   invalida la candidata.
+5. **C0 sin privilegios:** solo después puede autorizarse crear fixtures,
+   logging y pool/provider inicialmente deshabilitados, todavía sin roles ni
+   bindings. Con la preimagen conforme se habilitan temporalmente para un único
+   despacho C0, se obtiene e intercambia la credencial sin permisos, se
+   deshabilitan, se espera su expiración y se audita. Cualquier permiso efectivo
+   o intercambio adicional detiene y revierte; C0 no muta Pub/Sub.
+6. **C1 privilegiado posterior:** únicamente tras cerrar C0 pueden instalarse,
+   con pool/provider deshabilitados, los dos roles y bindings acoplados. Su
+   preimagen, políticas y recursos negativos se verifican antes de habilitar.
+   Un despacho C1 adquiere la credencial; ya con ella, los oráculos federados
+   positivos y negativos pasan antes de la única mutación. Cierre, expiración,
+   evidencia y rollback siguen el manual. C0 y C1 requieren autorizaciones
+   humanas separadas y ninguno queda autorizado aquí.
+
+La comprobación de `ImageVersion` no convierte el runner hospedado en artefacto
+criptográficamente inmutable. Declara y acota la confianza en GitHub como
+proveedor y hace fail-closed el drift observable. Si se exige una imagen
+inmutable real, este diseño se detiene: contenedor por digest o runner propio
+contradirían §14 y el manual y requieren otra decisión previa. No se relaja esa
+frontera por conveniencia.
+
+El workflow no se despacha tras fusionarse. Antes de C0 deben estar conformes
+el entorno, los literales, `${WORKFLOW_SHA}`, la imagen aceptada, la condición
+WIF, logging y la preimagen completa, y debe acreditarse la ausencia de ambos
+bindings. Antes de C1 deben estar conformes ambos roles y bindings, las
+políticas y la existencia de todos los recursos negativos; los oráculos que
+requieren identidad federada se ejecutan después de obtener la credencial C1 y
+antes de mutar. `run_attempt == 1` permanece tanto en YAML como en la condición
+WIF; un rerun no obtiene credenciales.
+
+### 15.3. Estado y siguiente acto
+
+1. Este acto corrige únicamente el orden y las precondiciones. No prepara el
+   workflow ni autoriza crear proyecto, facturación, entorno, WIF, recursos,
+   roles, bindings, logging, costes o ciclos.
+2. F2 y `WP018-DOR-7` permanecen abiertos; F1 y F3 a F7 siguen cerrados sin
+   regresión; DOR-8 y DOR-9 permanecen abiertos; WP-018 continúa `draft`.
+3. WP-017, WP-016, `ACTIVE`, `evidence/**` y todas las candidatas históricas
+   permanecen intactos. No se reserva otro WP-ID.
+4. Tras la fusión humana de esta composición, el único acto siguiente posible
+   es investigar y preparar externamente la preimagen cerrada de los pasos 1 y
+   2. Su materialización y cada mutación requieren autorizaciones separadas.
+
+### 15.4. Composición normativa mínima
+
+Esta decisión viaja en una composición atómica de exactamente cinco archivos;
+todos o ninguno:
+
+1. `specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md`;
+2. `specs/decisions/DEC-003-pausa-migracion-y-contencion.md`;
+3. `docs/03-hoja-de-ruta.md`;
+4. `docs/manual/05-bloqueos-y-parada.md`;
+5. `docs/manual/08-productor-alcance-fda-wp018.md`.
+
+No modifica WP-018, WP-017, WP-016, `ACTIVE`, `evidence/**`, workflows,
+código, pruebas, infraestructura, GitHub, Google Cloud, cuentas, facturación,
+identidades, roles, bindings, secretos, ramas, worktrees o candidatas
+históricas.
+
+Fuentes primarias revalidadas el 2026-10-09:
+
+- workflow manual y rama predeterminada:
+  https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow
+- creación y protección de entornos:
+  https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments
+  https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments
+  https://docs.github.com/en/rest/deployments/environments
+  https://docs.github.com/en/rest/deployments/branch-policies
+- permisos, OIDC, claims y reruns:
+  https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+  https://docs.github.com/en/actions/reference/security/oidc
+  https://docs.github.com/en/actions/how-tos/manage-workflow-runs/re-run-workflows-and-jobs
+- pins y runner hospedado:
+  https://docs.github.com/en/actions/reference/security/secure-use
+  https://github.com/actions/runner-images
+  https://github.com/actions/runner-images/releases
+- WIF, audiencia y principales directos:
+  https://docs.cloud.google.com/iam/docs/workload-identity-federation-with-deployment-pipelines
+  https://docs.cloud.google.com/iam/docs/workload-identity-federation
+  https://docs.cloud.google.com/iam/docs/best-practices-for-using-workload-identity-federation
+  https://docs.cloud.google.com/iam/docs/reference/sts/rest/v1/TopLevel/token
