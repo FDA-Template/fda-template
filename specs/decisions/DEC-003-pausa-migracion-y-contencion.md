@@ -28,6 +28,11 @@ replanteamiento como transición nueva. `ACTIVE` permanece en reposo.
 [`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §12:** §§2 y 4
 admiten la decisión previa que aísla el `actAs` de emergencia mediante PAM
 condicionado por tag. No abre la transición ni modifica `ACTIVE`.
+**Enmendada por la decisión humana de instancia de
+[`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §13:** §§2 y 4
+admiten la composición que cierra `blocked`, antes de candidata técnica, la
+transición nueva de `WP018-DOR-7` por contradicción oficial no resuelta. F2 y
+DOR-7 permanecen abiertos y `ACTIVE` permanece en reposo.
 
 
 ## Problema
@@ -702,6 +707,19 @@ Pre-GA con gates fail-closed y conserva F2 abierto y F1 y F3 a F7 cerrados.
 No crea tags, roles, entitlements, bindings o permisos; no abre la transición,
 ciclos o coste; no modifica WP-018, WP-017, WP-016, `ACTIVE`, evidencias,
 infraestructura, GitHub, Google Cloud, ramas, worktrees o candidatas.
+
+**Admisión atómica de la decisión de instancia de `DEC-010` §13.** Se modifica
+directamente esta lista en el mismo diff; la enmienda no se autoautoriza. La
+composición cerrada consta exactamente de `DEC-010`, esta `DEC-003`,
+`docs/03-hoja-de-ruta.md` y `docs/manual/05-bloqueos-y-parada.md`; todos viajan
+juntos o ninguno. Cierra `blocked`, antes de candidata técnica, ciclos o
+invocación de Claude Code, la transición nueva de `WP018-DOR-7`: PAM v1 y
+v1beta siguen excluyendo tags en su contrato REST mientras las guías vigentes
+los declaran compatibles. Conserva F2 y DOR-7 abiertos, F1 y F3 a F7 cerrados
+sin regresión, DOR-8 y DOR-9 abiertos, WP-018 `draft` y `ACTIVE` en reposo. No
+crea coste, infraestructura, tags, roles, entitlements, bindings, permisos o
+otro identificador; no modifica contratos, evidencias, GitHub, Google Cloud,
+ramas, worktrees o candidatas históricas.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 

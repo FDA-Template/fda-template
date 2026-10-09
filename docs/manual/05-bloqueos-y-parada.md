@@ -182,6 +182,14 @@ de DoR. El grant ordinario con `roles/run.developer` no puede solaparse con la
 emergencia; cualquier permiso de mutación Cloud Run o diferencia de revisiones
 activa parada y saneamiento. WP-018 sigue `draft`; DOR-8 y DOR-9 no se resuelven.
 
+**Cuando el gate documental continúa contradictorio.** DEC-010 §13 constata
+que las referencias REST de PAM v1 y v1beta aún excluyen tags aunque las guías
+vigentes afirman que PAM admite condiciones por tag. Esa divergencia no se
+resuelve eligiendo la fuente más conveniente ni mediante una prueba empírica.
+La transición nueva de `WP018-DOR-7` queda `blocked` antes de candidata técnica,
+ciclos o invocación del autor. F2 y DOR-7 siguen abiertos; F1 y F3 a F7 se
+conservan cerrados sin regresión; WP-018 permanece `draft` y `ACTIVE` en reposo.
+
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
 Ver [DEC-010](../../specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md).

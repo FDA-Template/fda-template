@@ -36,6 +36,11 @@ no reabre los demás hallazgos y no altera la regla general de dos ciclos.
 el apartado 12 elige la decisión previa necesaria para aislar el `actAs` de
 emergencia de `WP018-DOR-7`. Acepta de forma condicionada un tag Pre-GA,
 pero no abre la transición nueva, resuelve F2 ni modifica WP-018.
+**Enmendada por sexta vez el 2026-10-09 por decisión humana de instancia:**
+el apartado 13 cierra `blocked`, antes de candidata técnica y ciclos, la
+transición nueva de `WP018-DOR-7`: las referencias oficiales PAM v1 y v1beta
+siguen excluyendo tags mientras las guías vigentes los declaran compatibles.
+F2 y DOR-7 permanecen abiertos; no se simula conformidad ni se modifica WP-018.
 
 
 ## Problema
@@ -915,3 +920,112 @@ Fuentes primarias revalidadas el 2026-10-09:
   https://docs.cloud.google.com/run/docs/managing/revisions
 - Oráculo por cuenta de servicio:
   https://docs.cloud.google.com/iam/docs/reference/rest/v1/projects.serviceAccounts/testIamPermissions
+
+## 13. Enmienda de instancia del 2026-10-09 — bloqueo documental de la transición nueva de WP018-DOR-7
+
+### 13.1. Base, gate aplicable y hechos revalidados
+
+La base normativa es `origin/main`
+`72bae4acfffac30ce655ae6ecb8e6e5d7e747c9e`. DEC-010 §12 admite como única
+vía potencial un grant PAM indivisible con un role binding condicionado por el
+tag directo de `alcance-fda-wp018-push`, pero prohíbe cerrar F2 mientras una
+fuente oficial inequívoca no resuelva la contradicción documental para una
+versión concreta de PAM.
+
+La revalidación oficial vigente no supera ese gate:
+
+1. la referencia REST de PAM **v1**, tipo `PrivilegedAccess.RoleBinding`, dice
+   que `conditionExpression` admite los atributos de IAM «except tags»;
+2. la referencia REST de PAM **v1beta** contiene la misma exclusión;
+3. la guía general de PAM, actualizada el 2026-10-06, afirma a la vez que PAM
+   admite condiciones basadas en tags y todos los atributos admitidos por los
+   role bindings `allow`;
+4. la guía de creación de entitlements, también actualizada el 2026-10-06,
+   permite añadir condiciones como en los bindings `allow`, y las prácticas
+   recomendadas aconsejan usar condiciones por tag;
+5. la documentación de IAM Conditions incluye los bindings administrados por
+   PAM entre los bindings `allow` condicionables y reconoce tags como atributo;
+6. el tag directo de cuentas de servicio continúa disponible, pero sigue en
+   **Preview** bajo términos Pre-GA; su guía, actualizada el 2026-10-07, permite
+   ligarlo por unique ID y usarlo con IAM Conditions.
+
+Ninguna de esas fuentes declara que la exclusión de v1 o v1beta haya sido
+retirada, que una versión concreta acepte tags pese a su contrato REST, ni que
+la guía general prevalezca sobre ese contrato. Las notas oficiales de IAM no
+publican una resolución específica de la divergencia. La mayor actualidad de
+una guía no convierte dos contratos oficiales contradictorios en una garantía
+inequívoca. Tampoco una prueba empírica aislada podría sustituir el gate
+documental de §12.5.
+
+### 13.2. Decisión: cierre `blocked` antes de candidata técnica
+
+La transición nueva de `WP018-DOR-7` queda cerrada `blocked` antes de preparar
+una candidata técnica, abrir ciclos o invocar al autor. No existe una candidata
+`APTO`, una versión PAM elegible ni una condición tag que pueda incorporarse
+al contrato de WP-018 con la certeza exigida.
+
+- `WP018-DOR7-F2` permanece abierto y, por tanto, `WP018-DOR-7` permanece
+  abierto.
+- F1 y F3 a F7 continúan cerrados como resultados exigibles. No hay regresión:
+  esta transición no acepta otro mecanismo, no propone cambio sobre sus
+  restricciones y no reutiliza bytes, diffs, ciclos, hallazgos o evidencias de
+  la candidata C2 ni de otra candidata histórica.
+- DOR-8 y DOR-9 permanecen abiertos. WP-018 continúa `draft`; WP-017, WP-016 y
+  `ACTIVE` permanecen intactos.
+- No se crea `evidence/WP-018/cost.md`, fila de ciclo o artefacto F1. No hubo
+  invocación de Claude Code atribuible a WP-018. El presupuesto propio máximo
+  de `5.00 EUR` y `max_ciclos_correccion: 2` no se consumen ni reinician y
+  siguen siendo límites de cualquier transición futura expresamente autorizada.
+
+El dictamen `blocked` no afirma que los tags fallen en ejecución. Afirma algo
+más limitado y falsable: hoy la documentación oficial no permite demostrar,
+sin contradicción, que PAM v1 o v1beta los admita en `conditionExpression`.
+
+### 13.3. Salida y siguiente decisión posible
+
+No se reintenta esta misma vía mientras las referencias oficiales sigan
+contradiciéndose. Solo una decisión humana posterior, nueva y separada, podrá:
+
+1. autorizar una nueva investigación si Google publica una aclaración oficial
+   inequívoca para una versión concreta; o
+2. elegir previamente otro mecanismo que conserve mínimo privilegio,
+   temporalidad, aislamiento de la identidad push y no solapamiento con los
+   permisos de mutación de Cloud Run.
+
+Ese acto futuro no queda preparado ni autorizado aquí. No se inventa otro
+identificador, no se modifica WP-018, no se crea infraestructura y no se
+configura Google Cloud o GitHub. La materialización y fusión de esta declaración
+de bloqueo requerirán actos humanos posteriores y separados.
+
+### 13.4. Composición normativa mínima
+
+Esta enmienda viaja en una composición atómica de exactamente cuatro archivos;
+todos o ninguno:
+
+1. `specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md`;
+2. `specs/decisions/DEC-003-pausa-migracion-y-contencion.md`;
+3. `docs/03-hoja-de-ruta.md`;
+4. `docs/manual/05-bloqueos-y-parada.md`.
+
+La composición no contiene o modifica WP-018, WP-017, WP-016, `ACTIVE`,
+`evidence/**`, código, pruebas, infraestructura, cuentas, identidades, roles,
+tags, secretos, permisos, Google Cloud, GitHub, workflows, ruleset, ramas,
+worktrees o candidatas históricas. No crea ciclos, coste o una candidata
+técnica.
+
+Fuentes primarias revalidadas el 2026-10-09:
+
+- guía y creación de PAM:
+  https://docs.cloud.google.com/iam/docs/pam-overview
+  https://docs.cloud.google.com/iam/docs/pam-create-entitlements
+  https://docs.cloud.google.com/iam/docs/pam-best-practices
+- contratos REST todavía incompatibles con tags:
+  https://docs.cloud.google.com/iam/docs/reference/pam/rest/v1/PrivilegedAccess
+  https://docs.cloud.google.com/iam/docs/reference/pam/rest/v1beta/PrivilegedAccess
+- IAM Conditions y tags:
+  https://docs.cloud.google.com/iam/docs/conditions-overview
+  https://docs.cloud.google.com/iam/docs/tags-access-control
+- tags directos de cuentas de servicio, Preview:
+  https://docs.cloud.google.com/iam/docs/service-accounts-tags
+- notas de versión de IAM:
+  https://docs.cloud.google.com/iam/docs/release-notes
