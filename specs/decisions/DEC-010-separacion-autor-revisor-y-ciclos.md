@@ -1029,3 +1029,224 @@ Fuentes primarias revalidadas el 2026-10-09:
   https://docs.cloud.google.com/iam/docs/service-accounts-tags
 - notas de versión de IAM:
   https://docs.cloud.google.com/iam/docs/release-notes
+
+## 14. Enmienda de instancia del 2026-10-09 — decisión previa para sustituir PAM en WP018-DOR-7
+
+### 14.1. Base, residual y hechos oficiales rederivados
+
+La base normativa es `origin/main`
+`0b2e63e6f5d26db493e3fbec84fa682f825317d7`. DEC-010 §13 cerró `blocked`
+la transición basada en PAM antes de candidata técnica: las referencias REST
+v1 y v1beta siguen excluyendo tags aunque las guías generales los admiten.
+Esa misma combinación PAM más condición por tag permanece expresamente
+excluida mientras continúe la contradicción. F2 y `WP018-DOR-7` siguen
+abiertos; F1 y F3 a F7 permanecen cerrados; DOR-8 y DOR-9 siguen abiertos.
+
+La rederivación desde documentación oficial vigente confirma:
+
+1. quien crea o modifica una suscripción push autenticada debe tener
+   `iam.serviceAccounts.actAs` sobre la cuenta de autenticación push, y esa
+   cuenta debe pertenecer al mismo proyecto que la suscripción;
+2. `pubsub.subscriptions.update` puede concederse sobre la suscripción
+   individual, y `iam.serviceAccounts.actAs` puede concederse sobre la cuenta
+   de servicio individual;
+3. Workload Identity Federation permite a un workflow de GitHub Actions usar
+   una identidad federada efímera y recibir acceso directo a recursos sin
+   exportar una clave de cuenta de servicio;
+4. el emisor OIDC de GitHub es compartido: Google exige una condición que
+   restrinja la organización y recomienda identificadores numéricos para
+   evitar reutilización de nombres; GitHub expone, entre otras, las claims
+   `repository_owner_id`, `repository_id`, `environment`, `event_name`,
+   `ref`, `workflow_ref`, `actor_id` y `run_id`;
+5. un entorno de GitHub puede exigir revisores, impedir la autoaprobación,
+   limitar ramas y desactivar el bypass de administradores; en un repositorio
+   público esas reglas están disponibles en GitHub Team. Desactivar el bypass
+   no elimina la capacidad de los propietarios de administrar, modificar o
+   eliminar el propio entorno;
+6. una identidad federada distinta de las identidades humanas no compone los
+   permisos IAM de estas. Si a esa identidad no se le concede ningún permiso
+   de Cloud Run, `roles/run.developer` o `run.services.update` que posea un
+   humano no se suma a `actAs`.
+
+La consulta oficial de GitHub realizada en solo lectura registra como
+precondición, no como creación: repositorio público canónico
+`FDA-Template/fda-template`, `repository_id: 1310040618`, organización
+`FDA-Template`, `repository_owner_id: 340040486`, plan `team`, y exactamente
+dos propietarios humanos visibles: `ivanes189` (`actor_id: 74557686`) y
+`de-lean788` (`actor_id: 260103530`). La candidata técnica futura deberá
+revalidar estos valores; cualquier diferencia produce parada.
+
+### 14.2. Alternativas comparadas
+
+**Reintentar PAM condicionado por tag — rechazado.** Es la misma vía cerrada
+por §13. No se elige una fuente oficial conveniente ni se sustituye el gate
+documental por una prueba empírica.
+
+**Binding humano permanente — rechazado.** Aunque un binding directo sobre
+`alcance-fda-wp018-push` aislaría el recurso, haría `actAs` efectivo durante
+la operación ordinaria y podría componerse con permisos humanos de Cloud Run.
+
+**Bindings humanos con `request.time` — rechazados.** La caducidad está
+soportada, pero cada emergencia exigiría mutar por separado las políticas de
+la suscripción y de la cuenta push. El custodio de `setIamPolicy` conservaría
+capacidad para recrear el acceso, no habría concesión indivisible y la retirada
+no eliminaría automáticamente bindings expirados.
+
+**Grupo de Cloud Identity con membresía expirable — no elegido.** Podría
+ligarse a la cuenta push y a la suscripción, pero la expiración requiere Cloud
+Identity Premium o ediciones Enterprise compatibles, facturadas fuera del
+proyecto Google Cloud. También exige dominio, administradores de grupo,
+licencias, coste y custodia todavía no decididos. Un administrador que fuera
+además beneficiario conservaría capacidad ordinaria de reactivación.
+
+**Federación de identidades humanas o broker ejecutable — no elegidos.** La
+primera exige un IdP humano, organización y gobierno de grupos no fijados. Un
+broker en Cloud Run, Workflows o servicio equivalente añade runtime, identidad
+de servicio e interfaz operativa, y desplaza el problema a quién puede
+invocarlo. Ninguno es una corrección mínima del residual.
+
+**GitHub Actions con entorno protegido y WIF directo — elegido como
+arquitectura, no como candidata técnica.** Los dos humanos conservan la
+decisión: uno inicia y el otro aprueba; la autoaprobación y el bypass se
+deshabilitan. El actor que llama a Google Cloud es una identidad federada
+efímera del job, no una cuenta humana ni una cuenta de servicio intermediaria.
+Esa identidad recibe simultáneamente; las credenciales solo se emiten tras la
+aprobación y conservan validez hasta su propia expiración,
+`pubsub.subscriptions.update` sobre `alcance-fda-wp018-worker-push` e
+`iam.serviceAccounts.actAs` sobre `alcance-fda-wp018-push`. No recibe permisos
+sobre scheduler, ingress, worker, otras suscripciones, tokens, firma, claves,
+IAM, Cloud Run ni ningún rol básico.
+
+Esta elección introduce un workflow protegido, un entorno de GitHub, un pool
+y proveedor WIF, dos roles mínimos y bindings sobre dos recursos. Ninguno está
+fijado por el contrato actual. Por ello este acto se detiene en la decisión
+humana previa: no prepara una candidata técnica, no enmienda WP-018 y no crea
+ninguno de esos elementos.
+
+### 14.3. Límites vinculantes para el acto técnico posterior
+
+Una autorización humana posterior podrá preparar desde cero el primer acto
+técnico solo si conserva acumulativamente estos límites:
+
+1. **Identidad sin claves:** acceso WIF directo; queda prohibida una cuenta de
+   servicio intermediaria, una clave JSON, un secreto cloud o credenciales
+   persistentes. Si el acceso directo no está soportado inequívocamente por
+   ambos recursos, se detiene y vuelve a decisión.
+2. **Control dual auditable y frontera administrativa declarada:** solo
+   `workflow_dispatch`; exactamente los dos humanos de §14.1 pueden iniciar o
+   revisar; quien inicia no puede aprobar; basta la aprobación del otro porque
+   GitHub solo exige un revisor; el bypass queda deshabilitado. Ambos son
+   propietarios y pueden administrar el entorno: esta decisión acepta esa
+   confianza administrativa y no presenta el mecanismo como barrera hermética
+   frente a un propietario malicioso o unilateral. Antes de cada intento se
+   captura la política e historia del entorno; modificación, eliminación,
+   recreación o imposibilidad de acreditar la aprobación produce parada. Un
+   modelo de amenaza más fuerte exige custodio o servicio separado y otra
+   decisión humana previa.
+3. **Procedencia cerrada:** repo y propietario por IDs numéricos de §14.1,
+   evento `workflow_dispatch`, `ref` de `main`, entorno y `workflow_ref`
+   exactos y `run_attempt == 1`. Nombres sin IDs, otra rama, fork, PR,
+   reutilizable no fijado o claim ausente no obtienen credencial. Todo rerun
+   queda prohibido, incluso si conserva SHA, ref, evento y privilegios del actor
+   original; cada intento exige un `workflow_dispatch` y aprobación nuevos.
+4. **Permisos acoplados:** el mismo principal federado y la misma ejecución
+   obtienen los dos permisos o ninguno. Falla si `actAs` es efectivo sin
+   `pubsub.subscriptions.update` o si se concede a una identidad humana. El fin
+   o cancelación del job no equivale a revocar las credenciales ya emitidas.
+5. **Cierre verificable de emergencia:** el estado ordinario no se reanuda al
+   terminar, fallar o cancelar el job. Se impide nueva emisión para el intento;
+   se registran, sin conservar el token, `iat`, `exp`, `jti`, intercambio y
+   expiración; se espera hasta la expiración de la última credencial y se
+   auditan llamadas posteriores. Emisión no acotada, credencial nueva o uso
+   ambiguo mantienen la parada. Una credencial comprometida activa respuesta a
+   incidente; no se declara revocada por haber terminado el job.
+6. **Aislamiento de recursos:** positivo únicamente sobre la suscripción y la
+   cuenta push exactas; negativo sobre scheduler, ingress, worker, una quinta
+   cuenta `-denied`, otra suscripción y el proyecto. No hay binding heredado
+   que amplíe el resultado.
+7. **No composición con Cloud Run:** el principal WIF carece de
+   `roles/run.developer`, `run.services.create`, `run.services.update`,
+   `run.jobs.create`, `run.jobs.update`, `run.workerpools.create` y
+   `run.workerpools.update`. Los permisos de las cuentas humanas no se usan
+   para la llamada y no se les concede `actAs`.
+8. **Workflow inmutable para la ejecución:** el acto posterior deberá fijar
+   ruta, SHA de `main`, acciones por commit completo, permisos GitHub mínimos,
+   runner hospedado, concurrencia uno, entrada cerrada sin parámetros capaces
+   de elegir recursos y una sola operación de restauración idempotente. Un
+   cambio del workflow invalida la preimagen y exige otra revisión.
+9. **Fail-closed y evidencia:** preimagen de entorno, OIDC, WIF, roles,
+   bindings y push config; aprobación con iniciador y revisor distintos;
+   claims saneadas; `testIamPermissions` positivo y negativos; llamada y
+   postimagen; caducidad del token; delta y rollback. Ausencia, ambigüedad,
+   propagación pendiente o diferencia mantiene la parada.
+10. **Rutas protegidas:** `.github/workflows/**`, el entorno y las políticas
+   externas no se convierten en archivos implementables por WP-018. Cualquier
+   futura composición deberá separar el contrato, el parche de operador y las
+   mutaciones humanas, con autorizaciones independientes.
+
+El acto posterior deberá revalidar además que el repositorio siga público y
+que el plan mantenga las reglas utilizadas. No se aceptan custom deployment
+protection rules en Preview ni GitHub secrets. El presupuesto propio máximo
+continúa en `5.00 EUR`, `max_ciclos_correccion: 2`, y F1 se adquiere desde la
+primera futura invocación de Claude Code atribuible a WP-018; esta decisión no
+autoriza invocarla.
+
+### 14.4. Estado y salida
+
+1. Se elige únicamente la arquitectura federada de §14.2 y los límites de
+   §14.3, incluida la frontera de confianza administrativa entre los dos
+   propietarios. La decisión humana sobre introducir sus recursos se
+   perfecciona solo mediante materialización y fusión humanas de esta
+   composición.
+2. F2 y `WP018-DOR-7` permanecen abiertos. F1 y F3 a F7 permanecen cerrados;
+   la candidata posterior deberá demostrar su no regresión. DOR-8 y DOR-9
+   permanecen abiertos.
+3. WP-018 continúa `draft`; WP-017, WP-016, `ACTIVE`, `evidence/**` y las
+   candidatas históricas permanecen intactos. No se crea otro WP-ID.
+4. No se crea workflow, entorno, pool, proveedor, rol, binding, identidad,
+   coste o ciclo; no se configura GitHub o Google Cloud y no se ejecuta
+   Claude Code ni una prueba real.
+5. El siguiente acto no queda autorizado. Si esta decisión se fusiona, hará
+   falta otra autorización limitada a investigar y preparar externamente el
+   acto técnico mínimo; cualquier incompatibilidad devuelve a decisión, sin
+   fallback a PAM por tags, bindings humanos o credenciales persistentes.
+
+### 14.5. Composición normativa mínima
+
+Esta decisión previa viaja en una composición atómica de exactamente cuatro
+archivos; todos o ninguno:
+
+1. `specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md`;
+2. `specs/decisions/DEC-003-pausa-migracion-y-contencion.md`;
+3. `docs/03-hoja-de-ruta.md`;
+4. `docs/manual/05-bloqueos-y-parada.md`.
+
+La composición no contiene o modifica WP-018, WP-017, WP-016, `ACTIVE`,
+`evidence/**`, código, pruebas, workflows, infraestructura, cuentas,
+identidades, roles, bindings, secretos, GitHub, Google Cloud, ramas, worktrees
+o candidatas históricas.
+
+Fuentes primarias revalidadas el 2026-10-09:
+
+- Pub/Sub, push autenticado y acceso por suscripción:
+  https://docs.cloud.google.com/pubsub/docs/create-push-subscription
+  https://docs.cloud.google.com/pubsub/docs/authenticate-push-subscriptions
+  https://docs.cloud.google.com/pubsub/docs/access-control
+- IAM, acceso directo WIF y políticas de cuentas de servicio:
+  https://docs.cloud.google.com/iam/docs/workload-identity-federation-with-deployment-pipelines
+  https://docs.cloud.google.com/iam/docs/workload-download-cred-and-grant-access
+  https://docs.cloud.google.com/iam/docs/manage-access-service-accounts
+  https://docs.cloud.google.com/iam/docs/service-account-permissions
+  https://docs.cloud.google.com/docs/security/compromised-credentials
+- GitHub OIDC, entornos y revisión dual:
+  https://docs.github.com/en/actions/reference/security/oidc
+  https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments
+  https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-google-cloud-platform
+  https://docs.github.com/en/actions/how-tos/manage-workflow-runs/re-run-workflows-and-jobs
+  https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments
+  https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization
+- Alternativas temporales comparadas:
+  https://docs.cloud.google.com/iam/docs/temporary-elevated-access
+  https://docs.cloud.google.com/iam/docs/configuring-temporary-access
+  https://docs.cloud.google.com/identity/docs/how-to/manage-expirations
+  https://cloud.google.com/identity/pricing

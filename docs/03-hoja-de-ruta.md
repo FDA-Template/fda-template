@@ -177,6 +177,17 @@ transición `blocked` antes de candidata técnica, ciclos o autoría. F2 y DOR-7
 permanecen abiertos; F1 y F3 a F7 no regresan; WP-018 sigue `draft`, DOR-8 y
 DOR-9 abiertos y `ACTIVE` en reposo.
 
+**Sustitución arquitectónica previa, todavía no técnica.** DEC-010 §14 elige
+una ejecución manual de GitHub Actions con control dual auditable, frontera de
+confianza administrativa declarada y WIF directo como
+única vía futura a investigar: una identidad efímera, distinta de los humanos,
+acoplará el permiso de actualizar la suscripción exacta con `actAs` solo sobre
+la identidad push, sin claves, cuenta intermediaria ni permisos Cloud Run.
+Como exige workflow, entorno protegido, pool, proveedor, roles y bindings aún
+no fijados, la decisión no prepara la candidata técnica ni crea recursos. F2 y
+DOR-7 siguen abiertos; F1 y F3 a F7 cerrados; WP-018 continúa `draft`, DOR-8 y
+DOR-9 abiertos y `ACTIVE` en reposo.
+
 **Tres verdades incómodas, con los datos delante:**
 
 1. **En cinco semanas la fábrica solo ha producido meta-trabajo.** ~27 PRs fusionadas y todas son gobierno del gobierno. El contrato vigente de WP-008 tiene 1.862 líneas para un cambio que, en esencia, ancla la invocación de un hook y ocho reglas de permisos.

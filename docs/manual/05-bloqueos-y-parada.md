@@ -190,6 +190,20 @@ La transición nueva de `WP018-DOR-7` queda `blocked` antes de candidata técnic
 ciclos o invocación del autor. F2 y DOR-7 siguen abiertos; F1 y F3 a F7 se
 conservan cerrados sin regresión; WP-018 permanece `draft` y `ACTIVE` en reposo.
 
+**Cuando se sustituye PAM por una identidad federada de ejecución.** DEC-010
+§14 elige únicamente la arquitectura para un acto futuro: `workflow_dispatch`
+en GitHub Actions, iniciador y aprobador distintos, entorno sin bypass y WIF
+directo sin claves. Ambos propietarios pueden administrar el entorno: es una
+frontera de confianza registrada, no una barrera hermética. Todo rerun queda
+prohibido y cada intento exige `run_attempt == 1`, despacho y aprobación nuevos.
+Los humanos no reciben `actAs`; la identidad efímera deberá obtener a la vez
+`pubsub.subscriptions.update` sobre la suscripción exacta y
+`iam.serviceAccounts.actAs` solo sobre la cuenta push, sin permisos Cloud Run.
+Terminar el job no revoca credenciales emitidas: la emergencia continúa hasta
+su expiración verificada. Como los recursos aún no están fijados, la decisión
+no resuelve F2, no abre candidata técnica ni crea recursos. DOR-7 a DOR-9 siguen
+abiertos, WP-018 `draft` y `ACTIVE` en reposo.
+
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
 Ver [DEC-010](../../specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md).
