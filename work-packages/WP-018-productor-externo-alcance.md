@@ -27,9 +27,10 @@ WP-018 es el sucesor limpio reservado por DEC-017. Se redacta desde cero sobre `
 - DOR-6 rederivada y reafirmada íntegramente en este contrato (§9).
 - **WP018-DOR-7 abierto:** DEC-010 §14 fija la arquitectura y
   `docs/manual/08-productor-alcance-fda-wp018.md` su acto técnico mínimo. El
-  paso 1 de DEC-010 §15 está acreditado; el entorno protegido del paso 2 todavía
-  no existe. F2 y DOR-7 no cierran hasta completar la ceremonia humana
-  preadmisión, positiva, negativa y con rollback, allí definida.
+  paso 1 de DEC-010 §15 y el entorno protegido completo del paso 2 están
+  acreditados. El workflow todavía no existe. F2 y DOR-7 no cierran hasta
+  completar la ceremonia humana preadmisión, positiva, negativa y con rollback,
+  allí definida.
 - **WP018-DOR-8 abierto:** falta la política evaluada y sus oráculos completos.
 - **WP018-DOR-9 abierto:** falta la regla conservadora para SHA compartido y concurrencia.
 

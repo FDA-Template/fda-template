@@ -1,6 +1,6 @@
 # Hoja de ruta — de la FDA al AI Agent Operating System
 
-**Creada:** 2026-08-30 · **Última revisión: 2026-10-09** (primer acto de preadmisión de `WP018-DOR-7` — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013 y DEC-017 y actualizada por el cierre de WP-015; WP-018 permanece `draft`, la identidad del proyecto exclusivo está acreditada y la secuencia está detenida antes de crear y verificar el entorno protegido que debe preceder a cualquier candidata exacta del workflow de DOR-7; D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
+**Creada:** 2026-08-30 · **Última revisión: 2026-10-09** (segundo acto de preadmisión de `WP018-DOR-7` — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013 y DEC-017 y actualizada por el cierre de WP-015; WP-018 permanece `draft`, la identidad del proyecto exclusivo y el entorno protegido están acreditados y la secuencia está detenida antes de preparar los bytes exactos del workflow de DOR-7; D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
 
 **Procedencia.** v1 (30-08): las cinco conversaciones del operador con otras IAs — síntesis en [`04-analisis-conversaciones-ia.md`](04-analisis-conversaciones-ia.md)—, el repositorio completo, el estado de los demás repos y fuentes externas. v2 (01-09): además, los **cuatro documentos de investigación de Leandro** y una **línea base de investigación independiente registrada antes de leerlos** — análisis completo, veredictos y red team en [`05-analisis-investigacion-leandro-y-revalidacion.md`](05-analisis-investigacion-leandro-y-revalidacion.md). Lo redactaron y materializaron sesiones de Claude Code por encargo directo del operador, como actos de operador (§9).
 
@@ -32,6 +32,7 @@
 | 2026-10-09 | La contradicción documental de PAM persiste y la vía queda `blocked`; DEC-010 §14 elige en su lugar GitHub Actions protegido con WIF directo y la PR #75 materializa únicamente el contrato del acto técnico mínimo | `DEC-010` §§13–14 · `docs/manual/08-productor-alcance-fda-wp018.md` |
 | 2026-10-09 | La revalidación previa al workflow detecta que GitHub auto-crea entornos inexistentes, que faltan los literales del proyecto y que el runner hospedado no es inmutable. DEC-010 §15 corrige el orden y detiene la candidata hasta fijar proyecto y entorno protegido | `DEC-010` §15 |
 | 2026-10-09 | Lecturas canónicas saneadas acreditan el proyecto exclusivo `fda-template` (`PROJECT_NUMBER=615273535351`), `ACTIVE`, sin parent y con `billingEnabled: true`. El entorno protegido continúa inexistente y requiere otro acto humano | `DEC-010` §15 · `docs/manual/08-productor-alcance-fda-wp018.md` |
+| 2026-10-09 | El acto humano separado crea y verifica `wp018-dor7-emergency-push` desde una preimagen de cero entornos: dos revisores exactos, sin autoaprobación ni bypass, solo `main`, espera cero y cero secrets o vars. El workflow continúa inexistente y requiere otra candidata | `DEC-010` §15 · `docs/manual/08-productor-alcance-fda-wp018.md` |
 
 ---
 
@@ -194,13 +195,15 @@ DOR-9 abiertos y `ACTIVE` en reposo.
 **Gate previo al workflow.** La autorización de arquitectura no basta para
 producir bytes exactos. GitHub documenta que ejecutar un workflow que referencia
 un entorno inexistente crea ese entorno; el orden «workflow antes que entorno»
-no es fail-closed. Lecturas canónicas saneadas fijan y acreditan
-`PROJECT_ID=fda-template`, `PROJECT_NUMBER=615273535351`, estado `ACTIVE`,
-ausencia de parent y `billingEnabled: true`; el paso 1 queda completo.
-`ubuntu-24.04` recibe actualizaciones semanales y tampoco es un pin
-criptográfico. DEC-010 §15 mantiene la ceremonia: el entorno protegido necesita
-otro acto humano y solo después podrán prepararse los bytes exactos. No crea
-recursos ni cierra F2 o DOR-7; DOR-8 y DOR-9 continúan abiertos.
+no es fail-closed. El paso 1 acredita `PROJECT_ID=fda-template`,
+`PROJECT_NUMBER=615273535351`, estado `ACTIVE`, ausencia de parent y
+`billingEnabled: true`. El paso 2 acredita el único entorno
+`wp018-dor7-emergency-push`, con los dos revisores previstos,
+`prevent_self_review: true`, `can_admins_bypass: false`, política personalizada
+limitada a `main`, sin temporizador, secrets o vars. `ubuntu-24.04` recibe
+actualizaciones semanales y tampoco es un pin criptográfico. DEC-010 §15 deja
+como siguiente acto separado preparar y revisar externamente los bytes exactos;
+no existe workflow ni se cierra F2 o DOR-7. DOR-8 y DOR-9 continúan abiertos.
 
 **Tres verdades incómodas, con los datos delante:**
 

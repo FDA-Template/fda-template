@@ -66,20 +66,25 @@ que contenga los bytes revisados del workflow. La ceremonia no depende de un
 Cloud Run existente: usa el endpoint `.invalid` cerrado anterior, sin publicar
 mensajes. Ausencia, discrepancia o variable seleccionable detiene el acto.
 
-La preimagen cerrada del paso 2 de DEC-010 §15 es: repositorio público
+El paso 2 de DEC-010 §15 partió de esta preimagen cerrada: repositorio público
 `FDA-Template/fda-template`; rama predeterminada `main`; cero entornos; los
 usuarios `74557686` (`ivanes189`) y `260103530` (`de-lean788`) con acceso
-administrativo. El acto posterior, todavía no autorizado, debe crear únicamente
-`wp018-dor7-emergency-push` con `wait_timer: 0`, esos dos revisores de tipo
-`User`, `prevent_self_review: true` y política personalizada de ramas; después
-debe crear una única regla exacta `main`. La API REST documentada no expone un
-campo para deshabilitar el bypass administrativo: una persona debe desmarcar en
-la interfaz **Allow administrators to bypass configured protection rules** y
-acreditar `can_admins_bypass=false` mediante interfaz e historial de auditoría.
-La postimagen exige además `total_count: 0` tanto para secrets como para vars.
-Si el entorno aparece antes de ese acto, cambia la visibilidad, falta acceso de
-algún revisor o la historia no permite probar el delta completo, se detiene y
-no se adopta ni se recrea por conjetura.
+administrativo. El acto humano separado creó únicamente
+`wp018-dor7-emergency-push`. La postimagen REST saneada acredita exactamente:
+un entorno total y con ese nombre; ninguna regla `wait_timer` y, por tanto,
+espera efectiva cero; ambos revisores de tipo
+`User`; `prevent_self_review: true`; `can_admins_bypass: false`; política
+`{protected_branches:false, custom_branch_policies:true}`; una sola regla de
+tipo `branch` y nombre exacto `main`; y `total_count: 0` tanto para secrets como
+para vars. La interfaz acredita además que el bypass se desmarcó humanamente.
+
+El historial web de la organización registra, en orden, `environment.create`,
+la regla de revisores, la política personalizada de ramas y el patrón `main`.
+Los detalles no publican tokens o secretos y el registro versionado omite IP,
+ubicación, request IDs y demás identificadores innecesarios. La consulta REST
+del audit log respondió `404`; no se presenta como captura disponible. El
+delta queda reconstruido por preimagen cero, postimagen REST, interfaz e
+historial web. Cualquier deriva posterior vuelve a detener la ceremonia.
 
 ## 3. Entorno protegido y control dual
 
@@ -308,11 +313,11 @@ roles, provider/pool, workflow, entorno y fixtures, tras exportar postimágenes.
 Cada mutación se verifica por lectura y delta; no se reabre el pool.
 
 La prueba es una ceremonia humana preadmisión, no implementación de WP-018.
-DEC-010 §15 corrige su orden. El primer acto humano separado ya acreditó
-canónicamente `fda-template` y `615273535351` sin mutar proyecto o facturación.
-Otro acto, todavía no autorizado, debe crear y verificar el entorno protegido
-completo antes de que el workflow exista en `main`. Solo
-después se preparan y revisan sus bytes exactos. Crear topic, suscripciones,
+DEC-010 §15 corrige su orden. El primer acto humano separado acreditó
+canónicamente `fda-template` y `615273535351` sin mutar proyecto o facturación;
+el segundo creó y verificó el entorno protegido completo antes de que exista el
+workflow en `main`. El siguiente acto, todavía no autorizado, es preparar,
+revisar y custodiar sus bytes exactos. Crear topic, suscripciones,
 cuentas, pool/provider y logging sin bindings; ejecutar y cerrar C0; instalar
 después roles y bindings con todo deshabilitado; ejecutar C1; capturar
 evidencia; y eliminar fixtures siguen requiriendo autorizaciones separadas. No
@@ -322,22 +327,24 @@ APTO; solo entonces puede cerrarse F2/DOR-7 y evaluarse su futura admisión.
 
 La composición mínima de esta enmienda contractual es exactamente estos tres
 archivos: WP-018, `MANUAL.md` y este capítulo. No incluye workflow ni políticas.
-Su materialización no autoriza las mutaciones externas. El acto (1), fijar la
-identidad no secreta del proyecto, ya está cumplido; siguen requiriéndose, en
-orden, actos humanos separados para: (2) crear y verificar el entorno protegido, todavía sin workflow;
-(3) preparar, revisar y materializar los bytes exactos del workflow; (4)
+Su materialización no autoriza las mutaciones externas. Los actos (1), fijar la
+identidad no secreta del proyecto, y (2), crear y verificar el entorno
+protegido todavía sin workflow, ya están cumplidos; siguen requiriéndose, en
+orden, actos humanos separados para: (3) preparar, revisar y materializar los
+bytes exactos del workflow; (4)
 configurar fixtures, logging y WIF inicialmente deshabilitado, sin roles o
 bindings; (5) ejecutar y cerrar C0 sin privilegios; (6) instalar y verificar
 los dos roles y bindings con WIF deshabilitado; y (7) ejecutar C1, sus oráculos,
 la única mutación y el rollback. El workflow no se despacha entre los pasos 3
 y 5 ni entre C0 y C1. Solo evidencia real completa puede cerrar F2 y DOR-7.
 
-La composición atómica mínima de este primer acto de preadmisión es exactamente
-WP-018, la hoja de ruta, `05-bloqueos-y-parada.md` y este capítulo. No modifica
-DEC-010 ni DEC-003 porque ejecuta el orden que ya fijó §15; no incluye
-`MANUAL.md` porque no crea capítulo; y no crea `evidence/**` porque no abre un
-ciclo. Materializar esos cuatro archivos no crea ni configura el entorno y no
-autoriza el segundo acto.
+La acreditación versionada del segundo acto usa la misma composición atómica
+mínima de cuatro archivos: WP-018, la hoja de ruta,
+`05-bloqueos-y-parada.md` y este capítulo. No modifica DEC-010 ni DEC-003 porque
+ejecuta el orden ya fijado por §15; no incluye `MANUAL.md` porque no crea
+capítulo; y no crea `evidence/**` porque no abre un ciclo. Materializar esos
+cuatro archivos no crea o modifica el entorno, no incorpora el workflow y no
+autoriza el tercer acto.
 
 Fuentes primarias revalidadas el 2026-10-09: documentación oficial de Google
 Cloud sobre productos compatibles con identidad federada, WIF para pipelines,
