@@ -57,6 +57,7 @@ barrera del ruleset; su cierre técnico es **WP-011**.
 | [05 — Bloqueos y parada](05-bloqueos-y-parada.md) | Cuando un agente se detiene |
 | [06 — Costes y métricas](06-costes-y-metricas.md) | Al cerrar un WP y al revisar la semana |
 | [07 — Troubleshooting](07-troubleshooting.md) | Cuando algo no funciona |
+| [08 — Productor Alcance FDA WP-018](08-productor-alcance-fda-wp018.md) | Para preparar y verificar la recuperación de push de DOR-7 |
 
 ## Documentos fundacionales
 
