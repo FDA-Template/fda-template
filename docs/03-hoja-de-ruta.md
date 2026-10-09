@@ -168,6 +168,15 @@ guía vigente sobre tags, DEC-010 §12 fija la elección y sus gates antes de
 abrir otra candidata. F2 y DOR-7 continúan abiertos; no se crea infraestructura,
 coste o ciclos y los resultados cerrados no se reabren.
 
+**Bloqueo documental de la transición nueva.** La revalidación posterior no
+supera el gate de DEC-010 §12: las referencias REST de PAM v1 y v1beta siguen
+excluyendo tags de `conditionExpression`, mientras las guías oficiales vigentes
+afirman que PAM admite condiciones por tag. El tag directo de cuentas de
+servicio continúa disponible, pero en Preview. DEC-010 §13 cierra por ello la
+transición `blocked` antes de candidata técnica, ciclos o autoría. F2 y DOR-7
+permanecen abiertos; F1 y F3 a F7 no regresan; WP-018 sigue `draft`, DOR-8 y
+DOR-9 abiertos y `ACTIVE` en reposo.
+
 **Tres verdades incómodas, con los datos delante:**
 
 1. **En cinco semanas la fábrica solo ha producido meta-trabajo.** ~27 PRs fusionadas y todas son gobierno del gobierno. El contrato vigente de WP-008 tiene 1.862 líneas para un cambio que, en esencia, ancla la invocación de un hook y ocho reglas de permisos.
