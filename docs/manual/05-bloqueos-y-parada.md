@@ -216,16 +216,20 @@ con la única rama `main`, sin temporizador, secrets o vars. Su historial web
 registra creación, regla de revisores, política de rama y patrón `main`; la
 lectura REST saneada confirma la postimagen. La consulta REST del audit log no
 está disponible (`404`), por lo que no se usa como evidencia inexistente ni se
-oculta esa limitación. El siguiente acto separado es preparar y revisar los
-bytes exactos; el workflow todavía no existe. El orden posterior sigue siendo:
-WIF inicialmente deshabilitado sin bindings, C0 sin privilegios, instalación
-posterior de ambos bindings con WIF deshabilitado y C1 privilegiado. El
-workflow no usa acciones; `ubuntu-24.04` no se describe como pin inmutable. La
-candidata debe fijar `ImageOS` y `ImageVersion` y fallar antes de OIDC ante
-cualquier diferencia. Si se exige una imagen realmente inmutable, se detiene y
-se solicita otra decisión: contenedor o runner propio están fuera del diseño
-aprobado. No se inventan identificadores ni se usan inputs, secrets o vars para
-aportarlos.
+oculta esa limitación. El tercer acto incorpora, sin despacharlo, el workflow
+protegido exacto con SHA-256
+`7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594`.
+La composición incluye la documentación que exige el gate de gobierno para
+cambios en `.github/**`; omitirla produjo el fallo determinista de la primera
+ejecución de la PR y no se resuelve reejecutando el mismo commit. El orden
+posterior sigue siendo: fixtures, logging y WIF inicialmente deshabilitado sin
+bindings, C0 sin privilegios, instalación posterior de ambos bindings con WIF
+deshabilitado y C1 privilegiado. El workflow no usa acciones; `ubuntu-24.04`
+no se describe como pin inmutable. Fija `ImageOS` y `ImageVersion`, además de
+las versiones de Bash, curl y jq, y falla antes de OIDC ante cualquier
+diferencia. Si se exige una imagen realmente inmutable, se detiene y se solicita
+otra decisión: contenedor o runner propio están fuera del diseño aprobado. No
+se inventan identificadores ni se usan inputs, secrets o vars para aportarlos.
 
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
