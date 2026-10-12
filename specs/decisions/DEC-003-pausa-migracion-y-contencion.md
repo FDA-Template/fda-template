@@ -766,6 +766,21 @@ F3 a F7 siguen cerrados; DOR-8 y DOR-9 permanecen abiertos; WP-018 continúa
 infraestructura, rol, binding, coste, ciclo u otro identificador y no configura
 GitHub o Google Cloud.
 
+**Admisión atómica de la decisión de instancia de `DEC-010` §16.** Se modifica
+directamente esta lista en el mismo diff; la enmienda no se autoautoriza. La
+composición cerrada consta exactamente de `DEC-010`, esta `DEC-003`,
+`docs/03-hoja-de-ruta.md` y `docs/manual/05-bloqueos-y-parada.md`; todos viajan
+juntos o ninguno. Registra la parada segura de los dos intentos del canario C0,
+con WIF deshabilitado y cero despachos, cierra esa transición `blocked` después
+de C2 y rechaza C3: fusionar la decisión cambiaría la cabeza que fijan preflight
+y provider, por lo que el residual no es solo la guarda de `core.project`.
+Elige un replanteamiento posterior con base fresca y actualización separada y
+autorizada del provider mientras siga deshabilitado. No abre esa transición ni
+autoriza C3, C4 o ceremonia, y no modifica WP-018, WP-017, WP-016, `ACTIVE`,
+`evidence/**`, el workflow, infraestructura, GitHub, Google Cloud, roles,
+bindings, ramas, worktrees o candidatas. Investigación y preparación requieren
+otra autorización humana después de fusionar estos cuatro archivos.
+
 ### 5. Punto de control de la pausa: 2026-09-07
 
 Sustituye a la fecha original del 2026-08-10, cuya revisión se practicó y quedó registrada en [`DEC-005`](DEC-005-troceado-de-wp-008-y-revision-de-la-pausa.md) §1: el criterio de §6 no estaba cumplido y no podía estarlo, porque `WP-009` no tenía siquiera contrato redactado.
