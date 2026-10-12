@@ -231,6 +231,19 @@ diferencia. Si se exige una imagen realmente inmutable, se detiene y se solicita
 otra decisión: contenedor o runner propio están fuera del diseño aprobado. No
 se inventan identificadores ni se usan inputs, secrets o vars para aportarlos.
 
+**Cierre bloqueado del canario C0 de WP018-DOR-7.** DEC-010 §16 registra que el
+acto 4 dejó pool y provider deshabilitados, sin roles o bindings, y que los dos
+intentos posteriores pararon antes de cualquier mutación o despacho. C2
+esperaba el literal `(unset)` en `stdout`, pero la versión fijada de `gcloud`
+devuelve código `0`, escribe ese diagnóstico en `stderr` y deja `stdout` vacío.
+El residual no cabe en un C3 mecánico: fusionar la decisión previa cambiaría la
+cabeza fijada por el preflight, la evidencia histórica y la condición del
+provider. La transición queda `blocked` después de C2; no existe C3 o C4. Un
+replanteamiento posterior debe partir de la nueva base, actualizar el provider
+mediante un acto separado con WIF deshabilitado y validar los bytes reales —LF
+terminal incluido— antes de normalizarlos. Investigación, preparación,
+mutaciones y ceremonia conservan autorizaciones separadas.
+
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
 Ver [DEC-010](../../specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md).

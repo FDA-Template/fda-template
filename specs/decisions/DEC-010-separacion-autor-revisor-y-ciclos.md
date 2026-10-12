@@ -1400,3 +1400,175 @@ Fuentes primarias revalidadas el 2026-10-09:
   https://docs.cloud.google.com/iam/docs/workload-identity-federation
   https://docs.cloud.google.com/iam/docs/best-practices-for-using-workload-identity-federation
   https://docs.cloud.google.com/iam/docs/reference/sts/rest/v1/TopLevel/token
+
+## 16. Enmienda de instancia del 2026-10-12 — cierre tras C2 y replanteamiento del canario C0 de WP018-DOR-7
+
+### 16.1. Hechos, preimagen y parada segura
+
+La base normativa es `origin/main`
+`1fd105cd6db4d7f2beb984d69495e4539ea5875f`. El acto 4 de la preadmisión
+terminó `APTO` y dejó pool y provider deshabilitados, cero roles, bindings,
+claves o despachos. Sus dos artefactos de custodia son:
+
+- `result.json`, SHA-256
+  `c806efcac860e415c25a7ad094b6bfba0fb62d8c6f14387d83391bf037a4566a`;
+- `mutations.jsonl`, SHA-256
+  `3daefa3db026342192d553c9954b7bf36e80a2a9cdbaf4b9666c10aa2e88c5fd`.
+
+La candidata externa C2 del canario C0 quedó fijada por estos bytes:
+
+| Artefacto | SHA-256 |
+|---|---|
+| `00-parse-actions-log.sh` | `3a7d326560f422076029d7830f75a00662bbe7296effde5c6c28feeeb231a592` |
+| `00-run-bounded.sh` | `c386ee34473a3c22d84e7a9fe72e7cf45a5d629f17c84d3d3c7f471631cf014b` |
+| `01-c0-preflight.sh` | `92fbfcadc1e9a7bce6f545a83c38b4096abe1c1e3e108f56939b286675ae4ddb` |
+| `02-c0-emergency-close.sh` | `43417abad55f2418e7a462500aca93996ed50b60e12014973715d857ce474dac` |
+| `03-c0-ceremony.sh` | `d9e97f8c124761661fdc3a18f479baf8f3671e1dc6baa14a3803ce12f837da16` |
+| `tests/run-local-tests.sh` | `187275e0f82967b7b279a232da2a63e228efc8c3bd0ed5dbf69adb655d63370c` |
+| `MANIFEST.md` | `70b33e77ef5a1218138eb7fbef6f903d86faaee1e680de15cddc525bd692f45d` |
+
+La revisión completa abrió ocho hallazgos concretos. C1 corrigió únicamente
+esos ocho y la misma revisora emitió `APTO`. El primer intento autorizado se
+detuvo antes de toda llamada externa mutante porque la guarda rechazó
+`core/project` sin configurar. C2 cambió solo esa guarda para admitir
+`fda-template` o el literal `(unset)` y recibió una revalidación enfocada
+`APTO`.
+
+La ejecución autorizada de C2 volvió a detenerse en la misma etapa, antes de
+contactar GitHub o las API de Google Cloud. La causa reproducida es única:
+`gcloud config get-value project` termina con código `0`, escribe `(unset)` en
+`stderr` y no escribe bytes en `stdout`; la candidata descarta `stderr`, obtiene
+la cadena vacía y la rechaza. La prueba C2 simulaba `(unset)` en `stdout` y no
+reprodujo la separación real de canales. Este residual se identifica como
+`WP018-DOR7-C0-H1`.
+
+La postcomprobación administrativa acredita `disabled: true` tanto en el pool
+como en el provider, y GitHub devuelve cero ejecuciones `workflow_dispatch`
+del workflow. No hubo intercambio STS, aprobación, permiso efectivo, mutación
+Pub/Sub o evidencia parcial que pueda confundirse con C0. El repositorio no
+cambió y los directorios de ambos intentos fallidos no contienen archivos.
+
+La corrección no puede aislarse de la base. La candidata y su preflight fijan
+`main` en `1fd105cd6db4d7f2beb984d69495e4539ea5875f`, el resultado histórico del
+acto 4 acredita ese mismo SHA y la condición del provider exige
+`assertion.workflow_sha` igual a él. Fusionar cualquier decisión previa cambia
+necesariamente `main`: aun con H1 corregido, el preflight rechazaría la nueva
+cabeza y WIF rechazaría su token. Actualizar esos tres anclajes y el provider
+deshabilitado es otro acto material, no un efecto directo de la guarda.
+
+### 16.2. Alternativas y decisión
+
+**C3 limitado a la guarda — rechazado.** La fusión normativa previa que exige
+§5 invalida la base y la condición WIF de la candidata. Ampliar C3 al preflight,
+al resultado del acto 4 y a una mutación del provider ocultaría un cambio de
+alcance y autoridad. Tampoco existe un registro versionado que distinguiera un
+C3 empezado e interrumpido; un manifiesto futuro en `/private/tmp` no lo
+sustituye.
+
+**Reejecutar C2 con una variable de entorno o sin fusionar decisión —
+rechazado.** Cambiaría el comando exacto revisado, conservaría la prueba falsa y
+eludiría la parada después de C2. La candidata C2 no vuelve a ejecutarse.
+
+**Cerrar `blocked` y replantear la transición C0 — elegido.** La candidata C2,
+sus hashes y sus dos intentos se preservan como historia externa `NO APTO`. No
+se corrige, importa, mezcla o usa como preimagen ejecutable. C1 y C2 permanecen
+consumidos dentro de esta transición; no existe C3 ni C4 para ella.
+
+El replanteamiento será una transición nueva dentro de `WP018-DOR-7`, no otro
+WP ni un reinicio encubierto de la candidata anterior. Conserva como
+restricciones los ocho hallazgos cerrados, la ausencia de privilegios de C0 y
+todos los oráculos de cierre, pero debe rederivar bytes y custodia desde la base
+vigente después de fusionar esta decisión.
+
+### 16.3. Límites de la transición nueva y orden fail-closed
+
+La fusión de esta decisión no abre la transición. El siguiente acto posible es
+únicamente una autorización humana separada para investigar en solo lectura y
+preparar fuera del repositorio una candidata nueva. Ese acto deberá:
+
+1. fijar la nueva cabeza de `origin/main`, comprobar que el blob del workflow
+   conserva SHA-256
+   `7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594`
+   y detenerse ante cualquier otro cambio de bytes o deriva del entorno;
+2. tratar la evidencia del acto 4 como historia de la base anterior, no como
+   prueba de la cabeza nueva, y obtener una preimagen administrativa fresca de
+   fixtures, logging, políticas, ausencia de bindings y WIF deshabilitado;
+3. preparar como acto técnico separado la actualización exacta de la condición
+   del provider al nuevo `assertion.workflow_sha`, siempre con pool y provider
+   deshabilitados, cero bindings y rollback a su preimagen. Prepararla, revisarla,
+   materializarla y ejecutarla requieren autorizaciones distintas; la decisión
+   presente no muta WIF;
+4. solo después de acreditar esa actualización, rederivar la ceremonia C0 y
+   sus preflights sobre la nueva base. No puede copiar la candidata C2 como
+   sustituto; sus hallazgos cerrados funcionan como criterios de aceptación y
+   regresión;
+5. especificar una lectura de `core.project` que preserve y valide los bytes
+   reales antes de normalizar. Si usa el formato `value`, debe admitir
+   exactamente un LF terminal documentado y rechazar LF adicionales, CR,
+   espacios, varias líneas o salida no cero; la sustitución de comandos no
+   puede borrar la evidencia que el oráculo pretende comprobar;
+6. mantener todas las llamadas de recursos con `--project=fda-template`,
+   revalidar ID y número antes de habilitar WIF y probar las dos guardas
+   homólogas, el cierre de emergencia y los ocho hallazgos ya cerrados;
+7. recibir una revisión completa independiente de GPT-6 Astra, razonamiento
+   Alto, contexto nuevo y solo lectura. Solo un dictamen `APTO` permitirá pedir
+   autorización para el siguiente acto; no autoriza despacho o ceremonia.
+
+La transición nueva tiene `max_ciclos_correccion: 2`. Antes de cualquier C1 o
+C2, su apertura debe quedar versionada conforme a §4, con candidato, revisión,
+hallazgos, fecha, estado y coste. Si no existe una ruta autorizada y persistente
+para ese registro, la corrección no empieza; `/private/tmp` no es custodia
+durable. La misma revisora realiza las revalidaciones enfocadas.
+
+### 16.4. Presupuesto y coste
+
+El presupuesto propio máximo de la transición nueva será `5.00 EUR`, dentro
+del techo contractual invariable de `100.00 EUR`. La preparación normativa
+presente no abre ese presupuesto. La primera futura invocación facturable del
+autor debe adquirir coste defendible desde su inicio; ausencia de adquisición,
+superación del presupuesto o necesidad de otra autoridad produce parada.
+
+El acto de actualización del provider no acepta gasto de infraestructura
+adicional distinto del ya existente y debe mantenerlo deshabilitado fuera de
+su ventana administrativa. Ningún presupuesto autoriza por sí mismo una
+mutación, despacho, aprobación o intercambio STS.
+
+### 16.5. Efectos y salida
+
+1. La transición externa C0 identificada en §16.1 queda cerrada `blocked`
+   después de C2; `WP018-DOR7-C0-H1` permanece abierto.
+2. Pool y provider continúan deshabilitados, los bindings ausentes y el workflow
+   con cero despachos. Fixtures y logging del acto 4 se preservan; no se
+   eliminan ni modifican aquí.
+3. F2 y `WP018-DOR-7` siguen abiertos; F1 y F3 a F7 permanecen cerrados; DOR-8
+   y DOR-9 siguen abiertos; WP-018 continúa `draft` y `ACTIVE` en reposo.
+4. No se crea `evidence/WP-018/ciclos.md`, coste, rama, worktree o candidata
+   técnica. La ruta durable de la futura transición debe resolverse antes de su
+   primera corrección, no después de una interrupción.
+5. Materializar y fusionar esta composición solo registra el cierre y los
+   límites. La investigación, actualización del provider, nueva ceremonia,
+   revisión, ejecución de C0 y cualquier C1 privilegiado son actos posteriores
+   y separados.
+
+### 16.6. Composición normativa mínima
+
+Esta enmienda viaja en una composición atómica de exactamente cuatro archivos;
+todos o ninguno:
+
+1. `specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md`;
+2. `specs/decisions/DEC-003-pausa-migracion-y-contencion.md`;
+3. `docs/03-hoja-de-ruta.md`;
+4. `docs/manual/05-bloqueos-y-parada.md`.
+
+No modifica WP-018, WP-017, WP-016, `ACTIVE`, `evidence/**`, el workflow,
+código, pruebas del repositorio, infraestructura, GitHub, Google Cloud, pool,
+provider, roles, bindings, secretos, ramas, worktrees o candidatas históricas.
+Su materialización, publicación y fusión y cada acto posterior son
+autorizaciones humanas separadas.
+
+Fuente oficial revalidada el 2026-10-12: la referencia de Google Cloud CLI
+documenta `gcloud config list`, la propiedad `core/project`, el formato de
+salida explícito y el terminador LF predeterminado; las operaciones sobre
+recursos mantienen `--project` como frontera por invocación:
+https://docs.cloud.google.com/sdk/gcloud/reference/config
+https://docs.cloud.google.com/sdk/gcloud/reference/topic/formats
