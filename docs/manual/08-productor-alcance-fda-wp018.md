@@ -12,8 +12,8 @@ sin limitaciones de API conocidas, y para Pub/Sub estándar; la excepción
 publicada afecta a Pub/Sub Lite. `iam.serviceAccounts.actAs` y
 `pubsub.subscriptions.update` están `SUPPORTED` en roles personalizados y sus
 políticas pueden ligarse respectivamente a una cuenta de servicio y a una
-suscripción individuales. Procede por tanto una enmienda directa de WP-018;
-no hace falta otra decisión previa.
+suscripción individuales. La arquitectura no exige otra decisión previa; la
+ruta operativa posterior queda precisada por DEC-010 §§15 a 17.
 
 ## 2. Identidad y nombres cerrados
 
@@ -375,3 +375,37 @@ GitHub sobre OIDC y entornos protegidos. Para este acto se revalidaron además:
 `https://docs.github.com/en/rest/actions/secrets`,
 `https://docs.github.com/en/rest/actions/variables` y
 `https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/reviewing-the-audit-log-for-your-organization`.
+
+## 9. Replanteamiento del SHA del provider tras DEC-010 §17
+
+La candidata de actualización preparada sobre `main`
+`6821c0a83efd547b7617a1fed9c168e33224889c` no se ejecuta: su revisión completa
+dejó abiertos `WP018-PSHA-F1` a `WP018-PSHA-F5` sobre recuperación, comparación de preimagen,
+restauración exacta, pruebas de caminos reales y direccionamiento explícito del
+proyecto. El parche posterior que pretendía abrir C1 tampoco se materializa:
+no podía declarar a la vez la fila sin versionar y `abierto`, ni resolvía el
+tipo mensual. Ninguno consume ciclo.
+
+La composición de §17 se fusiona antes de rederivar. Su nueva cabeza y el
+SHA-256 del workflow se congelan hasta cerrar provider y C0; una modificación
+posterior de `main` produce parada, no actualización automática del anclaje.
+Con esa base, el orden es:
+
+1. comprobar en solo lectura la preimagen administrativa y su igualdad exacta;
+2. crear y publicar por acto humano separado la rama sin fusionar
+   `ops/wp018-dor7-provider-sha-custody`;
+3. commitear allí C1 `abierto` y la revisión completa antes del autor;
+4. con otra autorización, capturar coste F1 desde el inicio y
+   rederivar/corregir solo `WP018-PSHA-F1` a `WP018-PSHA-F5`;
+5. obtener revalidación enfocada de la misma revisora;
+6. solo tras `APTO`, pedir por separado materialización y ejecución de la
+   actualización con pool/provider deshabilitados y cero bindings;
+7. rederivar C0 sobre la misma base acreditada.
+
+La rama conserva ciclos, revisión y coste sin cambiar `main`; no es
+implementación de WP-018 y no se fusiona durante la ceremonia. El ciclo se
+consume al comenzar el autor, no al crear o publicar la rama. El tipo de
+octubre es `1.1298 USD/EUR` del BCE, fecha 2026-10-01. Si cambia el mes, falta
+la captura F1, se supera `5.00 EUR`, deriva la preimagen o cambia `main`, se
+detiene antes de otra invocación o mutación. Esta sección no autoriza ramas,
+invocaciones, despachos, roles, bindings o cambios de WIF.
