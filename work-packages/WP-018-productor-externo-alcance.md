@@ -27,9 +27,12 @@ WP-018 es el sucesor limpio reservado por DEC-017. Se redacta desde cero sobre `
   `docs/manual/08-productor-alcance-fda-wp018.md` su acto técnico mínimo. El
   paso 1 de §15, el entorno del paso 2 y el workflow no despachado del paso 3
   están acreditados; su SHA-256 es `7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594`.
-  DEC-010 §17 exige fusionar su composición, congelar una base y custodiar
-  revisión, ciclos y coste en rama remota sin fusionar antes de corregir el
-  provider. F2 y DOR-7 no cierran hasta completar la ceremonia y el rollback.
+  La transición de actualización del provider regida por DEC-010 §17 agotó C1
+  y C2 y §18 la cierra `blocked`, sin C3, con la rama durable sin fusionar y la
+  candidata C2 `NO APTO — NO EJECUTAR`. La eventual
+  `WP018-DOR7-PSHA-R2` está delimitada, pero no abierta: deberá partir de una
+  base y preimagen postfusión nuevas, con rama, ciclos y presupuesto propios.
+  F2 y DOR-7 no cierran hasta completar la ceremonia y el rollback.
 - **WP018-DOR-8 abierto:** falta la política evaluada y sus oráculos completos.
 - **WP018-DOR-9 abierto:** falta la regla conservadora para SHA compartido y concurrencia.
 
@@ -249,10 +252,16 @@ lectura `.agents/`, `.codex/`, ramas, worktrees y candidatas históricas.
   `registry-1.docker.io`, `auth.docker.io`, `production.cloudfront.docker.com`.
 - Secretos: ninguno durante implementación local. En ensayo, solo referencias a
   KMS/Secret Manager; nunca leer, imprimir, versionar o transportar valores.
-- La primera futura invocación Claude atribuible a WP-018 usa `claude -p
+- Toda futura invocación Claude atribuible a WP-018 usa `claude -p
   --output-format json`, WP-ID explícito y sin `--continue/--resume`; el F1
-  saneado va a `cost-f1.json` y se suma en `cost.md`; §17 exige rama remota sin
-  fusionar, C1 `abierto`, tipo mensual y presupuesto. Esta preparación no usa Claude.
+  saneado va a `cost-f1.json` y se suma en `cost.md`. Desde la primera
+  invocación de R2, incluida la preparación inicial, se exigen F1, tipo
+  mensual, presupuesto incremental y autorización separada; esa preparación
+  inicial no consume ciclo ni exige rama R2. Solo una invocación correctora
+  posterior a una revisión con hallazgos exige la rama durable distinta y la
+  fila `R2-C1` o `R2-C2` en estado `abierto`. Los
+  `3.0626293149... EUR` de C1+C2 históricos permanecen acumulados. Esta
+  preparación normativa no usa Claude.
 
 ## Verificación y aceptación
 
@@ -293,7 +302,8 @@ ciclos y expediente del laboratorio; nunca secretos ni payloads brutos.
 Parada adicional: DOR-7/8/9 abierto; F1 no defendible; coste >100 EUR o ensayo
 >5 EUR; versión/digest/fuente cambiante; permiso, región o IAM no demostrable;
 payload/evento fuera del esquema; necesidad de archivo no permitido; tercer
-ciclo; incertidumbre o contaminación con la candidata histórica.
+ciclo; incertidumbre o contaminación con cualquier candidata histórica,
+incluida la C2 de la actualización del provider.
 
 Rollback de implementación: revertir el único commit/PR de WP-018. Rollback de
 infraestructura o laboratorio requiere acto humano y sigue la preimagen de §9;

@@ -41,6 +41,13 @@ el apartado 13 cierra `blocked`, antes de candidata técnica y ciclos, la
 transición nueva de `WP018-DOR-7`: las referencias oficiales PAM v1 y v1beta
 siguen excluyendo tags mientras las guías vigentes los declaran compatibles.
 F2 y DOR-7 permanecen abiertos; no se simula conformidad ni se modifica WP-018.
+**Enmendada el 2026-10-15 por decisión humana de instancia:** el apartado 18
+cierra `blocked` después de C2 la transición de actualización del provider
+abierta bajo el apartado 17, preserva su candidata C2 como `NO APTO — NO
+EJECUTAR` y rechaza cualquier C3 implícito. Elige un replanteamiento como
+transición nueva, todavía no abierta, con base, preimagen, presupuesto y ciclos
+propios; no invoca al autor, no aprueba, admite, activa o implementa WP-018 y no
+modifica la contención externa.
 
 
 ## Problema
@@ -1738,3 +1745,190 @@ custodia, la invocación del autor ni ninguna mutación externa.
 Fuente oficial del tipo revalidada el 2026-10-15: referencia diaria EUR/USD del
 BCE para el primer día hábil del mes, 2026-10-01:
 https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html
+
+## 18. Enmienda de instancia del 2026-10-15 — cierre tras C2 de la actualización del provider y replanteamiento limpio
+
+### 18.1. Hechos, identidad y custodia
+
+La base normativa canónica de esta enmienda es `origin/main`
+`2f7fc1ce0bcab69d9157067445d7e6d60a593d5e`. El workflow
+`.github/workflows/wp018-dor7-emergency-push.yml` conserva SHA-256
+`7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594`.
+La rama remota durable `ops/wp018-dor7-provider-sha-custody` termina en
+`1da4697d33fc73d5318c2e91f1b15af7d4852d3a`, hijo de
+`27d395ab1a3c5d541939d62e21a630652a665140`, y su último commit modifica
+exactamente:
+
+| Artefacto durable | SHA-256 |
+|---|---|
+| `evidence/WP-018/ciclos.md` | `409cb38b2adf249ac8454ddcaebba227a2a916743543242ff2d6ee45bbd4e9ec` |
+| `evidence/WP-018/review-astra.md` | `881de12f2c3f2f5c927c541599206ecfbe32335baf97f91ea24d30000ce5b3d0` |
+| `evidence/WP-018/cost-f1.json` | `b6be6cb610edf6f6ab562d89580e9e166a6af0688ab3592a660dd3790605bf94` |
+| `evidence/WP-018/cost.md` | `bc58cb9db9d3ea9ba5e51d2e746b3875d5c00db4fb7706208eeec5b3f9ae5805` |
+
+C1 y C2 están consumidos. C1 comenzó una única invocación, falló antes de
+inferencia por OAuth expirado, no cambió la candidata y dejó coste F1 medido de
+`0 USD / 0 EUR`. C2 comenzó el `2026-10-15T10:46:49Z`, terminó el
+`2026-10-15T11:18:41Z`, produjo una candidata y consumió
+`3.4601586 USD / 3.06 EUR` al tipo `1.1298 USD/EUR`. El coste acumulado de la
+transición es `3.06 / 5.00 EUR`; no se borra, transfiere ni renombra.
+
+La candidata C2 queda identificada exclusivamente por el digest agregado
+`1625f0666d24c65732bd71d45d92120f4f6c95f2fc861c555f2a9a58aebe91da`.
+Su ubicación externa histórica es
+`/private/tmp/wp018-dor7-provider-sha-c2-author`, pero la ruta no forma parte de
+la custodia durable y puede desaparecer. Los hashes y el dictamen versionados
+son la identidad normativa. La candidata queda marcada **`NO APTO — NO
+EJECUTAR`**: no se corrige, reejecuta, materializa, importa, mezcla ni usa como
+preimagen o punto de partida.
+
+La revalidación enfocada final de la misma GPT-6 Astra dejó abiertos
+`WP018-PSHA-F1`, `WP018-PSHA-F2` y `WP018-PSHA-F4`. F1 no garantiza custodia
+recuperable frente a `SIGKILL` entre la última ampliación del journal y el sello
+raíz; F2 omite superficies materiales de la preimagen y conserva como
+`NEW_MAIN_SHA` la base anterior `6821c0a83efd547b7617a1fed9c168e33224889c`;
+F4 mantiene una batería con código `1` y sin ejercicio integral de los caminos
+críticos. `WP018-PSHA-F3` y `WP018-PSHA-F5` quedan cerrados únicamente como
+restricciones de regresión de un trabajo futuro. Sintaxis y ShellCheck no
+superan los tres hallazgos abiertos.
+
+El último estado externo acreditado por la rama mantiene pool y provider
+deshabilitados, cero roles personalizados, bindings, claves o despachos, y
+ninguna actualización del provider, habilitación WIF o apertura de C0. Esta
+enmienda conserva esa contención, pero no convierte la evidencia histórica en
+observación viva: cualquier acto futuro debe volver a comprobarla en solo
+lectura.
+
+### 18.2. Alternativas y decisión
+
+**C3 sobre la candidata C2 — rechazado.** DEC-010 §5 obliga a parar después de
+C2. Los tres residuales no son un ajuste mecánico aislable: afectan la custodia
+crash-consistent anterior a la mutación, la base y preimagen completas y la
+ejecución real de los caminos de recuperación. Ampliar otra pasada sobre los
+mismos bytes sería un C3 encubierto y conservaría anclajes históricos.
+
+**Dividir los residuales — rechazado.** Journal recuperable, barrera de deriva y
+pruebas de actualización/rollback forman una sola condición de seguridad del
+mismo acto mutante. Ninguna parte produce por sí sola un provider actualizable
+con seguridad, y validarlas en expedientes independientes permitiría declarar
+conforme una mutación sin que su recuperación y su preimagen hayan sido
+evaluadas juntas.
+
+**Cerrar `blocked` y replantear como transición nueva — elegido.** La transición
+abierta por §17 termina `blocked` después de C2. Para distinguirla del
+expediente agotado, el eventual replanteamiento se identifica
+`WP018-DOR7-PSHA-R2`; el identificador delimita una transición dentro de
+`WP018-DOR-7`, no crea otro WP. Esta enmienda define sus límites, pero **no la
+abre**: no existe todavía candidata técnica R2, revisión de origen R2, rama R2,
+fila de ciclo R2, invocación de autor ni presupuesto consumido R2.
+
+### 18.3. Efectos del cierre y preservación
+
+1. La transición de actualización del provider identificada en §18.1 queda
+   `blocked`; sus C1 y C2 siguen consumidos y no existe C3 ni C4.
+2. La candidata C2 permanece `NO APTO — NO EJECUTAR`. Sus cierres F3 y F5 son
+   criterios de regresión; F1, F2 y F4 permanecen abiertos y no se presentan
+   como deuda aceptada.
+3. La rama durable permanece publicada, sin fusionar, congelada en
+   `1da4697d33fc73d5318c2e91f1b15af7d4852d3a` y separada de cualquier transición
+   futura. No se modifica, rebasa, fusiona, descarta ni reutiliza para R2. Su
+   disposición exige una decisión humana posterior, cuando ya no pueda cambiar
+   un SHA operativo y exista otra custodia durable acreditada.
+4. `WP018-DOR7-F2`, DOR-7, DOR-8 y DOR-9 permanecen abiertos; F1 y F3 a F7
+   permanecen cerrados; WP-018 continúa `draft`. WP-017, WP-016 y `ACTIVE`
+   permanecen intactos.
+5. Pool y provider permanecen deshabilitados; no se crean roles, bindings,
+   secretos o infraestructura; no se actualiza el provider, no se habilita WIF,
+   no se despacha el workflow y no se abre o ejecuta C0.
+
+### 18.4. Límites, base, ciclos y presupuesto de `WP018-DOR7-PSHA-R2`
+
+La fusión humana de esta composición no abre R2. Después de fusionarla, una
+autorización humana separada podrá permitir únicamente investigación en solo
+lectura y preparación externa de una candidata nueva. Ese acto deberá cumplir
+todo lo siguiente:
+
+1. fijar como base exclusiva la cabeza exacta de `origin/main` **posterior a la
+   fusión de esta enmienda**, verificar que el workflow mantiene SHA-256
+   `7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594` y registrar
+   ambos valores antes de preparar bytes técnicos. Si existe otro commit o el
+   workflow difiere, parada y nueva decisión; no se actualizan anclajes en
+   cascada;
+2. obtener después de esa fusión una preimagen administrativa fresca y
+   completa. Debe cubrir, como mínimo, resultado de captura, pool, provider,
+   políticas IAM de proyecto y cuenta push, suscripciones y sus políticas,
+   topic y su política, logging, entorno GitHub, workflow y despachos. Las
+   exclusiones volátiles serán explícitas y mínimas; cualquier otra diferencia
+   impide preparar o ejecutar;
+3. rederivar los bytes desde la base y preimagen nuevas. No se copia, parchea o
+   usa como andamio la candidata C2. R2 corrige únicamente F1, F2 y F4 y sus
+   efectos directos, manteniendo F3 y F5 y los ocho hallazgos anteriores como
+   regresiones obligatorias;
+4. exigir una custodia recuperable anterior a la mutación que no quede inválida
+   por ampliar el journal: todos los bytes pre-mutation necesarios deben quedar
+   sellados y vinculados antes del cambio, y los cortes por `SIGKILL` entre cada
+   paso crítico deben ser casos ejecutados y fail-closed;
+5. ejecutar en pruebas headless y sin red los caminos reales de actualización
+   exitosa, fallo posterior a mutación, rollback automático y manual, deriva de
+   cada superficie de preimagen y retorno correcto bajo contextos Bash que
+   inhiben `errexit`. Un hash fijo no justifica omitir el camino integral;
+6. recibir una sola revisión completa independiente de GPT-6 Astra,
+   razonamiento Alto, contexto nuevo y solo lectura. Si abre hallazgos, la misma
+   instancia hará como máximo dos revalidaciones enfocadas tras correcciones
+   limitadas a esos hallazgos y efectos directos.
+
+R2 tendrá `max_ciclos_correccion: 2`, con contadores propios `R2-C1` y `R2-C2`.
+Los C1 y C2 del expediente cerrado no se renombran ni dejan de contar en su
+historia. Antes de cada invocación correctora, la fila correspondiente debe
+quedar versionada y publicada en una rama durable nueva, derivada de la base
+postfusión y distinta de la rama histórica; su nombre previsto es
+`ops/wp018-dor7-provider-sha-r2-custody`. Crear esa rama, abrir `R2-C1` o
+`R2-C2` e invocar al autor requieren autorizaciones humanas separadas. No existe
+`R2-C3`.
+
+El presupuesto propio máximo de R2 será `5.00 EUR`, dentro del techo contractual
+invariable de `100.00 EUR` de WP-018. Es incremental: no reutiliza el remanente
+del expediente cerrado y se suma a sus `3.0626293149... EUR`; por tanto, ambos
+expedientes de actualización del provider no podrán superar juntos
+`8.0626293149... EUR`, antes de considerar otros costes de WP-018. La primera
+invocación atribuible a R2 adquiere F1 desde el lanzamiento. Antes de congelar
+la nueva base debe existir en `main` el tipo del mes aplicable; si falta, se
+detiene y se materializa primero una composición normativa separada. Ningún
+presupuesto autoriza una rama, una invocación o una mutación.
+
+### 18.5. Orden y autorizaciones posteriores
+
+1. Materializar, revisar, publicar y fusionar humanamente los seis archivos de
+   §18.6 mediante autorizaciones separadas.
+2. Autorizar aparte la comprobación de la cabeza postfusión, el workflow, la
+   contención externa y la adquisición de una preimagen fresca completa.
+3. Autorizar aparte la preparación externa de la candidata técnica R2 y su
+   revisión completa. Ese acto no crea ramas, ciclos ni mutaciones.
+4. Solo si la revisión abre hallazgos concretos, decidir por otro acto la rama
+   durable R2 y la apertura versionada de `R2-C1`; autorizar al autor es todavía
+   un acto posterior.
+5. Solo un dictamen final `APTO` permitirá solicitar, por separado,
+   materialización y ejecución de la actualización del provider. C0 se
+   rederiva y autoriza después sobre la misma base; no se despacha por esta
+   decisión.
+6. La fusión o descarte de la rama histórica y de la eventual rama R2 requieren
+   una decisión humana posterior y no se presumen del cierre.
+
+### 18.6. Composición normativa mínima
+
+Esta enmienda viaja en una composición atómica de exactamente seis archivos;
+todos o ninguno:
+
+1. `specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md`;
+2. `specs/decisions/DEC-003-pausa-migracion-y-contencion.md`;
+3. `docs/03-hoja-de-ruta.md`;
+4. `docs/manual/05-bloqueos-y-parada.md`;
+5. `docs/manual/08-productor-alcance-fda-wp018.md`;
+6. `work-packages/WP-018-productor-externo-alcance.md`.
+
+No modifica `ACTIVE`, `evidence/**`, `specs/finops/fx-rates.md`, el workflow,
+código, pruebas, infraestructura, GitHub, Google Cloud, pool, provider, roles,
+bindings, secretos, ramas, worktrees o candidatas históricas. No crea una
+candidata técnica, rama o ciclo R2 y no invoca al autor. Preparación, revisión,
+materialización, publicación, fusión y cada acto técnico posterior conservan
+autorizaciones humanas distintas.

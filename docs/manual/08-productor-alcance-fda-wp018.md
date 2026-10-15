@@ -409,3 +409,35 @@ octubre es `1.1298 USD/EUR` del BCE, fecha 2026-10-01. Si cambia el mes, falta
 la captura F1, se supera `5.00 EUR`, deriva la preimagen o cambia `main`, se
 detiene antes de otra invocación o mutación. Esta sección no autoriza ramas,
 invocaciones, despachos, roles, bindings o cambios de WIF.
+
+## 10. Cierre de la actualización del provider y transición R2
+
+La ruta de §9 agotó C1 y C2 y queda `blocked` por DEC-010 §18. C1 falló antes
+de inferencia sin cambios; C2 produjo una candidata con digest agregado
+`1625f0666d24c65732bd71d45d92120f4f6c95f2fc861c555f2a9a58aebe91da` y coste
+acumulado `3.06 / 5.00 EUR`. La candidata es **`NO APTO — NO EJECUTAR`**. No se
+corrige, reejecuta, materializa, importa, mezcla o reutiliza. La rama
+`ops/wp018-dor7-provider-sha-custody` sigue congelada y sin fusionar; tampoco se
+usa como rama de una transición posterior. No existe C3.
+
+Permanecen abiertos tres controles inseparables del acto mutante: custodia
+recuperable ante un corte entre la última ampliación del journal y su sello,
+comparación de todas las superficies materiales contra una preimagen
+autorizada y ejecución integral de las pruebas de actualización y rollback.
+Las correcciones de restauración exacta y direccionamiento explícito de
+proyecto permanecen solo como criterios de regresión; no convierten C2 en apta.
+
+El eventual replanteamiento se denomina `WP018-DOR7-PSHA-R2` y todavía no está
+abierto. Solo después de fusionar §18 puede otro acto fijar la cabeza exacta de
+`main`, comprobar el hash del workflow y adquirir una preimagen administrativa
+nueva que incluya pool, provider, IAM de proyecto y cuenta push, suscripciones,
+topic, logging y estado GitHub. Cualquier commit posterior o diferencia no
+volátil produce parada. La candidata R2 se rederiva desde cero: los bytes C2 no
+son andamio ni preimagen.
+
+R2 tendrá como máximo `R2-C1` y `R2-C2`, una rama durable distinta y un
+subpresupuesto incremental de `5.00 EUR` dentro de los `100.00 EUR` de WP-018.
+Los `3.0626293149... EUR` históricos permanecen acumulados y no liberan ciclos
+o presupuesto. Preparar la candidata, revisarla, crear la rama, abrir cada
+ciclo, invocar al autor, materializar, ejecutar el provider y rederivar C0 son
+actos separados. Esta documentación no realiza ni autoriza ninguno de ellos.
