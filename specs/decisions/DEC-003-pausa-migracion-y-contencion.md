@@ -50,6 +50,12 @@ no se crea ni configura recurso alguno y `ACTIVE` sigue en reposo.
 admiten una ruta durable sin fusionar, coste F1 desde el inicio y una única
 base congelada para rederivar la actualización del provider. No abre C1, no
 crea la rama ni autoriza mutación externa; `ACTIVE` sigue en reposo.
+**Enmendada de nuevo el 2026-10-15 por la decisión humana de instancia de
+[`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §18:** §§2 y 4
+cierran `blocked` después de C2 la transición de actualización del provider,
+preservan su rama y candidata `NO APTO — NO EJECUTAR` y delimitan un
+replanteamiento nuevo todavía no abierto. No existe C3 y `ACTIVE` sigue en
+reposo.
 
 
 ## Problema
@@ -224,13 +230,15 @@ autorizaciones.
 2. `WP-017` queda `blocked`, nunca `done`: DOR-1 a DOR-6 están resueltos, la
    transición candidata de DOR-7 quedó `blocked` antes de C3 y DOR-7 a DOR-9
    permanecen abiertos. No se replantea dentro del mismo WP porque su coste
-   acumulado es irrecuperable. DEC-017 reserva `WP-018` como sucesor limpio,
-   todavía sin contrato, aprobación, admisión, activación o autorización de
-   ejecución. DOR-7 a DOR-9 no quedan resueltos por la reserva.
-3. `WP-018` deberá redactarse desde cero sobre `main`: hereda por referencia
-   DOR-1 a DOR-4, reafirma DOR-5 y DOR-6, y no usa bytes de la candidata
-   histórica. Su presupuesto máximo es `100 EUR`,
-   `max_ciclos_correccion: 2` y toda invocación de Claude Code se adquiere por
+   acumulado es irrecuperable. DEC-017 reservó `WP-018` como sucesor limpio;
+   su contrato posterior no resuelve DOR-7 a DOR-9 ni reabre WP-017.
+3. `WP-018` existe en `draft`, redactado desde cero sobre `main`: hereda por
+   referencia DOR-1 a DOR-4, reafirma DOR-5 y DOR-6, y no usa bytes de la
+   candidata histórica de WP-017. Su presupuesto máximo es `100 EUR` y
+   `max_ciclos_correccion: 2`. La transición de actualización del provider
+   agotó C1/C2 y queda `blocked` por DEC-010 §18; la eventual
+   `WP018-DOR7-PSHA-R2` no está abierta y exige base, preimagen, rama,
+   presupuesto y ciclos propios. Toda invocación de Claude Code se adquiere por
    F1 desde la primera; la preparación y la implementación inicial no consumen
    ciclo.
 4. `WP-016`, cuyo contrato existe en `draft` y bloqueado, integrará el mismo
@@ -504,7 +512,7 @@ Los tres checks obligatorios son jobs de `ci.yml` y siguen operando. La contenci
 | `WP-005` | Entrada histórica, no ejecutable: permanece `draft` y será sustituido por `WP-016`, reservado por `DEC-014` únicamente desde la fusión humana de su composición |
 | `WP-016` | Identificador reservado para el sucesor limpio de WP-005; contrato existente en `draft`, bloqueado por `WP016-DOR-1`, no aprobado, admitido, activo ni autorizado para ejecución |
 | `WP-017` | Contrato `blocked`, nunca entregado; DOR-1 a DOR-6 resueltos, transición candidata de DOR-7 cerrada antes de C3 y DOR-7 a DOR-9 abiertos; retirado de la cola ejecutable y preservado como historia |
-| `WP-018` | Identificador reservado por DEC-017 para el sucesor limpio de WP-017; sin contrato, aprobación, admisión, activación, ciclos o autorización de ejecución |
+| `WP-018` | Contrato `draft`, nunca aprobado, admitido, activado o implementado; DOR-1 a DOR-6 resueltos y DOR-7 a DOR-9 abiertos. La transición del provider está `blocked` tras C2, su rama durable sigue sin fusionar y `WP018-DOR7-PSHA-R2` no está abierta |
 | `WP-007` | Permanece `ready` y congelado; DEC-011 prevé su cierre posterior por superación, con autorización separada y sin transición de `ACTIVE` |
 | Prueba de humo de D1 | **No es una entrada propia**: será alcance de un sucesor limpio de `WP-008`, todavía sin identificador ni admisión |
 | Parche humano del guard delgado | Acto de operador sobre `.claude/hooks/**`, carril T3, posterior a `WP-002` y `WP-005` |
@@ -800,6 +808,21 @@ fija una sola cabeza de `main` para provider y C0. Añade el tipo BCE de octubre
 y la ruta saneada F1 al contrato. No abre ni consume C1, no crea o publica la
 rama, no invoca al autor, no modifica `ACTIVE` o `evidence/**`, no despacha el
 workflow y no muta GitHub, Google Cloud, WIF, roles o bindings.
+
+**Admisión atómica de la decisión de instancia de `DEC-010` §18.** Se modifica
+directamente esta lista en el mismo diff; la enmienda no se autoautoriza. La
+composición cerrada consta exactamente de `DEC-010`, esta `DEC-003`,
+`docs/03-hoja-de-ruta.md`, `docs/manual/05-bloqueos-y-parada.md`,
+`docs/manual/08-productor-alcance-fda-wp018.md` y
+`work-packages/WP-018-productor-externo-alcance.md`; todos viajan juntos o
+ninguno. Cierra `blocked` después de C2 la transición de actualización del
+provider, preserva sin fusionar su rama durable y la candidata C2 como `NO APTO
+— NO EJECUTAR`, y rechaza C3. Delimita `WP018-DOR7-PSHA-R2` con base y
+preimagen postfusión nuevas, dos ciclos propios y `5.00 EUR` incrementales
+dentro del techo de WP-018, pero no abre esa transición, crea su rama o
+candidata, invoca al autor o autoriza mutaciones. No modifica `ACTIVE`,
+`evidence/**`, el workflow, `specs/finops/fx-rates.md`, infraestructura, GitHub
+o Google Cloud.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 

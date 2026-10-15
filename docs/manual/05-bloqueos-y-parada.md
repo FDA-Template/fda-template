@@ -263,6 +263,26 @@ presupuesto restante no se invoca. Una captura sin cifra defendible es `NO
 APTO`, no cero ni F3 improvisada. Rama, autor, revalidación, materialización,
 ejecución del provider y canario C0 requieren autorizaciones separadas.
 
+**Cierre de la transición durable después de C2.** La ruta de §17 llegó a abrir
+y consumir C1 y C2. C1 falló antes de inferencia sin modificar la candidata;
+C2 produjo una candidata `NO APTO` y coste acumulado medido de `3.06 / 5.00
+EUR`. Permanecen abiertos recuperación frente a corte después de ampliar el
+journal, comparación de la preimagen material completa y validación integral
+de actualización/rollback. La transición queda `blocked`; no existe C3. La
+rama `ops/wp018-dor7-provider-sha-custody` permanece publicada, congelada y sin
+fusionar, y la candidata C2 queda `NO APTO — NO EJECUTAR`.
+
+DEC-010 §18 rechaza dividir esos tres controles porque deben juzgar juntos el
+mismo acto mutante. Elige `WP018-DOR7-PSHA-R2` como transición nueva, no como
+renombrado de los ciclos agotados. Todavía no está abierta: primero se fusiona
+la composición normativa, después se fija una cabeza nueva de `main`, se
+comprueba el workflow y se adquiere una preimagen completa nueva. Solo otro
+acto puede preparar una candidata técnica externa y obtener su revisión
+completa. Si hacen falta correcciones, R2 dispone de `R2-C1` y `R2-C2`, rama
+durable distinta y hasta `5.00 EUR` incrementales dentro del techo de WP-018;
+no existe `R2-C3`. Base, preimagen, rama, ciclos, autor, materialización,
+provider y C0 conservan autorizaciones separadas.
+
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
 Ver [DEC-010](../../specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md).
