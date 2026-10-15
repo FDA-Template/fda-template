@@ -60,6 +60,13 @@ transición sucesora *oracle-first*, todavía no abierta. Fija dos etapas, dos
 correcciones máximas compartidas y `6.00 EUR` incrementales; no crea bytes,
 rama, ciclos o autoridad técnica.
 
+**Enmendada nuevamente el 2026-10-15 por decisión humana de instancia:** el
+apartado 21 normaliza el catálogo de los ocho hallazgos cerrados de C0 que el
+apartado 20 exigía como regresiones sin enumerarlos. Les asigna identificadores
+estables y controles positivo/mutante, distingue el residual abierto
+`WP018-DOR7-C0-H1` y mantiene OF1 sin abrir. La preimagen y la base adquiridas
+antes de esta enmienda quedan históricas si esta composición se fusiona.
+
 
 ## Problema
 
@@ -2200,9 +2207,11 @@ la sensibilidad del arnés mediante casos realmente ejecutados:
    su punto de prueba;
 8. imposibilidad de imprimir `APTO` si una comprobación exigida no fue
    ejecutada y observada;
-9. presencia y sensibilidad de los oráculos de regresión F2, F4, F5 y de todos
-   los hallazgos cerrados de las transiciones anteriores, cada uno con al menos
-   un control que pasa y un mutante que debe fallar.
+9. presencia y sensibilidad de los oráculos de regresión F2, F4, F5 y del
+   catálogo cerrado `WP018-DOR7-C0-R1` a `WP018-DOR7-C0-R8` definido en §21,
+   cada uno con al menos un control que pasa y un mutante que debe fallar. El
+   residual abierto `WP018-DOR7-C0-H1` no se cuenta entre esos ocho y conserva
+   sus oráculos propios de §16.3.5.
 
 El `APTO` de etapa A significa únicamente que el arnés discrimina sus controles
 sintéticos. No acredita la captura, recuperación, funciones o failpoints de la
@@ -2335,3 +2344,82 @@ archivos; todos o ninguno:
 
 Preparación, revisión normativa, materialización, publicación y fusión de esta
 composición también son actos separados. La enmienda no se autoautoriza.
+
+## 21. Enmienda de instancia del 2026-10-15 — catálogo normativo de los ocho hallazgos C0
+
+### 21.1. Motivo, procedencia y autoridad
+
+Al preparar etapa A se detectó una ambigüedad bloqueante: §§16 a 20 exigían
+preservar «los ocho hallazgos cerrados» de C0, pero no los enumeraban, no les
+asignaban identificadores y no conservaban su dictamen como evidencia
+versionada. Ningún autor podía demostrar cobertura por hallazgo sin inventar
+parte del contrato. El acto se detuvo antes de invocar al actor de etapa A:
+invocaciones, coste y ciclos OF1 permanecen en cero y no existen bytes del
+paquete.
+
+El operador recuperó en solo lectura el dictamen completo original y la
+revalidación enfocada C1, y contrastó su contenido con los efectos descritos en
+§16. Esta enmienda adopta normativamente el catálogo siguiente desde su fusión.
+No afirma que la conversación histórica sea evidencia durable, no incorpora
+sus bytes y no convierte la candidata C0 en base, plantilla o andamio. A partir
+de esta composición, la fuente de verdad de nombres, alcance y oráculos es
+exclusivamente este apartado.
+
+Los ocho IDs designan defectos cerrados por C1. No incluyen
+`WP018-DOR7-C0-H1`, residual posterior abierto durante la ejecución C2 por la
+separación real de `stdout`/`stderr` de `gcloud config get-value project`.
+
+### 21.2. Catálogo estable y prueba falsable mínima
+
+| ID | Hallazgo histórico normalizado | Control positivo obligatorio | Mutante que debe fallar |
+|---|---|---|---|
+| `WP018-DOR7-C0-R1` | El reloj `EPOCHSECONDS` era incompatible con el Bash 3.2 usado por el comando de ceremonia y podía abortar después de habilitar WIF | El sujeto usa un reloj compatible o rechaza el intérprete antes de toda mutación; el caso pasa bajo Bash 3.2 | Referencia `EPOCHSECONDS` con `set -u` bajo Bash 3.2 y demuestra aborto |
+| `WP018-DOR7-C0-R2` | La observación de C0 dependía de descargar en vivo el log de un job todavía abierto, disponibilidad no acreditada | La señal de progreso es observable y acotada sin depender de logs parciales; un job correcto puede llegar a cierre y verificación final | El único canal devuelve `404` mientras el job sigue abierto y el sujeto agota el plazo o rechaza un canario correcto |
+| `WP018-DOR7-C0-R3` | El parser contaba el código que Actions imprime como si fueran resultados C0/C1/OIDC/STS | El parser elimina el bloque de código, normaliza prefijos y cuenta solo registros de salida exactos o anclados | Un contador ingenuo de subcadenas acepta duplicados o rechaza por la rama impresa pero no ejecutada |
+| `WP018-DOR7-C0-R4` | Una lectura diagnóstica fallida bajo `set -e` impedía intentar la deshabilitación de emergencia | Ante un `describe` transitorio fallido, intenta cierre acotado, verifica pool y provider y conserva el fallo diagnóstico | Un `503` previo al primer `update --disabled` termina el proceso sin intentar contención |
+| `WP018-DOR7-C0-R5` | Los deadlines se comprobaban entre llamadas, pero `gh`, `gcloud` y el cierre podían bloquearse sin límite externo | Un supervisor acota cada llamada y el plazo global, propaga códigos y termina el grupo hijo ante timeout o señal | Una llamada bloqueada impide reevaluar el deadline y deja sin iniciar el cierre anunciado |
+| `WP018-DOR7-C0-R6` | La auditoría concluía al aparecer el primer intercambio STS y podía omitir ingestión tardía | Mantiene la ventana completa de 600 segundos, consulta al final y falla si aparece cualquier intercambio adicional | Sale tras el primer registro y no detecta un segundo intercambio ingerido más tarde |
+| `WP018-DOR7-C0-R7` | Las preimágenes de política IAM, pool y provider consumidas no estaban ligadas a hashes custodiados | Verifica antes de habilitar el hash de cada archivo consumido contra un manifiesto independiente y cerrado | Sustituye una captura local por una condición relajada y el hash debe impedir la habilitación |
+| `WP018-DOR7-C0-R8` | Faltaba revalidar el plan de organización y los propietarios exactos exigidos antes de habilitar WIF | Revalida el plan y el conjunto exacto de propietarios contra la preimagen fresca y falla antes de mutar ante cualquier diferencia | Añade un propietario o cambia el plan mientras repo/entorno/OIDC permanecen iguales y el preflight debe rechazarlo |
+
+Cada control y mutante debe ejecutarse realmente, aparecer una sola vez en el
+inventario cerrado de etapa A y producir un resultado inequívoco. Nombrar el
+ID, inspeccionar texto o probar solo la función auxiliar no acredita
+sensibilidad. La etapa B repetirá los mismos casos sobre paths, funciones y
+bytes reales conforme a §20.6.
+
+### 21.3. Relación con el residual abierto y con F2/F4/F5
+
+`WP018-DOR7-C0-H1` sigue abierto y separado del catálogo cerrado. Su control
+positivo preserva los canales y valida antes de normalizar exactamente un valor
+`fda-template` o el literal documentado `(unset)` con un solo LF terminal; sus
+mutantes cubren salida vacía, código no cero, CR, espacios, LF adicionales y
+varias líneas. La sustitución de comandos no puede borrar los bytes que el
+oráculo pretende observar.
+
+Los IDs `R1` a `R8` tampoco sustituyen `WP018-PSHA-R2-F2`,
+`WP018-PSHA-R2-F4` o `WP018-PSHA-R2-F5`: etapa A conserva controles positivo y
+mutante independientes para esas tres regresiones. El inventario debe detectar
+la ausencia, duplicación o salto de cualquiera de los doce grupos exigidos:
+F2, F4, F5, H1 y R1 a R8.
+
+### 21.4. Estado, invalidación y secuencia posterior
+
+Esta composición no reabre ni consume etapa A. No crea rama, fila de ciclo,
+F1, coste, autor, bytes, provider, WIF, C0 o infraestructura. WP-018 continúa
+`draft`; DOR-7 a DOR-9 y `WP018-DOR7-C0-H1` siguen abiertos.
+
+Si se fusiona, cambia `origin/main` y por tanto invalida como anclajes
+operativos la base `921210ff68f962fb4e75cea6a3d5237f2ee1d24e` y la preimagen
+capturada contra ella. El siguiente acto permitido será únicamente fijar la
+nueva cabeza, volver a comprobar el hash del workflow y adquirir una preimagen
+administrativa fresca. Otra autorización posterior podrá reabrir la preparación
+de etapa A desde cero contra §20 y este catálogo.
+
+### 21.5. Composición atómica
+
+La normalización viaja en exactamente los mismos seis archivos cerrados por
+§20.10; todos o ninguno. No modifica `ACTIVE`, `evidence/**`, el workflow,
+`specs/finops/fx-rates.md`, código o pruebas, y no accede ni muta GitHub,
+Google Cloud, ramas remotas o infraestructura. Preparación, revisión normativa,
+materialización, publicación y fusión siguen siendo actos separados.
