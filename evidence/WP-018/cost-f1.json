@@ -1,0 +1,87 @@
+{
+  "schema": "wp018-r2-c1-cost-f1/v1",
+  "wp_id": "WP-018",
+  "transition": "WP018-DOR7-PSHA-R2",
+  "cycle": "R2-C1",
+  "started_at": "2026-10-15T16:49:48Z",
+  "finished_at": "2026-10-15T17:19:16Z",
+  "instrument": "2.1.272 (Claude Code)",
+  "prompt_sha256": "a502b0cf4937892c19c28201a5ecfe916cf498a34c8ce80d0f226fb7fdea720a",
+  "before_manifest_sha256": "bfa60e607b707a62f19e16bfce7035749608f7ff336bf3cc45d7027a8f5db891",
+  "process_exit": 0,
+  "is_error": false,
+  "subtype": "success",
+  "terminal_reason": "completed",
+  "duration_ms": 1767314,
+  "duration_api_ms": 1767579,
+  "num_turns": 64,
+  "total_cost_usd": 4.120929599999999,
+  "fx": {
+    "usd_per_eur": 1.1298,
+    "reference_date": "2026-10-01",
+    "source": "BCE",
+    "cost_eur_exact": 3.6474859267,
+    "cost_eur_rounded": 3.65,
+    "subbudget_eur": 5.00,
+    "consumption_percent": 72.9
+  },
+  "model_usage": [
+    {
+      "model": "claude-haiku-4-5-20251001",
+      "cost_usd": 0.003065,
+      "input_tokens": 2950,
+      "output_tokens": 23,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 0
+    },
+    {
+      "model": "claude-sonnet-5",
+      "cost_usd": 4.117864599999999,
+      "input_tokens": 108,
+      "output_tokens": 169914,
+      "cache_read_input_tokens": 7309203,
+      "cache_creation_input_tokens": 239167
+    }
+  ],
+  "permission_denials": {
+    "count": 9,
+    "by_tool": [
+      {
+        "tool": "Bash",
+        "count": 9
+      }
+    ]
+  },
+  "subagents": {
+    "spawned": 0,
+    "requested": {
+      "background": 0,
+      "foreground": 0,
+      "unset": 0
+    },
+    "started_in_background": 0,
+    "max_depth": 0,
+    "spawned_by_subagents": 0,
+    "completed": 0,
+    "failed": 0,
+    "killed": {
+      "parent": 0,
+      "user": 0,
+      "system": 0
+    },
+    "refused": {
+      "depth_limit": 0,
+      "concurrency_limit": 0,
+      "budget": 0
+    },
+    "by_type": {}
+  },
+  "server_tool_use": {
+    "web_search_requests": 0,
+    "web_fetch_requests": 0
+  },
+  "raw_external": {
+    "path": "/private/tmp/wp018-author-r2-c1-raw.json",
+    "sha256": "d7e389d6f6373bb4e6fc68a1ceec59b8d79515efaaf163cae0a4677a51a2426e"
+  }
+}

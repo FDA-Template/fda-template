@@ -185,10 +185,186 @@ con estos bytes.
 La revisora no modificó la candidata o el repositorio, no consultó servicios
 externos y no abrió ramas o ciclos. Los cinco hallazgos permanecen abiertos.
 
-## Estado de custodia
+## Estado de custodia del dictamen de origen
 
-Este archivo preserva el dictamen de origen de R2. No constituye una
-revalidación y no consume R2-C1. La candidata permanece **NO APTO — NO
-EJECUTAR** hasta que una corrección autorizada y la revalidación enfocada de la
-misma revisora cierren todos los hallazgos. Abrir R2-C1 no autoriza al autor,
-la materialización técnica ni la ejecución del provider.
+El bloque anterior preserva el dictamen completo de origen de R2. La sección
+siguiente registra la primera revalidación enfocada después de consumir R2-C1.
+Ni el dictamen de origen ni su revalidación autorizan materialización técnica o
+ejecución del provider.
+
+## Revalidación enfocada de R2-C1 — 1/2
+
+### Identidad y ejecución
+
+- Fecha: 2026-10-15.
+- Revisora: la misma instancia independiente GPT-6 Astra, razonamiento Alto,
+  rol `code-reviewer`, `/root/review_r2_candidate`.
+- Modo: solo lectura; no modificó archivos ni consultó servicios externos.
+- Postimagen: `/private/tmp/wp018-dor7-provider-sha-r2-c1-author`.
+- Manifiesto externo completo: 55 entradas; SHA-256
+  `133aa34695c7329552c2a7427540eed8dfbf2d1f0cf63cf0163dba9fd1c47fa3`.
+- `authorized-preimage/**`: idéntica a la candidata de origen.
+- Salida final de la revisora, normalizada con LF terminal: SHA-256
+  `51d0cd2ac776ab88c53eee4df6086ada6ce366ddea82dc32d8b99f6464c846ef`.
+- Invocación del autor: código `0`, `is_error:false`, 64 turnos, nueve
+  denegaciones Bash, cero subagentes y cero solicitudes web.
+- Crudo externo del autor:
+  `/private/tmp/wp018-author-r2-c1-raw.json`; SHA-256
+  `d7e389d6f6373bb4e6fc68a1ceec59b8d79515efaaf163cae0a4677a51a2426e`.
+- Coste: `4.1209296 USD / 3.6474859267... EUR`, redondeado a `3.65 EUR`.
+
+El diff modifica exactamente estos 11 archivos permitidos:
+
+- `00-common.sh`, `01-capture-live.sh`, `03-rollback-provider.sh`;
+- `lib/r2.py`, `lib/sanitize_policy.py`;
+- `tests/fake-capture.sh`, `tests/fake-gcloud.py`, `tests/fake-gh.sh`,
+  `tests/run-local-tests.sh`;
+- `README.md`, `LOCAL-VERIFICATION.md`.
+
+El `SHA256SUMS` interno no fue regenerado: fallan las 11 entradas modificadas.
+La verificación independiente obtuvo `bash -n=0` y AST Python `0`, pero
+ShellCheck `1`. La batería abortó antes del bootstrap con `from: unbound
+variable`; en otro runtime Bash el trap de limpieza llegó a ocultar el fallo y
+devolver `0`. Ninguno de esos resultados acredita la batería.
+
+### Dictamen enfocado completo
+
+VEREDICTO: CAMBIOS SOLICITADOS
+
+DICTAMEN: **NO APTO — NO EJECUTAR**
+
+Revalidación enfocada R2-C1: 1/2.
+
+Verificado el manifiesto externo completo, 55 entradas, SHA-256
+`133aa34695c7329552c2a7427540eed8dfbf2d1f0cf63cf0163dba9fd1c47fa3`.
+El diff modifica exactamente los 11 archivos permitidos indicados;
+`authorized-preimage/**` permanece intacta. El manifiesto interno sigue
+obsoleto: fallan sus 11 entradas modificadas.
+
+| Hallazgo original | Estado tras R2-C1 |
+|---|---|
+| F1 — Recuperación interrumpida | ABIERTO: mejorado el procedimiento; falta demostrar los cortes y completar la validación de capturas reutilizadas |
+| F2 — Comparación de `result.json` | CERRADO |
+| F3 — Batería real y `errexit` | ABIERTO |
+| F4 — Persistencia de respuestas crudas | CERRADO |
+| F5 — Consulta fallida de impersonación | CERRADO |
+
+#### WP018-PSHA-R2-F1 — Importante
+
+**La reutilización no comprueba que el intento sea una captura completa.**
+
+Archivo: `03-rollback-provider.sh:77`; relacionado: `lib/r2.py:247`.
+
+Se reutiliza el directorio si pasa `compare`, que valida la preimagen de
+referencia y compara las 39 superficies observadas, pero no valida el
+manifiesto, el conjunto completo de archivos ni el cierre de la captura
+observada.
+
+Tras un `SIGKILL` después de escribir `result.json` y antes de producir
+`drift-comparison.json` o `SHA256SUMS`, el siguiente rollback puede reutilizar
+ese directorio y registrar `rolled-back` aunque el expediente de recaptura siga
+incompleto.
+
+Arreglo sugerido: validar explícitamente la captura candidata antes de
+reutilizarla; si no está completa, preservarla y realizar otro intento.
+Demostrar ambos caminos mediante cortes reales. El bloqueo original por
+directorio existente está corregido, pero F1 no reúne todavía evidencia
+suficiente para cerrarse.
+
+#### WP018-PSHA-R2-F3.a — Importante
+
+**La batería aborta antes de ejecutar sus pruebas.**
+
+Archivo: `tests/run-local-tests.sh:55`.
+
+Las comillas simples del CEL cierran la cadena que contiene el programa jq;
+`$from` acaba siendo expandido por Bash. Con `from` sin definir, la ejecución
+emite `from: unbound variable` antes del bootstrap. ShellCheck también detecta
+SC1078, SC1079 y SC2154.
+
+Arreglo sugerido: proporcionar la condición mediante argumentos jq
+correctamente delimitados, conservar las comillas del CEL como datos y ejecutar
+toda la batería.
+
+Además, con `/bin/bash` 3.2.57 la ejecución abortada devuelve `0`, sin imprimir
+el resultado terminal de la batería. Esto difiere del código `1` observado en
+otro runtime; ninguno acredita pruebas superadas. Debe preservarse el estado de
+fallo durante la limpieza y verificarse el comportamiento en el runtime
+admitido.
+
+#### WP018-PSHA-R2-F3.b — Importante
+
+**El bootstrap tiene otro bloqueo independiente del error de comillas.**
+
+Archivo: `tests/run-local-tests.sh:96`; relacionado: `lib/r2.py:208`.
+
+Se llama a `compare` utilizando como preimagen un directorio que todavía no
+contiene `drift-comparison.json`. `validate_capture` exige ese archivo antes de
+permitir la comparación. Corregido únicamente F3.a, el bootstrap alcanza esta
+llamada y falla por conjunto de archivos distinto; la comparación no puede
+crear su salida porque primero valida la preimagen incompleta.
+
+Arreglo sugerido: construir una fixture completa y coherente antes de utilizarla
+como preimagen; generar y verificar su manifiesto cuando todos sus archivos
+estén finalizados.
+
+#### WP018-PSHA-R2-F3.c — Importante
+
+**El nuevo caso F1 no interrumpe una recuperación.**
+
+Archivo: `tests/run-local-tests.sh:254`.
+
+`fail:after-update` provoca el rollback automático completo. Después, el test
+sobrescribe parte de su captura y llama al rollback manual, cuyo estado ya es
+`rolled-back`. Con los bloqueos anteriores corregidos y el flujo automático
+funcionando, `03-rollback-provider.sh:21` retorna inmediatamente; no crea
+`rollback-preimage.attempt-2` y la aserción posterior falla. No se ha ejecutado
+ningún corte dentro del rollback.
+
+Arreglo sugerido: cortar efectivamente la recuperación mientras mantiene
+`rollback-intent`, comprobar la evidencia parcial conservada y reanudarla.
+Añadir también el corte posterior a la captura y anterior al evento terminal.
+
+#### WP018-PSHA-R2-F3.d — Importante
+
+**Sigue sin ejercitarse la inhibición de `errexit` dentro de las funciones.**
+
+Archivo: `tests/run-local-tests.sh:155`.
+
+Las nuevas pruebas `if` y `!` siguen invocando scripts como procesos separados.
+Eso no inhibe el `errexit` de las funciones ejecutadas dentro de esos procesos.
+La batería puede aceptar estas pruebas sin haber llamado directamente a una
+función relevante desde `if`, `!` o una lista condicional.
+
+Arreglo sugerido: añadir pruebas directas y aisladas de las funciones
+pertinentes bajo esos contextos, con dependencias simuladas y errores
+verificables.
+
+### Cierres acreditados y disposición
+
+- F2 compara las 39 superficies, incluido `result.json`, conserva
+  `core_project` y solo excluye las tres claves volátiles autorizadas. La
+  preimagen real pasa su validación; su comparación consigo misma devuelve 39
+  superficies y cero diferencias.
+- F4 elimina `.raw` y procesa las respuestas sensibles por streaming antes de
+  persistirlas. La prueba sintética del saneador emite hashes de miembros.
+- F5 propaga el fallo de consulta. Una comprobación aislada bajo `if`, con
+  `gcloud` simulado fallando, devuelve 77.
+
+Sintaxis Bash y AST Python pasan; ShellCheck falla. No hay batería integral
+válida. La limitación de ejecución está declarada por el autor; no es deuda
+oculta.
+
+R2-C1 queda **NO APTO**. R2-C2 puede plantearse exclusivamente para los
+residuales F1/F3 y sus efectos directos, preservando los cierres F2/F4/F5,
+regenerando el manifiesto y obteniendo evidencia ejecutada. Su apertura e
+invocación requieren actos separados y presupuesto disponible acreditado.
+Después de R2-C2 solo queda la segunda revalidación enfocada; si continúa `NO
+APTO`, corresponde parada y replanificación, sin R2-C3.
+
+## Estado de custodia tras R2-C1
+
+Este archivo registra el dictamen completo de origen y la primera revalidación
+enfocada. La postimagen R2-C1 permanece **NO APTO — NO EJECUTAR**. F2, F4 y F5
+quedan cerrados; F1 y F3 permanecen abiertos. R2-C2 no está abierto y este
+dictamen no autoriza al autor, otra corrección, materialización o ejecución.

@@ -3,8 +3,8 @@
 Este registro aplica `DEC-010` §18 y pertenece exclusivamente a la transición
 nueva que rederiva desde cero la actualización de `assertion.workflow_sha` del
 provider de DOR-7. No reactiva la transición histórica, no abre C3, no activa
-WP-018, no modifica infraestructura y no autoriza al autor, la ejecución de la
-candidata, el provider, WIF, el workflow o C0.
+WP-018 y no modifica infraestructura. Este registro tampoco autoriza otra
+invocación, la ejecución de la candidata, el provider, WIF, el workflow o C0.
 
 ## Anclajes congelados
 
@@ -75,18 +75,16 @@ No se permite modificar `authorized-preimage/**`, ampliar la mutación, aceptar
 nuevas exclusiones volátiles, reutilizar C2 ni corregir algo ajeno a los cinco
 hallazgos y sus efectos directos.
 
-## Apertura versionada de R2-C1
+## Estado versionado de R2-C1
 
-| Ciclo | Estado | Fecha de apertura | Invocaciones correctoras | Autor ejecutado | Base | Subpresupuesto R2 disponible |
+| Ciclo | Estado | Fecha de apertura | Invocaciones correctoras | Autor ejecutado | Base | Coste acumulado R2 |
 |---|---|---|---:|---|---|---:|
-| R2-C1 | `abierto` | 2026-10-15 | 0 | no | `9cdfaefddfdb50fa1fba385e265243022b67061f` | 5.00 EUR |
+| R2-C1 | `NO APTO — consumido` | 2026-10-15 | 1 | sí; terminó, sin verificación ejecutada válida | `9cdfaefddfdb50fa1fba385e265243022b67061f` | 3.65 de 5.00 EUR |
 
-`abierto` describe la postimagen que adquiere autoridad únicamente cuando estos
-bytes quedan versionados y publicados en la rama durable R2. Mientras solo
-existan en `/private/tmp`, R2-C1 no está abierto. Crear, commitear y publicar la
-rama no consume el ciclo. R2-C1 se consume cuando comienza la primera
-invocación correctora del autor, aunque falle antes de inferencia, se interrumpa
-o no produzca cambios. No se crea una segunda fila R2-C1.
+R2-C1 adquirió autoridad mediante el commit publicado
+`1cce54865a8d3c9444f3b632fe35038f0b3c5431`. Se consumió al comenzar su única
+invocación correctora; el éxito del instrumento no acredita la postimagen y no
+se crea una segunda fila R2-C1.
 
 ## Coste y gates anteriores al autor
 
@@ -95,23 +93,67 @@ o no produzca cambios. No se crea una segunda fila R2-C1.
 - Coste histórico preservado: `3.0626293149... EUR`; ambos expedientes no
   podrán superar juntos `8.0626293149... EUR`.
 - Tipo mensual vigente: `1.1298 USD/EUR`, referencia BCE del 2026-10-01.
-- No existe aún una invocación R2 ni un coste R2 medido. Cero invocaciones no es
-  un importe; no se crea `cost-f1.json` o `cost.md` hasta disponer de F1.
-- La primera invocación correctora requiere F1 desde el lanzamiento con
+- La única invocación R2-C1 dispone de F1 defendible en `cost-f1.json` y
+  `cost.md`: `4.1209296 USD / 3.6474859267... EUR`, redondeado a `3.65 EUR`.
+  Quedan `1.3525140733... EUR` del subpresupuesto R2.
+- Toda invocación correctora requiere F1 desde el lanzamiento con
   `claude -p --output-format json`, `WP-018` explícito, versión exacta
   previamente comprobada y sin `--continue` o `--resume`.
 - Antes del autor deben verificarse rama remota, commit de apertura, identidad
   de candidata y preimagen, ausencia de deriva, autenticación headless, tipo
   mensual y presupuesto restante. La falta de cualquiera obliga a parar.
 
-Después de la eventual invocación se actualiza esta misma fila con resultado,
-coste y estado. La misma revisora independiente puede realizar como máximo dos
-revalidaciones enfocadas, una después de R2-C1 y otra después de R2-C2. No
-existe R2-C3.
+La misma revisora independiente realizó la primera revalidación enfocada y
+mantuvo la candidata `NO APTO`. Solo queda una eventual revalidación enfocada
+después de R2-C2. No existe R2-C3.
+
+## Resultado de R2-C1
+
+El gate saneado previo al autor terminó `APTO` el 2026-10-15: 38 superficies,
+cero deriva, ningún crudo persistido y SHA-256 de su `SHA256SUMS`
+`b5a09113c1ecc25d23330bc5bfc04b6057f1201bd8147fad8c259be3f75ef747`.
+Confirmó la base y workflow congelados, contención externa y rama R2 publicada.
+
+La única invocación correctora comenzó el `2026-10-15T16:49:48Z` y terminó el
+`2026-10-15T17:19:16Z` con código `0`. Claude Code `2.1.272` registró
+`is_error:false`, 64 turnos, nueve denegaciones Bash, cero subagentes, cero
+solicitudes web y coste `4.1209296 USD / 3.6474859267... EUR`. El crudo externo
+es `/private/tmp/wp018-author-r2-c1-raw.json`, con SHA-256
+`d7e389d6f6373bb4e6fc68a1ceec59b8d79515efaaf163cae0a4677a51a2426e`.
+
+La postimagen está preservada en
+`/private/tmp/wp018-dor7-provider-sha-r2-c1-author`. Modificó exactamente 11
+archivos permitidos y mantuvo `authorized-preimage/**` byte a byte. Su
+manifiesto externo completo contiene 55 entradas y tiene SHA-256
+`133aa34695c7329552c2a7427540eed8dfbf2d1f0cf63cf0163dba9fd1c47fa3`.
+El `SHA256SUMS` interno no se regeneró y sus 11 entradas modificadas fallan.
+
+El autor no pudo ejecutar pruebas por las denegaciones de su entorno. La
+verificación independiente posterior obtuvo sintaxis Bash y AST Python
+correctos, pero ShellCheck falló y la batería abortó antes del bootstrap con
+`from: unbound variable`. En Bash 3.2 la misma salida fallida llegó a devolver
+`0` por una regresión de limpieza; ningún resultado acredita pruebas superadas.
+
+La primera revalidación enfocada de la misma Astra emitió `NO APTO — NO
+EJECUTAR`. El estado queda:
+
+| Hallazgo | Estado tras R2-C1 |
+|---|---|
+| `WP018-PSHA-R2-F1` | Abierto: la captura reutilizada no se valida como completa y faltan cortes ejecutados |
+| `WP018-PSHA-R2-F2` | Cerrado: `result.json` participa en las 39 superficies sin exclusiones nuevas |
+| `WP018-PSHA-R2-F3` | Abierto: batería rota, bootstrap incoherente, caso F1 incorrecto e inhibición interna de `errexit` sin probar |
+| `WP018-PSHA-R2-F4` | Cerrado: respuestas sensibles proyectadas y saneadas en streaming |
+| `WP018-PSHA-R2-F5` | Cerrado: el fallo al consultar impersonación se propaga y detiene |
+
+R2-C2 permanece sin abrir. Solo podría corregir F1, F3 y sus efectos directos,
+preservando F2, F4, F5 y las regresiones históricas, regenerando el manifiesto
+y produciendo evidencia ejecutada. Abrir R2-C2 e invocar al autor son actos
+humanos separados. Si R2-C2 tampoco converge, corresponde parada y
+replanificación; no existe R2-C3.
 
 ## Autorizaciones separadas
 
-Esta apertura no autoriza a invocar al autor, modificar la candidata, ejecutar
+Este resultado no autoriza otra invocación, modificar la candidata, ejecutar
 sus pruebas con servicios reales, materializarla, actualizar o recuperar el
 provider, habilitar WIF, crear roles o bindings, despachar el workflow, abrir o
 ejecutar C0, abrir R2-C2, fusionar o descartar ninguna rama. Cada acto requiere
