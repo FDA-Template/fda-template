@@ -65,6 +65,7 @@ directos en los ocho archivos identificados por `review-astra.md`.
 | Ciclo | Estado | Fecha de apertura | Invocaciones correctoras | Autor ejecutado | Base | Presupuesto acumulado C1+C2 |
 |---|---|---|---:|---|---|---:|
 | C1 | `NO APTO — consumido` | 2026-10-15 | 1 | sí; OAuth expirado antes de inferencia, sin cambios | `2f7fc1ce0bcab69d9157067445d7e6d60a593d5e` | 0.00 de 5.00 EUR |
+| C2 | `abierto` | 2026-10-15 | 0 | no | `2f7fc1ce0bcab69d9157067445d7e6d60a593d5e` | 0.00 de 5.00 EUR |
 
 `abierto` describe la postimagen que adquiere autoridad únicamente al quedar
 versionada y publicada en la rama durable indicada. Mientras estos bytes solo
@@ -109,11 +110,40 @@ revalidación enfocada de solo lectura y emitió `NO APTO`; permanecen abiertos,
 sin cambio de severidad, `WP018-PSHA-F1` a `WP018-PSHA-F5`. C1 está consumido,
 no se reintenta y no se crea una segunda fila C1.
 
-C2 permanece **sin abrir**. Antes de cualquier segunda invocación deben
-restaurarse las credenciales del instrumento por acto humano, abrirse y
-versionarse C2 mediante el mismo procedimiento, y obtener una autorización
-humana separada. Este resultado no autoriza al autor, provider, C0, workflow,
-infraestructura, PR, fusión ni descarte de la rama.
+Al cerrar C1, C2 permanecía **sin abrir**. Antes de cualquier segunda
+invocación debían restaurarse las credenciales del instrumento por acto
+humano, abrirse y versionarse C2 mediante el mismo procedimiento, y obtener
+una autorización humana separada. El resultado de C1 no autorizó al autor,
+provider, C0, workflow, infraestructura, PR, fusión ni descarte de la rama.
+
+## Apertura versionable de C2
+
+La revalidación enfocada de la misma revisora mantuvo concretamente abiertos
+`WP018-PSHA-F1` a `WP018-PSHA-F5`, sin cambio de severidad. El 2026-10-15 se
+restauró humanamente la autenticación del instrumento; una comprobación
+saneada en el mismo contexto externo que usaría el autor confirmó
+`loggedIn: true`, método `claude.ai`, proveedor `firstParty`. Claude Code
+conserva la versión exacta `2.1.272`.
+
+La fila C2 anterior describe la postimagen propuesta. Solo adquiere autoridad
+como `abierto` cuando estos bytes quedan versionados y publicados sobre la
+rama durable en un commit hijo de
+`02821d7c8a57042d73b2185e74e656342478c4fe`. Prepararla en `/private/tmp` no
+abre C2; el commit y el push tampoco lo consumen. C2 se consume únicamente al
+comenzar su primera invocación correctora, aunque falle, se interrumpa o no
+produzca cambios.
+
+C2 autoriza como alcance corrector exclusivamente `WP018-PSHA-F1` a
+`WP018-PSHA-F5` y sus efectos directos en los ocho archivos técnicos ya
+identificados. La candidata técnica sigue byte a byte en su estado histórico
+`NO APTO`; la invocación C1 no produjo cambios. El coste acumulado medido es
+`0 USD / 0 EUR`, por lo que permanecen disponibles los `5.00 EUR` del
+subpresupuesto de la transición.
+
+C2 es el último ciclo ordinario. No existe C3. Esta apertura no autoriza la
+invocación del autor, materialización o ejecución de la candidata, provider,
+rollback, WIF, workflow, dispatch, C0, infraestructura, PR, fusión o descarte
+de la rama; cada acto conserva autorización humana separada.
 
 ## Autorizaciones separadas
 
