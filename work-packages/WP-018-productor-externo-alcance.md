@@ -39,10 +39,11 @@ WP-018 es el sucesor limpio reservado por DEC-017. Se redacta desde cero sobre `
   de la candidata. DEC-010 §20 elige `WP018-DOR7-PSHA-OF1` como transición
   sucesora *oracle-first*: F1/F3 cierran juntos, los oráculos se sellan antes
   del autor de implementación y etapa A/B comparten `OF1-C1`/`OF1-C2` y
-  `6.00 EUR`. OF1 está delimitada pero no abierta; no existen todavía base,
-  preimagen, bytes, rama, ciclos o autores autorizados. `WP018-DOR7-F2` y DOR-7
-  no cierran hasta completar la ceremonia y el rollback con dictamen final
-  `APTO`.
+  `6.00 EUR`. §21 fija como regresiones distintas `WP018-DOR7-C0-R1` a `R8`,
+  además del residual abierto H1 y F2/F4/F5. OF1 está delimitada pero no
+  abierta; no existen todavía base post-§21, preimagen vigente, bytes, rama,
+  ciclos o autores autorizados. `WP018-DOR7-F2` y DOR-7 no cierran hasta
+  completar la ceremonia y el rollback con dictamen final `APTO`.
 - **WP018-DOR-8 abierto:** falta la política evaluada y sus oráculos completos.
 - **WP018-DOR-9 abierto:** falta la regla conservadora para SHA compartido y concurrencia.
 
@@ -304,6 +305,9 @@ uv run --project services/alcance_fda_wp018 --locked python tests/alcance_fda_wp
   anti-bucle, reconciliación, fallos cerrados e IAM positivo/negativo probados.
 - [ ] Imagen reproducible, SBOM/procedencia y digest ligados a `TESTED_HEAD`.
 - [ ] Ensayo DOR-6 completa los 11 casos y rollback sin tocar producción.
+- [ ] Etapa A inventaría y ejecuta doce grupos independientes —F2, F4, F5,
+  `WP018-DOR7-C0-H1` y `WP018-DOR7-C0-R1` a `R8`—, cada uno con control
+  positivo y mutante negativo, sin omisiones, saltos o duplicados.
 - [ ] Revisión completa única y dictamen final Astra APTO, inicial o enfocado,
   sin hallazgos abiertos y dentro de dos correcciones.
 
@@ -317,6 +321,7 @@ Parada adicional: DOR-7/8/9 abierto; F1 no defendible; coste >100 EUR, OF1
 >6 EUR o ensayo >5 EUR; versión/digest/fuente cambiante; permiso, región o IAM
 no demostrable; payload/evento fuera del esquema; necesidad de archivo no
 permitido; tercer ciclo; oráculo sellado modificado o no falsable;
+regresión histórica exigida sin ID o resultado falsable; catálogo incompleto;
 incertidumbre o contaminación con cualquier candidata histórica, incluida la
 C2 de la actualización del provider o la postimagen R2.
 

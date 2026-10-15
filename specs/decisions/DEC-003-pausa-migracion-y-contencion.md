@@ -241,9 +241,11 @@ autorizaciones.
    DEC-010 §19, sin R2-C3. F1 y F3 permanecen abiertos; F2, F4 y F5 son
    regresiones cerradas. DEC-010 §20 elige `WP018-DOR7-PSHA-OF1` como sucesora
    *oracle-first*, con etapas A/B, dos correcciones máximas compartidas y
-   `6.00 EUR` incrementales, pero no la abre. Toda invocación de Claude Code se
-   adquiere por F1 desde la primera; base, preimagen, bytes, rama, ciclos y
-   autores requieren actos humanos posteriores y separados.
+   `6.00 EUR` incrementales, pero no la abre. §21 normaliza además las ocho
+   regresiones C0 `WP018-DOR7-C0-R1` a `R8` y mantiene H1 abierto y separado.
+   Toda invocación de Claude Code se adquiere por F1 desde la primera; base,
+   preimagen, bytes, rama, ciclos y autores requieren actos humanos posteriores
+   y separados.
 4. `WP-016`, cuyo contrato existe en `draft` y bloqueado, integrará el mismo
    verificador en CI solo después de acreditar ese productor. Una persona
    incorporará después el par
@@ -515,7 +517,7 @@ Los tres checks obligatorios son jobs de `ci.yml` y siguen operando. La contenci
 | `WP-005` | Entrada histórica, no ejecutable: permanece `draft` y será sustituido por `WP-016`, reservado por `DEC-014` únicamente desde la fusión humana de su composición |
 | `WP-016` | Identificador reservado para el sucesor limpio de WP-005; contrato existente en `draft`, bloqueado por `WP016-DOR-1`, no aprobado, admitido, activo ni autorizado para ejecución |
 | `WP-017` | Contrato `blocked`, nunca entregado; DOR-1 a DOR-6 resueltos, transición candidata de DOR-7 cerrada antes de C3 y DOR-7 a DOR-9 abiertos; retirado de la cola ejecutable y preservado como historia |
-| `WP-018` | Contrato `draft`, nunca aprobado, admitido, activado o implementado; DOR-1 a DOR-6 resueltos y DOR-7 a DOR-9 abiertos. La primera transición del provider está `blocked` tras C2 y su rama durable histórica sigue sin fusionar. `WP018-DOR7-PSHA-R2` también termina `blocked` tras R2-C2; su rama de evidencia fue fusionada por PR #83, la candidata técnica no se materializó y no existe R2-C3. DEC-010 §20 delimita `WP018-DOR7-PSHA-OF1` como sucesora *oracle-first*, todavía no abierta y sin bytes, rama, ciclos o autores autorizados |
+| `WP-018` | Contrato `draft`, nunca aprobado, admitido, activado o implementado; DOR-1 a DOR-6 resueltos y DOR-7 a DOR-9 abiertos. La primera transición del provider está `blocked` tras C2 y su rama durable histórica sigue sin fusionar. `WP018-DOR7-PSHA-R2` también termina `blocked` tras R2-C2; su rama de evidencia fue fusionada por PR #83, la candidata técnica no se materializó y no existe R2-C3. DEC-010 §20 delimita `WP018-DOR7-PSHA-OF1` como sucesora *oracle-first* y §21 enumera sus regresiones C0 `R1` a `R8`; continúa sin abrir y sin bytes, rama, ciclos o autores autorizados |
 | `WP-007` | Permanece `ready` y congelado; DEC-011 prevé su cierre posterior por superación, con autorización separada y sin transición de `ACTIVE` |
 | Prueba de humo de D1 | **No es una entrada propia**: será alcance de un sucesor limpio de `WP-008`, todavía sin identificador ni admisión |
 | Parche humano del guard delgado | Acto de operador sobre `.claude/hooks/**`, carril T3, posterior a `WP-002` y `WP-005` |
@@ -855,6 +857,16 @@ incrementales dentro del techo de WP-018. No abre OF1, crea base, preimagen,
 bytes, rama o ciclos, invoca actores, modifica `ACTIVE` o `evidence/**`, cambia
 el workflow o el tipo de cambio, ni accede o muta GitHub, Google Cloud, WIF,
 provider, roles, bindings, secretos, infraestructura o C0.
+
+**Admisión atómica del catálogo de instancia de `DEC-010` §21.** Se modifica
+directamente esta lista en el mismo diff; la enmienda no se autoautoriza. Viaja
+en los mismos seis archivos cerrados por §20.10; todos o ninguno. Adopta como
+fuente de verdad versionada `WP018-DOR7-C0-R1` a `R8`, un control positivo y un
+mutante por ID, y distingue el residual abierto `WP018-DOR7-C0-H1`. No abre
+etapa A, crea bytes, F1, coste, ciclos, rama o actores, ni accede o muta GitHub,
+Google Cloud, WIF o infraestructura. Si se fusiona, la cabeza y preimagen
+anteriores quedan históricas y deben adquirirse de nuevo por acto separado
+antes de preparar oráculos.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 

@@ -514,7 +514,8 @@ histórica. Esta sección delimita el camino; no lo abre.
    estados durables y llamadas directas bajo `errexit`; un fake, fixture,
    subprocess sustituto o sujeto no identificable produce `NO APTO`. Después
    se obtiene una revisión completa única independiente. F1/F3 solo cierran
-   juntos; F2/F4/F5 y los hallazgos históricos son regresiones obligatorias.
+   juntos; F2/F4/F5, `WP018-DOR7-C0-H1` y el catálogo
+   `WP018-DOR7-C0-R1` a `WP018-DOR7-C0-R8` son regresiones obligatorias.
 7. Solo un dictamen final `APTO` permite pedir por separado materialización,
    actualización del provider y rederivación de C0.
 
@@ -549,3 +550,33 @@ ni se fusiona durante una cabeza operativa congelada.
 La fusión de esta documentación no prepara bytes de OF1 ni autoriza base,
 preimagen, rama, ciclo, actor de etapa A, autor de etapa B, materialización,
 provider, WIF, C0, infraestructura o limpieza.
+
+### 12.3. Catálogo operativo de regresiones C0
+
+DEC-010 §21 corrige el hueco que obligó a detener etapa A antes de invocar al
+actor: la normativa decía «ocho hallazgos» sin enumerarlos. Desde la fusión de
+esa enmienda, el inventario cerrado del arnés usa estos IDs:
+
+| ID | El control positivo acredita | El mutante demuestra fallo |
+|---|---|---|
+| `WP018-DOR7-C0-R1` | reloj compatible o rechazo de Bash incompatible antes de mutar | `EPOCHSECONDS` bajo Bash 3.2 aborta con `set -u` |
+| `WP018-DOR7-C0-R2` | señal C0 observable y acotada sin logs parciales no acreditados | el endpoint live devuelve `404` y el diseño dependiente no converge |
+| `WP018-DOR7-C0-R3` | parser que excluye código impreso y cuenta salidas exactas | búsqueda por subcadena confunde código y resultados |
+| `WP018-DOR7-C0-R4` | cierre intentado y verificado pese a fallo diagnóstico | un `503` anterior al cierre evita todo `update --disabled` |
+| `WP018-DOR7-C0-R5` | supervisor por llamada y global que termina el grupo hijo | una llamada bloqueada evade el deadline |
+| `WP018-DOR7-C0-R6` | ventana completa de 600 s y consulta final | salida al primer registro omite un segundo intercambio tardío |
+| `WP018-DOR7-C0-R7` | hash previo de toda preimagen consumida | una captura local sustituida llega hasta la habilitación |
+| `WP018-DOR7-C0-R8` | plan y propietarios exactos revalidados antes de mutar | cambio de plan o propietarios pasa el preflight |
+
+Cada fila exige ejecución de un positivo que pasa y un mutante que falla, una
+sola entrada en el inventario y evidencia de que el punto de prueba fue
+alcanzado. `WP018-DOR7-C0-H1` no es uno de los ocho: permanece abierto y añade
+su matriz propia para código de salida, canales, LF terminal, CR, espacios,
+salida vacía y varias líneas. F2, F4 y F5 conservan asimismo sus oráculos
+independientes. El inventario completo contiene doce grupos: F2, F4, F5, H1 y
+R1 a R8.
+
+Si la enmienda de catálogo se fusiona, la base `921210ff…` y su preimagen pasan
+a ser históricas. Antes de reabrir etapa A se fija la nueva cabeza de `main`, se
+revalida el workflow y se captura otra preimagen. La fusión del catálogo no
+crea bytes, coste, invocación, ciclo ni autoridad para WIF o infraestructura.

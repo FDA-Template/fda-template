@@ -322,6 +322,22 @@ discrecional por sobrepaso de corte. La fusión normativa no abre base,
 preimagen, rama, ciclo, autor, provider o C0: cada acto conserva autorización
 humana separada.
 
+**Parada por regresión histórica no identificable.** Si un contrato exige
+probar «todos» los hallazgos anteriores pero la fuente versionada no enumera
+cada hallazgo, sus IDs y el resultado falsable esperado, el autor no puede
+inferirlos de memoria, de una candidata histórica o de una conversación. Se
+detiene antes de invocación, coste y creación de bytes, y se solicita un acto
+normativo previo. DEC-010 §21 aplica esta regla a C0: normaliza
+`WP018-DOR7-C0-R1` a `WP018-DOR7-C0-R8`, exige un positivo y un mutante por ID
+y mantiene `WP018-DOR7-C0-H1` como residual abierto separado. Su inventario
+también conserva F2, F4 y F5, doce grupos en total.
+
+Fusionar ese catálogo cambia la cabeza que debía congelar OF1. Por tanto, toda
+base o preimagen capturada antes de la fusión queda histórica y no puede
+reutilizarse: primero se fija la nueva cabeza, se revalida el workflow y se
+adquiere una preimagen fresca. La corrección normativa no abre etapa A ni
+consume invocaciones, presupuesto o ciclos.
+
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
 Ver [DEC-010](../../specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md).
