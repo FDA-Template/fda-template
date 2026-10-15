@@ -17,21 +17,19 @@ WP-018 es el sucesor limpio reservado por DEC-017. Se redacta desde cero sobre `
 ## Definition of Ready
 
 - DOR-1 heredada por DEC-017 §3: `ivanes189/fda-template`, Iván propietario, revisión confiable en `main` y artefacto por digest.
-- DOR-2 heredada por DEC-017 §3: Google Cloud, proyecto exclusivo,
-  `europe-west1`, facturación humana, `100 EUR` y `<=5 EUR/mes`. DEC-010 §15
-  acredita `PROJECT_ID=fda-template`, `PROJECT_NUMBER=615273535351`, estado
-  `ACTIVE`, parent ausente y `billingEnabled: true` sin mutación.
+- DOR-2 heredada por DEC-017 §3: Google Cloud, proyecto exclusivo, `europe-west1`, facturación humana, `100 EUR` y `<=5 EUR/mes`.
+  DEC-010 §15 acredita `PROJECT_ID=fda-template`, `PROJECT_NUMBER=615273535351`, estado `ACTIVE`, parent ausente y `billingEnabled: true` sin mutación.
 - DOR-3 heredada por DEC-017 §3 y WP-017: minimización, residencia, cifrado, retención, borrado, accesos, copias y telemetría.
 - DOR-4 heredada por DEC-017 §3 y WP-017: custodia humana, KMS solo-firma, secretos regionales, mínimo privilegio, rotación y emergencia.
 - DOR-5 rederivada y reafirmada íntegramente en este contrato (§§3-8).
 - DOR-6 rederivada y reafirmada íntegramente en este contrato (§9).
 - **WP018-DOR-7 abierto:** DEC-010 §14 fija la arquitectura y
   `docs/manual/08-productor-alcance-fda-wp018.md` su acto técnico mínimo. El
-  paso 1 de DEC-010 §15 y el entorno protegido completo del paso 2 están
-  acreditados. El paso 3 incorpora, sin despacharlo, el workflow exacto con
-  SHA-256 `7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594`.
-  F2 y DOR-7 no cierran hasta completar la ceremonia humana preadmisión,
-  positiva, negativa y con rollback, allí definida.
+  paso 1 de §15, el entorno del paso 2 y el workflow no despachado del paso 3
+  están acreditados; su SHA-256 es `7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594`.
+  DEC-010 §17 exige fusionar su composición, congelar una base y custodiar
+  revisión, ciclos y coste en rama remota sin fusionar antes de corregir el
+  provider. F2 y DOR-7 no cierran hasta completar la ceremonia y el rollback.
 - **WP018-DOR-8 abierto:** falta la política evaluada y sus oráculos completos.
 - **WP018-DOR-9 abierto:** falta la regla conservadora para SHA compartido y concurrencia.
 
@@ -86,6 +84,7 @@ Mientras DOR-7, DOR-8 o DOR-9 sigan abiertos, permanece `draft`: no puede aproba
 - evidence/WP-018/security.md
 - evidence/WP-018/review-astra.md
 - evidence/WP-018/cost.md
+- evidence/WP-018/cost-f1.json
 - evidence/WP-018/ciclos.md
 - evidence/WP-018/CIERRE.md
 - evidence/WP-018/lab/preimage.json
@@ -252,7 +251,8 @@ lectura `.agents/`, `.codex/`, ramas, worktrees y candidatas históricas.
   KMS/Secret Manager; nunca leer, imprimir, versionar o transportar valores.
 - La primera futura invocación Claude atribuible a WP-018 usa `claude -p
   --output-format json`, WP-ID explícito y sin `--continue/--resume`; el F1
-  saneado se suma en `evidence/WP-018/cost.md`. Esta preparación no usa Claude.
+  saneado va a `cost-f1.json` y se suma en `cost.md`; §17 exige rama remota sin
+  fusionar, C1 `abierto`, tipo mensual y presupuesto. Esta preparación no usa Claude.
 
 ## Verificación y aceptación
 

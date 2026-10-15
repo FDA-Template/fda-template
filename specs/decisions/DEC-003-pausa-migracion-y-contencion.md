@@ -45,6 +45,11 @@ admiten el gate previo que corrige el orden de la ceremonia de
 `WP018-DOR-7`: identidad de proyecto y entorno protegido se fijan antes de
 preparar bytes exactos del workflow. F2 y DOR-7 a DOR-9 permanecen abiertos;
 no se crea ni configura recurso alguno y `ACTIVE` sigue en reposo.
+**Enmendada el 2026-10-15 por la decisión humana de instancia de
+[`DEC-010`](DEC-010-separacion-autor-revisor-y-ciclos.md) §17:** §§2 y 4
+admiten una ruta durable sin fusionar, coste F1 desde el inicio y una única
+base congelada para rederivar la actualización del provider. No abre C1, no
+crea la rama ni autoriza mutación externa; `ACTIVE` sigue en reposo.
 
 
 ## Problema
@@ -780,6 +785,21 @@ autoriza C3, C4 o ceremonia, y no modifica WP-018, WP-017, WP-016, `ACTIVE`,
 `evidence/**`, el workflow, infraestructura, GitHub, Google Cloud, roles,
 bindings, ramas, worktrees o candidatas. Investigación y preparación requieren
 otra autorización humana después de fusionar estos cuatro archivos.
+
+**Admisión atómica de la decisión de instancia de `DEC-010` §17.** Se modifica
+directamente esta lista en el mismo diff; la enmienda no se autoautoriza. La
+composición cerrada consta exactamente de `DEC-010`, esta `DEC-003`,
+`docs/03-hoja-de-ruta.md`, `docs/manual/05-bloqueos-y-parada.md`,
+`docs/manual/08-productor-alcance-fda-wp018.md`,
+`work-packages/WP-018-productor-externo-alcance.md` y
+`specs/finops/fx-rates.md`; todos viajan juntos o ninguno. Cierra como historia
+`NO APTO` la candidata técnica y el parche de custodia no materializado,
+autoriza únicamente que, tras la fusión y por otro acto humano, pueda crearse
+una rama remota sin fusionar para versionar C1 `abierto`, revisión y coste, y
+fija una sola cabeza de `main` para provider y C0. Añade el tipo BCE de octubre
+y la ruta saneada F1 al contrato. No abre ni consume C1, no crea o publica la
+rama, no invoca al autor, no modifica `ACTIVE` o `evidence/**`, no despacha el
+workflow y no muta GitHub, Google Cloud, WIF, roles o bindings.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 

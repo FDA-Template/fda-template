@@ -1572,3 +1572,169 @@ salida explícito y el terminador LF predeterminado; las operaciones sobre
 recursos mantienen `--project` como frontera por invocación:
 https://docs.cloud.google.com/sdk/gcloud/reference/config
 https://docs.cloud.google.com/sdk/gcloud/reference/topic/formats
+
+## 17. Enmienda de instancia del 2026-10-15 — custodia durable, coste F1 y base única para actualizar el provider
+
+### 17.1. Hechos nuevos y alcance de la decisión
+
+La base de esta enmienda es `origin/main`
+`6821c0a83efd547b7617a1fed9c168e33224889c`, resultado de fusionar §16. El
+workflow conserva SHA-256
+`7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594`.
+Una preimagen administrativa fresca confirmó proyecto y entorno sin deriva,
+pool y provider deshabilitados, cero roles personalizados, bindings, claves o
+despachos, y `core/project` sin configurar. No hubo mutación.
+
+La candidata externa para actualizar únicamente `assertion.workflow_sha`
+quedó fijada por digest agregado
+`ad5e237ed687bab12b442d7cb1505b1209f262c6aa8281d6e9f072e471b59591`.
+La revisión completa independiente GPT-6 Astra, razonamiento Alto y contexto
+nuevo emitió `NO APTO` con estos hallazgos, cuyos identificadores se separan
+de F1 a F7 del contrato:
+
+1. **WP018-PSHA-F1 · bloqueante:** el rollback manual depende de artefactos que pueden no
+   existir si falla el rollback automático;
+2. **WP018-PSHA-F2 · bloqueante:** el preflight fresco no se compara con la preimagen
+   autorizada y podría aceptar deriva material;
+3. **WP018-PSHA-F3 · importante:** el rollback no demuestra restauración exacta del
+   provider completo, incluido `jwksJson`;
+4. **WP018-PSHA-F4 · importante:** las pruebas no ejercitan los caminos reales de
+   actualización, fallo y recuperación;
+5. **WP018-PSHA-F5 · menor:** quedan llamadas de recursos sin
+   `--project=fda-template` explícito.
+
+No se corrigió ni ejecutó esa candidata. Un primer parche de custodia, con
+`PATCH.diff` SHA-256
+`381ce3a7d262b4c2a67dcf1a2d49e32be8a9cb5b78291ffa87ef7613b42282de`
+y postimagen de `evidence/WP-018/ciclos.md` SHA-256
+`7ad389df3dd42ec9d6629e1249712aef0aa85a0ae29cf007985756aa808f3fc1`,
+recibió también `NO APTO`: `WP018-CUST-F1` señalaba que llamaba «no
+versionada» a una fila que el propio commit debía dejar `abierto` y atribuía el
+consumo al commit en vez de al inicio del autor; `WP018-CUST-F2` señalaba que
+no resolvía el tipo EUR/USD de octubre. Nunca se materializó y no consumió C1.
+
+Estos defectos no se corrigen ampliando ese parche. Faltaban dos decisiones de
+gobierno previas: una ruta versionada durable que no cambie `main` durante la
+ceremonia y el tipo mensual que permite medir desde la primera invocación. Esta
+sección resuelve únicamente esas dos condiciones. No corrige, materializa ni
+ejecuta la candidata técnica.
+
+### 17.2. Base única y congelación de `main`
+
+Fusionar esta composición cambiará `main`; por ello la candidata técnica, su
+preimagen y sus anclajes anteriores quedan como historia `NO APTO — NO
+EJECUTAR`. No son preimagen ejecutable ni se corrigen en sitio.
+
+Después de la fusión humana se fija una sola cabeza nueva de `origin/main` y se
+recalcula el SHA-256 del workflow. Esa pareja es la base exclusiva para
+rederivar la actualización del provider y la futura ceremonia C0. Desde su
+captura y hasta terminar la actualización del provider, C0 y sus cierres,
+**cualquier cambio adicional de `main` detiene la transición**: no se
+actualizan anclajes en cascada ni se acepta otro SHA por conveniencia. Reanudar
+exigiría otra decisión previa y otra rederivación completa.
+
+La actualización sigue siendo un acto separado, con pool y provider
+deshabilitados, cero bindings, comparación exacta contra la preimagen
+autorizada, rollback autosuficiente y restauración demostrada del recurso
+completo. La candidata rederivada corrige solo `WP018-PSHA-F1` a
+`WP018-PSHA-F5` y sus efectos directos;
+los ocho hallazgos cerrados de la transición anterior siguen siendo criterios
+de regresión. Preparación, revisión, materialización, ejecución, corrección C1,
+revalidación, C0 y C1 privilegiado conservan autorizaciones humanas separadas.
+
+### 17.3. Rama durable de custodia y semántica de C1
+
+Tras fijar la nueva base, una autorización humana separada podrá crear y
+publicar desde ella la rama
+`ops/wp018-dor7-provider-sha-custody`. Debe existir en `origin` antes de
+invocar al autor y permanece **sin fusionar** mientras dure la actualización
+del provider y la ceremonia que depende de la cabeza congelada. Un commit
+humano inicial, previo a toda corrección, versiona como mínimo:
+
+- `evidence/WP-018/ciclos.md`, con C1 en estado exacto `abierto`, candidata y
+  revisión de origen, `WP018-PSHA-F1` a `WP018-PSHA-F5`, fecha, base y cero
+  invocaciones correctoras;
+- `evidence/WP-018/review-astra.md`, con el dictamen completo que originó esos
+  hallazgos y los hashes de los bytes revisados.
+
+Crear, commitear o publicar la rama **no consume C1**. C1 se consume únicamente
+cuando comienza la primera invocación correctora del autor, aunque falle, se
+interrumpa o no produzca cambios. Después de esa invocación se actualiza la
+misma fila con estado y resultado; nunca se abre una segunda fila C1. C2 solo
+puede abrirse por el mismo procedimiento si la revalidación enfocada posterior
+a C1 mantiene hallazgos concretos. No existe C3.
+
+La rama no es una vía de implementación de WP-018 ni una autorización para
+fusionar evidencia. Su futura fusión o descarte requiere decisión humana
+separada después de que ya no pueda alterar un SHA operativo. Hasta entonces
+es la fuente versionada y recuperable de ciclos, revisión y coste; los
+directorios en `/private/tmp` siguen siendo únicamente área de preparación.
+
+### 17.4. Adquisición F1 y presupuesto de la transición
+
+Esta composición añade a `specs/finops/fx-rates.md` el tipo oficial de octubre
+de 2026: `1.1298 USD/EUR`, referencia BCE del 2026-10-01. Si la primera
+invocación correctora no ocurre en octubre de 2026, la transición se detiene:
+antes debe existir el tipo del nuevo mes mediante otra composición autorizada,
+y cualquier cambio de `main` obliga además a aplicar §17.2.
+
+La primera y cada eventual segunda invocación correctora se ejecutan de forma
+headless con `claude -p --output-format json`, `WP-018` explícito, versión
+exacta del instrumento y sin `--continue` o `--resume`. La captura de salida,
+código de terminación y `total_cost_usd` empieza en el mismo lanzamiento. El
+JSON crudo permanece fuera del repositorio; el extracto saneado por invocación,
+incluida la suma, se versiona en
+`evidence/WP-018/cost-f1.json`, y `evidence/WP-018/cost.md` registra su SHA-256,
+la conversión por división y el total acumulado conforme a DEC-001 y DEC-004.
+
+Antes de lanzar al autor deben estar comprobados la rama publicada, el commit
+de apertura, la disponibilidad de `claude 2.1.272`, la captura headless y el
+tipo mensual. Si falta alguno, no se invoca. Si una invocación no devuelve una
+cifra F1 defendible, la transición se detiene `NO APTO`; no se inventa F3 ni
+cero y no existe excepción de cierre durante la pausa. El presupuesto propio
+acumulado de esta transición continúa en `5.00 EUR`; alcanzarlo o superarlo
+detiene antes de otra invocación. Ese presupuesto no autoriza mutaciones.
+
+### 17.5. Orden vinculante y salida
+
+1. Fusionar humanamente la composición normativa de §17.
+2. Fijar la nueva pareja `main`/workflow y comprobar en solo lectura que el
+   estado externo sigue sin deriva.
+3. Mediante autorización distinta, crear, commitear y publicar la rama de
+   custodia con C1 `abierto` y la revisión completa.
+4. Mediante otra autorización, invocar al autor una vez con F1 desde el inicio,
+   rederivar la candidata sobre la nueva base y corregir solo
+   `WP018-PSHA-F1` a `WP018-PSHA-F5`.
+5. La misma revisora realiza una revalidación enfocada. Solo `APTO` permite
+   solicitar materialización y ejecución separadas de la actualización.
+6. Tras acreditar el provider exacto todavía deshabilitado, rederivar C0 sobre
+   la misma base. Ningún workflow se despacha por esta decisión.
+
+F2 y `WP018-DOR-7` permanecen abiertos; F1 y F3 a F7 siguen cerrados; DOR-8 y
+DOR-9 continúan abiertos; WP-018 permanece `draft` y `ACTIVE` en reposo. Pool y
+provider siguen deshabilitados, no se crean roles o bindings y el workflow
+conserva cero despachos. El parche de custodia rechazado queda histórico y no
+se materializa.
+
+### 17.6. Composición normativa mínima
+
+Esta enmienda viaja en una composición atómica de exactamente siete archivos;
+todos o ninguno:
+
+1. `specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md`;
+2. `specs/decisions/DEC-003-pausa-migracion-y-contencion.md`;
+3. `docs/03-hoja-de-ruta.md`;
+4. `docs/manual/05-bloqueos-y-parada.md`;
+5. `docs/manual/08-productor-alcance-fda-wp018.md`;
+6. `work-packages/WP-018-productor-externo-alcance.md`;
+7. `specs/finops/fx-rates.md`.
+
+No modifica `ACTIVE`, `evidence/**`, el workflow, código, pruebas,
+infraestructura, GitHub, Google Cloud, pool, provider, roles, bindings,
+secretos, ramas o worktrees. Su preparación, revisión, materialización,
+publicación y fusión son actos distintos; la fusión no autoriza la rama de
+custodia, la invocación del autor ni ninguna mutación externa.
+
+Fuente oficial del tipo revalidada el 2026-10-15: referencia diaria EUR/USD del
+BCE para el primer día hábil del mes, 2026-10-01:
+https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html

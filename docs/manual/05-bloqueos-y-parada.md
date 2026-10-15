@@ -244,6 +244,25 @@ mediante un acto separado con WIF deshabilitado y validar los bytes reales —LF
 terminal incluido— antes de normalizarlos. Investigación, preparación,
 mutaciones y ceremonia conservan autorizaciones separadas.
 
+**Replanteamiento durable de la actualización del provider.** DEC-010 §17
+registra `NO APTO` tanto la candidata técnica como el parche de custodia que no
+llegó a materializarse. Fusionar esa decisión cambia `main` por última vez
+antes de la ceremonia: después se congela la pareja cabeza/workflow y cualquier
+cambio adicional detiene y obliga a rederivar. La apertura de C1 se versiona y
+publica antes del autor en la rama sin fusionar
+`ops/wp018-dor7-provider-sha-custody`, junto con la revisión completa. El
+commit y el push no consumen ciclo; lo consume el comienzo de la invocación
+correctora. La rama no se fusiona mientras cambiar `main` invalide el provider
+o C0.
+
+La primera invocación y, si procede, la segunda se capturan desde el lanzamiento
+con F1 headless, WP-ID explícito y versión exacta. El crudo queda fuera del
+repositorio; `cost-f1.json`, `cost.md` y la fila única del ciclo se actualizan
+en la rama. Sin rama remota, fila `abierto`, tipo mensual, captura disponible o
+presupuesto restante no se invoca. Una captura sin cifra defendible es `NO
+APTO`, no cero ni F3 improvisada. Rama, autor, revalidación, materialización,
+ejecución del provider y canario C0 requieren autorizaciones separadas.
+
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
 Ver [DEC-010](../../specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md).
