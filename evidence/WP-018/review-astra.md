@@ -366,5 +366,141 @@ APTO`, corresponde parada y replanificación, sin R2-C3.
 
 Este archivo registra el dictamen completo de origen y la primera revalidación
 enfocada. La postimagen R2-C1 permanece **NO APTO — NO EJECUTAR**. F2, F4 y F5
-quedan cerrados; F1 y F3 permanecen abiertos. R2-C2 no está abierto y este
-dictamen no autoriza al autor, otra corrección, materialización o ejecución.
+quedan cerrados; F1 y F3 permanecen abiertos. En ese punto R2-C2 todavía no
+estaba abierto y ese dictamen no autorizaba al autor, otra corrección,
+materialización o ejecución.
+
+## Revalidación enfocada de R2-C2 — 2/2 final
+
+### Identidad y ejecución
+
+- Fecha: 2026-10-15.
+- Revisora: la misma instancia independiente GPT-6 Astra, razonamiento Alto,
+  rol `code-reviewer`, `/root/review_r2_candidate`.
+- Modo: solo lectura; no modificó archivos ni consultó servicios externos.
+- Postimagen: `/private/tmp/wp018-dor7-provider-sha-r2-c2-author`.
+- Manifiesto externo completo: 55 entradas; SHA-256
+  `ffa413fc5f798dc5b640314783ac022aef479427795ace159d033dd1415332ab`.
+- Diff: exactamente `01-capture-live.sh`, `03-rollback-provider.sh`,
+  `lib/r2.py` y `tests/run-local-tests.sh`; sin altas ni bajas.
+- `authorized-preimage/**`: idéntica a R2-C1 y a la candidata de origen.
+- Salida final de la revisora, normalizada con LF terminal: SHA-256
+  `8e234dfb0a1db726c5de36eab73faa58967b3b8aab2a67b27a2bb8889d0d5536`.
+- Invocación del autor: código `1`, `is_error:true`, subtipo
+  `error_max_budget_usd`, razón `budget_exhausted`, 38 turnos, cero
+  denegaciones y cero solicitudes web.
+- Crudo externo del autor:
+  `/private/tmp/wp018-author-r2-c2-raw.json`; SHA-256
+  `cc1b8536f097e79bfbcd709f5e4104c70544ab4e9ca235ac0aeb1b6c0a45a2cc`.
+- Coste de R2-C2: `1.5545106 USD / 1.3759166224110462 EUR`.
+- Coste acumulado R2: `5.6754402 USD / 5.023402549123739 EUR`, por encima
+  del subpresupuesto en `0.023402549123739 EUR`.
+
+La verificación independiente definitiva está preservada fuera del repositorio
+en `/private/tmp/wp018-r2-c2-validation.uxx5TX`. Sintaxis Bash, AST Python,
+cobertura de rutas del manifiesto, batería local e inmutabilidad de la copia
+de validación devolvieron `0`. ShellCheck y los hashes del manifiesto interno
+devolvieron `1`. La batería imprimió `APTO`, pero la inspección falsable de la
+revisora demostró que no acredita todos los cortes y contextos exigidos.
+
+### Dictamen enfocado completo
+
+VEREDICTO: RECHAZA
+
+DICTAMEN FINAL: **NO APTO — NO EJECUTAR**
+
+Revalidación enfocada R2-C2: **2/2 agotadas**.
+
+Verificado el manifiesto externo de 55 archivos: `ffa413fc5f798dc5b640314783ac022aef479427795ace159d033dd1415332ab`. Cambian exactamente los cuatro archivos permitidos declarados, sin altas ni bajas. `authorized-preimage/**` permanece intacta.
+
+| Hallazgo | Estado final |
+|---|---|
+| F1 — Recuperación y validación de recapturas | ABIERTO |
+| F2 — Comparación completa de `result.json` | CERRADO, sin regresión observada |
+| F3 — Pruebas y verificaciones exigidas | ABIERTO |
+| F4 — Ausencia de respuestas crudas persistidas | CERRADO, sin regresión observada |
+| F5 — Fallo cerrado de consulta de impersonación | CERRADO, sin regresión observada |
+
+[IMPORTANTE] WP018-PSHA-R2-F1 — La validación no exige cobertura completa del manifiesto
+
+Archivo: `lib/r2.py:157`; uso: `03-rollback-provider.sh:87`.
+
+Problema: se comprueban únicamente las entradas presentes en `SHA256SUMS`. No se exige ninguna entrada ni correspondencia exacta entre manifiesto y archivos de captura.
+
+Escenario: una captura con todos sus archivos y un `SHA256SUMS` vacío supera `validate_capture`. Lo confirmé mediante una sonda exclusivamente en memoria, sin modificar archivos. La nueva recuperación puede considerarla completa y reutilizarla.
+
+Arreglo sugerido: en el replanteamiento, exigir cobertura exacta, entradas únicas y hashes válidos antes de reutilizar una captura. La comprobación del conjunto de archivos existente no sustituye esta validación.
+
+[IMPORTANTE] WP018-PSHA-R2-F3.c — Dos pruebas no alcanzan los cortes de recuperación que afirman acreditar
+
+Archivo: `tests/run-local-tests.sh:273`.
+
+Problema: después de matar la actualización, se añade `rollback-intent` directamente y se ejecuta el capturador en modo `pre`, sin realizar previamente la restauración. Además, se selecciona `fail:`, no `kill:`.
+
+Escenario: en mi reproducción con traza, ambos casos —`after-result` y `after-drift-comparison`— registran `cut_status=65`; el failpoint solicitado devolvería 91. La prueba acepta cualquier resultado distinto de cero y termina imprimiendo `APTO`. No demuestra haber alcanzado esos puntos ni haber sufrido allí `SIGKILL`.
+
+Arreglo sugerido: en el replanteamiento, cortar la recuperación real en cada punto exigido y verificar explícitamente la señal, el estado durable y los archivos existentes antes de reanudar.
+
+El caso `kill:after-rollback-capture` sí ejecuta un corte real antes del evento terminal y demuestra la reanudación. Esto cierra esa parte de F3.c, pero no los otros cortes.
+
+[IMPORTANTE] WP018-PSHA-R2-F3.d — Continúa ausente la prueba directa con `errexit` inhibido
+
+Archivo: `tests/run-local-tests.sh:174`, `:181` y `:216`.
+
+Problema: permanecen las invocaciones de scripts como procesos externos bajo `if` y `!`; no se añadieron llamadas directas a las funciones pertinentes en esos contextos ni en listas condicionales.
+
+Escenario: la batería puede imprimir `bash_if=1` sin ejercitar la inhibición interna de `errexit` exigida expresamente por la apertura de R2-C2.
+
+Arreglo sugerido: incorporar pruebas directas y falsables de esas funciones en el trabajo replanteado.
+
+[IMPORTANTE] WP018-PSHA-R2-F3 — ShellCheck sigue fallando
+
+Archivo: `01-capture-live.sh:128`; `tests/fake-capture.sh:12`.
+
+Problema: la verificación exigida termina con código 1 por SC2153 y SC2034. SC2153 no demuestra por sí solo un fallo de ejecución, pero el gate contractual permanece incumplido.
+
+Escenario: la ejecución definitiva registrada en `shellcheck.log` devuelve 1 sobre esta postimagen.
+
+Arreglo sugerido: resolver los diagnósticos y acreditar el gate completo en una transición replanteada; no declarar la candidata conforme por pasar sintaxis.
+
+[IMPORTANTE] WP018-PSHA-R2-F3 — El manifiesto interno identifica bytes anteriores
+
+Archivo: `SHA256SUMS:1`.
+
+Problema: no se regeneró el manifiesto raíz exigido por la apertura de R2-C2.
+
+Escenario: su verificación falla en 11 archivos modificados. La cobertura de rutas es correcta, pero los hashes no corresponden a la candidata.
+
+Arreglo sugerido: preservar este manifiesto como parte de la postimagen fallida. El manifiesto externo verificado permite custodiarla, pero no convierte en cumplida la entrega interna.
+
+[IMPORTANTE] WP018-PSHA-R2-F3 — La documentación de verificación sigue describiendo R2-C1
+
+Archivo: `LOCAL-VERIFICATION.md:30`.
+
+Problema: atribuye a «esta sesión correctora» el bloqueo de todas las herramientas y afirma que los cambios no pudieron ejecutarse. No registra el resultado de R2-C2, sus verificaciones fallidas ni su terminación por presupuesto.
+
+Escenario: quien recibe esta candidata encuentra esa descripción mientras la evidencia definitiva contiene una batería ejecutada, ShellCheck fallido y manifiesto obsoleto.
+
+Arreglo sugerido: registrar el resultado real en el expediente de cierre, distinguiendo C1 de C2 y conservando los incumplimientos.
+
+[BLOQUEANTE] WP018-PSHA-R2-COST — Presupuesto excedido y transición agotada
+
+Archivo: `specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md:1889`.
+
+Problema: el coste acumulado R2 es `5.0234025491 EUR`, superior al máximo vinculante de `5.00 EUR`.
+
+Escenario: los importes F1 aportados suman `5.6754402 USD`; al tipo `1.1298 USD/EUR`, exceden el límite en `0.0234025491 EUR`. La invocación terminó con código 1 por `budget_exhausted`, sin entrega final. Redondear no elimina el exceso.
+
+Arreglo sugerido: registrar el coste íntegro y la parada; no continuar con otra invocación correctora.
+
+La batería vuelve a terminar en 0 y a imprimir `APTO`; he inspeccionado y reproducido su ejecución. Ese resultado no acredita los casos ausentes o mal planteados. El quoting de F3.a y el bootstrap de F3.b están corregidos; permanecen los residuales anteriores. No observé ampliación de la mutación, nuevas exclusiones, habilitación del pool/provider ni activación de los failpoints mediante entorno en producción.
+
+**Disposición final:** preservar la candidata R2-C2, sus manifiestos, costes y evidencias; registrar el cierre **blocked / NO APTO** y devolver la transición a decisión humana y replanificación. La causa inmediata es una entrega interrumpida por presupuesto con controles de recuperación y pruebas todavía incompletos. No procede otra corrección ordinaria, materialización operativa, actualización del provider ni C0. **No existe R2-C3.**
+
+## Estado de custodia final de R2
+
+Este archivo preserva el dictamen de origen y las dos revalidaciones enfocadas.
+La transición `WP018-DOR7-PSHA-R2` queda **blocked / NO APTO — NO EJECUTAR**
+después de consumir R2-C1 y R2-C2. F1 y F3 permanecen abiertos; F2, F4 y F5
+permanecen cerrados. No existe R2-C3 y este dictamen no autoriza ninguna acción
+sobre provider, WIF, workflow o C0.

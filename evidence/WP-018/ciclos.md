@@ -80,28 +80,30 @@ hallazgos y sus efectos directos.
 | Ciclo | Estado | Fecha de apertura | Invocaciones correctoras | Autor ejecutado | Base | Coste acumulado R2 |
 |---|---|---|---:|---|---|---:|
 | R2-C1 | `NO APTO — consumido` | 2026-10-15 | 1 | sí; terminó, sin verificación ejecutada válida | `9cdfaefddfdb50fa1fba385e265243022b67061f` | 3.65 de 5.00 EUR |
+| R2-C2 | `NO APTO — consumido; transición blocked` | 2026-10-15 | 1 | sí; terminó por `budget_exhausted` | `9cdfaefddfdb50fa1fba385e265243022b67061f` | 5.023402549123739 de 5.00 EUR |
 
 R2-C1 adquirió autoridad mediante el commit publicado
 `1cce54865a8d3c9444f3b632fe35038f0b3c5431`. Se consumió al comenzar su única
 invocación correctora; el éxito del instrumento no acredita la postimagen y no
 se crea una segunda fila R2-C1.
 
-### Apertura de R2-C2
+### R2-C2 — apertura, consumo y cierre
 
 | Ciclo | Estado | Fecha de apertura | HEAD y candidata de entrada | Revisión de origen | Hallazgos autorizables | Invocaciones correctoras | Autor ejecutado | Base | Coste acumulado R2 |
 |---|---|---|---|---|---|---:|---|---|---:|
-| R2-C2 | `abierto` | 2026-10-15 | custodia R2-C1 `b4ec67626e836877d96e83e700c4ce9755904922`; postimagen externa con manifiesto completo `133aa34695c7329552c2a7427540eed8dfbf2d1f0cf63cf0163dba9fd1c47fa3` | `review-astra.md`, revalidación enfocada 1/2; salida `51d0cd2ac776ab88c53eee4df6086ada6ce366ddea82dc32d8b99f6464c846ef` | `WP018-PSHA-R2-F1`, `WP018-PSHA-R2-F3` y efectos directos | 0 | no | `9cdfaefddfdb50fa1fba385e265243022b67061f` | 3.65 de 5.00 EUR |
+| R2-C2 | `NO APTO — consumido; transición blocked` | 2026-10-15 | custodia R2-C1 `b4ec67626e836877d96e83e700c4ce9755904922`; postimagen externa con manifiesto completo `133aa34695c7329552c2a7427540eed8dfbf2d1f0cf63cf0163dba9fd1c47fa3` | `review-astra.md`, revalidación enfocada 1/2; salida `51d0cd2ac776ab88c53eee4df6086ada6ce366ddea82dc32d8b99f6464c846ef` | `WP018-PSHA-R2-F1`, `WP018-PSHA-R2-F3` y efectos directos | 1 | sí; código 1, `budget_exhausted`, sin resultado final | `9cdfaefddfdb50fa1fba385e265243022b67061f` | 5.023402549123739 de 5.00 EUR |
 
-La autorización humana del 2026-10-15 cubre exclusivamente esta apertura
-documental. La fila solo adquiere autoridad cuando el commit que la contiene
-queda publicado en la rama durable R2. No autoriza todavía una invocación del
-autor, y R2-C2 no se consume hasta que esa eventual invocación comience.
+La apertura adquirió autoridad mediante el commit publicado
+`81e8efcb8515a2d0aa1c712b8300711e015e972d`. Una autorización humana posterior
+cubrió la única invocación del autor, y R2-C2 se consumió al comenzar esa
+invocación. El fallo del instrumento y la ausencia de resultado final no
+reponen el ciclo.
 
-La postimagen R2-C1 es la entrada inmutable de R2-C2. No se corrige in situ: un
-acto posterior deberá copiar exactamente sus bytes a una ubicación nueva,
-comprobar el manifiesto externo completo y detenerse ante cualquier diferencia.
-El `SHA256SUMS` interno obsoleto es un defecto conocido de la candidata, no una
-fuente válida para reconstruir o adaptar bytes.
+La postimagen R2-C1 se copió exactamente a
+`/private/tmp/wp018-dor7-provider-sha-r2-c2-author`. Antes del autor se verificó
+el manifiesto externo completo de entrada, la preimagen inmutable, la ausencia
+de deriva y la contención. El `SHA256SUMS` interno obsoleto continuó siendo un
+defecto conocido de la candidata y no se usó para reconstruir o adaptar bytes.
 
 El alcance corrector queda cerrado así:
 
@@ -134,26 +136,30 @@ Después solo cabe la segunda y última revalidación enfocada de la misma Astra
 Si no emite `APTO`, se preserva la candidata y se para para replantear; no
 existe R2-C3.
 
-## Coste y gates anteriores al autor
+## Coste y gates
 
 - Subpresupuesto incremental de R2: `5.00 EUR`, dentro del techo invariable de
   `100.00 EUR` de WP-018.
-- Coste histórico preservado: `3.0626293149... EUR`; ambos expedientes no
-  podrán superar juntos `8.0626293149... EUR`.
+- Coste histórico preservado: `3.0626293149 EUR`; el techo combinado de ambos
+  expedientes era `8.0626293149 EUR`.
 - Tipo mensual vigente: `1.1298 USD/EUR`, referencia BCE del 2026-10-01.
-- La única invocación R2-C1 dispone de F1 defendible en `cost-f1.json` y
-  `cost.md`: `4.1209296 USD / 3.6474859267... EUR`, redondeado a `3.65 EUR`.
-  Quedan `1.3525140733... EUR` del subpresupuesto R2.
-- Toda invocación correctora requiere F1 desde el lanzamiento con
-  `claude -p --output-format json`, `WP-018` explícito, versión exacta
-  previamente comprobada y sin `--continue` o `--resume`.
-- Antes del autor deben verificarse rama remota, commit de apertura, identidad
-  de candidata y preimagen, ausencia de deriva, autenticación headless, tipo
-  mensual y presupuesto restante. La falta de cualquiera obliga a parar.
+- R2-C1 consumió `4.1209296 USD / 3.6474859267126925 EUR`.
+- R2-C2 consumió `1.5545106 USD / 1.3759166224110462 EUR`; terminó por
+  `budget_exhausted`, sin resultado final.
+- El total R2 es `5.6754402 USD / 5.023402549123739 EUR`: excede el
+  subpresupuesto en `0.023402549123739 EUR`. Sumado al coste histórico, el
+  total es `8.086031864023739 EUR`, con el mismo exceso sobre el techo
+  combinado.
+- Ambas invocaciones disponen de F1 defendible y saneado en `cost-f1.json`; el
+  detalle y la conversión se registran en `cost.md`.
+- Antes de R2-C2 se verificaron rama remota, commit de apertura, identidad de
+  candidata y preimagen, ausencia de deriva, autenticación headless, tipo
+  mensual y presupuesto restante. El gate saneado terminó `APTO` con 39
+  superficies y cero deriva.
 
-La misma revisora independiente realizó la primera revalidación enfocada y
-mantuvo la candidata `NO APTO`. Solo queda una eventual revalidación enfocada
-después de R2-C2. No existe R2-C3.
+La misma revisora independiente realizó ambas revalidaciones enfocadas. La
+segunda y última mantuvo la candidata `NO APTO — NO EJECUTAR`. No quedan ciclos
+ni revisiones ordinarias disponibles y no existe R2-C3.
 
 ## Resultado de R2-C1
 
@@ -193,17 +199,74 @@ EJECUTAR`. El estado queda:
 | `WP018-PSHA-R2-F4` | Cerrado: respuestas sensibles proyectadas y saneadas en streaming |
 | `WP018-PSHA-R2-F5` | Cerrado: el fallo al consultar impersonación se propaga y detiene |
 
-R2-C2 queda abierto pero no consumido: tiene cero invocaciones correctoras y no
-ha modificado la candidata. Una eventual invocación del autor exige otro acto
-humano, gates previos completos y un límite que no pueda superar los
-`1.3525140733... EUR` restantes. Si no puede acreditarse cualquiera de esas
-condiciones, corresponde parar sin consumir el ciclo.
+R2-C2 se abrió después mediante el commit publicado
+`81e8efcb8515a2d0aa1c712b8300711e015e972d`; el estado anterior queda preservado
+como antecedente y no describe el cierre final.
+
+## Resultado de R2-C2 y cierre `blocked`
+
+El gate saneado previo al autor terminó `APTO` el 2026-10-15. Su captura está
+preservada en `/private/tmp/wp018-r2-c2-gate.npX3I6/capture`: 39 superficies,
+cero deriva, ningún crudo persistido, pool y provider deshabilitados y ausencia
+de roles, claves, secretos, variables o despachos. El manifiesto de 40 entradas
+tiene SHA-256
+`6f29b1a4d8ea0bbeccb27ac7ba16a87a17d6271ace7825db835899d342b14a5f`.
+
+La única invocación correctora comenzó el `2026-10-15T17:54:14Z` y terminó el
+`2026-10-15T18:07:22Z`. Claude Code `2.1.272` devolvió código `1`; su JSON F1
+válido registró `is_error:true`, subtipo `error_max_budget_usd`, razón terminal
+`budget_exhausted`, resultado ausente, 38 turnos, cero denegaciones, cero
+solicitudes web y coste `1.5545106 USD / 1.3759166224110462 EUR`. El crudo
+externo es `/private/tmp/wp018-author-r2-c2-raw.json`, con SHA-256
+`cc1b8536f097e79bfbcd709f5e4104c70544ab4e9ca235ac0aeb1b6c0a45a2cc`.
+
+La postimagen está preservada en
+`/private/tmp/wp018-dor7-provider-sha-r2-c2-author`. Modificó exactamente cuatro
+archivos permitidos —`01-capture-live.sh`, `03-rollback-provider.sh`,
+`lib/r2.py` y `tests/run-local-tests.sh`—, no añadió ni eliminó archivos y
+mantuvo `authorized-preimage/**` byte a byte. Su manifiesto externo completo
+contiene 55 entradas y tiene SHA-256
+`ffa413fc5f798dc5b640314783ac022aef479427795ace159d033dd1415332ab`.
+
+La verificación independiente definitiva está en
+`/private/tmp/wp018-r2-c2-validation.uxx5TX`; el runner corregido tiene SHA-256
+`0cb5dd1d573fe76e4e8f2b11625d97dee8775fb2ad69c7a812e5298070e0967c`.
+Los resultados fueron:
+
+| Comprobación | Código | Resultado |
+|---|---:|---|
+| Sintaxis Bash | 0 | pasa |
+| ShellCheck | 1 | falla: SC2153 y SC2034 |
+| AST Python | 0 | pasa |
+| Hashes del `SHA256SUMS` interno | 1 | falla en 11 archivos |
+| Cobertura de rutas del manifiesto interno | 0 | exacta |
+| Batería local | 0 | imprime `APTO`, pero no acredita todos los casos exigidos |
+| Inmutabilidad de la copia de validación | 0 | pasa |
+
+La misma Astra realizó la segunda y última revalidación enfocada, preservada en
+`review-astra.md`. Su salida normalizada tiene SHA-256
+`8e234dfb0a1db726c5de36eab73faa58967b3b8aab2a67b27a2bb8889d0d5536` y
+emitió `NO APTO — NO EJECUTAR`. El estado final es:
+
+| Hallazgo | Estado final tras R2-C2 |
+|---|---|
+| `WP018-PSHA-R2-F1` | Abierto: la validación acepta manifiestos incompletos, incluso vacíos |
+| `WP018-PSHA-R2-F2` | Cerrado, sin regresión observada |
+| `WP018-PSHA-R2-F3` | Abierto: dos cortes no alcanzan los failpoints declarados, falta la prueba directa de `errexit`, falla ShellCheck y el manifiesto interno está obsoleto |
+| `WP018-PSHA-R2-F4` | Cerrado, sin regresión observada |
+| `WP018-PSHA-R2-F5` | Cerrado, sin regresión observada |
+
+R2 consumió `5.023402549123739 EUR` y excedió su subpresupuesto de `5.00 EUR`
+en `0.023402549123739 EUR`. R2-C1 y R2-C2 están consumidos, la candidata final
+permanece `NO APTO — NO EJECUTAR` y la transición termina `blocked`. No existe
+R2-C3. Corresponde decisión humana y replanificación fuera de esta transición.
 
 ## Autorizaciones separadas
 
-Esta composición autoriza únicamente publicar la fila de apertura de R2-C2. No
-autoriza invocar al autor, modificar o ejecutar la candidata, ejecutar pruebas
-con servicios reales, materializarla, actualizar o recuperar el provider,
-habilitar WIF, crear roles o bindings, despachar el workflow, abrir o ejecutar
-C0, fusionar o descartar ninguna rama. Cada acto requiere su propia
-autorización humana conforme a `DEC-010` §18.5.
+Esta composición autoriza únicamente custodiar el cierre documental
+`blocked / NO APTO`. No autoriza otra invocación, modificar o ejecutar la
+candidata, ejecutar pruebas con servicios reales, materializarla, actualizar o
+recuperar el provider, habilitar WIF, crear roles o bindings, despachar el
+workflow, abrir o ejecutar C0, fusionar o descartar ninguna rama. Cualquier
+replanteamiento requiere una transición nueva y decisión humana conforme a
+`DEC-010` §18.5.
