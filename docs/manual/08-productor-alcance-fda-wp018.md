@@ -441,3 +441,40 @@ Los `3.0626293149... EUR` históricos permanecen acumulados y no liberan ciclos
 o presupuesto. Preparar la candidata, revisarla, crear la rama, abrir cada
 ciclo, invocar al autor, materializar, ejecutar el provider y rederivar C0 son
 actos separados. Esta documentación no realiza ni autoriza ninguno de ellos.
+
+## 11. Cierre bloqueado de `WP018-DOR7-PSHA-R2`
+
+La secuencia separada prevista por §10 se ejecutó y agotó sus dos ciclos. R2 se
+ancló en `9cdfaefddfdb50fa1fba385e265243022b67061f`, mantuvo el workflow con
+SHA-256 `7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594` y
+partió de una preimagen nueva. La candidata se rederivó desde cero; no reutilizó
+la candidata C2 histórica.
+
+R2-C1 terminó `NO APTO` con F1 y F3 abiertos y F2, F4 y F5 cerrados. R2-C2 se
+limitó a F1/F3, pero su invocación terminó por `budget_exhausted`, sin resultado
+final. La verificación posterior encontró:
+
+- validación de captura que acepta un `SHA256SUMS` incompleto o vacío;
+- dos casos que no alcanzan los cortes `SIGKILL` que afirman probar;
+- ausencia de llamada directa a las funciones bajo inhibición de `errexit`;
+- ShellCheck fallido por SC2153 y SC2034;
+- 11 hashes obsoletos en el manifiesto interno.
+
+La batería local devolvió `0` e imprimió `APTO`, pero ese resultado no acredita
+los casos ausentes o mal planteados. La segunda y última revalidación enfocada
+emitió **`NO APTO — NO EJECUTAR`**. F1 y F3 permanecen abiertos; F2, F4 y F5
+son regresiones cerradas.
+
+La postimagen R2-C2 se preserva fuera del repositorio y su manifiesto externo
+completo de 55 archivos tiene SHA-256
+`ffa413fc5f798dc5b640314783ac022aef479427795ace159d033dd1415332ab`. La rama
+`ops/wp018-dor7-provider-sha-r2-custody` fusionada por la PR #83 contiene solo
+los cuatro archivos de evidencia; ningún byte técnico de la candidata se
+materializó.
+
+R2 consumió `5.6754402 USD / 5.023402549123739 EUR`, superando el subpresupuesto
+de `5.00 EUR` en `0.023402549123739 EUR`. R2-C1 y R2-C2 están consumidos,
+`WP018-DOR7-PSHA-R2` termina `blocked` y no existe R2-C3. No se crea R3 ni se
+divide F1/F3 por analogía. DOR-7 continúa abierto y cualquier continuación
+requiere una decisión humana nueva; no están autorizados autor, provider, WIF,
+C0, infraestructura o limpieza destructiva.

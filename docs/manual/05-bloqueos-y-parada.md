@@ -283,6 +283,22 @@ durable distinta y hasta `5.00 EUR` incrementales dentro del techo de WP-018;
 no existe `R2-C3`. Base, preimagen, rama, ciclos, autor, materialización,
 provider y C0 conservan autorizaciones separadas.
 
+**Cierre de R2 por ciclos y presupuesto agotados.** La secuencia posterior
+abrió y consumió R2-C1 y R2-C2. La segunda y última revalidación enfocada
+mantuvo F1 y F3 abiertos: una captura puede aceptar un manifiesto incompleto y
+las pruebas no acreditan dos cortes `SIGKILL` ni la llamada directa bajo
+inhibición de `errexit`; además fallan ShellCheck y los hashes del manifiesto
+interno. F2, F4 y F5 permanecen cerrados solo como regresiones. La salida
+`APTO` de la batería no prevalece sobre esos oráculos falsables.
+
+R2 consumió `5.023402549123739 / 5.00 EUR` y terminó `blocked`; el exceso de
+`0.023402549123739 EUR` no desaparece por redondeo. No existe R2-C3 y tampoco
+hay un R3 implícito. La rama R2 fusionada por la PR #83 contiene únicamente
+evidencia; la candidata técnica continúa fuera del repositorio como `NO APTO —
+NO EJECUTAR`. Elegir abandono, división o transición sucesora requiere una
+decisión humana nueva. Hasta entonces solo caben custodia y lectura: no autor,
+provider, WIF, C0, infraestructura o limpieza destructiva.
+
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.
 Ver [DEC-010](../../specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md).

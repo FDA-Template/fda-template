@@ -1932,3 +1932,149 @@ bindings, secretos, ramas, worktrees o candidatas históricas. No crea una
 candidata técnica, rama o ciclo R2 y no invoca al autor. Preparación, revisión,
 materialización, publicación, fusión y cada acto técnico posterior conservan
 autorizaciones humanas distintas.
+
+## 19. Enmienda de instancia del 2026-10-15 — cierre bloqueado de `WP018-DOR7-PSHA-R2`
+
+### 19.1. Hechos posteriores a §18
+
+La secuencia separada autorizada por §18 llegó a abrir y agotar
+`WP018-DOR7-PSHA-R2`. Esta enmienda no reinterpreta ni autoriza esos actos: los
+reconcilia con la normativa después de que su expediente de evidencia fuera
+fusionado en `main`.
+
+- R2 se ancló exclusivamente en
+  `9cdfaefddfdb50fa1fba385e265243022b67061f`, con workflow SHA-256
+  `7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594`.
+- La preimagen fresca saneada terminó `APTO`, registró cero deriva en 34
+  comparaciones históricas estables y mantuvo pool y provider deshabilitados,
+  cero roles personalizados, claves, secretos, variables o despachos. Su
+  manifiesto de 40 entradas tiene SHA-256
+  `5a03258545e2bb0b4761d343a1d3b3cbd444b61adc1dbce4e1d1da4afac4230c`.
+- La candidata R2 se rederivó desde cero y recibió una sola revisión completa
+  independiente de GPT-6 Astra. No copió ni usó como andamio la candidata C2
+  cerrada por §18.
+- `R2-C1` consumió una invocación. El instrumento terminó con código `0`, pero
+  la verificación y la primera revalidación enfocada emitieron `NO APTO — NO
+  EJECUTAR`. F1 y F3 permanecieron abiertos; F2, F4 y F5 quedaron cerrados.
+- `R2-C2` consumió una invocación limitada a los residuales F1 y F3. Terminó
+  con código `1`, `is_error:true`, subtipo `error_max_budget_usd`, razón
+  `budget_exhausted`, 38 turnos y sin resultado final. Modificó exactamente
+  `01-capture-live.sh`, `03-rollback-provider.sh`, `lib/r2.py` y
+  `tests/run-local-tests.sh`; no añadió o eliminó archivos y mantuvo
+  `authorized-preimage/**` byte a byte.
+- El gate saneado inmediatamente anterior a R2-C2 volvió a terminar `APTO` con
+  39 superficies y cero deriva. Su manifiesto de 40 entradas tiene SHA-256
+  `6f29b1a4d8ea0bbeccb27ac7ba16a87a17d6271ace7825db835899d342b14a5f`.
+- La postimagen R2-C2 está preservada fuera del repositorio. Su manifiesto
+  externo completo contiene 55 archivos y tiene SHA-256
+  `ffa413fc5f798dc5b640314783ac022aef479427795ace159d033dd1415332ab`.
+- La verificación independiente definitiva obtuvo sintaxis Bash y AST Python
+  correctos, pero ShellCheck falló por SC2153 y SC2034 y el manifiesto interno
+  conservó 11 hashes obsoletos. La batería local devolvió `0` e imprimió
+  `APTO`, pero aceptó dos casos que no alcanzaron los cortes `SIGKILL`
+  declarados y no ejercitó directamente las funciones bajo inhibición de
+  `errexit`.
+- La segunda y última revalidación enfocada de la misma Astra emitió
+  `NO APTO — NO EJECUTAR`: F1 continúa abierto porque la validación acepta un
+  manifiesto incompleto o vacío; F3 continúa abierto por los cortes no
+  acreditados, la prueba ausente de `errexit`, ShellCheck y el manifiesto
+  obsoleto. F2, F4 y F5 permanecen cerrados sin regresión observada. Su salida
+  normalizada tiene SHA-256
+  `8e234dfb0a1db726c5de36eab73faa58967b3b8aab2a67b27a2bb8889d0d5536`.
+
+La rama durable `ops/wp018-dor7-provider-sha-r2-custody` versionó los dos ciclos
+y su cierre. Su cabeza
+`c8eb7e37e589bb34a044b4bad773165d3b1cd44a` fue fusionada exclusivamente como
+evidencia por la PR #83; `main` quedó en el merge commit
+`921e4729fbbd34739fb1fde0ed93c1f3f57abdf0`. Los cuatro archivos fusionados son
+`evidence/WP-018/ciclos.md`, `review-astra.md`, `cost-f1.json` y `cost.md`.
+Ningún byte de la candidata técnica R2 se materializó en el repositorio.
+
+La rama histórica `ops/wp018-dor7-provider-sha-custody` permanece distinta,
+congelada y sin fusionar en
+`1da4697d33fc73d5318c2e91f1b15af7d4852d3a`; no se mezcla con R2.
+
+### 19.2. Coste y condición de parada
+
+R2-C1 consumió `4.1209296 USD / 3.6474859267126925 EUR`. R2-C2 consumió
+`1.5545106 USD / 1.3759166224110462 EUR`. Al tipo mensual congelado de
+`1.1298 USD/EUR`, R2 suma `5.6754402 USD / 5.023402549123739 EUR`: supera su
+subpresupuesto vinculante de `5.00 EUR` en `0.023402549123739 EUR`.
+
+Sumado al expediente anterior de `3.0626293149 EUR`, ambos intentos de
+actualización del provider alcanzan `8.086031864023739 EUR`, también
+`0.023402549123739 EUR` por encima del techo combinado fijado por §18.4. El
+redondeo monetario no elimina el exceso. El subpresupuesto agotado no se
+reinicia, transfiere o amplía por cerrar la transición.
+
+### 19.3. Alternativas y decisión
+
+**Abrir R2-C3 — rechazado.** Contradice §§5 y 18.4, oculta el agotamiento de
+los dos ciclos y continuaría una candidata interrumpida por presupuesto con
+controles de recuperación y pruebas todavía abiertos.
+
+**Aceptar el `APTO` impreso por la batería — rechazado.** El código `0` no
+acredita casos que no alcanzan los failpoints declarados. ShellCheck, el
+manifiesto interno y la revisión falsable siguen fallando. Tratar esa salida
+como conformidad convertiría un oráculo defectuoso en dispensa del contrato.
+
+**Crear ahora otra transición o dividir F1 y F3 — rechazado en este acto.** La
+evidencia no concede autoridad para un `R3`, otro presupuesto o una división.
+Elegir arquitectura, alcance y economía de un nuevo intento exige una decisión
+humana posterior que parta del historial completo; no se deriva por analogía.
+
+**Cerrar R2 `blocked` sin sucesor autorizado — elegido.** R2-C1 y R2-C2 quedan
+consumidos, la candidata R2-C2 se preserva `NO APTO — NO EJECUTAR` y no existe
+R2-C3. La transición vuelve a decisión humana y replanificación; esta enmienda
+no elige, nombra, abre o presupuesta una continuación.
+
+### 19.4. Efectos exactos
+
+1. `WP018-DOR7-PSHA-R2` termina `blocked`. F1 y F3 permanecen abiertos; F2, F4
+   y F5 quedan como regresiones obligatorias, no como entrega parcial
+   materializable.
+2. `WP018-DOR7-F2`, DOR-7, DOR-8 y DOR-9 permanecen abiertos. WP-018 continúa
+   `draft`, nunca aprobado, admitido, activo o implementado; `ACTIVE` continúa
+   en reposo.
+3. No se actualizó el provider, no se habilitó WIF, no se crearon roles,
+   bindings, claves, secretos o infraestructura, no se despachó el workflow y
+   no se abrió o ejecutó C0. Es el último estado acreditado, no una observación
+   viva reutilizable por un acto futuro.
+4. La rama R2 fusionada contiene solo custodia documental. Fusionarla no
+   convierte la candidata en apta ni autoriza su ejecución. Su borrado, el de
+   la rama histórica, los worktrees o las candidatas externas requiere una
+   decisión humana separada.
+5. Ningún acto posterior puede denominar una corrección `R2-C3`, reutilizar la
+   candidata R2-C2 o presentar el exceso de coste como remanente disponible.
+
+### 19.5. Orden posterior
+
+La siguiente acción posible es únicamente una decisión humana de
+replanificación. Antes de preparar bytes, crear ramas, fijar ciclos o asignar
+presupuesto deberá existir una enmienda nueva que compare explícitamente
+abandono, división y transición sucesora; defina qué fallo real evita repetir
+R2; y determine su relación con el techo de `100 EUR` de WP-018. Esa decisión
+no puede autoautorizar autor, provider, WIF, C0 o infraestructura.
+
+Cualquier investigación futura empieza comprobando en solo lectura la cabeza
+canónica, el workflow y la contención externa. Los anclajes de R2 son historia:
+no se actualizan en cascada ni se heredan como base operativa.
+
+### 19.6. Composición normativa mínima
+
+El cierre viaja en una composición atómica de exactamente seis archivos; todos
+o ninguno:
+
+1. `specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md`;
+2. `specs/decisions/DEC-003-pausa-migracion-y-contencion.md`;
+3. `docs/03-hoja-de-ruta.md`;
+4. `docs/manual/05-bloqueos-y-parada.md`;
+5. `docs/manual/08-productor-alcance-fda-wp018.md`;
+6. `work-packages/WP-018-productor-externo-alcance.md`.
+
+No modifica `ACTIVE`, `evidence/**`, `specs/finops/fx-rates.md`, el workflow,
+código, pruebas, infraestructura, GitHub, Google Cloud, pool, provider, roles,
+bindings, secretos, ramas, worktrees o candidatas. No abre una transición,
+ciclo o presupuesto. Preparación, revisión, materialización, publicación,
+fusión, limpieza y cualquier replanteamiento conservan autorizaciones humanas
+separadas.

@@ -28,11 +28,17 @@ WP-018 es el sucesor limpio reservado por DEC-017. Se redacta desde cero sobre `
   paso 1 de §15, el entorno del paso 2 y el workflow no despachado del paso 3
   están acreditados; su SHA-256 es `7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594`.
   La transición de actualización del provider regida por DEC-010 §17 agotó C1
-  y C2 y §18 la cierra `blocked`, sin C3, con la rama durable sin fusionar y la
-  candidata C2 `NO APTO — NO EJECUTAR`. La eventual
-  `WP018-DOR7-PSHA-R2` está delimitada, pero no abierta: deberá partir de una
-  base y preimagen postfusión nuevas, con rama, ciclos y presupuesto propios.
-  F2 y DOR-7 no cierran hasta completar la ceremonia y el rollback.
+  y C2 y §18 la cierra `blocked`, sin C3. Su rama durable histórica permanece
+  congelada y sin fusionar; la candidata C2 sigue `NO APTO — NO EJECUTAR`.
+  La transición posterior `WP018-DOR7-PSHA-R2` partió de base y preimagen
+  nuevas, pero agotó R2-C1/R2-C2 y §19 también la cierra `blocked`, sin R2-C3:
+  `WP018-PSHA-R2-F1` y `WP018-PSHA-R2-F3` permanecen abiertos;
+  `WP018-PSHA-R2-F2`, `WP018-PSHA-R2-F4` y `WP018-PSHA-R2-F5` son regresiones
+  cerradas. Su rama
+  fusionada por la PR #83 contiene únicamente evidencia y ningún byte técnico
+  de la candidata. No hay sucesor autorizado. `WP018-DOR7-F2` y DOR-7 no
+  cierran hasta que una decisión humana nueva replantee y complete la ceremonia
+  y el rollback.
 - **WP018-DOR-8 abierto:** falta la política evaluada y sus oráculos completos.
 - **WP018-DOR-9 abierto:** falta la regla conservadora para SHA compartido y concurrencia.
 

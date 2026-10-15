@@ -1,6 +1,6 @@
 # Hoja de ruta — de la FDA al AI Agent Operating System
 
-**Creada:** 2026-08-30 · **Última revisión: 2026-10-15** (cierre bloqueado de la actualización del provider y replanteamiento limpio — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013 y DEC-017 y actualizada por el cierre de WP-015; WP-018 permanece `draft`, la identidad del proyecto exclusivo, el entorno protegido, los bytes exactos del workflow, los fixtures y el logging de DOR-7 están acreditados, y el último estado durable conserva cero despachos y WIF deshabilitado; la transición del provider agotó C1/C2 y queda `blocked`, sin C3, con rama durable sin fusionar y candidata `NO APTO — NO EJECUTAR`; `WP018-DOR7-PSHA-R2` queda delimitada pero no abierta y deberá partir de base y preimagen postfusión nuevas; D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
+**Creada:** 2026-08-30 · **Última revisión: 2026-10-15** (cierre bloqueado de R2 y devolución a decisión humana — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013 y DEC-017 y actualizada por el cierre de WP-015; WP-018 permanece `draft`, la identidad del proyecto exclusivo, el entorno protegido, los bytes exactos del workflow, los fixtures y el logging de DOR-7 están acreditados, y el último estado durable conserva cero despachos y WIF deshabilitado; la primera transición del provider agotó C1/C2 y queda `blocked`, sin C3, con su rama histórica sin fusionar y candidata `NO APTO — NO EJECUTAR`; `WP018-DOR7-PSHA-R2` agotó R2-C1/R2-C2, excedió su subpresupuesto en `0.023402549123739 EUR` y también queda `blocked`, sin R2-C3, con F1/F3 abiertos, F2/F4/F5 cerrados y su rama de evidencia fusionada por la PR #83; no hay sucesor autorizado; D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
 
 **Procedencia.** v1 (30-08): las cinco conversaciones del operador con otras IAs — síntesis en [`04-analisis-conversaciones-ia.md`](04-analisis-conversaciones-ia.md)—, el repositorio completo, el estado de los demás repos y fuentes externas. v2 (01-09): además, los **cuatro documentos de investigación de Leandro** y una **línea base de investigación independiente registrada antes de leerlos** — análisis completo, veredictos y red team en [`05-analisis-investigacion-leandro-y-revalidacion.md`](05-analisis-investigacion-leandro-y-revalidacion.md). Lo redactaron y materializaron sesiones de Claude Code por encargo directo del operador, como actos de operador (§9).
 
@@ -37,6 +37,7 @@
 | 2026-10-12 | El acto 4 deja fixtures y logging configurados, y WIF deshabilitado sin bindings. Dos intentos del canario C0 se detienen antes de mutación porque la guarda confundía el literal `(unset)` con los canales reales de `gcloud`. Fusionar una decisión cambiaría además la cabeza fijada por preflight y provider. Pool y provider siguen deshabilitados y existen cero despachos. DEC-010 §16 cierra la transición `blocked` después de C2, rechaza C3 y elige un replanteamiento posterior con base fresca | `DEC-010` §16 |
 | 2026-10-15 | La candidata de actualización del provider y el primer parche de custodia reciben `NO APTO` sin materialización ni consumo de C1. DEC-010 §17 fija una sola base postfusión, una rama remota sin fusionar para ciclos/revisión/coste, F1 desde el inicio y el tipo BCE de octubre; no crea la rama, no abre C1 y no autoriza mutación | `DEC-010` §17 |
 | 2026-10-15 | La transición de actualización del provider consume C1/C2 y termina `NO APTO` con F1, F2 y F4 abiertos. DEC-010 §18 la cierra `blocked`, preserva rama y candidata sin ejecutar, rechaza C3 y elige `WP018-DOR7-PSHA-R2` como transición nueva todavía no abierta, con base/preimagen postfusión, dos ciclos y 5 EUR propios | `DEC-010` §18 |
+| 2026-10-15 | `WP018-DOR7-PSHA-R2` consume R2-C1/R2-C2 y termina `NO APTO` con F1/F3 abiertos y F2/F4/F5 cerrados. El coste medido es `5.023402549123739 / 5.00 EUR`; la PR #83 fusiona solo evidencia. DEC-010 §19 cierra R2 `blocked`, rechaza R2-C3 y no autoriza sucesor, provider, WIF o C0 | `DEC-010` §19 · `evidence/WP-018/` |
 
 ---
 
@@ -313,12 +314,13 @@ Secuencia (ajustada por D1/D6 y DEC-008; cada transición de `ACTIVE` sigue sien
    reposo. No acredita CI ni bloqueo de fusión.
 6. **ORDEN FUTURO CONDICIONADO; NINGÚN PASO SIGUIENTE AUTORIZADO:** WP-017
    queda `blocked`, nunca `done`. WP-018 existe en `draft`, conserva DOR-7 a
-   DOR-9 abiertos y su primera transición DOR-7 queda `blocked` tras C2. El
-   siguiente acto posible es una autorización humana separada para investigar
-   en solo lectura y preparar una candidata replanteada de DOR-7; todavía no se
-   abre esa transición ni se autoriza ejecutar Claude Code, pruebas o
-   infraestructura. Solo después de resolver DOR-7 a DOR-9, aprobar, admitir,
-   activar e implementar WP-018 podría continuarse hacia `WP-016`, cuyo
+   DOR-9 abiertos. La primera transición DOR-7 y su replanteamiento
+   `WP018-DOR7-PSHA-R2` terminan `blocked` tras consumir dos ciclos cada uno;
+   no existen C3 o R2-C3. El siguiente acto posible es únicamente una decisión
+   humana que compare abandono, división y una transición sucesora; no hay R3,
+   presupuesto, candidata, autor o infraestructura autorizados por analogía.
+   Solo después de resolver DOR-7 a DOR-9, aprobar, admitir, activar e
+   implementar WP-018 podría continuarse hacia `WP-016`, cuyo
    contrato `draft` de 645 líneas continúa bloqueado y deberá corregirse y
    reducirse antes de `ready`, para CI y mutación humana posterior del ruleset →
    convergencia del guard y cierre de WP-007 por superación sin transición de
