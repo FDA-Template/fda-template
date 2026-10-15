@@ -87,3 +87,59 @@ Este archivo preserva el dictamen de origen; no constituye una revisión nueva,
 no cambia su `NO APTO` y no consume C1. La limitación de observación viva queda
 cerrada únicamente para la apertura por la preimagen postfusión separada de
 2026-10-15; no altera retrospectivamente el alcance del dictamen original.
+
+## Revalidación enfocada de C1
+
+- Fecha: 2026-10-15.
+- Revisora: la misma instancia independiente GPT-6 Astra, razonamiento Alto,
+  rol `code-reviewer`, `/root/wp018_provider_sha_review`.
+- Alcance: únicamente el resultado de C1, la identidad de los ocho archivos y
+  el estado de `WP018-PSHA-F1` a `WP018-PSHA-F5`.
+- Modo: solo lectura; no modificó archivos ni ejecutó red o infraestructura.
+- SHA-256 de la transcripción externa con LF terminal:
+  `e2f82b2cf7869b2a5df07122ea23768e774a339186c3afac690cdb6061f4d052`.
+
+### Dictamen enfocado completo
+
+VEREDICTO: CAMBIOS SOLICITADOS
+
+**Revalidación enfocada C1: NO APTO, sin cambios.**
+
+La revisora comprobó que los ocho archivos de C1 conservan los hashes
+históricos y que `diff -qr` no encuentra diferencias con la candidata
+revisada. Permanecen abiertos, sin cambios de severidad:
+
+| Hallazgo | Severidad | Estado |
+|---|---|---|
+| `WP018-PSHA-F1` — recuperación manual tras fallo | Bloqueante | Abierto |
+| `WP018-PSHA-F2` — comparación con preimagen autorizada | Bloqueante | Abierto |
+| `WP018-PSHA-F3` — restauración completa del provider | Importante | Abierto |
+| `WP018-PSHA-F4` — pruebas de ejecución y recuperación | Importante | Abierto |
+| `WP018-PSHA-F5` — proyecto explícito en llamadas | Menor | Abierto |
+
+El JSON de la invocación verifica exactamente el SHA-256
+`74f2c6cd8f1f79ba91980c3c311a56d49230729b815b877ec303c4516f51896e`.
+Confirma `is_error: true`, fallo de renovación OAuth, `duration_api_ms: 0`,
+todos los contadores de tokens a cero, `modelUsage: {}`,
+`permission_denials: []` y `total_cost_usd: 0`. Las capturas registran inicio
+`10:05:29Z`, fin `10:05:32Z` y salida `1`. El campo `subtype: "success"` no
+convierte esta ejecución en exitosa frente al error explícito y su código de
+salida.
+
+El cero es una cifra F1 defendible para esta invocación: procede del resultado
+estructurado y concuerda con el fallo anterior a la llamada de inferencia.
+Corresponde a `0 USD / 0 EUR`, no a un cero de relleno ni a cero invocaciones.
+Su registro como coste medido requiere el extracto saneado y la custodia
+prescritos; la revisión no los escribió.
+
+Según DEC-010 §17.3, C1 está consumido desde el lanzamiento, aunque no haya
+producido cambios. El resultado correcto para actualizar su misma fila es: una
+invocación, autor invocado, fallo de autenticación, sin cambios, dictamen `NO
+APTO` y cinco hallazgos abiertos. La fila versionada leída por la revisora aún
+conservaba `abierto / 0 / no`; corresponde actualizarla con este resultado,
+sin crear otro C1.
+
+Esta revalidación no abre C2 ni autoriza reintentar como C1. Una siguiente
+invocación correctora correspondería a C2 y requiere su apertura versionada y
+autorización separada. La revisora no modificó archivos ni ejecutó red o
+infraestructura.

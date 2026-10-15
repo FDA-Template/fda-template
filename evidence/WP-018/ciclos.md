@@ -64,7 +64,7 @@ directos en los ocho archivos identificados por `review-astra.md`.
 
 | Ciclo | Estado | Fecha de apertura | Invocaciones correctoras | Autor ejecutado | Base | Presupuesto acumulado C1+C2 |
 |---|---|---|---:|---|---|---:|
-| C1 | `abierto` | 2026-10-15 | 0 | no | `2f7fc1ce0bcab69d9157067445d7e6d60a593d5e` | 5.00 EUR |
+| C1 | `NO APTO — consumido` | 2026-10-15 | 1 | sí; OAuth expirado antes de inferencia, sin cambios | `2f7fc1ce0bcab69d9157067445d7e6d60a593d5e` | 0.00 de 5.00 EUR |
 
 `abierto` describe la postimagen que adquiere autoridad únicamente al quedar
 versionada y publicada en la rama durable indicada. Mientras estos bytes solo
@@ -92,6 +92,28 @@ Después de la primera invocación se actualiza esta misma fila con resultado,
 coste y estado. Solo una revalidación enfocada de la misma revisora puede
 cerrar C1 como `APTO` o mantener hallazgos concretos. C2 solo se abre mediante
 el mismo procedimiento; no existe C3.
+
+## Resultado de C1
+
+La única invocación correctora comenzó el `2026-10-15T10:05:29Z` y terminó el
+`2026-10-15T10:05:32Z` con código `1`. Claude Code `2.1.272` no alcanzó la
+inferencia porque la sesión OAuth había expirado y no pudo renovarse. La
+captura F1 estructurada registra `is_error: true`, `duration_api_ms: 0`, cero
+modelos y tokens, y `total_cost_usd: 0`. El crudo externo tiene SHA-256
+`74f2c6cd8f1f79ba91980c3c311a56d49230729b815b877ec303c4516f51896e`;
+el extracto saneado y su conversión están en `cost-f1.json` y `cost.md`.
+
+Los ocho archivos técnicos conservaron exactamente sus hashes históricos: no
+hubo cambios que materializar o ejecutar. La misma revisora realizó la
+revalidación enfocada de solo lectura y emitió `NO APTO`; permanecen abiertos,
+sin cambio de severidad, `WP018-PSHA-F1` a `WP018-PSHA-F5`. C1 está consumido,
+no se reintenta y no se crea una segunda fila C1.
+
+C2 permanece **sin abrir**. Antes de cualquier segunda invocación deben
+restaurarse las credenciales del instrumento por acto humano, abrirse y
+versionarse C2 mediante el mismo procedimiento, y obtener una autorización
+humana separada. Este resultado no autoriza al autor, provider, C0, workflow,
+infraestructura, PR, fusión ni descarte de la rama.
 
 ## Autorizaciones separadas
 

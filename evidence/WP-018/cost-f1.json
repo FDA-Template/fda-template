@@ -1,0 +1,40 @@
+{
+  "schema": "fda-cost-f1-v1",
+  "wp_id": "WP-018",
+  "instrumento": "claude-code 2.1.272 --output-format json",
+  "capture_conformance": "complete",
+  "invocations": [
+    {
+      "index": 1,
+      "purpose": "C1 - correccion de WP018-PSHA-F1 a WP018-PSHA-F5",
+      "timestamp_utc_start": "2026-10-15T10:05:29Z",
+      "timestamp_utc_end": "2026-10-15T10:05:32Z",
+      "exit_code": 1,
+      "duration_ms": 792,
+      "duration_api_ms": 0,
+      "num_turns": 1,
+      "subtype": "success",
+      "is_error": true,
+      "terminal_reason": "api_error",
+      "failure_class": "oauth_session_expired_before_inference",
+      "session_id_sha256": "419126c8908eee3765578ea71c7dacf80741f29539e2bfd69e8645333a0fc262",
+      "models": [],
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cache_creation_input": 0,
+        "cache_read_input": 0,
+        "thinking": 0
+      },
+      "permission_denials": 0,
+      "subagents_spawned": 0,
+      "web_fetch_requests": 0,
+      "web_search_requests": 0,
+      "total_cost_usd": 0
+    }
+  ],
+  "total_cost_usd": 0,
+  "raw_capture_sha256": "74f2c6cd8f1f79ba91980c3c311a56d49230729b815b877ec303c4516f51896e",
+  "capture_note": "Importe cero medido por F1: la autenticacion fallo antes de inferencia y la captura estructurada registra cero tiempo de API, modelos y tokens. No es un cero de relleno ni representa cero invocaciones.",
+  "red_used_by_author_tools": false
+}
