@@ -36,9 +36,13 @@ WP-018 es el sucesor limpio reservado por DEC-017. Se redacta desde cero sobre `
   `WP018-PSHA-R2-F2`, `WP018-PSHA-R2-F4` y `WP018-PSHA-R2-F5` son regresiones
   cerradas. Su rama
   fusionada por la PR #83 contiene únicamente evidencia y ningún byte técnico
-  de la candidata. No hay sucesor autorizado. `WP018-DOR7-F2` y DOR-7 no
-  cierran hasta que una decisión humana nueva replantee y complete la ceremonia
-  y el rollback.
+  de la candidata. DEC-010 §20 elige `WP018-DOR7-PSHA-OF1` como transición
+  sucesora *oracle-first*: F1/F3 cierran juntos, los oráculos se sellan antes
+  del autor de implementación y etapa A/B comparten `OF1-C1`/`OF1-C2` y
+  `6.00 EUR`. OF1 está delimitada pero no abierta; no existen todavía base,
+  preimagen, bytes, rama, ciclos o autores autorizados. `WP018-DOR7-F2` y DOR-7
+  no cierran hasta completar la ceremonia y el rollback con dictamen final
+  `APTO`.
 - **WP018-DOR-8 abierto:** falta la política evaluada y sus oráculos completos.
 - **WP018-DOR-9 abierto:** falta la regla conservadora para SHA compartido y concurrencia.
 
@@ -260,14 +264,18 @@ lectura `.agents/`, `.codex/`, ramas, worktrees y candidatas históricas.
   KMS/Secret Manager; nunca leer, imprimir, versionar o transportar valores.
 - Toda futura invocación Claude atribuible a WP-018 usa `claude -p
   --output-format json`, WP-ID explícito y sin `--continue/--resume`; el F1
-  saneado va a `cost-f1.json` y se suma en `cost.md`. Desde la primera
-  invocación de R2, incluida la preparación inicial, se exigen F1, tipo
-  mensual, presupuesto incremental y autorización separada; esa preparación
-  inicial no consume ciclo ni exige rama R2. Solo una invocación correctora
-  posterior a una revisión con hallazgos exige la rama durable distinta y la
-  fila `R2-C1` o `R2-C2` en estado `abierto`. Los
-  `3.0626293149... EUR` de C1+C2 históricos permanecen acumulados. Esta
-  preparación normativa no usa Claude.
+  saneado va a `cost-f1.json` y se suma en `cost.md`. OF1 exige F1, tipo
+  mensual, remanente y autorización desde la primera invocación de etapa A.
+  Admite como máximo una invocación inicial de oráculos, una inicial de
+  implementación y dos correctoras compartidas; una corrección exige la rama
+  durable prevista y `OF1-C1` o `OF1-C2` en estado `abierto`. La rama durable
+  debe existir y estar publicada antes de etapa B aunque todavía no haga falta
+  corrección. Pruebas, fakes, runner y `ORACLE-SHA256SUMS` aptos se sellan antes
+  de etapa B y quedan fuera de la autoridad del autor de implementación. Los
+  límites nominales no pueden asignar más de `5.90 EUR`; el tope real de OF1 es
+  `6.00 EUR`. Los
+  `8.086031864023739 EUR` históricos permanecen acumulados. Esta preparación
+  normativa no usa Claude y no abre OF1.
 
 ## Verificación y aceptación
 
@@ -305,11 +313,12 @@ Los archivos enumerados en `evidence/WP-018/` contienen salidas íntegras,
 códigos de salida, manifest, revisión Astra, seguridad, F1 por invocación,
 ciclos y expediente del laboratorio; nunca secretos ni payloads brutos.
 
-Parada adicional: DOR-7/8/9 abierto; F1 no defendible; coste >100 EUR o ensayo
->5 EUR; versión/digest/fuente cambiante; permiso, región o IAM no demostrable;
-payload/evento fuera del esquema; necesidad de archivo no permitido; tercer
-ciclo; incertidumbre o contaminación con cualquier candidata histórica,
-incluida la C2 de la actualización del provider.
+Parada adicional: DOR-7/8/9 abierto; F1 no defendible; coste >100 EUR, OF1
+>6 EUR o ensayo >5 EUR; versión/digest/fuente cambiante; permiso, región o IAM
+no demostrable; payload/evento fuera del esquema; necesidad de archivo no
+permitido; tercer ciclo; oráculo sellado modificado o no falsable;
+incertidumbre o contaminación con cualquier candidata histórica, incluida la
+C2 de la actualización del provider o la postimagen R2.
 
 Rollback de implementación: revertir el único commit/PR de WP-018. Rollback de
 infraestructura o laboratorio requiere acto humano y sigue la preimagen de §9;

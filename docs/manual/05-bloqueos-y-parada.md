@@ -295,9 +295,32 @@ R2 consumió `5.023402549123739 / 5.00 EUR` y terminó `blocked`; el exceso de
 `0.023402549123739 EUR` no desaparece por redondeo. No existe R2-C3 y tampoco
 hay un R3 implícito. La rama R2 fusionada por la PR #83 contiene únicamente
 evidencia; la candidata técnica continúa fuera del repositorio como `NO APTO —
-NO EJECUTAR`. Elegir abandono, división o transición sucesora requiere una
-decisión humana nueva. Hasta entonces solo caben custodia y lectura: no autor,
-provider, WIF, C0, infraestructura o limpieza destructiva.
+NO EJECUTAR`. DEC-010 §19 devolvió entonces abandono, división o transición
+sucesora a decisión humana y mantuvo únicamente custodia y lectura. El §20
+posterior registra esa decisión sin autorizar todavía autor, provider, WIF, C0,
+infraestructura o limpieza destructiva.
+
+**Replanificación *oracle-first* posterior a R2.** DEC-010 §20 compara
+abandono, división y transición sucesora. Rechaza abandonar mientras siga
+vigente el productor previo a WP-016 y rechaza separar F1 de F3: la recuperación
+y su prueba falsable forman una sola aceptación. Elige
+`WP018-DOR7-PSHA-OF1`, todavía no abierta.
+
+OF1 congela primero un paquete de oráculos con controles sintéticos positivos y
+mutantes negativos contra manifiestos vacíos o incompletos, falsa llegada a
+`SIGKILL`, sustitución de llamadas directas bajo inhibición de `errexit`,
+ShellCheck, manifiesto exacto y casos omitidos. Ese `APTO` acredita sensibilidad
+del arnés, no una implementación todavía inexistente. Solo después un contexto
+nuevo prepara implementación y ejecuta los mismos casos sobre paths y funciones
+reales, con hashes y sin sustitución por fakes; ese autor no puede modificar los
+oráculos sellados. Cualquier necesidad de hacerlo detiene la transición.
+
+Etapa A y etapa B comparten `OF1-C1` y `OF1-C2`, como máximo cuatro
+invocaciones de autor y `6.00 EUR` incrementales. No existe OF1-C3. Los límites
+nominales solo pueden asignar `5.90 EUR`; `0.10 EUR` queda como reserva no
+discrecional por sobrepaso de corte. La fusión normativa no abre base,
+preimagen, rama, ciclo, autor, provider o C0: cada acto conserva autorización
+humana separada.
 
 Registra la causa en `evidence/WP-XXX/`. Los terceros ciclos son una señal sobre
 la calidad del contrato o del troceado, no una invitación a seguir insistiendo.

@@ -238,10 +238,12 @@ autorizaciones.
    `max_ciclos_correccion: 2`. La transición de actualización del provider
    agotó C1/C2 y queda `blocked` por DEC-010 §18. La transición posterior
    `WP018-DOR7-PSHA-R2` agotó a su vez R2-C1/R2-C2 y queda `blocked` por
-   DEC-010 §19, sin R2-C3 y sin sucesor autorizado. F1 y F3 permanecen abiertos;
-   F2, F4 y F5 son regresiones cerradas. Toda invocación de Claude Code se
-   adquiere por F1 desde la primera; preparar otra transición exige decisión
-   humana nueva.
+   DEC-010 §19, sin R2-C3. F1 y F3 permanecen abiertos; F2, F4 y F5 son
+   regresiones cerradas. DEC-010 §20 elige `WP018-DOR7-PSHA-OF1` como sucesora
+   *oracle-first*, con etapas A/B, dos correcciones máximas compartidas y
+   `6.00 EUR` incrementales, pero no la abre. Toda invocación de Claude Code se
+   adquiere por F1 desde la primera; base, preimagen, bytes, rama, ciclos y
+   autores requieren actos humanos posteriores y separados.
 4. `WP-016`, cuyo contrato existe en `draft` y bloqueado, integrará el mismo
    verificador en CI solo después de acreditar ese productor. Una persona
    incorporará después el par
@@ -513,7 +515,7 @@ Los tres checks obligatorios son jobs de `ci.yml` y siguen operando. La contenci
 | `WP-005` | Entrada histórica, no ejecutable: permanece `draft` y será sustituido por `WP-016`, reservado por `DEC-014` únicamente desde la fusión humana de su composición |
 | `WP-016` | Identificador reservado para el sucesor limpio de WP-005; contrato existente en `draft`, bloqueado por `WP016-DOR-1`, no aprobado, admitido, activo ni autorizado para ejecución |
 | `WP-017` | Contrato `blocked`, nunca entregado; DOR-1 a DOR-6 resueltos, transición candidata de DOR-7 cerrada antes de C3 y DOR-7 a DOR-9 abiertos; retirado de la cola ejecutable y preservado como historia |
-| `WP-018` | Contrato `draft`, nunca aprobado, admitido, activado o implementado; DOR-1 a DOR-6 resueltos y DOR-7 a DOR-9 abiertos. La primera transición del provider está `blocked` tras C2 y su rama durable histórica sigue sin fusionar. `WP018-DOR7-PSHA-R2` también termina `blocked` tras R2-C2; su rama de evidencia fue fusionada por PR #83, la candidata técnica no se materializó y no existe R2-C3 ni sucesor autorizado |
+| `WP-018` | Contrato `draft`, nunca aprobado, admitido, activado o implementado; DOR-1 a DOR-6 resueltos y DOR-7 a DOR-9 abiertos. La primera transición del provider está `blocked` tras C2 y su rama durable histórica sigue sin fusionar. `WP018-DOR7-PSHA-R2` también termina `blocked` tras R2-C2; su rama de evidencia fue fusionada por PR #83, la candidata técnica no se materializó y no existe R2-C3. DEC-010 §20 delimita `WP018-DOR7-PSHA-OF1` como sucesora *oracle-first*, todavía no abierta y sin bytes, rama, ciclos o autores autorizados |
 | `WP-007` | Permanece `ready` y congelado; DEC-011 prevé su cierre posterior por superación, con autorización separada y sin transición de `ACTIVE` |
 | Prueba de humo de D1 | **No es una entrada propia**: será alcance de un sucesor limpio de `WP-008`, todavía sin identificador ni admisión |
 | Parche humano del guard delgado | Acto de operador sobre `.claude/hooks/**`, carril T3, posterior a `WP-002` y `WP-005` |
@@ -838,6 +840,21 @@ EJECUTAR`, F1/F3 abiertos, F2/F4/F5 cerrados y `WP018-DOR7-PSHA-R2` en estado
 el workflow, `specs/finops/fx-rates.md`, código, pruebas, infraestructura,
 GitHub, Google Cloud, ramas, worktrees o candidatas; tampoco autoriza limpieza,
 otra transición, autor, provider, WIF o C0.
+
+**Admisión atómica de la replanificación de instancia de `DEC-010` §20.** Se
+modifica directamente esta lista en el mismo diff; la enmienda no se
+autoautoriza. La composición cerrada consta exactamente de `DEC-010`, esta
+`DEC-003`, `docs/03-hoja-de-ruta.md`,
+`docs/manual/05-bloqueos-y-parada.md`,
+`docs/manual/08-productor-alcance-fda-wp018.md` y
+`work-packages/WP-018-productor-externo-alcance.md`; todos viajan juntos o
+ninguno. Compara abandono, división y transición sucesora; elige
+`WP018-DOR7-PSHA-OF1` con oráculos sellados antes de implementación, F1/F3 como
+aceptación indivisible, etapas A/B, `OF1-C1`/`OF1-C2` compartidos y `6.00 EUR`
+incrementales dentro del techo de WP-018. No abre OF1, crea base, preimagen,
+bytes, rama o ciclos, invoca actores, modifica `ACTIVE` o `evidence/**`, cambia
+el workflow o el tipo de cambio, ni accede o muta GitHub, Google Cloud, WIF,
+provider, roles, bindings, secretos, infraestructura o C0.
 
 ### 5. Punto de control de la pausa: 2026-09-07
 

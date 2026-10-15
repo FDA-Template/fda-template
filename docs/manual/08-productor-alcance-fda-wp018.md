@@ -475,6 +475,77 @@ materializó.
 R2 consumió `5.6754402 USD / 5.023402549123739 EUR`, superando el subpresupuesto
 de `5.00 EUR` en `0.023402549123739 EUR`. R2-C1 y R2-C2 están consumidos,
 `WP018-DOR7-PSHA-R2` termina `blocked` y no existe R2-C3. No se crea R3 ni se
-divide F1/F3 por analogía. DOR-7 continúa abierto y cualquier continuación
-requiere una decisión humana nueva; no están autorizados autor, provider, WIF,
-C0, infraestructura o limpieza destructiva.
+divide F1/F3 por analogía. DOR-7 continúa abierto. DEC-010 §19 devolvió
+cualquier continuación a decisión humana; el §20 posterior la resuelve sin
+autorizar todavía autor, provider, WIF, C0, infraestructura o limpieza
+destructiva.
+
+## 12. Transición sucesora `WP018-DOR7-PSHA-OF1`
+
+DEC-010 §20 rechaza abandonar WP-018 mientras siga vigente su objetivo y
+rechaza dividir F1/F3 en entregas independientes. Elige OF1 como transición
+sucesora *oracle-first*. No es R3, no reabre R2 y no reutiliza ninguna candidata
+histórica. Esta sección delimita el camino; no lo abre.
+
+### 12.1. Orden obligatorio
+
+1. Tras fusionar la enmienda, fijar por acto humano separado la cabeza exacta
+   de `origin/main`, comprobar que el workflow conserva SHA-256
+   `7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594` y
+   capturar una preimagen administrativa nueva.
+2. Con otra autorización, preparar externamente etapa A: pruebas, fakes,
+   runner y manifiesto de oráculos, sin código de mutación ni red.
+3. Astra audita de forma acotada la no vacuidad contra fixtures sintéticas de
+   control positivo y mutantes defectuosos conocidos. El arnés debe rechazar
+   manifiestos vacíos/incompletos, distinguir un `SIGKILL` marcado de una salida
+   temprana, llamar directamente a interfaces sintéticas bajo `if`, `!`, `&&`
+   y `||`, y fallar con casos omitidos o no alcanzados. Este `APTO` solo prueba
+   sensibilidad del arnés, no conformidad de una implementación inexistente.
+   Si hay hallazgos, antes de corregir se crea/publica la rama durable con la
+   candidata no apta, auditoría, coste y fila de ciclo `abierto`.
+4. Si etapa A es apta, sellar sus bytes con manifiesto externo y
+   `ORACLE-SHA256SUMS`, registrar ambos hashes y actualizar la rama existente o
+   crearla/publicarla si aún no existe, siempre antes de etapa B.
+5. Solo entonces otro contexto nuevo puede preparar etapa B. El autor de
+   implementación no puede modificar pruebas, fakes, runner o manifiesto de
+   oráculos; se comparan byte a byte antes y después.
+6. Ejecutar headless la batería sellada sobre paths y funciones reales,
+   registrando sus hashes. Debe acreditar en ese sujeto real los `SIGKILL`,
+   estados durables y llamadas directas bajo `errexit`; un fake, fixture,
+   subprocess sustituto o sujeto no identificable produce `NO APTO`. Después
+   se obtiene una revisión completa única independiente. F1/F3 solo cierran
+   juntos; F2/F4/F5 y los hallazgos históricos son regresiones obligatorias.
+7. Solo un dictamen final `APTO` permite pedir por separado materialización,
+   actualización del provider y rederivación de C0.
+
+### 12.2. Ciclos, coste y custodia
+
+OF1 comparte un máximo total de dos correcciones entre ambas etapas:
+`OF1-C1` y `OF1-C2`. Una corrección de oráculos consume uno de esos ciclos y no
+reaparece en implementación. Hay como máximo cuatro invocaciones de autor: una
+inicial de etapa A, una inicial de etapa B y dos correctoras. Fallo,
+interrupción, ausencia de cambios o de resultado final no repone invocación ni
+ciclo. No existe OF1-C3.
+
+El subpresupuesto incremental es `6.00 EUR`; etapa A, etapa B y correcciones lo
+comparten. Los límites nominales de invocación no pueden superar `5.90 EUR`
+acumulados y `0.10 EUR` queda sin asignar como reserva frente al sobrepaso de
+corte observado en R2. F1 se captura desde cada lanzamiento; cambio de mes o
+tipo, F1 no defendible, coste real superior a `6.00 EUR` o falta de remanente
+nominal produce parada.
+
+El coste histórico del provider permanece en `8.086031864023739 EUR`. Con OF1
+y la reserva separada de `5.00 EUR` del laboratorio DOR-6, el compromiso
+aritmético sería `19.086031864023739 / 100.00 EUR`, dejando
+`80.913968135976261 EUR` sin autorizar para el resto de WP-018.
+
+La rama durable prevista es
+`ops/wp018-dor7-psha-of1-custody`, todavía inexistente. Antes de etapa B o de
+una corrección, lo que ocurra primero, debe estar publicada con base, preimagen,
+hashes de oráculos, auditoría y coste. Antes de una corrección añade una única
+fila de ciclo `abierto`. La rama custodia evidencia; no materializa la candidata
+ni se fusiona durante una cabeza operativa congelada.
+
+La fusión de esta documentación no prepara bytes de OF1 ni autoriza base,
+preimagen, rama, ciclo, actor de etapa A, autor de etapa B, materialización,
+provider, WIF, C0, infraestructura o limpieza.
