@@ -49,6 +49,17 @@ transición nueva, todavía no abierta, con base, preimagen, presupuesto y ciclo
 propios; no invoca al autor, no aprueba, admite, activa o implementa WP-018 y no
 modifica la contención externa.
 
+**Enmendada de nuevo el 2026-10-15 por decisión humana de instancia:** el
+apartado 19 cierra `WP018-DOR7-PSHA-R2` `blocked` tras R2-C2, conserva F1/F3
+abiertos y devuelve cualquier continuación a una comparación humana entre
+abandono, división y transición sucesora.
+
+**Enmendada otra vez el 2026-10-15 por decisión humana de instancia:** el
+apartado 20 realiza esa comparación y elige `WP018-DOR7-PSHA-OF1` como
+transición sucesora *oracle-first*, todavía no abierta. Fija dos etapas, dos
+correcciones máximas compartidas y `6.00 EUR` incrementales; no crea bytes,
+rama, ciclos o autoridad técnica.
+
 
 ## Problema
 
@@ -2078,3 +2089,249 @@ bindings, secretos, ramas, worktrees o candidatas. No abre una transición,
 ciclo o presupuesto. Preparación, revisión, materialización, publicación,
 fusión, limpieza y cualquier replanteamiento conservan autorizaciones humanas
 separadas.
+
+## 20. Enmienda de instancia del 2026-10-15 — replanificación *oracle-first* posterior a R2
+
+### 20.1. Decisión humana y límites de este acto
+
+Después del cierre de §19, el operador comparó las tres rutas exigidas y eligió
+una transición sucesora dentro de DOR-7. Se denomina
+`WP018-DOR7-PSHA-OF1`: `OF1` significa *oracle-first 1* y no es un alias de R3,
+R2-C3 o de ninguna candidata anterior.
+
+Esta enmienda solo fija el contrato de esa transición. Su fusión no la abre, no
+crea una candidata, rama o ciclo, no invoca al autor y no observa ni muta estado
+externo. Después de fusionarla, un acto humano separado podrá autorizar
+únicamente la investigación de solo lectura, la fijación de base y preimagen y
+la preparación externa de la etapa A. Etapa B, rama durable, correcciones,
+materialización, provider, WIF y C0 conservan autorizaciones distintas.
+
+WP-018 continúa `draft`; `WP018-DOR7-F2`, DOR-7, DOR-8 y DOR-9 permanecen
+abiertos. OF1 no aprueba, admite, activa o implementa WP-018.
+
+### 20.2. Comparación de alternativas
+
+**Abandonar WP-018 — rechazado mientras el objetivo siga vigente.** Detendría
+el gasto y eliminaría el riesgo del provider, pero descartaría DOR-1 a DOR-6
+válidos, dejaría sin productor a `Alcance FDA` y bloquearía la ruta hacia
+WP-016. Abandonar exige retirar expresamente ese objetivo de la hoja de ruta;
+esta decisión no lo hace.
+
+**Dividir F1 y F3 en entregas independientes — rechazado.** F1 es la garantía
+de recuperación segura y F3 es su prueba falsable. Cerrar o materializar una
+sin la otra permitiría afirmar una recuperación no demostrada. Pueden existir
+etapas internas no ejecutables, pero F1/F3 forman una sola unidad de aceptación
+y solo cierran juntas.
+
+**Crear una transición sucesora — elegido.** Conserva DOR-1 a DOR-6 y corrige
+el defecto de proceso sin reutilizar R2. Exige identidad, base, preimagen,
+presupuesto, custodia y contadores nuevos, además de oráculos sellados antes del
+autor de implementación.
+
+### 20.3. Fallo observado que OF1 debe impedir
+
+R2 mezcló reparación y descubrimiento de oráculos. R2-C1 no ejecutó una
+verificación válida y dejó el manifiesto interno obsoleto. R2-C2 terminó por
+`budget_exhausted`. Después, la batería devolvió `0` e imprimió `APTO` aunque
+dos casos no alcanzaban sus failpoints `SIGKILL`, faltaba la llamada directa
+bajo inhibición de `errexit` y la validación admitía manifiestos incompletos o
+vacíos.
+
+Cambiar solo nombre, base o presupuesto repetiría ese fallo. OF1 cambia el
+orden y la autoridad: un actor de preparación construye primero un paquete de
+oráculos; una revisión acotada independiente demuestra su no vacuidad; el
+paquete queda sellado; y solo entonces un contexto de autor nuevo puede crear
+la implementación sin permiso para debilitar los oráculos.
+
+### 20.4. Base, preimagen y aislamiento
+
+Antes de preparar cualquier byte de OF1 se deberá:
+
+1. fijar como base exclusiva la cabeza exacta de `origin/main` posterior a la
+   fusión de esta enmienda;
+2. verificar que `.github/workflows/wp018-dor7-emergency-push.yml` conserva
+   SHA-256
+   `7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594`;
+3. capturar después una preimagen administrativa fresca, completa y saneada
+   con el mismo mínimo de superficies de §18.4: captura, pool, provider, IAM de
+   proyecto y cuenta push, suscripciones y políticas, topic y política,
+   logging, GitHub, workflow y despachos;
+4. acreditar pool y provider deshabilitados, cero bindings nuevos, cero
+   secretos o variables y cero despachos;
+5. detenerse si cambia `main`, el workflow o cualquier superficie no volátil.
+
+Los anclajes y bytes de la transición histórica y de R2 son evidencia, nunca
+base operativa, preimagen, plantilla o andamio. OF1 se rederiva desde cero. No
+se copian, parchean, mezclan o importan sus candidatas.
+
+### 20.5. Etapa A — oráculos antes de implementación
+
+La etapa A prepara externamente un paquete de verificación, sin código de
+mutación y sin acceso a red, GitHub o Google Cloud. Una sola invocación inicial
+del actor de preparación podrá autorizarse por separado; usará contexto nuevo,
+F1 desde el lanzamiento y no consumirá ciclo corrector. El paquete queda
+limitado a pruebas, fakes, runner y manifiesto de oráculos.
+
+Antes de etapa B, GPT-6 Astra con razonamiento Alto, contexto nuevo y solo
+lectura realizará una auditoría acotada de no vacuidad. No sustituye la revisión
+completa de la candidata combinada. El sujeto de etapa A es un conjunto cerrado
+de fixtures sintéticas de control positivo y mutantes defectuosos conocidos,
+creado dentro del propio paquete y sin bytes de candidatas históricas. Expone
+las interfaces, nombres de función, layouts y failpoints que deberá satisfacer
+la implementación real, pero es solo dato de prueba. La auditoría debe verificar
+la sensibilidad del arnés mediante casos realmente ejecutados:
+
+1. el control positivo de manifiesto completo pasa y cada mutante vacío,
+   incompleto, duplicado, con entradas extra, rutas fuera de raíz, hash ausente
+   o hash incorrecto falla;
+2. control negativo que elimine deliberadamente una entrada requerida y
+   demuestre que el arnés exige fallo cerrado de la recaptura;
+3. para cada failpoint, un sujeto positivo emite su marcador y termina
+   realmente por `SIGKILL`, mientras un mutante que sale antes con otro código
+   es rechazado; el arnés distingue ambos y comprueba archivos, journal y
+   evento terminal sintéticos;
+4. el arnés llama directamente a funciones sintéticas con los nombres e
+   interfaces congelados bajo `if`, `!`, `&&` y `||`; un mutante que sustituye
+   la llamada por otro proceso Bash debe hacer fallar el control;
+5. sintaxis Bash, AST Python, ShellCheck sin hallazgos y cobertura exacta del
+   manifiesto del paquete de oráculos;
+6. mutaciones o controles negativos que hagan fallar cada aserción crítica;
+7. inventario exacto de casos y fallo si un caso se omite, salta o no alcanza
+   su punto de prueba;
+8. imposibilidad de imprimir `APTO` si una comprobación exigida no fue
+   ejecutada y observada;
+9. presencia y sensibilidad de los oráculos de regresión F2, F4, F5 y de todos
+   los hallazgos cerrados de las transiciones anteriores, cada uno con al menos
+   un control que pasa y un mutante que debe fallar.
+
+El `APTO` de etapa A significa únicamente que el arnés discrimina sus controles
+sintéticos. No acredita la captura, recuperación, funciones o failpoints de la
+implementación real, que todavía no existe; esa conformidad pertenece
+exclusivamente a etapa B.
+
+Un dictamen de etapa A distinto de `APTO` impide etapa B. Una corrección de los
+oráculos consume `OF1-C1` o `OF1-C2`, se limita a los hallazgos de esa auditoría
+y recibe revalidación enfocada de la misma revisora. No existen pasadas de
+preparación ilimitadas. Al quedar apto, el paquete se sella por un manifiesto
+externo completo y un `ORACLE-SHA256SUMS`; ambos hashes se registran antes del
+autor de implementación.
+
+### 20.6. Etapa B — implementación fresca contra oráculos sellados
+
+Etapa B usa otro contexto nuevo de autor y como máximo una invocación inicial,
+que no consume ciclo corrector. Puede modificar únicamente los scripts y
+bibliotecas de implementación cerrados por el acto de apertura, más
+documentación técnica y el manifiesto final. Las pruebas, fakes, runner y
+`ORACLE-SHA256SUMS` de etapa A son de solo lectura y se verifican byte a byte
+antes y después del autor.
+
+El autor debe ejecutar headless la batería sellada. Solo después recibe una
+única revisión completa independiente de GPT-6 Astra, razonamiento Alto,
+contexto nuevo y solo lectura. Los hallazgos concretos vuelven al autor y la
+misma revisora hace revalidaciones enfocadas. OF1 dispone en total de
+`max_ciclos_correccion: 2`, `OF1-C1` y `OF1-C2`, compartidos entre las dos
+etapas. Un ciclo consumido en etapa A no reaparece en etapa B. Una invocación
+fallida, sin cambios, interrumpida o sin resultado final consume igualmente su
+invocación y, si era correctora, su ciclo.
+
+En etapa B el mismo runner debe seleccionar por las rutas e interfaces
+congeladas los scripts, capturador, rollback y funciones reales, registrar sus
+paths y hashes y ejecutar sobre ellos todos los casos de etapa A. La ejecución
+conforme exige ahora los `SIGKILL` reales, estados durables reales y llamadas
+directas reales bajo cada contexto de `errexit`. Sustituir el sujeto por un fake,
+fixture o subprocess, o no poder demostrar qué bytes se ejecutaron, es
+`NO APTO`. Los controles sintéticos permanecen como autoprueba del arnés, pero
+no cuentan como evidencia de la implementación.
+
+El número máximo de invocaciones de autor es cuatro: una inicial de etapa A,
+una inicial de etapa B y hasta dos correctoras compartidas. No existe OF1-C3.
+Si una corrección de implementación necesita cambiar un oráculo sellado, la
+transición se detiene para decisión humana; el autor no lo modifica como efecto
+lateral.
+
+Solo un dictamen final `APTO`, con F1/F3 cerrados juntos y todas las regresiones
+verdes, permitirá solicitar por actos separados materialización y ejecución del
+provider. Esta enmienda no los autoriza.
+
+### 20.7. Custodia durable
+
+La rama durable prevista es
+`ops/wp018-dor7-psha-of1-custody`, distinta de las dos ramas históricas. No se
+crea por esta enmienda. Antes de etapa B o de cualquier corrección, lo que
+ocurra primero, deberá existir y estar publicada con la identidad de
+base/preimagen, hashes del paquete de oráculos, auditoría y coste acumulado.
+Antes de una corrección añade además una única fila `OF1-C1` o `OF1-C2` en
+estado `abierto`. El inicio de la invocación consume la fila.
+
+La rama custodia evidencia y estado de ciclos; no materializa la candidata
+técnica ni se fusiona si hacerlo cambia la cabeza operativa congelada. Su
+fusión, descarte o limpieza requieren decisión humana posterior.
+
+### 20.8. Presupuesto y relación con el techo de WP-018
+
+Los dos expedientes históricos del provider conservan un coste acumulado de
+`8.086031864023739 EUR`. OF1 recibe un subpresupuesto incremental máximo de
+`6.00 EUR`; no es saldo transferido de R2. El laboratorio DOR-6 conserva su
+reserva separada de `5.00 EUR`:
+
+```text
+8.086031864023739 + 6.00 + 5.00 = 19.086031864023739 EUR
+19.086031864023739 <= 100.00 EUR
+saldo posterior a esas reservas = 80.913968135976261 EUR
+```
+
+El saldo es aritmético, no autoridad para DOR-8, DOR-9, implementación o
+infraestructura. El techo de `100.00 EUR` no se reinicia.
+
+Toda invocación Claude Code atribuible a OF1 usa F1 desde su lanzamiento,
+WP-ID explícito, versión exacta, `claude -p --output-format json` y nunca
+`--continue` o `--resume`. Los límites nominales de invocación pueden asignar
+como máximo `5.90 EUR` acumulados; los `0.10 EUR` restantes son una reserva no
+discrecional frente al sobrepaso de corte observado en R2. El límite USD de
+cada invocación se calcula con el tipo mensual congelado y el remanente nominal
+exacto. Coste de error también se suma.
+
+Coste real `>6.00 EUR`, F1 no defendible, cambio de mes o tipo, ausencia de
+remanente nominal o agotamiento de las cuatro invocaciones detiene OF1. No se
+abre una invocación con cargo a la reserva de `0.10 EUR`. Etapa A, etapa B y
+correcciones comparten el mismo subpresupuesto.
+
+### 20.9. Orden de actos y efectos exactos
+
+La secuencia posterior a la fusión de esta enmienda es cerrada:
+
+1. autorización humana de investigación en solo lectura y fijación de base,
+   workflow y preimagen;
+2. autorización humana separada para preparar externamente etapa A;
+3. auditoría acotada de oráculos. Si abre hallazgos, autorización separada para
+   crear y publicar la rama con la candidata no apta, base, preimagen,
+   auditoría, coste y una fila de ciclo `abierto`; solo después corrección y
+   revalidación enfocada;
+4. cuando etapa A sea apta, sellado del paquete y actualización de esa rama, o
+   creación/publicación separada si todavía no existe, siempre antes de etapa B;
+5. autorización humana separada de etapa B y de su autor;
+6. verificación, revisión completa única y hasta dos correcciones totales,
+   descontando las usadas en etapa A;
+7. solo tras `APTO`, decisiones separadas de materialización, provider y C0.
+
+Esta composición no ejecuta ninguno de esos actos. No cambia `ACTIVE`, no
+modifica `evidence/**`, workflow, `specs/finops/fx-rates.md`, código, pruebas o
+infraestructura y no accede a GitHub o Google Cloud. Pool y provider continúan
+deshabilitados; WIF, roles y bindings continúan ausentes y hay cero despachos.
+No autoriza secretos, claves, facturación, limpieza o reutilización de
+candidatas.
+
+### 20.10. Composición normativa mínima
+
+La replanificación viaja en una composición atómica de exactamente seis
+archivos; todos o ninguno:
+
+1. `specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md`;
+2. `specs/decisions/DEC-003-pausa-migracion-y-contencion.md`;
+3. `docs/03-hoja-de-ruta.md`;
+4. `docs/manual/05-bloqueos-y-parada.md`;
+5. `docs/manual/08-productor-alcance-fda-wp018.md`;
+6. `work-packages/WP-018-productor-externo-alcance.md`.
+
+Preparación, revisión normativa, materialización, publicación y fusión de esta
+composición también son actos separados. La enmienda no se autoautoriza.
