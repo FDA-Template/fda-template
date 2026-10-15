@@ -75,7 +75,7 @@ No se permite modificar `authorized-preimage/**`, ampliar la mutación, aceptar
 nuevas exclusiones volátiles, reutilizar C2 ni corregir algo ajeno a los cinco
 hallazgos y sus efectos directos.
 
-## Estado versionado de R2-C1
+## Estado versionado de los ciclos R2
 
 | Ciclo | Estado | Fecha de apertura | Invocaciones correctoras | Autor ejecutado | Base | Coste acumulado R2 |
 |---|---|---|---:|---|---|---:|
@@ -85,6 +85,54 @@ R2-C1 adquirió autoridad mediante el commit publicado
 `1cce54865a8d3c9444f3b632fe35038f0b3c5431`. Se consumió al comenzar su única
 invocación correctora; el éxito del instrumento no acredita la postimagen y no
 se crea una segunda fila R2-C1.
+
+### Apertura de R2-C2
+
+| Ciclo | Estado | Fecha de apertura | HEAD y candidata de entrada | Revisión de origen | Hallazgos autorizables | Invocaciones correctoras | Autor ejecutado | Base | Coste acumulado R2 |
+|---|---|---|---|---|---|---:|---|---|---:|
+| R2-C2 | `abierto` | 2026-10-15 | custodia R2-C1 `b4ec67626e836877d96e83e700c4ce9755904922`; postimagen externa con manifiesto completo `133aa34695c7329552c2a7427540eed8dfbf2d1f0cf63cf0163dba9fd1c47fa3` | `review-astra.md`, revalidación enfocada 1/2; salida `51d0cd2ac776ab88c53eee4df6086ada6ce366ddea82dc32d8b99f6464c846ef` | `WP018-PSHA-R2-F1`, `WP018-PSHA-R2-F3` y efectos directos | 0 | no | `9cdfaefddfdb50fa1fba385e265243022b67061f` | 3.65 de 5.00 EUR |
+
+La autorización humana del 2026-10-15 cubre exclusivamente esta apertura
+documental. La fila solo adquiere autoridad cuando el commit que la contiene
+queda publicado en la rama durable R2. No autoriza todavía una invocación del
+autor, y R2-C2 no se consume hasta que esa eventual invocación comience.
+
+La postimagen R2-C1 es la entrada inmutable de R2-C2. No se corrige in situ: un
+acto posterior deberá copiar exactamente sus bytes a una ubicación nueva,
+comprobar el manifiesto externo completo y detenerse ante cualquier diferencia.
+El `SHA256SUMS` interno obsoleto es un defecto conocido de la candidata, no una
+fuente válida para reconstruir o adaptar bytes.
+
+El alcance corrector queda cerrado así:
+
+1. **F1:** antes de reutilizar una recaptura de rollback, validar su conjunto
+   completo de archivos, manifiesto y cierre; una captura incompleta se preserva
+   y fuerza un intento nuevo. Ejecutar cortes reales después de `result.json`,
+   antes de `drift-comparison.json` o `SHA256SUMS` y antes del evento terminal.
+2. **F3.a:** corregir el quoting del CEL y preservar el código de fallo durante
+   la limpieza, incluido Bash 3.2, sin falsos códigos `0`.
+3. **F3.b:** construir una fixture bootstrap completa y coherente antes de
+   invocar `compare`, incluido `drift-comparison.json`, y sellarla solo después
+   de finalizar todos sus archivos.
+4. **F3.c:** probar una recuperación realmente interrumpida; no vale provocar
+   primero un rollback automático ya terminado y llamar después al modo manual.
+5. **F3.d:** ejercitar directamente las funciones pertinentes bajo `if`, `!` y
+   listas condicionales, de modo que la inhibición interna de `errexit` sea el
+   comportamiento probado y no el de otro proceso Bash.
+
+Solo pueden tocarse, cuando sea efecto directo de esos puntos, los archivos
+técnicos ya enumerados en la sección anterior y el `SHA256SUMS` raíz. Este debe
+regenerarse sobre los bytes finales con cobertura exacta. F2, F4 y F5 permanecen
+cerrados y son regresiones obligatorias: `result.json` sigue entre las 39
+superficies sin exclusiones nuevas; ninguna respuesta administrativa cruda
+llega a disco; y cualquier fallo al consultar impersonación detiene el flujo.
+`authorized-preimage/**` permanece inmutable.
+
+La evidencia exigida comprende sintaxis Bash, ShellCheck, AST Python y la
+batería local completa, todos ejecutados con código de salida significativo.
+Después solo cabe la segunda y última revalidación enfocada de la misma Astra.
+Si no emite `APTO`, se preserva la candidata y se para para replantear; no
+existe R2-C3.
 
 ## Coste y gates anteriores al autor
 
@@ -145,16 +193,17 @@ EJECUTAR`. El estado queda:
 | `WP018-PSHA-R2-F4` | Cerrado: respuestas sensibles proyectadas y saneadas en streaming |
 | `WP018-PSHA-R2-F5` | Cerrado: el fallo al consultar impersonación se propaga y detiene |
 
-R2-C2 permanece sin abrir. Solo podría corregir F1, F3 y sus efectos directos,
-preservando F2, F4, F5 y las regresiones históricas, regenerando el manifiesto
-y produciendo evidencia ejecutada. Abrir R2-C2 e invocar al autor son actos
-humanos separados. Si R2-C2 tampoco converge, corresponde parada y
-replanificación; no existe R2-C3.
+R2-C2 queda abierto pero no consumido: tiene cero invocaciones correctoras y no
+ha modificado la candidata. Una eventual invocación del autor exige otro acto
+humano, gates previos completos y un límite que no pueda superar los
+`1.3525140733... EUR` restantes. Si no puede acreditarse cualquiera de esas
+condiciones, corresponde parar sin consumir el ciclo.
 
 ## Autorizaciones separadas
 
-Este resultado no autoriza otra invocación, modificar la candidata, ejecutar
-sus pruebas con servicios reales, materializarla, actualizar o recuperar el
-provider, habilitar WIF, crear roles o bindings, despachar el workflow, abrir o
-ejecutar C0, abrir R2-C2, fusionar o descartar ninguna rama. Cada acto requiere
-su propia autorización humana conforme a `DEC-010` §18.5.
+Esta composición autoriza únicamente publicar la fila de apertura de R2-C2. No
+autoriza invocar al autor, modificar o ejecutar la candidata, ejecutar pruebas
+con servicios reales, materializarla, actualizar o recuperar el provider,
+habilitar WIF, crear roles o bindings, despachar el workflow, abrir o ejecutar
+C0, fusionar o descartar ninguna rama. Cada acto requiere su propia
+autorización humana conforme a `DEC-010` §18.5.
