@@ -65,14 +65,13 @@ directos en los ocho archivos identificados por `review-astra.md`.
 | Ciclo | Estado | Fecha de apertura | Invocaciones correctoras | Autor ejecutado | Base | Presupuesto acumulado C1+C2 |
 |---|---|---|---:|---|---|---:|
 | C1 | `NO APTO — consumido` | 2026-10-15 | 1 | sí; OAuth expirado antes de inferencia, sin cambios | `2f7fc1ce0bcab69d9157067445d7e6d60a593d5e` | 0.00 de 5.00 EUR |
-| C2 | `abierto` | 2026-10-15 | 0 | no | `2f7fc1ce0bcab69d9157067445d7e6d60a593d5e` | 0.00 de 5.00 EUR |
+| C2 | `NO APTO — consumido` | 2026-10-15 | 1 | sí; terminó, produjo candidata no apta | `2f7fc1ce0bcab69d9157067445d7e6d60a593d5e` | 3.06 de 5.00 EUR |
 
-`abierto` describe la postimagen que adquiere autoridad únicamente al quedar
-versionada y publicada en la rama durable indicada. Mientras estos bytes solo
-existan en `/private/tmp`, C1 no está abierto. Crear, commitear o publicar esa
-rama tampoco consume C1: el ciclo se consume solo cuando comienza la primera
-invocación correctora del autor, aunque falle, se interrumpa o no produzca
-cambios. Nunca se crea una segunda fila C1.
+Cada estado `abierto` adquirió autoridad únicamente al quedar versionado y
+publicado en la rama durable indicada. Su preparación en `/private/tmp`, el
+commit y el push no consumieron el ciclo: cada ciclo se consumió cuando
+comenzó su primera invocación correctora, aunque C1 falló antes de inferencia.
+Nunca se creó una segunda fila para el mismo ciclo.
 
 ## Coste y gates anteriores al autor
 
@@ -89,10 +88,10 @@ cambios. Nunca se crea una segunda fila C1.
   de deriva, `claude 2.1.272`, captura headless, tipo mensual y presupuesto
   restante. Falta de cualquiera implica parada.
 
-Después de la primera invocación se actualiza esta misma fila con resultado,
-coste y estado. Solo una revalidación enfocada de la misma revisora puede
-cerrar C1 como `APTO` o mantener hallazgos concretos. C2 solo se abre mediante
-el mismo procedimiento; no existe C3.
+Después de cada invocación se actualiza la misma fila con resultado, coste y
+estado. Solo una revalidación enfocada de la misma revisora puede cerrar un
+ciclo como `APTO` o mantener hallazgos concretos. C2 se abrió mediante el
+mismo procedimiento; no existe C3.
 
 ## Resultado de C1
 
@@ -125,29 +124,70 @@ saneada en el mismo contexto externo que usaría el autor confirmó
 `loggedIn: true`, método `claude.ai`, proveedor `firstParty`. Claude Code
 conserva la versión exacta `2.1.272`.
 
-La fila C2 anterior describe la postimagen propuesta. Solo adquiere autoridad
-como `abierto` cuando estos bytes quedan versionados y publicados sobre la
-rama durable en un commit hijo de
-`02821d7c8a57042d73b2185e74e656342478c4fe`. Prepararla en `/private/tmp` no
-abre C2; el commit y el push tampoco lo consumen. C2 se consume únicamente al
-comenzar su primera invocación correctora, aunque falle, se interrumpa o no
-produzca cambios.
+La apertura de C2 adquirió autoridad cuando quedó versionada y publicada en la
+rama durable mediante el commit
+`27d395ab1a3c5d541939d62e21a630652a665140`, hijo de
+`02821d7c8a57042d73b2185e74e656342478c4fe`. Su preparación en `/private/tmp`,
+el commit y el push no consumieron C2; el ciclo se consumió cuando comenzó su
+única invocación correctora.
 
-C2 autoriza como alcance corrector exclusivamente `WP018-PSHA-F1` a
-`WP018-PSHA-F5` y sus efectos directos en los ocho archivos técnicos ya
-identificados. La candidata técnica sigue byte a byte en su estado histórico
-`NO APTO`; la invocación C1 no produjo cambios. El coste acumulado medido es
-`0 USD / 0 EUR`, por lo que permanecen disponibles los `5.00 EUR` del
-subpresupuesto de la transición.
+Al abrir C2, el alcance corrector quedó limitado a `WP018-PSHA-F1` a
+`WP018-PSHA-F5` y sus efectos directos en los ocho archivos técnicos
+identificados. En ese momento, la candidata conservaba sus bytes históricos
+porque C1 no había producido cambios; el coste acumulado era
+`0 USD / 0 EUR` y quedaban disponibles `5.00 EUR`. Estos datos describen la
+apertura; el estado vigente es el resultado final de C2 consignado a
+continuación.
 
 C2 es el último ciclo ordinario. No existe C3. Esta apertura no autoriza la
 invocación del autor, materialización o ejecución de la candidata, provider,
 rollback, WIF, workflow, dispatch, C0, infraestructura, PR, fusión o descarte
 de la rama; cada acto conserva autorización humana separada.
 
+## Resultado final de C2
+
+La única invocación correctora de C2 comenzó el `2026-10-15T10:46:49Z` y
+terminó el `2026-10-15T11:18:41Z` con código `0`. Claude Code `2.1.272`
+produjo una candidata en
+`/private/tmp/wp018-dor7-provider-sha-c2-author`, con digest agregado
+`1625f0666d24c65732bd71d45d92120f4f6c95f2fc861c555f2a9a58aebe91da`.
+El crudo externo tiene SHA-256
+`655a53eaaeba62bd9cadc1399cb2279b87eb589227df9909ae75c7e76f3462dc`.
+La captura F1 registra `is_error: false`, 35 turnos, cero denegaciones de
+permisos, subagentes o solicitudes web de herramientas, y coste
+`3.4601586 USD / 3.0626293149... EUR`, redondeado a `3.06 EUR`.
+
+La verificación local de `tests/run-local-tests.sh` terminó con código `1`.
+El caso negativo que altera `result.main` de `"m"` a `"DIFFERENT"` fue
+aceptado por `compare_preimage_canonically` cuando se invoca dentro de un
+`if`: el primer `cmp` falla, las comparaciones posteriores tienen éxito y la
+función devuelve `0`. La batería se detuvo antes de las pruebas posteriores.
+Sintaxis y ShellCheck sí pasaron. El manifiesto de la candidata declara además
+que no se ejecutaron el preflight completo ni los caminos completos de
+actualización exitosa, fallo posterior a la mutación y rollback automático.
+
+La misma revisora independiente realizó una única revalidación enfocada,
+estrictamente de solo lectura, y emitió `NO APTO`. El estado final es:
+
+| Hallazgo | Severidad | Estado final |
+|---|---|---|
+| `WP018-PSHA-F1` | Bloqueante | Abierto: el journal puede quedar con sello inválido tras su última ampliación y antes de la custodia raíz |
+| `WP018-PSHA-F2` | Bloqueante | Abierto: la comparación omite superficies materiales y la candidata conserva `NEW_MAIN_SHA=6821c0a...`, no la base congelada |
+| `WP018-PSHA-F3` | Importante | Cerrado en el diff; la falta de ejecución integral permanece en F4 |
+| `WP018-PSHA-F4` | Importante | Abierto: batería fallida y caminos críticos no ejecutados |
+| `WP018-PSHA-F5` | Menor | Cerrado: las llamadas señaladas incluyen el proyecto explícito |
+
+C1 y C2 están consumidos. No existe C3 y no se corrige, reejecuta,
+materializa ni ejecuta esta candidata. La transición se detiene de forma
+segura y vuelve a decisión humana para elegir cierre `blocked`, división o
+replanteamiento. Pool y provider permanecen deshabilitados; no se habilita
+WIF, no se despacha el workflow, no se abre C0 y no se modifica
+infraestructura.
+
 ## Autorizaciones separadas
 
-Esta apertura no autoriza la invocación del autor, materialización o ejecución
-de la candidata corregida, actualización del provider, rollback, habilitación
-de WIF, dispatch, C0, fusión o descarte de la rama. Cada acto requiere su propia
-autorización humana conforme a DEC-010 §17.
+Este cierre no autoriza otra invocación, una corrección, materialización o
+ejecución de la candidata, actualización del provider, rollback, habilitación
+de WIF, dispatch, C0, fusión o descarte de la rama. La siguiente decisión
+humana debe elegir cierre `blocked`, división o replanteamiento; no puede abrir
+C3 por implicación.

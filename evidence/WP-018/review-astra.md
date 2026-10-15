@@ -143,3 +143,101 @@ Esta revalidación no abre C2 ni autoriza reintentar como C1. Una siguiente
 invocación correctora correspondería a C2 y requiere su apertura versionada y
 autorización separada. La revisora no modificó archivos ni ejecutó red o
 infraestructura.
+
+## Revalidación enfocada final de C2
+
+- Fecha: 2026-10-15.
+- Revisora: la misma instancia independiente GPT-6 Astra, razonamiento Alto,
+  rol `code-reviewer`, `/root/wp018_provider_sha_review`.
+- Alcance: resultado de C2 y estado final de `WP018-PSHA-F1` a
+  `WP018-PSHA-F5`.
+- Modo: solo lectura; no modificó archivos ni ejecutó red o infraestructura.
+- Base exclusiva: `origin/main`
+  `2f7fc1ce0bcab69d9157067445d7e6d60a593d5e`.
+- Candidata: `/private/tmp/wp018-dor7-provider-sha-c2-author`.
+- Digest agregado de la candidata:
+  `1625f0666d24c65732bd71d45d92120f4f6c95f2fc861c555f2a9a58aebe91da`.
+- SHA-256 de la transcripción externa normalizada con LF terminal:
+  `c200e2a4d61ab408ffe9aa25e7385f284c2d5ee94dbfe975097fc86d31278efa`.
+
+Identidad byte a byte de la candidata C2 revisada:
+
+| Ruta | SHA-256 |
+|---|---|
+| `00-common.sh` | `a7cd645e19abfb133c324064750e063a6da744913cb5b0e98a41945b2d7ae675` |
+| `00-run-bounded.sh` | `c386ee34473a3c22d84e7a9fe72e7cf45a5d629f17c84d3d3c7f471631cf014b` |
+| `01-read-only-preflight.sh` | `92aa04778972a3dff6aab61bf80f4f18d85c49a6733edb908f260021d985ac98` |
+| `02-update-provider-sha.sh` | `f0550dcf4c912769732cf8264ba09e74977fbb48d1e6a60b4c6ba7d4971f8664` |
+| `03-rollback-provider-sha.sh` | `c47c140230455c90aa2a6f79612f7db87d73f9a77b7894abf2b68371e0b2fe7d` |
+| `MANIFEST.md` | `918f0aac199f033a01a913bb84cd7a156503e11c00c0374ae1e31480fa3fed46` |
+| `tests/fixtures/gcloud` | `3b4af729434006816ea297e4fdc1582a5fdb39a9aa9ffdd0eb485c26b2d3007c` |
+| `tests/run-local-tests.sh` | `15cab3c1c22f1ade3a843c6031b6f74bca5646792f887893efc94c0f979f55b8` |
+
+### Dictamen enfocado completo
+
+VEREDICTO: RECHAZA
+
+**C2: NO APTO. Ciclos correctores agotados; no existe C3.**
+
+| Hallazgo | Estado final | Evidencia |
+|---|---|---|
+| `WP018-PSHA-F1` | **Abierto — bloqueante** | La recuperación acepta ejecuciones fallidas, pero una interrupción después de ampliar el journal invalida su custodia. |
+| `WP018-PSHA-F2` | **Abierto — bloqueante** | La comparación omite políticas y fixtures; además mantiene la base y preimagen históricas. |
+| `WP018-PSHA-F3` | **Cerrado en el diff** | Ambos rollbacks comparan el provider completo, excluyendo únicamente `etag` y `updateTime`. La falta de ejecución integral permanece en F4. |
+| `WP018-PSHA-F4` | **Abierto — importante** | La batería falla y no cubre los caminos completos de actualización y rollback automático. |
+| `WP018-PSHA-F5` | **Cerrado** | Las cuatro llamadas señaladas incorporan `--project="$PROJECT_ID"`. |
+
+**WP018-PSHA-F1.** `mutation/SHA256SUMS` se genera antes de mutar, pero
+después se añade una entrada al `journal.jsonl` sin actualizar ese sello. La
+recuperación manual exige verificarlo. Si la actualización y las
+comprobaciones terminan, se añade `state:"verified"` y el proceso recibe
+`SIGKILL` antes de crear la custodia raíz, el provider conserva la condición
+nueva, no existe una ejecución completada y la recuperación manual rechaza el
+journal por hash incorrecto. El problema original de recuperación tras
+interrupción no queda resuelto.
+
+**WP018-PSHA-F2.** Se comparan únicamente `result.json`,
+`gcp/provider.json` y `gcp/pool.json`. Se omiten las políticas IAM,
+suscripciones, topic y logging que sustentan la autorización. Añadir
+`roles/editor` a la cuenta push en la política del proyecto sigue pasando el
+oráculo original porque esa política no participa en la comparación.
+
+Además, `NEW_MAIN_SHA` sigue siendo
+`6821c0a83efd547b7617a1fed9c168e33224889c`; el objetivo exclusivo autorizado
+es `2f7fc1ce0bcab69d9157067445d7e6d60a593d5e`. También permanecen el hash de
+la preimagen histórica y su descripción en el manifiesto. Con `main` en la
+cabeza congelada correcta, el preflight rechaza su SHA; la condición nueva
+preparada tampoco corresponde a esa cabeza.
+
+**WP018-PSHA-F4.** El caso negativo invoca la comparación dentro de `if`,
+donde Bash inhibe `errexit`. Un primer `cmp` fallido queda seguido por
+comparaciones exitosas y la función devuelve `0`. El test termina entonces
+con error; las pruebas posteriores de restauración y recuperación no llegan a
+ejecutarse. El escenario observado cambia `result.main` de `"m"` a
+`"DIFFERENT"` mientras provider y pool coinciden. Este defecto del retorno
+bajo `if` no demuestra que la llamada directa de `02`, con `set -e`, acepte
+ese mismo caso.
+
+`MANIFEST.md` declara que faltan las pruebas completas de actualización
+exitosa, fallo posterior a la mutación y rollback automático. El hash fijo no
+constituye una imposibilidad: los bytes del workflow ya disponibles en el
+commit local congelado producen exactamente el hash exigido.
+
+Las comprobaciones independientes de sintaxis y ShellCheck pasan. La
+comparación completa rechaza una diferencia en `oidc.jwksJson`. La batería
+completa `tests/run-local-tests.sh` terminó con código `1`; la revisora no la
+repitió porque crea archivos temporales y su revisión era estrictamente de
+solo lectura.
+
+El crudo C2 coincide con SHA-256
+`655a53eaaeba62bd9cadc1399cb2279b87eb589227df9909ae75c7e76f3462dc`:
+salida del autor `0`, coste `3.4601586 USD = 3.0626293149 EUR`. El éxito de la
+invocación no acredita la corrección de la candidata.
+
+**Disposición: parada segura.** C1 y C2 están consumidos. Se preservan la
+candidata, hashes y evidencias, y se registra C2 como `NO APTO`, con F1, F2 y
+F4 abiertos. No procede corregir ni reejecutar esta candidata. La causa de no
+convergencia es la rederivación incompleta de base/preimagen y la ausencia de
+validación integral del flujo de recuperación. Corresponde devolver la
+transición a decisión humana y replanificación, manteniendo la contención
+externa y sin habilitar WIF, despachar workflows ni ejecutar el provider.

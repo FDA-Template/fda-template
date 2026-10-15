@@ -1,6 +1,7 @@
 {
   "schema": "fda-cost-f1-v1",
   "wp_id": "WP-018",
+  "fuente_coste": "F1",
   "instrumento": "claude-code 2.1.272 --output-format json",
   "capture_conformance": "complete",
   "invocations": [
@@ -30,11 +31,53 @@
       "subagents_spawned": 0,
       "web_fetch_requests": 0,
       "web_search_requests": 0,
-      "total_cost_usd": 0
+      "total_cost_usd": 0,
+      "raw_capture_sha256": "74f2c6cd8f1f79ba91980c3c311a56d49230729b815b877ec303c4516f51896e"
+    },
+    {
+      "index": 2,
+      "purpose": "C2 - correccion de WP018-PSHA-F1 a WP018-PSHA-F5",
+      "timestamp_utc_start": "2026-10-15T10:46:49Z",
+      "timestamp_utc_end": "2026-10-15T11:18:41Z",
+      "exit_code": 0,
+      "duration_ms": 1911370,
+      "duration_api_ms": 1912686,
+      "num_turns": 35,
+      "subtype": "success",
+      "is_error": false,
+      "terminal_reason": "completed",
+      "session_id_sha256": "0b74a22b06686b034f4a004a0e6a6069b8808c9d53b72fd0c8e87575363ffdc6",
+      "models": [
+        {
+          "model": "claude-haiku-4-5-20251001",
+          "input_tokens": 2466,
+          "output_tokens": 23,
+          "thinking_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0,
+          "web_search_requests": 0,
+          "cost_usd": 0.002581
+        },
+        {
+          "model": "claude-sonnet-5",
+          "input_tokens": 44,
+          "output_tokens": 198549,
+          "thinking_tokens": 168922,
+          "cache_read_input_tokens": 2676358,
+          "cache_creation_input_tokens": 234182,
+          "web_search_requests": 0,
+          "cost_usd": 3.4575776
+        }
+      ],
+      "permission_denials": 0,
+      "subagents_spawned": 0,
+      "web_fetch_requests": 0,
+      "web_search_requests": 0,
+      "total_cost_usd": 3.4601586,
+      "raw_capture_sha256": "655a53eaaeba62bd9cadc1399cb2279b87eb589227df9909ae75c7e76f3462dc"
     }
   ],
-  "total_cost_usd": 0,
-  "raw_capture_sha256": "74f2c6cd8f1f79ba91980c3c311a56d49230729b815b877ec303c4516f51896e",
-  "capture_note": "Importe cero medido por F1: la autenticacion fallo antes de inferencia y la captura estructurada registra cero tiempo de API, modelos y tokens. No es un cero de relleno ni representa cero invocaciones.",
+  "total_cost_usd": 3.4601586,
+  "capture_note": "Las dos invocaciones correctoras tienen captura F1 completa. C1 registra cero medido porque la autenticacion fallo antes de inferencia. C2 termino correctamente como instrumento, pero la candidata fue NO APTO; su coste se suma igualmente.",
   "red_used_by_author_tools": false
 }
