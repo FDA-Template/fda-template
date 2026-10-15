@@ -1,0 +1,131 @@
+{
+  "schema": "wp018-r2-cost-f1/v2",
+  "wp_id": "WP-018",
+  "transition": "WP018-DOR7-PSHA-R2",
+  "status": "blocked",
+  "cycles_consumed": 2,
+  "totals": {
+    "total_cost_usd": 5.6754402,
+    "fx": {
+      "usd_per_eur": 1.1298,
+      "reference_date": "2026-10-01",
+      "source": "BCE",
+      "cost_eur_exact": 5.023402549123739,
+      "cost_eur_rounded": 5.02,
+      "subbudget_eur": 5.0,
+      "overage_eur_exact": 0.023402549123739,
+      "consumption_percent_exact": 100.46805098247478
+    },
+    "historical_cost_eur": 3.0626293149,
+    "historical_plus_r2_eur": 8.086031864023739,
+    "combined_limit_eur": 8.0626293149,
+    "combined_overage_eur": 0.023402549123739
+  },
+  "invocations": [
+    {
+      "cycle": "R2-C1",
+      "started_at": "2026-10-15T16:49:48Z",
+      "finished_at": "2026-10-15T17:19:16Z",
+      "instrument": "2.1.272 (Claude Code)",
+      "prompt_sha256": "a502b0cf4937892c19c28201a5ecfe916cf498a34c8ce80d0f226fb7fdea720a",
+      "before_manifest_sha256": "bfa60e607b707a62f19e16bfce7035749608f7ff336bf3cc45d7027a8f5db891",
+      "process_exit": 0,
+      "is_error": false,
+      "subtype": "success",
+      "terminal_reason": "completed",
+      "duration_ms": 1767314,
+      "duration_api_ms": 1767579,
+      "num_turns": 64,
+      "total_cost_usd": 4.1209296,
+      "cost_eur_exact": 3.6474859267126925,
+      "permission_denials": {
+        "count": 9,
+        "by_tool": [
+          {
+            "tool": "Bash",
+            "count": 9
+          }
+        ]
+      },
+      "model_usage": [
+        {
+          "model": "claude-haiku-4-5-20251001",
+          "cost_usd": 0.003065,
+          "input_tokens": 2950,
+          "output_tokens": 23,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        },
+        {
+          "model": "claude-sonnet-5",
+          "cost_usd": 4.1178646,
+          "input_tokens": 108,
+          "output_tokens": 169914,
+          "cache_read_input_tokens": 7309203,
+          "cache_creation_input_tokens": 239167
+        }
+      ],
+      "subagents_spawned": 0,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "raw_external": {
+        "path": "/private/tmp/wp018-author-r2-c1-raw.json",
+        "sha256": "d7e389d6f6373bb4e6fc68a1ceec59b8d79515efaaf163cae0a4677a51a2426e"
+      }
+    },
+    {
+      "cycle": "R2-C2",
+      "started_at": "2026-10-15T17:54:14Z",
+      "finished_at": "2026-10-15T18:07:22Z",
+      "instrument": "2.1.272 (Claude Code)",
+      "prompt_sha256": "e661a5aba51e61c599a17e4e00587998ba509ff4a4f8666a3d846208f484a9b2",
+      "wrapper_sha256": "9f642455ec5cdb5062aabdd324ce6d8548b7c4b7f469f6ff0c7547c9a804fad6",
+      "gate_manifest_sha256": "6f29b1a4d8ea0bbeccb27ac7ba16a87a17d6271ace7825db835899d342b14a5f",
+      "before_manifest_sha256": "133aa34695c7329552c2a7427540eed8dfbf2d1f0cf63cf0163dba9fd1c47fa3",
+      "internal_manifest_sha256": "bfa60e607b707a62f19e16bfce7035749608f7ff336bf3cc45d7027a8f5db891",
+      "postimage_manifest_sha256": "ffa413fc5f798dc5b640314783ac022aef479427795ace159d033dd1415332ab",
+      "max_budget_usd": 1.52,
+      "process_exit": 1,
+      "is_error": true,
+      "subtype": "error_max_budget_usd",
+      "terminal_reason": "budget_exhausted",
+      "result_present": false,
+      "duration_ms": 786959,
+      "duration_api_ms": 639102,
+      "num_turns": 38,
+      "total_cost_usd": 1.5545106,
+      "cost_eur_exact": 1.3759166224110462,
+      "permission_denials": {
+        "count": 0,
+        "by_tool": []
+      },
+      "model_usage": [
+        {
+          "model": "claude-haiku-4-5-20251001",
+          "cost_usd": 0.003002,
+          "input_tokens": 2857,
+          "output_tokens": 29
+        },
+        {
+          "model": "claude-sonnet-5",
+          "cost_usd": 1.5515086,
+          "input_tokens": 72,
+          "output_tokens": 62819,
+          "thinking_tokens": 50686,
+          "cache_read_input_tokens": 2414493,
+          "cache_creation_input_tokens": 110069
+        }
+      ],
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "raw_external": {
+        "path": "/private/tmp/wp018-author-r2-c2-raw.json",
+        "sha256": "cc1b8536f097e79bfbcd709f5e4104c70544ab4e9ca235ac0aeb1b6c0a45a2cc"
+      }
+    }
+  ]
+}
