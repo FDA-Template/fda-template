@@ -1,477 +1,159 @@
-# Hoja de ruta — de la FDA al AI Agent Operating System
+# Hoja de ruta — FDA mediante entregas supervisadas
 
-**Creada:** 2026-08-30 · **Última revisión: 2026-10-15** (catálogo C0 previo a OF1 — ver Registro de revisiones) · **Estado:** **VIGENTE** desde la fusión en `main` de DEC-007, enmendada por DEC-008, DEC-009, DEC-010, DEC-011, DEC-012, DEC-013 y DEC-017 y actualizada por el cierre de WP-015; WP-018 permanece `draft`, la identidad del proyecto exclusivo, el entorno protegido, los bytes exactos del workflow, los fixtures y el logging de DOR-7 están acreditados, y el último estado durable conserva cero despachos y WIF deshabilitado; la primera transición del provider agotó C1/C2 y queda `blocked`, sin C3, con su rama histórica sin fusionar y candidata `NO APTO — NO EJECUTAR`; `WP018-DOR7-PSHA-R2` agotó R2-C1/R2-C2, excedió su subpresupuesto en `0.023402549123739 EUR` y también queda `blocked`, sin R2-C3, con F1/F3 abiertos, F2/F4/F5 cerrados y su rama de evidencia fusionada por la PR #83; DEC-010 §20 elige `WP018-DOR7-PSHA-OF1` como sucesora *oracle-first*, con dos etapas, dos correcciones compartidas y `6.00 EUR`, y §21 normaliza los ocho hallazgos C0 que sus oráculos deben cubrir, pero todavía no abre OF1 ni autoriza bytes, rama, autor o infraestructura; D5 queda sin acuerdo formal y el carril B continúa como propuesta, no como asignación activa · **Ámbito:** `fda-template` (carril A) y su primera instalación externa propuesta (carril B), y los proyectos que gobernarían: `AI-Comercial-System`/Agent OS y Document AI.
+**Revisión:** 2026-10-19 · **Decisión prevista:** `DEC-018`, aún no materializada.
+**Estado: BORRADOR NO HABILITANTE.** La autorización precisa para las enmiendas
+de pausa y coste está solicitada y pendiente. Esta hoja por sí sola no cambia
+las reglas vigentes ni habilita ejecución. Las referencias a DEC-018 y al
+manual 09 describen documentos previstos, todavía no creados. Tras autorización,
+revisión e integración humana de la composición completa podrá sustituir la v2.
+**Objetivo:** convertir necesidades del operador en mejoras utilizables,
+demostrando calidad, coste e intervención humana antes de ampliar la fábrica.
 
-**Procedencia.** v1 (30-08): las cinco conversaciones del operador con otras IAs — síntesis en [`04-analisis-conversaciones-ia.md`](04-analisis-conversaciones-ia.md)—, el repositorio completo, el estado de los demás repos y fuentes externas. v2 (01-09): además, los **cuatro documentos de investigación de Leandro** y una **línea base de investigación independiente registrada antes de leerlos** — análisis completo, veredictos y red team en [`05-analisis-investigacion-leandro-y-revalidacion.md`](05-analisis-investigacion-leandro-y-revalidacion.md). Lo redactaron y materializaron sesiones de Claude Code por encargo directo del operador, como actos de operador (§9).
+## 1. Estado y siguiente entrega
 
-## Registro de revisiones
-
-| Fecha | Qué cambió | Dónde está el razonamiento |
-|---|---|---|
-| 2026-08-30 | Versión inicial | [04](04-analisis-conversaciones-ia.md) |
-| 2026-09-01 | Enforcement en tres capas (P1); reforma con blast radius ejecutable; punto de control ampliado a D1–D6; dos carriles upstream/downstream; paquete de mejoras de Leandro incorporado; Etapas 0–1 reescritas al estado real; métricas y riesgos ampliados | [05](05-analisis-investigacion-leandro-y-revalidacion.md) §9–§10 |
-| 2026-09-03 (preparado para el punto de control del 2026-09-07) | **Corrección de foto local**: la rama `-r2` existe en local y no está publicada; 72 archivos candidatos, batería 22/22 y ciclos 1 y 2 cerrados; cero commit de implementación, cero PR y cero fase real. Etapa 0 extiende «no iniciar» a «no continuar» como inferencia declarada. Anexo A pasa a traer las dos ramas de D6 y el tratamiento de la candidata local. **Las recomendaciones y defaults D1–D6 no cambian** | [05](05-analisis-investigacion-leandro-y-revalidacion.md) §1-bis y §6 · `DEC-007` |
-| 2026-09-09 | D1, D2, D3, D4 y D6 ratificadas; D5 resuelta por su default. D2 eleva cambios que alteran controles aunque vivan bajo `tests/**` o `evidence/**` | `DEC-007` |
-| 2026-09-13 | WP-009 cerrado `blocked` tras agotar 2/2 ciclos; candidata C2 preservada; trabajo restante dividido entre los futuros WP-013 y WP-014; `ACTIVE` vuelve a reposo | `DEC-008` |
-| 2026-09-13 | WP-013 cerrado `blocked` tras C3 excepcional y revisión enfocada NO APTA; candidata preservada sin importar; retirada la dependencia del materializador; WP-014 sigue reservado, no creado ni activo; `ACTIVE` vuelve a reposo | Enmienda de recuperación de `DEC-008` |
-| 2026-09-13 | WP-014 fusionado por PR #40 y cerrado `done` tras C1; exactamente diez acciones fijadas por SHA, aplicación y fusión humanas, coste 2,73/12 EUR; segunda condición de salida cumplida y `ACTIVE` vuelve a reposo | `DEC-003` §6 · `evidence/WP-014/CIERRE.md` |
-| 2026-09-21 | WP-008 D6-A cerrado `blocked` tras C5 excepcional; último hallazgo MEDIO abierto, A/B final no ejecutado, candidata preservada sin importar, coste 36,22/40 EUR y `ACTIVE` vuelve a reposo; la secuencia posterior queda detenida | `DEC-009` · `evidence/WP-008/CIERRE-BLOQUEADO.md` |
-| 2026-09-21 | Separación autor/revisor precisada: una revisión completa, correcciones Claude y revalidaciones enfocadas de la misma Astra; C1/C2 pueden quedar preautorizados y C3 deja de ser continuación normal. La parada de DEC-009 permanece intacta | `DEC-010` |
-| 2026-09-21 | Recuperación híbrida elegida: sucesor limpio de `check_scope` primero, luego CI requerido, convergencia/WP-007, runtime con humo atribuible y E2. `WP-015` queda reservado, no creado ni activo; `ACTIVE` sigue en reposo | `DEC-011` |
-| 2026-09-21 | Gramática de alcance inequívoca: la línea ejecutable completa es el patrón, sin comentarios o anotaciones inline; `docs/(draft).md` es literal. La candidata agotada de WP-015 se preserva y deberá replantearse por autorización separada | `DEC-012` |
-| 2026-09-22 | WP-015 materializado por PR #48 y aprobado contractualmente por PR #49; contrato `ready` admitido en la lista cerrada de DEC-003, con `ACTIVE` en reposo y activación aún pendiente | `DEC-003` §4 |
-| 2026-09-27 | WP-015 fusionado por PR #53 y cerrado `done` tras C3 excepcional; ejecutable local y biblioteca única acreditados, coste estimado 22,97/40 EUR, `ACTIVE` vuelve a reposo. No acredita CI, check requerido, guard convergente, runtime, E2 ni cierre de la pausa | `DEC-003` §4 · `evidence/WP-015/CIERRE.md` |
-| 2026-09-27 | `WP-016` queda reservado por DEC-014, únicamente desde la fusión humana de su composición, como identificador del sucesor limpio de WP-005. La reserva no crea, aprueba, admite, activa ni autoriza ejecutar el contrato; `ACTIVE` permanece en reposo | `DEC-014` |
-| 2026-09-27 | DEC-015 elige una GitHub App externa como productor previo a WP-016, sin reservarle WP-ID. WP-016 existe en `draft`, sigue bloqueado por `WP016-DOR-1`, tiene 645 líneas frente al límite de 300 y no puede avanzar; `ACTIVE` permanece en reposo | `DEC-015` |
-| 2026-09-27 | DEC-016 reserva `WP-017` para el productor externo de `Alcance FDA`, todavía sin contrato ni autorización de ejecución. WP-016 continúa `draft` y bloqueado; `ACTIVE` permanece en reposo | `DEC-016` |
-| 2026-09-28 | WP-017 existe en `draft` con DOR-1 a DOR-6 resueltos; la candidata DOR-7 agotó C1/C2, no puede acreditar coste acumulado y queda cerrada `blocked` antes de C3. DOR-7 a DOR-9 siguen abiertos, la candidata se preserva y la secuencia queda detenida sin otro WP-ID | `DEC-010` §9 |
-| 2026-09-28 | WP-017 pasa a `blocked`, nunca `done`: el replanteamiento bajo el mismo WP se rechaza porque no repararía su coste irrecuperable; se elige una división limpia posterior, todavía sin reservar otro WP-ID | `DEC-010` §10 |
-| 2026-09-28 | DEC-017 reserva `WP-018`, primer identificador libre y no reservado, como sucesor limpio de WP-017; hereda por referencia DOR-1 a DOR-4, exige reafirmar DOR-5 y DOR-6, mantiene DOR-7 a DOR-9 abiertos y fija F1 desde la primera invocación, 100 EUR y `max_ciclos_correccion: 2`. No crea contrato ni autoriza ejecución | `DEC-017` |
-| 2026-10-09 | La candidata externa de `WP018-DOR-7` agota C1/C2 con F2 abierto: `actAs` no puede añadirse como C3 sin ampliar autoridad ordinaria o el alcance del binding. La transición queda `blocked`, WP-018 sigue `draft` y se elige un replanteamiento como transición nueva, todavía no abierto | `DEC-010` §11 |
-| 2026-10-09 | El replanteamiento encuentra una vía PAM condicionada por tag directo de service account. Como ese tag es Pre-GA y exige recursos nuevos, DEC-010 §12 fija primero la decisión, límites y gates fail-closed; F2 y DOR-7 siguen abiertos y la transición aún no comienza | `DEC-010` §12 |
-| 2026-10-09 | La contradicción documental de PAM persiste y la vía queda `blocked`; DEC-010 §14 elige en su lugar GitHub Actions protegido con WIF directo y la PR #75 materializa únicamente el contrato del acto técnico mínimo | `DEC-010` §§13–14 · `docs/manual/08-productor-alcance-fda-wp018.md` |
-| 2026-10-09 | La revalidación previa al workflow detecta que GitHub auto-crea entornos inexistentes, que faltan los literales del proyecto y que el runner hospedado no es inmutable. DEC-010 §15 corrige el orden y detiene la candidata hasta fijar proyecto y entorno protegido | `DEC-010` §15 |
-| 2026-10-09 | Lecturas canónicas saneadas acreditan el proyecto exclusivo `fda-template` (`PROJECT_NUMBER=615273535351`), `ACTIVE`, sin parent y con `billingEnabled: true`. El entorno protegido continúa inexistente y requiere otro acto humano | `DEC-010` §15 · `docs/manual/08-productor-alcance-fda-wp018.md` |
-| 2026-10-09 | El acto humano separado crea y verifica `wp018-dor7-emergency-push` desde una preimagen de cero entornos: dos revisores exactos, sin autoaprobación ni bypass, solo `main`, espera cero y cero secrets o vars. El workflow continúa inexistente y requiere otra candidata | `DEC-010` §15 · `docs/manual/08-productor-alcance-fda-wp018.md` |
-| 2026-10-09 | El tercer acto incorpora mediante PR de operador el workflow protegido exacto, SHA-256 `7ea50ded863cf57f2cac6916dada3dece9305bb6af60266601ca79ffa76b1594`, sobre base `9093182a5c15699e9c33836e752fe63fb9ee88fc`. No lo despacha, no crea WIF o infraestructura y no cierra F2 ni DOR-7 | `DEC-010` §15 · `docs/manual/08-productor-alcance-fda-wp018.md` |
-| 2026-10-12 | El acto 4 deja fixtures y logging configurados, y WIF deshabilitado sin bindings. Dos intentos del canario C0 se detienen antes de mutación porque la guarda confundía el literal `(unset)` con los canales reales de `gcloud`. Fusionar una decisión cambiaría además la cabeza fijada por preflight y provider. Pool y provider siguen deshabilitados y existen cero despachos. DEC-010 §16 cierra la transición `blocked` después de C2, rechaza C3 y elige un replanteamiento posterior con base fresca | `DEC-010` §16 |
-| 2026-10-15 | La candidata de actualización del provider y el primer parche de custodia reciben `NO APTO` sin materialización ni consumo de C1. DEC-010 §17 fija una sola base postfusión, una rama remota sin fusionar para ciclos/revisión/coste, F1 desde el inicio y el tipo BCE de octubre; no crea la rama, no abre C1 y no autoriza mutación | `DEC-010` §17 |
-| 2026-10-15 | La transición de actualización del provider consume C1/C2 y termina `NO APTO` con F1, F2 y F4 abiertos. DEC-010 §18 la cierra `blocked`, preserva rama y candidata sin ejecutar, rechaza C3 y elige `WP018-DOR7-PSHA-R2` como transición nueva todavía no abierta, con base/preimagen postfusión, dos ciclos y 5 EUR propios | `DEC-010` §18 |
-| 2026-10-15 | `WP018-DOR7-PSHA-R2` consume R2-C1/R2-C2 y termina `NO APTO` con F1/F3 abiertos y F2/F4/F5 cerrados. El coste medido es `5.023402549123739 / 5.00 EUR`; la PR #83 fusiona solo evidencia. DEC-010 §19 cierra R2 `blocked`, rechaza R2-C3 y no autoriza sucesor, provider, WIF o C0 | `DEC-010` §19 · `evidence/WP-018/` |
-| 2026-10-15 | Tras comparar abandono, división y sucesora, DEC-010 §20 elige `WP018-DOR7-PSHA-OF1`: oráculos primero, F1/F3 inseparables, dos etapas, dos correcciones máximas compartidas y `6.00 EUR` incrementales. La transición queda delimitada pero no abierta; base, preimagen, bytes, rama, autores, provider y C0 requieren actos posteriores | `DEC-010` §20 |
-| 2026-10-15 | La preparación de etapa A se detiene antes de invocación y coste porque los ocho hallazgos C0 exigidos no estaban enumerados. DEC-010 §21 adopta `WP018-DOR7-C0-R1` a `R8`, separa el residual abierto H1 y fija un positivo y un mutante por ID. No abre OF1; una fusión obliga a adquirir base y preimagen nuevas | `DEC-010` §21 |
-
----
-
-## 0. Si eres un agente de IA, empieza por aquí
-
-1. **Orden de lectura:** `CLAUDE.md` → este documento → [`manual`](manual/MANUAL.md) → decisiones vigentes (`specs/decisions/`, en orden) → [05](05-analisis-investigacion-leandro-y-revalidacion.md) si necesitas el porqué de la v2 → el WP activo, si lo hay.
-2. **No re-litigues decisiones cerradas.** Si crees que una decisión es errónea, prepáralo como propuesta para el siguiente punto de control o como borrador de DEC en solo lectura.
-3. **Ceremonia proporcional al riesgo** (§6). Antes de proponer un control o proceso nuevo, responde por escrito: ¿qué fallo real y observado previene? ¿qué capa existente lo cubre ya? ¿cuánto cuesta mantenerlo? Si no puedes responder las tres, no lo propongas.
-4. **La fábrica existe para fabricar producto.** El éxito se mide en software útil entregado (§7), no en controles añadidos ni en número de agentes.
-5. Las ocho condiciones de parada de `CLAUDE.md` y del manual siguen vigentes. Este documento no las cambia.
-6. **Estatus normativo de 03, 04 y 05.** Este documento es la **hoja de ruta normativa** si D3 se ratifica. [`04`](04-analisis-conversaciones-ia.md) y [`05`](05-analisis-investigacion-leandro-y-revalidacion.md) se fusionan como **procedencia, análisis y fotos fijas**: **no gobiernan por sí solos el estado actual** y **no son normas de estado equiparables** a este documento. Cuando una descripción temporal de 04 o de 05 contradiga el estado explícito del principio **P1** de §4 —presentes indicativos sobre `check_scope`, sobre el diff en CI como juez final o sobre el sandbox—, **manda P1 y el glosario del Anexo B** (`DEC-007`, D3, «Regla de prevalencia temporal»). No cites «03–05» en bloque como si los tres fijaran estado.
-
----
-
-## 1. Dónde estamos de verdad
-
-### Foto del 30-08 (verificada sobre el repositorio)
-
-| Elemento | Estado |
+| Elemento | Estado acreditado / siguiente acción |
 |---|---|
-| Fase 0 (bootstrap, WP-000) | Cerrada. Coste registrado: 15,14 USD |
-| Calibración de Fase 1 (WP-001…WP-005) | **Sin ejecutar.** WP-001, 003, 004 y 005 en `draft`; WP-002 `blocked` |
-| WP-006 (estado de reposo) | Cerrado |
-| WP-007 (traversal del guard) | `ready`, **congelado** por DEC-003, con trabajo candidato sin versionar |
-| WP-008 (runtime fail-closed, núcleo) | **`blocked`** tras D6-A (`5 / 2`); candidata preservada, implementación no fusionada y `ACTIVE` en reposo conforme a DEC-009 |
-| WP-009 / WP-010 / WP-011 / WP-012 | Reservados; sin contrato redactado |
-| Pausa de gobierno (DEC-003) | **Vigente desde el 2026-08-03**. Punto de control: **2026-09-07** |
-| `claude.yml` y `code-review.yml` | Desactivados manualmente (5/5 falsos verdes del revisor automático) |
-| `AI-Comercial-System` + 4 repos satélite | **Sin actividad desde febrero de 2026** |
+| WP-015, comprobación local de alcance | Entregado; reutilizar. No es un check requerido de GitHub. |
+| WP-014, diez acciones fijadas por SHA | Entregado. No demuestra aislamiento ni operación autónoma. |
+| Pausa de DEC-003 | Continúa para operación ordinaria/autónoma. DEC-018 permite preparar el piloto supervisado con gates propios. |
+| WP-016, WP-018 y OF1 | Fuera de la prioridad inmediata; no se reabren, ejecutan ni declaran resueltos. Mantienen contratos, costes e historia. |
+| WP-019 | Composición documental de operador en revisión. `ACTIVE` de FDA permanece en reposo. |
+| Primera entrega propuesta | Corregir descubrimiento de documentos anidados en `knowledge-base`; preparación en [expediente](../evidence/WP-019/piloto-kb.md). Aún no ejecutada. |
+| Agent OS | Evolución prevista de AI-Comercial-System; no se crea ahora otro repositorio ni un núcleo general. |
+| Hostelería / otros productos | No se abren como frentes paralelos de este piloto. No se declara validación comercial. |
 
-**Actualización 2026-09-01 [verificada sobre GitHub]:** `main` sigue en `41d7ffc` — ni un commit desde el 29-08; **en GitHub no existían rama `-r2`, implementación publicada ni PR abierta**; no hay PRs abiertas. Además, existe un segundo plan en el equipo: el **Plan Maestro v2 de Leandro** (segunda instancia de la FDA con Kimi K3 y el proyecto Document AI) — integrado en esta v2 como «carril B» (§5, D5).
+La foto de recursos de WP-018 es la documentada en su expediente, no una
+observación viva del proveedor. Posponer trabajo no apaga recursos ni acredita
+coste de infraestructura cero. Cualquier revisión de recursos será de lectura;
+su modificación exige alcance y autorización propios.
 
-**Corrección de foto (2026-09-07) [verificada en local, solo lectura].** La observación del 01-09 alcanzaba únicamente a lo publicado y de ella se infirió que la implementación no había empezado. El estado local es distinto y se incorpora antes de fusionar:
+## 2. Qué se conserva
 
-| Magnitud local | Estado verificado |
+Contrato por entrega, estado versionado, alcance comprobable, pruebas,
+separación autor/revisor, permisos mínimos, límites de gasto y fusión humana.
+El aislamiento debe comprobarse antes de ejecutar código; un worktree solo
+separa archivos. Ninguna candidata histórica no conforme se ejecuta o importa.
+No se cambia CI, hooks, `CODEOWNERS`, permisos ni ADR-001 con esta reforma.
+
+## 3. Qué cambia y por qué
+
+La preparación de la operación autónoma deja de ser prerrequisito de toda
+experiencia sobre producto. El piloto tendrá un perímetro menor, sin acceso a
+producción ni capacidad de fusión o despliegue. No obtiene las garantías de una
+plataforma autónoma por denominarse FDA.
+
+La autorización de un encargo cerrado puede incluir preparación, rama,
+implementación, verificación, C1/C2, publicación en el repositorio destinatario
+y apertura de PR. Se registra una vez su alcance; no se pide permiso por cada
+paso reversible incluido. Fusión, despliegue, gasto nuevo, permisos y cambios
+de alcance siguen siendo decisiones separadas.
+
+Se lee primero el estado actual y el contrato. Las decisiones históricas se
+consultan por relevancia, conservando sus restricciones aplicables; no se
+reconstruye todo el expediente en cada tarea. Se distinguen hechos, propuestas,
+supuestos y capacidades todavía no verificadas.
+
+## 4. Elección de tecnología
+
+Antes de proponer un lenguaje o servicio, inspeccionar el proyecto y reutilizar
+sus componentes adecuados. Para una decisión material comparar pocas opciones
+viables: necesidad, coste de construcción y operación, mantenimiento, seguridad,
+capacidad esperada y dificultad de cambiar después. Consultar documentación
+vigente si la decisión depende de versiones, soporte, precios o compatibilidad.
+
+Registrar brevemente recomendación, motivo, alternativa descartada, incertidumbre
+y señal concreta que justificaría revisarla. Una duda decisiva puede resolverse
+con una prueba pequeña presupuestada. No prometer una solución universalmente
+óptima ni añadir infraestructura por un crecimiento hipotético. El operador
+decide utilidad, prioridades y gasto; no sustituye una revisión técnica experta.
+
+## 5. Secuencia de trabajo
+
+1. **WP-019: concretar el cambio de rumbo.** Una PR documental con revisión
+   independiente. Integración humana; no activa por sí sola un piloto.
+2. **Primera entrega externa pequeña.** Preparar el WP de `knowledge-base`,
+   fijar revisión de origen, criterios, presupuesto, runtime y controles del
+   entorno. Ejecutar solo cuando los gates del manual 09 previsto
+   estén aprobados y acreditados. Obtener un cambio probado y revisable; después integración
+   humana en el repositorio destinatario. No migrar toda la FDA a ese repositorio.
+3. **Una función útil en el proyecto comercial.** Tras esa primera experiencia,
+   acordar con el operador un recorrido observable de AI-Comercial-System.
+   Evitar una limpieza general, una migración de arquitectura o Agent OS como
+   requisitos previos si no son necesarios para ese recorrido.
+4. **Medición sobre hasta cinco tareas reales.** Las tareas aportan valor desde
+   la primera; cinco no es un gate previo al producto ni una prueba estadística
+   de rentabilidad. Comparar tareas de dificultad semejante con un flujo mínimo
+   seguro, registrando diferencias de modelo, alcance y riesgo.
+5. **Mejorar el cuello de botella demostrado.** Recuperar trabajo de plataforma
+   solo si un fallo observado o la siguiente capacidad autorizada lo exige.
+   Antes de retomar WP-016/018, comparar de forma acotada su coste y sus garantías
+   con alternativas para el nivel de autonomía requerido. No rebajar su contrato
+   por conveniencia ni presentar una revisión humana como control automático.
+6. **Agent OS y escala.** Extraer componentes comunes cuando dos agentes de
+   negocio diferentes los utilicen realmente. La orquestación propia conserva
+   los gates M1/M2/M3 y el veto de ADR-001; no se prescribe aquí una nueva pila.
+
+**Límites desde la fusión de WP-019, sin esperar al fin de la pausa:** a los dos
+días laborables revisar si el primer WP está listo. Si solo crece preparación,
+reducir el alcance o elegir una tarea más sencilla; no abrir infraestructura
+automáticamente. A los diez días laborables realizar el balance aunque no haya
+entregas, contando también los bloqueos. Son puntos de decisión, no promesas de
+plazo ni autorizaciones por silencio. No se programa una automatización aquí.
+
+Como límite inicial de prioridad, no abrir dos WPs consecutivos sobre la FDA
+sin una entrega externa entre ellos. Una necesidad de seguridad puede justificar
+una excepción concreta registrada, con trabajo mínimo y criterio de salida.
+
+## 6. Riesgo y revisión proporcional
+
+Cambios reversibles y aislados: contrato breve, pruebas pertinentes y una
+revisión independiente. Cambios de auth, red, secretos, entrada no confiable,
+datos persistentes, dependencias o controles: lente de seguridad obligatoria y
+especialista humano cuando la decisión exceda una aprobación de negocio.
+
+Se registra la clasificación y su razón en el WP; construir un clasificador
+automático no es condición del piloto. No se ejecutan migraciones destructivas,
+cambios de permisos o despliegues dentro del piloto. La revisión bloquea por
+incumplimiento de aceptación, seguridad o evidencia inválida; mejoras laterales
+se registran sin ampliar el encargo. C1/C2 mantienen la regla de DEC-010.
+
+## 7. Métricas y criterio para continuar
+
+Por tarea: resultado demostrado, estado (preparado/probado/integrado/disponible),
+tiempo transcurrido, minutos humanos, consumo de todos los autores y revisores,
+intentos fallidos, correcciones, defectos posteriores y violaciones de alcance.
+Separar factura adicional, consumo de cuota y tiempo humano. Desconocido no es
+cero; sin datos comparables no se afirma ahorro ni rentabilidad.
+
+La continuación exige entregas correctas y un coste/intervención compatibles
+con el presupuesto acordado. Si las tareas pequeñas siguen exigiendo días de
+preparación o dirección constante, simplificar el mecanismo responsable antes
+de ampliarlo. No extrapolar autonomía profesional desde una sola entrega.
+
+## 8. Riesgos y decisiones de parada
+
+| Señal | Respuesta |
 |---|---|
-| Worktree | worktree local de la rama `wp/WP-008-runtime-fail-closed-r2` (ruta absoluta deliberadamente no versionada) |
-| Rama `wp/WP-008-runtime-fail-closed-r2` | **Existe en local; no publicada** |
-| Base | `HEAD = main = origin/main = 41d7ffcb25e5283f1ff04cc516211ce9549caa66` |
-| Candidata física | **72 archivos regulares**: 46 bajo `tests/runtime/` + 26 bajo `evidence/WP-008/` |
-| Batería A | **22/22, cerrada**; ciclos de corrección **1 y 2 cerrados** (`2 / 2`) |
-| Revisiones | QA, code review y security review exigen cambios: los seis defectos `WP008-F1`–`WP008-F6`, definidos en `DEC-007` |
-| Historia publicada | **cero commit de implementación, cero PR y cero fase real** |
-
-Por tanto **sí existe trabajo y coste hundidos en local**, aunque no haya historia publicada. Esto **no cambia la recomendación de D6**, pero sí su fundamento: el núcleo mínimo se recomienda por **coste futuro**, **proporcionalidad de la ceremonia** y las **tres capas de enforcement** de P1 —no porque el trabajo previo no exista—. La candidata local se preserva como evidencia histórica no conforme (Anexo A); no se borra de la historia ni se presenta como conforme.
-
-**Actualización operativa 2026-09-13, previa a WP-014.** WP-009 agotó 2/2 ciclos y WP-013
-terminó también `blocked` después de C3 excepcional, ambos con incumplimientos
-bloqueantes abiertos y sus candidatas preservadas como históricas no conformes.
-No se aplicaron pins ni cambiaron workflows. WP-014 conserva solo su identificador
-reservado: su eventual contrato se limitará a diez pins exactos y a un parche
-Git aplicado humanamente en un worktree limpio y dedicado. WP-013 deja de ser
-dependencia. `ACTIVE` queda en reposo; WP-014 no se crea ni activa aquí.
-
-**Actualización operativa posterior — cierre de WP-014.** La PR #40 quedó
-fusionada en `main` mediante
-`ea004919b661baf206257952f2fd5ca7bfad2c05`. WP-014 cerró `done` tras C1, con
-exactamente diez pins (`5/2/1/2`), aplicación humana, revisión Astra enfocada
-final `APTO` y coste medido de 2,73 EUR sobre 12 EUR. La segunda condición de
-salida de DEC-003 §6 queda cumplida y `ACTIVE` vuelve a reposo. La pausa
-continúa: siguen pendientes la primera y la tercera condición. **En ese momento**
-el plan señalaba como siguiente paso preparar y aprobar el contrato breve del
-núcleo WP-008; DEC-009 lo detuvo y DEC-011 lo sustituyó por la secuencia vigente
-descrita abajo.
-
-**Actualización operativa — cierre bloqueado de WP-008.** D6-A consumió C1 y
-C2 ordinarios más C3–C5 excepcionales. Astra cerró el hallazgo ALTO anterior,
-pero mantuvo un MEDIO reproducido en el oráculo del humo y dos regresiones
-ineficaces. La última invocación terminó sin cambios y no existe C6 autorizado;
-el A/B final no se ejecutó. DEC-009 cierra el intento como `blocked`, preserva
-la candidata sin importarla y devuelve `ACTIVE` a reposo. Ninguna condición de
-salida dependiente de WP-008 queda satisfecha y la secuencia posterior se
-detiene hasta una decisión humana nueva.
-
-**Actualización de rumbo — DEC-011.** La decisión humana nueva ya existe y
-elige control determinista del resultado primero. Esto supera la parada de
-deliberación, no la parada técnica: `ACTIVE` sigue en reposo y `WP-015` queda
-solo reservado. Su creación, aprobación, admisión y activación requieren otra
-autorización. Ningún contrato bloqueado se reabre y ninguna candidata histórica
-se reutiliza.
-
-**Resolución normativa — DEC-012.** La primera candidata externa de WP-015
-quedó `NO APTO` tras C2 por una contradicción de la gramática heredada. DEC-012
-la resuelve sin modificar el candidato: todo el contenido posterior a `- ` es
-patrón, los metadatos inline desaparecen y `docs/(draft).md` es literal. El
-siguiente paso sigue necesitando autorización: preparar una candidata
-replanteada y someterla a una revisión completa nueva. `ACTIVE` permanece en
-reposo.
-
-**Actualización operativa — WP-015 aprobado y admitido.** La PR #48
-materializó el contrato replanteado y la PR #49 lo dejó `ready`. La composición
-atómica de admisión lo incorpora ahora a `DEC-003` §4 sin modificar el
-contrato. `ACTIVE` permanece en reposo: la admisión no es activación y no
-autoriza implementación. El siguiente acto posible es una autorización humana
-separada para activar exclusivamente `WP-015`.
-
-**Actualización operativa posterior — cierre de WP-015.** La activación se
-fusionó por PR #51 y la implementación local por PR #53, cabeza revisada
-`eccae059c31daa569254f7096a30ca0bd094171a`, mediante el commit de `main`
-`99e5f82e08a22ac11dd20c08a778e5389a26b337`. Los tres checks terminaron en
-`SUCCESS`. WP-015 queda `done` tras C3 excepcional (`3 / 3`, sin C4), sin
-hallazgos pendientes y con coste estimado de 22,97 EUR. `ACTIVE` vuelve a
-reposo. Esto acredita solo el ejecutable local y la biblioteca única: CI,
-ruleset, convergencia del guard, runtime, E2 y cierre de la pausa siguen
-pendientes y requieren autorizaciones separadas.
-
-**Parada de WP017-DOR-7 antes de C3.** La candidata externa consumió C1 y C2,
-conservó un único residual mecánico y fue custodiada en una rama gobernada,
-pero sus pasadas no dejaron coste F1, F2 o F3 reconstruible. DEC-010 §8.5
-prohíbe abrir C3 en esa situación. La transición queda `blocked`, la
-habilitación excepcional no usada queda sin efecto y WP-017 permanece `draft`
-con DOR-7 a DOR-9 abiertos. No se crea `cost.md`, no se corrige F1 y no se
-decide aquí el cierre, división o replanteamiento posterior del WP.
-
-**Decisión posterior sobre WP-017.** El abandono definitivo como `blocked` sin
-sucesor es lícito, pero se descarta porque dejaría sin continuidad el productor
-que sigue siendo prerrequisito de WP-016; `done` no cabe porque no hubo entrega.
-El replanteamiento interno se rechaza porque un coste nuevo no reconstruiría el
-total del WP. WP-017 queda `blocked` y fuera de la cola ejecutable. DEC-017
-reserva después `WP-018` como sucesor limpio, todavía sin contrato ni
-autorización para redactarlo o ejecutarlo. La candidata histórica no se copia.
-
-**Parada y replanteamiento de WP018-DOR-7.** WP-018 ya existe en `draft` con
-DOR-7 a DOR-9 abiertos. Su primera candidata de continuidad consumió C1/C2 y
-conserva solo F2 abierto: el `actAs` necesario para restaurar push. Un binding
-permanente se combinaría con el acceso ordinario de Cloud Run y PAM no puede
-limitar ese role binding a una sola cuenta de servicio. DEC-010 §11 cierra esa
-transición `blocked`, preserva la candidata `NO APTO` y elige replantear DOR-7
-como transición nueva. No abre esa transición, no crea C3 o C4, no reabre los
-hallazgos cerrados ni resuelve DOR-8 o DOR-9.
-
-**Decisión previa del replanteamiento.** La investigación autorizada encuentra
-una vía compatible solo mediante PAM temporal, un rol con `actAs` y una
-condición sobre un tag ligado directamente a la identidad push. Como los tags
-de service accounts son Preview y la referencia v1beta de PAM diverge de su
-guía vigente sobre tags, DEC-010 §12 fija la elección y sus gates antes de
-abrir otra candidata. F2 y DOR-7 continúan abiertos; no se crea infraestructura,
-coste o ciclos y los resultados cerrados no se reabren.
-
-**Bloqueo documental de la transición nueva.** La revalidación posterior no
-supera el gate de DEC-010 §12: las referencias REST de PAM v1 y v1beta siguen
-excluyendo tags de `conditionExpression`, mientras las guías oficiales vigentes
-afirman que PAM admite condiciones por tag. El tag directo de cuentas de
-servicio continúa disponible, pero en Preview. DEC-010 §13 cierra por ello la
-transición `blocked` antes de candidata técnica, ciclos o autoría. F2 y DOR-7
-permanecen abiertos; F1 y F3 a F7 no regresan; WP-018 sigue `draft`, DOR-8 y
-DOR-9 abiertos y `ACTIVE` en reposo.
-
-**Sustitución arquitectónica previa, todavía no técnica.** DEC-010 §14 elige
-una ejecución manual de GitHub Actions con control dual auditable, frontera de
-confianza administrativa declarada y WIF directo como
-única vía futura a investigar: una identidad efímera, distinta de los humanos,
-acoplará el permiso de actualizar la suscripción exacta con `actAs` solo sobre
-la identidad push, sin claves, cuenta intermediaria ni permisos Cloud Run.
-Como exige workflow, entorno protegido, pool, proveedor, roles y bindings aún
-no fijados, la decisión no prepara la candidata técnica ni crea recursos. F2 y
-DOR-7 siguen abiertos; F1 y F3 a F7 cerrados; WP-018 continúa `draft`, DOR-8 y
-DOR-9 abiertos y `ACTIVE` en reposo.
-
-**Gate previo al workflow.** La autorización de arquitectura no basta para
-producir bytes exactos. GitHub documenta que ejecutar un workflow que referencia
-un entorno inexistente crea ese entorno; el orden «workflow antes que entorno»
-no es fail-closed. El paso 1 acredita `PROJECT_ID=fda-template`,
-`PROJECT_NUMBER=615273535351`, estado `ACTIVE`, ausencia de parent y
-`billingEnabled: true`. El paso 2 acredita el único entorno
-`wp018-dor7-emergency-push`, con los dos revisores previstos,
-`prevent_self_review: true`, `can_admins_bypass: false`, política personalizada
-limitada a `main`, sin temporizador, secrets o vars. El paso 3 incorpora el
-workflow exacto revisado con `ubuntu-24.04`, `ImageOS=ubuntu24`,
-`ImageVersion=20261004.327.1`, Bash `5.2.21(1)-release`, curl
-`8.5.0-2ubuntu10.15` y jq `1.7.1-3ubuntu0.24.04.2`; estos controles detectan
-deriva observable, pero no convierten el runner en un pin criptográfico. El
-workflow permanece sin despachar. El siguiente acto separado es configurar
-fixtures, logging y WIF inicialmente deshabilitado y sin bindings; no se cierra
-F2 o DOR-7. DOR-8 y DOR-9 continúan abiertos.
-
-**Tres verdades incómodas, con los datos delante:**
-
-1. **En cinco semanas la fábrica solo ha producido meta-trabajo.** ~27 PRs fusionadas y todas son gobierno del gobierno. El contrato vigente de WP-008 tiene 1.862 líneas para un cambio que, en esencia, ancla la invocación de un hook y ocho reglas de permisos.
-2. **El control concluyente sigue incompleto.** WP-015 ya construyó el ejecutable local determinista y la biblioteca única, pero todavía no existe un job de alcance en CI ni un check requerido en el ruleset. El hook sigue siendo preventivo y evitable; la barrera concluyente exige completar esos dos estados posteriores sin confundirlos con el ejecutable local.
-3. **El producto real está parado.** `AI-Comercial-System` lleva medio año sin un commit.
-
-Nada de esto significa que el trabajo hecho sea malo. Significa que el rumbo necesita corrección: es la causa raíz n.º 2 del manual (§8 de [05-bloqueos-y-parada](manual/05-bloqueos-y-parada.md)) aplicada al proceso entero.
-
-## 2. Lo que está bien y se conserva
-
-La base conceptual de la FDA es sólida y **no se toca**. Las cinco conversaciones coinciden, los cuatro documentos de Leandro convergen en lo mismo desde fuentes distintas, y la práctica externa lo valida:
-
-- **Contratos ejecutables por tarea** (work packages con alcance, verificación y criterios medibles) — el mismo patrón que la industria adopta como *spec-driven development* ([GitHub Spec Kit](https://github.com/github/spec-kit)), en su versión proporcional: el WP breve gana a los planes de mil líneas (evidencia CRISPY, [05](05-analisis-investigacion-leandro-y-revalidacion.md) §7).
-- **La seguridad no depende de que el modelo obedezca**: permisos de GitHub, allowlists, hook, CI bloqueante, fusión humana — alineado con [OWASP para IA agéntica](https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/).
-- **El estado vive en archivos versionados** (ADR-001, I1–I4) — todas las fuentes externas de 2025-26 redescubren este principio.
-- **Fusión humana y decisiones escritas.**
-- **Parar ante ambigüedad es el sistema funcionando** — incluida la pausa de DEC-003: paró sobre fallos reales (guard fallando en abierto, 5/5 falsos verdes). El error no fue parar; fue el tamaño de la reparación.
-
-## 3. Diagnóstico: por qué la fábrica se atascó
-
-**Causa 1 — Ceremonia única para todo riesgo.** [DORA — Streamlining change approval](https://dora.dev/capabilities/streamlining-change-approval/): los procesos de aprobación pesados no reducen la tasa de fallo y hacen 2,6× más probable el bajo rendimiento; funciona revisión entre pares + automatización.
-
-**Causa 2 — La espiral de auditoría.** Cada auditoría encuentra defectos reales pero menores; cada defecto reescribe el contrato; el contrato crece; más superficie, más hallazgos. Once ciclos de WP-008 fueron esto. Ninguna auditoría tenía mandato de preguntar «¿compensa?».
-
-**Causa 3 — Calibración invertida.** La Fase 1 existía para medir el proceso ANTES de perfeccionarlo; el proceso empezó a perfeccionarse sin datos.
-
-**Causa 4 — Una prueba desproporcionada (WP-012).** Demostrar empíricamente que Claude Code aplica su configuración es testear el producto del proveedor. El control concluyente previsto —`check_scope` sobre el diff de la PR en CI— atrapará cualquier escritura fuera de alcance aunque el hook no funcione **cuando** el ejecutable local ya entregado por WP-015 se integre en CI y se incorpore como check requerido; y el **sandbox de kernel aportaría** una garantía superior a la que WP-012 pretendía demostrar **solo si** E2 supera su gate y el WP T3 lo adopta efectivamente ([05](05-analisis-investigacion-leandro-y-revalidacion.md) §5.1). Hoy existen el ejecutable local y la biblioteca, pero no la barrera de CI ni el sandbox (P1).
-
-## 4. Principios de la ruta
-
-- **P1. El enforcement debe tener tres capas, y el hook no es ninguna de ellas.** (v2) Es la **arquitectura objetivo**, no la foto actual. Capa 1: **plataforma** — protección de rama, permisos, CODEOWNERS, fusión humana. Capa 2: **sistema operativo** — sandbox con escritura restringida a nivel de kernel y egreso de red por allowlist (así operan Copilot, Codex y el Bash sandboxeado de Claude Code). Capa 3: **el diff de la PR en CI** contra el contrato del WP — el juez final, venga la escritura de donde venga.
-
-  **Estado de materialización, que no debe confundirse con la dirección:**
-
-  | Capa | Estado hoy |
-  |---|---|
-  | 1 · Plataforma | **Parcialmente materializada.** Es lo único que hoy funciona como frontera, pero **no entera**: ver el desglose en cinco niveles justo debajo |
-  | 2 · Sandbox del SO | **No instalado.** Gate futuro: depende del experimento E2 (§5, Etapa 2). Mientras no se instale y se mida, **no aporta ninguna garantía efectiva** y no puede contarse como control |
-  | 3 · `check_scope` sobre el diff en CI | **Parcialmente materializado.** WP-015 entregó el estado *(1)*: **ejecutable local** y biblioteca única, que no bloquean fusiones. Siguen pendientes *(2)* el **job ejecutándose en CI**, todavía no requerido, y *(3)* el **check incorporado a `required_status_checks`** por una persona, único estado bloqueante para la fusión |
-
-  **Desglose de la capa 1, en cinco niveles que no deben fundirse:**
-
-  1. **Impuesto técnicamente por el ruleset:** PR obligatoria; los tres checks bloqueantes; `non_fast_forward` y `deletion` bloqueados. **Esas cuatro reglas son todo lo acreditado por el expediente actual**, que **no incluye un inventario exhaustivo del ruleset**: no se ha acreditado ninguna regla del ruleset que impida la autofusión; con `required_approving_review_count: 0` y `require_code_owner_review: false`, las vías observadas no la impiden por sí solas.
-  2. **Práctica del operador, no impuesta por el ruleset:** la lectura del diff y la fusión humana.
-  3. **Política vigente, no impuesta técnicamente:** `CLAUDE.md` prohíbe que un agente fusione su propia PR.
-  4. **Restricciones operativas actuales:** las allowlists de herramientas de `.claude/agents/*.md` y los workflows de agente desactivados (`DEC-003` §3). Reducen la superficie, pero **no son garantía universal**: no se han auditado todos los actores ni todas las credenciales.
-  5. **Declarado necesario y todavía NO impuesto técnicamente:** al menos una aprobación humana y la revisión de `CODEOWNERS`. El ruleset registra hoy `required_approving_review_count: 0` y `require_code_owner_review: false`; `DEC-003` lo consigna como **riesgo abierto y no aprobado**, con destino **WP-011**. **Riesgo pendiente:** con cero aprobaciones exigidas, el ruleset no impide por sí solo que el autor de una PR la fusione si tiene permisos suficientes.
-
-  **La protección de rama todavía no comprueba el alcance del WP.** `check_scope` ya existe como ejecutable local, pero aún no se ejecuta en CI y no está incorporado como *required status check* del ruleset. Hasta completar ambos pasos, la revisión del diff es una **práctica humana**, no una barrera automática obligatoria. **Tres cosas distintas, que no deben fundirse:** código local, job de CI y check requerido. La incorporación futura **no crearía un quinto tipo de regla**: el ruleset acredita **cuatro tipos** —`deletion`, `non_fast_forward`, `pull_request` y `required_status_checks`—, y añadir `check_scope` significa **añadir una cuarta comprobación requerida dentro de la regla `required_status_checks` ya existente**, que hoy contiene tres.
-
-  El **guard** es hoy **feedback preventivo best-effort**: deniega en el momento lo que reconoce, falla abierto si no es ejecutable o no llega a invocarse, y su analizador de `Bash` tiene huecos documentados. Sigue siendo obligatorio. **Dirección aprobada:** no invertir más en endurecer su parsing, porque el retorno está en las capas 2 y 3. **Lo que esta dirección todavía NO hace:** declarar consumada la democión formal y definitiva de ese parser. Esa democión se declara cuando **E2 se resuelva y su gate quede decidido** —así lo condiciona [05](05-analisis-investigacion-leandro-y-revalidacion.md) §8—, no antes. Hasta entonces el guard conserva su papel y su mantenimiento correctivo.
-- **P2. Ceremonia proporcional al riesgo, decidida por script** (§6). Lo barato de revertir se procesa barato; el suelo de seguridad automatizado (SAST, secretos, tests, lockfiles) es uniforme en todos los niveles.
-- **P3. La fábrica existe para el producto.** El meta-trabajo se raciona y se mide.
-- **P4. Gates por evidencia, no por calendario.** Las fechas orientan; los criterios de salida vinculan (ADR-001 M1–M3 vigentes).
-- **P5. Lo más simple que funcione, primero** ([Anthropic — Building effective agents](https://www.anthropic.com/engineering/building-effective-agents); anti-patrones de la guía §7).
-- **P6. Multi-agente solo cuando la tarea lo pide; capacidades nativas antes que runner propio.** (v2) Claude Code ya trae subagentes con worktree y [Agent Teams](https://code.claude.com/docs/en/agent-teams); el harness SDK de ADR-001 se evalúa contra lo nativo primero. Los agentes se añaden por composición, no por catálogo.
-- **P7. Los agentes de desarrollo y los de negocio son productos distintos.**
-- **P8. Git guarda la verdad normativa; la telemetría vive fuera.**
-- **P9. Medir desde el día 0.** (v2) La percepción de productividad engaña (METR: brecha de decenas de puntos entre percepción y medición; su RCT corregido en feb-2026 pasó de −19 % a ≈−4 % [IC −15/+9] — ni milagro ni desastre: **hay que medir**). ccusage y minutos humanos por WP desde ya; el detalle en §7.
-- **P10. Las asunciones del harness caducan.** (v2) Cada salto de modelo dispara una re-auditoría ligera del template (ítem fijo de retro): qué piezas existen por limitaciones que ya no existen.
-
-## 5. La ruta
-
-**Dos carriles propuestos desde la v2 (D5 resuelta sin acuerdo formal):** **Carril A** — este repositorio como plantilla/upstream + el camino Agent OS vía AI-Comercial-System (ámbito de Iván). **Carril B propuesto, todavía no asignado ni autorizado** — la primera instalación externa de la plantilla (plan de Leandro): repo propio, Kimi K3 como experimento gateado y proyecto Document AI. Antes de activar B, una decisión humana posterior debe fijar responsables, repositorio, origen, retorno, accesos y gates de datos. Detalle y veredictos: [05](05-analisis-investigacion-leandro-y-revalidacion.md) §4.1–4.3.
-
-### Etapa 0 — Hoy → 2026-09-07: preparar el punto de control (revisada en v2)
-
-1. **No iniciar la implementación de WP-008-r2** hasta decidir D6 — el contrato puede simplificarse en la misma cita. `ACTIVE` no se toca (sigue siendo acto de operador).
-2. **No continuar tampoco la candidata local** — *inferencia derivada de la foto corregida, no cita literal de la fuente*. El literal de la v2 decía «no iniciar», porque partía de la premisa —hoy corregida— de que no existía trabajo empezado. Incorporada la foto local, la misma finalidad de esta etapa alcanza a **no continuar**: seguir invirtiendo esfuerzo en maquinaria que D6 puede retirar frustraría el punto de control. La distinción entre el literal y esta extensión se declara expresamente y no se presenta como cita.
-3. Material del punto de control: esta hoja de ruta v2 + [05](05-analisis-investigacion-leandro-y-revalidacion.md) + Anexo A. **Hecho.**
-4. **No abrir ningún otro frente.**
-
-### Etapa 1 — Punto de control resuelto el 2026-09-09
-
-DEC-003 §5 y DEC-005 §8 exigían revisión y análisis. DEC-007 registra el resultado efectivo; la fecha prevista del 07-09 queda como antecedente histórico y no activa defaults por sí sola.
-
-| # | Resultado efectivo |
-|---|---|
-| **D1** | **Ratificada:** humo seguro en WP-008 + `check_scope` en CI y requerido + resolución de E2 |
-| **D2** | **Ratificada con precisión:** clasificador ejecutable, suelo común y prevalencia T3 |
-| **D3** | **Ratificada:** esta hoja es normativa; 04/05 son procedencia y fotos fijas |
-| **D4** | **Ratificada:** solo los elementos marcados ADOPTAR, en sus etapas |
-| **D5** | **Default:** sin acuerdo formal; el carril B no se asigna ni activa |
-| **D6** | **Ratificada:** WP-008 se reduce al núcleo mínimo con cuenta nueva `0 / 2` |
-
-### Etapa 2 — Cierre de la pausa (estimación orientativa: 1–3 semanas tras el 07-09)
-
-Secuencia (ajustada por D1/D6 y DEC-008; cada transición de `ACTIVE` sigue siendo acto de operador):
-
-1. **Cierre bloqueado de WP-009.** PR de operador atómica: registra 2/2 ciclos, preserva la candidata C2, marca el contrato `blocked` y devuelve `ACTIVE` a reposo. El parche actual no se aplica ni se versiona.
-2. **Cierre bloqueado de WP-013.** PR de operador atómica: registra C1, C2 y C3 excepcional, preserva la candidata sin importarla, marca el contrato `blocked` y devuelve `ACTIVE` a reposo. No existe C4.
-3. **WP-014 — diez pins exactos por SHA: CUMPLIDO.** T3 cerrado `done` por la PR #40, con coste 2,73/12 EUR y 1/2 ciclos. El agente preparó los mismos bytes para `git apply --check --index -` y `git apply --index -`; una persona los aplicó por `stdin` en el worktree dedicado y el diff quedó limitado a las diez líneas `uses:`. La recuperación ordinaria permanece como regla contingente; no fue necesario descartar ni recrear el worktree.
-4. **WP-008 D6-A — CERRADO `blocked`.** Consumió `5 / 2`, no ejecutó el A/B
-   final y no fusionó la implementación. La candidata queda preservada como
-   histórica no conforme y `ACTIVE` vuelve a reposo mediante DEC-009.
-5. **WP-015 — `check_scope` LOCAL: CUMPLIDO.** La PR #53 fusionó el ejecutable
-   local y la biblioteca única; el cierre deja el contrato `done` y `ACTIVE` en
-   reposo. No acredita CI ni bloqueo de fusión.
-6. **ORDEN FUTURO CONDICIONADO; NINGÚN PASO SIGUIENTE AUTORIZADO:** WP-017
-   queda `blocked`, nunca `done`. WP-018 existe en `draft`, conserva DOR-7 a
-   DOR-9 abiertos. La primera transición DOR-7 y su replanteamiento
-   `WP018-DOR7-PSHA-R2` terminan `blocked` tras consumir dos ciclos cada uno;
-   no existen C3 o R2-C3. DEC-010 §20 elige
-   `WP018-DOR7-PSHA-OF1` como transición sucesora *oracle-first*, pero no la
-   abre. §21 enumera las regresiones C0 `R1` a `R8` y mantiene H1 separado. Si
-   esa enmienda se fusiona, la base `921210ff…` y su preimagen quedan históricas.
-   El siguiente acto posible es una autorización humana separada para fijar en
-   solo lectura la nueva cabeza postfusión, comprobar el workflow y adquirir
-   una preimagen fresca; después, otra autorización podrá preparar únicamente
-   el paquete externo de oráculos de etapa A. No hay bytes, rama, ciclo, autor,
-   provider, WIF, C0 o infraestructura autorizados por esta hoja de ruta.
-   Solo después de resolver DOR-7 a DOR-9, aprobar, admitir, activar e
-   implementar WP-018 podría continuarse hacia `WP-016`, cuyo
-   contrato `draft` de 645 líneas continúa bloqueado y deberá corregirse y
-   reducirse antes de `ready`, para CI y mutación humana posterior del ruleset →
-   convergencia del guard y cierre de WP-007 por superación sin transición de
-   `ACTIVE` → sucesor limpio de WP-008 con runtime y humo atribuible → E2 →
-   cierre humano de la pausa. Cada paso requiere contrato y autorización
-   propios.
-
-**Criterio de salida adaptado por DEC-011:** sucesor limpio de WP-008 fusionado
-con runtime fail-closed, preflight bloqueante y humo seguro atribuible;
-**WP-014 fusionado, con exactamente
-los diez pins autorizados y el criterio n.º 2 de REQ-FDA-002 vacío —condición
-cumplida por la PR #40—**; control de
-alcance local y ejecutándose en CI **e incorporado como *required status check*
-del ruleset**, guard convergente y WP-007 resuelto; y gate E2 resuelto conforme
-a DEC-003 §6.
-Solo entonces una PR de operador puede registrar la pausa como `superada`. Los
-cierres bloqueados de WP-009 y WP-013 no satisfacen por sí mismos la condición
-de acciones fijadas; el cierre `blocked` de WP-008 tampoco satisface la
-condición de runtime ni la del humo. La pausa sigue vigente porque las
-condiciones de runtime y de control de alcance/sandbox permanecen pendientes.
-La prueba posterior sobre producto no es condición de cierre.
-
-**Qué NO hacer:** añadir agentes; tocar `tests/guard/run-suite.sh` fuera de lo decidido en DEC-007; abrir el harness SDK; adoptar Spec Kit/OpenSpec como capa; construir dashboards.
-
-### Etapa 3 — Calibración exprés, medición e higiene (≈ 2 semanas)
-
-La Fase 1 original conserva su propósito —**medir**— y añade el paquete Δ adoptado en D4. Cada cambio se clasifica por superficie y efecto; T3 prevalece y no hay una etiqueta global T1/T2 para la etapa.
-
-1. **WP-001** (glosario) — fija coste y fricción de referencia. **WP-003 y WP-004** (encargos-trampa) — validan las paradas.
-2. **WP-010 ampliado — coste y métricas**: adquisición headless (ccusage/OTel), rollup por WP, y **parada dura de coste** (Δ7) en `run-verification`. ccusage como hábito ya desde hoy (Δ1).
-3. **Plantilla y manual**: output mínimo en verificaciones (Δ5), `gotchas.md` podado (Δ3), fase de preguntas concretas pre-WP (Δ11, manual 03), `progress.md` de traspaso opcional (Δ12), ítem de retro «re-auditoría por salto de modelo» (Δ2, manual 06).
-4. **Simulacro adversarial completo** (fusión de la «prueba en seco» de Leandro y el fire-drill propio): fuera-de-alcance · bypass por Bash · symlink · parada por presupuesto · **PR con defecto sembrado que la cadena de revisión debe cazar**. Trimestral desde entonces.
-5. **Higiene de plantilla**: `README.md`, `LICENSE`, autorización de actores en `claude.yml` antes de reactivarlo, guía de separación plantilla/sandbox, semgrep anti-error-masking cuando haya Python en CI (Δ4), política anti-slopsquatting para instalaciones con dependencias ([05](05-analisis-investigacion-leandro-y-revalidacion.md) §5.2). El clasificador decide cada nivel; autorización de actores y cambios semánticos de controles son T3.
-6. **WP-011 — frontera de revisión verificable**: veredicto estructurado validado por schema y reactivación de `code-review.yml`. Regla Δ8: el revisor nunca comparte modelo ni contexto con el implementador.
-
-**Criterio de salida:** métricas base de ADR-001 sobre ≥ 5 WPs reales (coste/WP, % a la primera, ciclos, **minutos humanos/WP**).
-
-### Etapa 4 — Fase 2 real: la fábrica trabaja sobre el producto (≈ 4–8 semanas)
-
-**Carril A:** instalar la FDA en **`AI-Comercial-System`** — programas **INV** (higiene: hoy versiona `.venv/`, `__pycache__/`, `logs/`; mapa de módulos; línea base de tests y de comportamiento ANTES de refactorizar — mitiga la advertencia brownfield de ACE-FCA), **CONTRACTS** (`AgentDefinition`, `AgentRun`+eventos, `ToolDefinition`, `ModelGateway`, `PolicyDecision`/`ApprovalRequest`; regla «breaking = DEC + migración») y **MIG** (envolver sin cambiar comportamiento; la línea base de INV lo verifica). **Carril B:** propuesta futura para Document AI; D5 no lo asigna ni autoriza. Solo una decisión humana posterior puede activarlo y fijar responsables, repositorio, retorno, accesos y gates.
-
-**Criterio de salida (A):** el sistema real funciona a través de los contratos, con sus tests en verde.
-
-### Etapa 5 — El Agent OS emerge (estrangulamiento progresivo)
-
-Kernel mínimo como monolito modular (PostgreSQL fuente de verdad operacional; Redis caché): registro de agentes y herramientas, *tool gateway* con validación/permisos/auditoría, persistencia de runs y eventos, frontera de políticas, aprobaciones con pausa/reanudación. **Checklist de diseño: [12-factor agents](https://github.com/humanlayer/12-factor-agents)** (v2). Ejecución durable al necesitarla: DBOS/Restate (sin infra nueva, sobre Postgres) o Temporal si el caso lo exige (v2). Después: el **segundo agente genuinamente distinto** (prueba de generalidad), plataforma de evaluaciones, arquitectura de datos multi-tenant (RLS, outbox, warehouse — doc 04, T9).
-
-**Criterio de salida:** dos agentes distintos sobre el mismo kernel sin modificar su núcleo; evaluaciones automáticas por versión.
-
-### Etapa 6 — Escalar: orquestación, operaciones y la organización agéntica
-
-- **Primero lo nativo** (v2): subagentes con worktree y Agent Teams cubren paralelismo coordinado en una máquina; **harness SDK propio solo si M1+M2+M3 de ADR-001 se cumplen contra lo nativo** (M2 se reevalúa: «lo que Actions/Teams no expresa»). Merge queue de GitHub al concurrir WPs.
-- **Plano de operaciones:** OpenTelemetry, lineage, detectores deterministas, runbooks cerrados, autonomía A0–A5 **por acción**.
-- **Agentes por composición** (rol × especialidad × herramientas × políticas); el organigrama de ~200 capacidades es mapa, no backlog.
-- **La agencia comercial** (plataforma + packs verticales + tenants) sobre el Agent OS.
-
-**Qué NO construir hasta que su señal aparezca** (lista fusionada v2, vinculante como criterio): Grafana/dashboards (hasta escala de equipo) · marketplace de plugins · orquestación sobre APIs no públicas · Spec Kit/OpenSpec como capa · búsqueda semántica en el flujo diario · MCPs wrapper de CLIs · hooks de validación post-edit · panel/BD/colas distribuidas/multi-tenant del harness · meta-agente que redacta WPs solo.
-
-## 6. La reforma del proceso — ADOPTADA en DEC-007; implementación pendiente
-
-Niveles **decididos por script** (blast radius sobre rutas declaradas y diff; misma librería que `check_scope`), no por juicio por WP:
-
-| Nivel | Superficie (la decide el clasificador) | Proceso |
-|---|---|---|
-| **T1 — ligero** | Documentación, datos de prueba y evidencia no ejecutable que no alteren controles, permisos, autorizaciones, contratos de seguridad ni el significado de una verificación | Contrato de 1 página; 1 pasada de code-reviewer; sin security-reviewer |
-| **T2 — estándar** | Código de producto, `scripts/**`, specs, salvo criterio de T3 | Ciclo completo del manual |
-| **T3 — sensible** | `.claude/**`, `.github/**`, permisos, secretos, migraciones, IaC, contratos de datos, `CODEOWNERS`; ejecutables/parches en `tests/**` o `evidence/**` que implementen o apliquen controles; cualquier cambio semántico de un control | Ciclo completo + una revisión Astra independiente con lentes de contrato, corrección y seguridad. La aplicación es humana cuando la ruta o el acto está protegido; T3 por sí solo no convierte todos los archivos en protegidos |
-
-**Suelo innegociable en TODOS los niveles** (v2; evidencia Veracode: ~45 % del código IA introduce vulnerabilidades, sin mejora entre ciclos): SAST/semgrep cuando aplique, escaneo de secretos, tests, lockfiles verificados. Los niveles modulan ceremonia y profundidad de revisión, **nunca** el suelo.
-**Prevalencia:** T3 gana ante cualquier coincidencia múltiple. El clasificador mantiene una lista versionada y probada de rutas sensibles; modificar esa lista es T3.
-
-
-Límites transversales: contrato ≤ 300 líneas (si necesita más, el troceado está
-mal); ≤ 1 de cada 3 WPs sobre la propia FDA tras la pausa; auditorías clasifican
-por severidad y solo lo bloqueante detiene. Hay una revisión completa por
-candidato o transición; Claude corrige los hallazgos concretos y la misma Astra
-solo revalida las correcciones y sus efectos. La autorización inicial puede
-cubrir C1 y C2 dentro del alcance y presupuesto aprobados, con la apertura de
-cada ciclo versionada antes de empezar. Tras C2 se para y se divide, replanifica
-o cierra `blocked`; C3 exige una decisión humana nueva, previa, fechada y
-versionada. El revisor nunca comparte modelo ni contexto con el implementador
-(Δ8). Ver `DEC-010`.
-
-## 7. Métricas (v2: desde hoy, no desde la Etapa 3)
-
-**Desde ya (coste cero):** ccusage por sesión; **minutos humanos por WP** (cronómetro manual); % WPs de producto vs meta. **Desde la Etapa 3 (WP-010):** coste/WP validado headless, % a la primera, ciclos medios, regresiones, resultado de simulacros. **Objetivo de calibración:** ≥ 75 % a la primera y ≤ 1 ciclo medio (M1 de ADR-001). **Desde la Etapa 5:** tasa de resolución autónoma, tasa de escalada humana, coste por resultado útil. Razón de fondo (P9): la percepción engaña; solo lo medido cuenta.
-
-## 8. Riesgos principales y sus señales
-
-| Riesgo | Señal de alarma | Respuesta |
-|---|---|---|
-| Recaer en la espiral de meta-trabajo | 2 WPs seguidos sobre la FDA, o un contrato > 300 líneas | Aplicar §6; punto de control extraordinario |
-| El punto de control se convierte en re-deliberación | Se reabre D1–D6 sin un incumplimiento concreto | Mantener el resultado fechado de DEC-007 |
-| **Divergencia de carriles** (v2) | Se activa una instalación B sin decisión, origen o retorno | Parar; D5 quedó sin acuerdo formal y exige otra decisión |
-| **K3: datos y compatibilidad** (v2) | Código de clientes viajando al endpoint sin evaluación RGPD; roturas del harness | El gate E1 es prerrequisito; sin él, K3 no toca código real |
-| El producto sigue parado | Etapa 4 sin empezar 8 semanas tras cerrar la pausa | Repriorización del operador: producto por delante |
-| Prompt injection al reactivar `claude.yml` | Reactivación sin autorización de actores | Vetado: la autorización explícita es prerrequisito (Etapa 3.5) |
-| Dependencia de un solo humano | Ausencia o indisponibilidad del operador | Registrar el riesgo; D5 no asigna otro responsable |
-| **Pérdida de la candidata local de WP-008-r2** | Limpieza, reutilización o borrado del worktree antes de custodiarla | Custodia externa persistente con manifiesto previa a cualquier operación (Anexo A) |
-
-## 9. Huecos de gobierno conocidos (transparencia)
-
-1. **Las herramientas de escritura vía API no pasan por el guard local.** Los documentos de esta rama se materializaron por esa vía, por encargo directo del operador, sin tocar `main`. Cierre definitivo: el check de alcance en CI (Etapa 2.6) + sandbox (Etapa 2.7), que juzgan el resultado venga de donde venga. Hasta entonces, esta vía queda reservada a actos de operador explícitamente encargados.
-2. **Plantilla y sandbox mezclados** en el mismo repo → guía de separación (Etapa 3.5); cualquier carril B futuro requiere antes otra decisión.
-3. **`claude.yml` sin autorización explícita de actores** — desactivado hoy; prerrequisito antes de reactivar.
-4. **Adaptaciones locales de otros runtimes** (`.agents/`, `.codex/`, `AGENTS.md`) sin versionar y fuera de gobierno (DEC-003 §8); cualquier uso como implementador exige su DEC propia — aplica también al endpoint K3 en el carril A.
-
----
-
-## Anexo A — Antecedente de DEC-007 y ramas consideradas
-
-Este anexo conserva las alternativas escritas antes del punto de control. El resultado efectivo está en DEC-007: D1, D2, D3, D4 y D6 ratificadas; D5 en su default. Solo la rama correspondiente a ese resultado es ejecutable.
-
-### Ramas históricas de D6, redactadas antes de la decisión
-
-Se conservan para explicar el default sin reabrir la deliberación. **La rama efectiva es D6-A; D6-B no está autorizada.**
-
-- **D6-A — núcleo mínimo (resolución recomendada).** Una PR de operador posterior y de un solo archivo reduce el contrato a: parche humano de `settings.json` (comando canónico + ocho reglas), preflight estructural, suite determinista del preflight y criterios y evidencia proporcionales al alcance restante. La maquinaria roja/verde de captura de CI y el protocolo de doce escenarios se declaran superados. El contrato reducido nace con `max_ciclos_correccion: 2` y cuenta propia desde `0 / 2`, **presupuesto que concede la propia `DEC-007`**: la concesión de `DEC-006` §3 era la de R2 y **quedó agotada en `2 / 2`**, y esa misma decisión remitió el tercer ciclo a «otra decisión humana, nueva, fechada y versionada». `DEC-006` §3 y `DEC-005` §10 son **precedentes del mecanismo «contrato nuevo, cuenta propia»**, no la autorización actual. No se borran los ciclos 1 y 2 de R2 ni los once históricos de `DEC-005`, y un tercer ciclo del contrato reducido volvería a exigir otra decisión humana nueva, fechada y versionada.
-- **D6-B — contrato íntegro (valor predeterminado).** Si D6 no se ratifica, `DEC-007` concede expresamente —también por autoridad propia— el **tercer y último ciclo** de corrección de WP-008-r2 para los seis hallazgos `WP008-F1`–`WP008-F6`, definidos íntegramente en su § Registro cerrado de hallazgos de WP-008: la contabilidad pasa de `2 / 2` a `2 / 3` al fusionarse y a `3 / 3` con una autorización humana posterior; no existe cuarto ciclo implícito; cualquier cambio de código o pruebas obliga a repetir la batería A completa desde el comando 01 y a reconstruir su índice conservando la historia; el cierre exige QA, code review y security review en tres tareas realmente separadas (Δ8).
-
-D6-B permanece únicamente como explicación histórica del default; no concede un tercer ciclo a R2 bajo la resolución efectiva.
-
-### Tratamiento de la candidata local de WP-008-r2
-
-Con la foto corregida de §1, la candidata local **existe** y su tratamiento forma parte de la decisión, no de una limpieza informal:
-
-1. antes de cualquier limpieza, reutilización o modificación, una **operación humana separada** crea una **custodia externa persistente** con manifiesto de rutas, tipos, modos y SHA-256;
-2. la persona fija por escrito, antes de autorizarla, el destino persistente —**nunca `/private/tmp`**—, el soporte y su durabilidad, el modo y la propiedad del árbol, el formato verificable del manifiesto y el periodo de retención;
-3. la custodia y cada artefacto peligroso se marcan **CANDIDATA HISTÓRICA NO CONFORME — NO EJECUTAR**, nombrando `WP008-F1`, `WP008-F2`, `WP008-F4` o `WP008-F5` cuando corresponda —los identificadores de `DEC-007`, que no deben confundirse con los hallazgos de investigación H1–H12 de [05](05-analisis-investigacion-leandro-y-revalidacion.md) §3—;
-4. ese código no se fusiona como entregable ni se reutiliza como guía operativa;
-5. `DEC-007` **exige** estos datos; no autoriza por sí misma copiar, mover ni borrar nada.
-
-## Anexo B — Glosario mínimo (para lectura no técnica)
-
-- **FDA**: la «fábrica» — reglas, contratos y agentes con los que la IA desarrolla software de forma controlada.
-- **Agent OS**: el producto futuro — la plataforma que ejecutará agentes de negocio con permisos, aprobaciones y auditoría.
-- **WP (work package)**: un encargo pequeño con contrato: qué se hace, qué archivos se pueden tocar, cómo se verifica.
-- **Guard / hook**: el programa que avisa y deniega en el momento las escrituras fuera del contrato que reconoce. **Feedback rápido, no garantía**: falla abierto si no es ejecutable o no llega a invocarse, y no cubre todos los vectores de shell.
-- **Sandbox**: jaula a nivel de sistema operativo — el agente físicamente no podría escribir fuera de su carpeta ni salir a internet salvo a dominios permitidos. **Todavía no está instalado**: es un gate futuro (experimento E2), y hasta que se instale y se mida no aporta ninguna protección real.
-- **Check de alcance** (`check_scope`): el ejecutable local y la biblioteca única ya existen por WP-015. La comprobación en GitHub que revisará el diff contra el contrato **todavía no existe** y solo será bloqueante cuando, tras integrarse en CI, se incorpore como *required status check* del ruleset.
-- **Blast radius**: «radio de impacto» de un cambio; un script lo calcula y decide cuánta ceremonia y revisión necesita.
-- **Upstream / downstream (carriles A/B)**: la plantilla canónica y sus instalaciones; las mejoras probadas abajo vuelven arriba.
-- **Pausa (DEC-003)**: freno de emergencia del 03-08; se sale cumpliendo condiciones medibles.
-- **PR de operador**: cambio del andamiaje aprobado por ti; distinto de una PR de implementación.
-- **Meta-trabajo**: trabajo de la fábrica sobre sí misma, en vez de sobre el producto.
-- **Candidata histórica no conforme**: trabajo real que no se fusiona ni se ejecuta; se conserva con manifiesto y advertencia para no perder trazabilidad.
+| Entorno sin aislamiento demostrado, acceso indebido o pruebas inválidas | No ejecutar/integrar; corregir el perímetro o reducir la tarea. |
+| Gasto sin autorización o sin medición exigida | Detener llamadas facturables; no inventar cifras. |
+| Tercer ciclo, cambio de alcance o ADR necesario | Replanificación humana; no reiniciar contadores. |
+| Dos días de preparación sin WP listo | Decidir reducción; no convertir un plazo en otra ampliación. |
+| Diez días sin resultado útil | Registrar el fracaso del experimento y revisar el método. |
+| Riesgo de perder trabajo previo | Preservar candidatas y ramas; ninguna limpieza queda autorizada. |
+
+## 9. Procedencia e historial
+
+La autorización de cambio es el encargo del operador de 2026-10-19 registrado
+en [WP-019](../work-packages/WP-019-ruta-piloto-supervisado.md). La DEC-018 prevista
+definirá precedencia y vigencia; el manual 09 previsto será la referencia
+operativa del nuevo modo. Ambos están pendientes de la autorización precisa.
+
+La v2 completa, sus revisiones y anexos permanecen en
+[Git, base 91d4a7c](https://github.com/FDA-Template/fda-template/blob/91d4a7c8af855ebac146c59310e44a20a8e160e4/docs/03-hoja-de-ruta.md).
+Las decisiones DEC-001 a DEC-017 y evidencias históricas se conservan. Las
+referencias antiguas a etapas de v2 se interpretan contra esa versión, no como
+órdenes actuales que bloqueen el piloto. Fuera de DEC-018 conservan su efecto.
+
+La investigación anterior vive en [04](04-analisis-conversaciones-ia.md) y
+[05](05-analisis-investigacion-leandro-y-revalidacion.md). No se actualizan esas
+fotos fijas ni se reutilizan sus porcentajes o plazos como mediciones presentes.

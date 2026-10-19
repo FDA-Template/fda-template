@@ -1,6 +1,6 @@
 # WP-019 — Ruta de entregas supervisadas y primer piloto
 
-estado: ready
+estado: blocked
 prioridad: P0
 agente_responsable: operador_delegado_codex
 agente_revisor: code-reviewer
@@ -22,6 +22,12 @@ camino/método [...] y comencemos a trabajar». Este WP registra ese encargo
 normativo delegado; no se presenta como ejecución ordinaria del runtime.
 Base: `91d4a7c8af855ebac146c59310e44a20a8e160e4`. Rama dedicada:
 `wp/WP-019-ruta-piloto-supervisado`. La copia de trabajo anterior se preserva.
+
+**Parada de permisos, 2026-10-19:** la revisión automática rechazó materializar
+DEC-018 y el manual por considerar insuficientemente precisa la autorización
+general para enmendar pausa y costes. Se solicitó autorización para esos dos
+cambios. La ruta queda como borrador no habilitante; DEC-018 y manual 09 no se
+han creado. La DoR fue apta, pero la composición está incompleta y no es APTO.
 
 ## Alcance (incluido / fuera de alcance)
 
