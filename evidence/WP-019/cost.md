@@ -13,7 +13,9 @@ el coste total de la sesión ni su consumo de cuota, que no se conoce.
 Autoría: sesión Codex. Revisión de preparación: planner independiente.
 Asiento documental preparado por Codex por delegación expresa del operador;
 no es una estimación humana de importe ni una captura determinista de consumo.
-Revisión técnica de candidata: aún no realizada al registrar esta entrada.
+Revisión técnica de candidata: completada por GPT-6 Astra High, una revisión
+independiente con lente de seguridad, sin correcciones. Informe en
+`revision-astra.md`. Su consumo atribuible sigue desconocido.
 Tiempo humano: no medido. No se calculan consumo porcentual, conversión de
 divisa, ahorro o rentabilidad a partir de una cifra inexistente.
 
