@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-19",
+  "commit": "6455f85437847cab8d7b392a5b07e61194cfc03e",
+  "contract_base": "ffdf5d942222188b5a0c5461647185a506e7fe3b",
+  "checks": [
+    {
+      "command": "git diff --check 91d4a7c8af855ebac146c59310e44a20a8e160e4",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": "bash tests/governance/check-active.sh",
+      "exit_code": 0,
+      "output": "REPOSO: no hay WP activo.\n\n  Estado VÁLIDO: la fábrica no tiene trabajo en curso.\n  El guard deniega toda escritura ordinaria mientras dure (fail-closed).\n  Para iniciar un WP: escribe su ID en work-packages/ACTIVE.\n"
+    },
+    {
+      "command": "python3 evidence/WP-000/checks/check-manual.py",
+      "exit_code": 0,
+      "output": "==============================================================\n Manual — enlaces internos y placeholders de instalación\n==============================================================\n\n--- Enlaces internos (11 archivos) ---\n  OK    docs/manual/01-instalacion.md                \n  OK    docs/manual/02-ciclo-de-un-wp.md             \n  OK    docs/manual/03-redactar-un-wp.md             \n  OK    docs/manual/04-agentes.md                    \n  OK    docs/manual/05-bloqueos-y-parada.md          \n  OK    docs/manual/06-costes-y-metricas.md          \n  OK    docs/manual/07-troubleshooting.md            \n  OK    docs/manual/08-productor-alcance-fda-wp018.md \n  OK    docs/manual/09-piloto-supervisado.md         \n  OK    docs/manual/MANUAL.md                        \n  OK    CLAUDE.md                                    \n\n  Enlaces internos comprobados: 82\n\n--- Placeholders en docs/manual/01-instalacion.md ---\n  OK    {{COMANDOS_VALIDACION}}\n  OK    {{PROPIEDAD_COMPONENTES}}\n  OK    {{PRESUPUESTOS_Y_MODELOS}}\n\n--- Estado de los archivos parametrizables (informativo) ---\n  instanciado CODEOWNERS                        sin marcador (valor real aplicado)\n  plantilla  .github/workflows/ci.yml           conserva {{COMANDOS_VALIDACION}}\n  plantilla  .github/workflows/claude.yml       conserva {{PRESUPUESTOS_Y_MODELOS}}\n  plantilla  .github/workflows/code-review.yml  conserva {{PRESUPUESTOS_Y_MODELOS}}\n\n  3 sin instanciar · 1 instanciados\n  Nota: instalación parcial. Es lo esperado mientras el repo sirva\n        de plantilla y de sandbox a la vez.\n\n==============================================================\n RESULTADO: 0 fallos\n==============================================================\n"
+    },
+    {
+      "command": "python3 scripts/check_scope.py WP-019 \"${WP019_CONTRACT_BASE:?}...HEAD\"",
+      "exit_code": 0,
+      "output": "OK\n{\"base\": \"ffdf5d942222188b5a0c5461647185a506e7fe3b\", \"contrato\": \"work-packages/WP-019-ruta-piloto-supervisado.md\", \"contrato_blob\": \"cb11fb1a91d8aaad67edcb032aaec40e4c9cc617\", \"head\": \"HEAD\", \"merge_base\": \"ffdf5d942222188b5a0c5461647185a506e7fe3b\", \"violaciones\": [], \"wp\": \"WP-019\"}\n"
+    }
+  ],
+  "supplementary": [
+    {
+      "command": "git diff --quiet 91d4a7c8af855ebac146c59310e44a20a8e160e4 -- .github .claude .agents .codex CODEOWNERS work-packages/ACTIVE scripts tests specs/adr",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": "git diff --name-only 91d4a7c8af855ebac146c59310e44a20a8e160e4 ffdf5d942222188b5a0c5461647185a506e7fe3b",
+      "exit_code": 0,
+      "output": "work-packages/WP-019-ruta-piloto-supervisado.md\n"
+    },
+    {
+      "command": "git status --short",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport re, subprocess\nbase='91d4a7c8af855ebac146c59310e44a20a8e160e4'\nfiles=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()\nbad=[]; count=0\nfor name in files:\n p=Path(name)\n if p.suffix!='.md': continue\n for target in re.findall(r'\\]\\(([^\\s)]+)(?:\\s+[^)]*)?\\)',p.read_text()):\n  if '://' in target or target.startswith('#'): continue\n  count+=1\n  path=target.split('#')[0]\n  if not (p.parent/path).exists(): bad.append((name,target))\nprint(f'{count} enlaces locales de documentos modificados comprobados; {len(bad)} rotos.')\nfor item in bad: print(*item)\nraise SystemExit(bool(bad))\nPY",
+      "exit_code": 0,
+      "output": "147 enlaces locales de documentos modificados comprobados; 0 rotos.\n"
+    }
+  ]
+}
