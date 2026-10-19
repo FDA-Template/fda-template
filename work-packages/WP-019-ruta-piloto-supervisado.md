@@ -1,6 +1,6 @@
 # WP-019 — Ruta de entregas supervisadas y primer piloto
 
-estado: blocked
+estado: in_review
 prioridad: P0
 agente_responsable: operador_delegado_codex
 agente_revisor: code-reviewer
@@ -26,8 +26,11 @@ Base: `91d4a7c8af855ebac146c59310e44a20a8e160e4`. Rama dedicada:
 **Parada de permisos, 2026-10-19:** la revisión automática rechazó materializar
 DEC-018 y el manual por considerar insuficientemente precisa la autorización
 general para enmendar pausa y costes. Se solicitó autorización para esos dos
-cambios. La ruta queda como borrador no habilitante; DEC-018 y manual 09 no se
-han creado. La DoR fue apta, pero la composición está incompleta y no es APTO.
+cambios. Esa parada queda resuelta por la respuesta posterior del operador
+«Autorizar ambos cambios acotados», registrada en
+`evidence/WP-019/autorizacion.md`. Se reanuda la misma composición y el mismo
+presupuesto; no se reinician ciclos ni se amplía el alcance. La vigencia del
+modo experimental sigue dependiendo de la fusión humana.
 
 ## Alcance (incluido / fuera de alcance)
 

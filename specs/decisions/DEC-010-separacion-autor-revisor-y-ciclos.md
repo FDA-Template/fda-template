@@ -1,5 +1,14 @@
 # DEC-010 — Separación de autor y revisor y bucle ordinario de dos ciclos
 
+**Enmienda acotada de 2026-10-19:** [DEC-018](DEC-018-entregas-supervisadas.md)
+prevalece sobre §§1, 3, 4 y 6 únicamente para la autoría documental delegada
+en Codex de WP-019 y la agrupación explícita de pasos reversibles del piloto.
+Mantiene una única Astra independiente con lente de seguridad, C1/C2
+versionados antes de corregir y revalidación enfocada por la misma revisora.
+No incluye fusión, despliegue, permisos, gasto nuevo ni ampliación de alcance.
+No reinicia contadores, cambia ADR-001 ni modifica las decisiones históricas
+de instancia que siguen. El modo piloto entra en vigor por fusión humana.
+
 **Estado:** aceptada · **Fecha:** 2026-09-21 · **Ámbito:** revisiones
 independientes, correcciones ordinarias, contabilidad de ciclos y aplicación del
 nivel T3

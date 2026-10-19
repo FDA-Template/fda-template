@@ -16,3 +16,8 @@ esa excepción. La cuota desconocida nunca se presenta como coste cero.
 La revisión automática de permisos posterior pidió autorización humana más
 precisa para escribir las enmiendas de pausa y coste. Se ha solicitado; el
 dictamen del planner no sustituye esa autorización.
+
+**Actualización posterior, 2026-10-19:** el operador respondió «Autorizar ambos
+cambios acotados». [Registro íntegro](autorizacion.md). Se resuelve la parada de
+permisos sin ampliar el WP, su presupuesto o los ciclos. El nuevo modo sigue
+condicionado a revisión e integración humana; el planner no aprueba la candidata.

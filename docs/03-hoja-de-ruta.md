@@ -1,11 +1,9 @@
 # Hoja de ruta — FDA mediante entregas supervisadas
 
-**Revisión:** 2026-10-19 · **Decisión prevista:** `DEC-018`, aún no materializada.
-**Estado: BORRADOR NO HABILITANTE.** La autorización precisa para las enmiendas
-de pausa y coste está solicitada y pendiente. Esta hoja por sí sola no cambia
-las reglas vigentes ni habilita ejecución. Las referencias a DEC-018 y al
-manual 09 describen documentos previstos, todavía no creados. Tras autorización,
-revisión e integración humana de la composición completa podrá sustituir la v2.
+**Revisión:** 2026-10-19 · **Decisión:** [DEC-018](../specs/decisions/DEC-018-entregas-supervisadas.md).
+**Vigencia:** el operador ha autorizado materializar y revisar esta composición.
+El nuevo modo entra en vigor con la fusión humana de WP-019; antes de ella,
+esta candidata no habilita ejecutar el piloto. La pausa ordinaria se conserva.
 **Objetivo:** convertir necesidades del operador en mejoras utilizables,
 demostrando calidad, coste e intervención humana antes de ampliar la fábrica.
 
@@ -73,7 +71,7 @@ decide utilidad, prioridades y gasto; no sustituye una revisión técnica expert
    independiente. Integración humana; no activa por sí sola un piloto.
 2. **Primera entrega externa pequeña.** Preparar el WP de `knowledge-base`,
    fijar revisión de origen, criterios, presupuesto, runtime y controles del
-   entorno. Ejecutar solo cuando los gates del manual 09 previsto
+   entorno. Ejecutar solo cuando los gates del [manual 09](manual/09-piloto-supervisado.md)
    estén aprobados y acreditados. Obtener un cambio probado y revisable; después integración
    humana en el repositorio destinatario. No migrar toda la FDA a ese repositorio.
 3. **Una función útil en el proyecto comercial.** Tras esa primera experiencia,
@@ -144,9 +142,10 @@ de ampliarlo. No extrapolar autonomía profesional desde una sola entrega.
 ## 9. Procedencia e historial
 
 La autorización de cambio es el encargo del operador de 2026-10-19 registrado
-en [WP-019](../work-packages/WP-019-ruta-piloto-supervisado.md). La DEC-018 prevista
-definirá precedencia y vigencia; el manual 09 previsto será la referencia
-operativa del nuevo modo. Ambos están pendientes de la autorización precisa.
+en [WP-019](../work-packages/WP-019-ruta-piloto-supervisado.md), ampliado por la
+[autorización precisa](../evidence/WP-019/autorizacion.md) para pausa y coste.
+[DEC-018](../specs/decisions/DEC-018-entregas-supervisadas.md) define precedencia
+y vigencia; el [manual 09](manual/09-piloto-supervisado.md) explica la operación.
 
 La v2 completa, sus revisiones y anexos permanecen en
 [Git, base 91d4a7c](https://github.com/FDA-Template/fda-template/blob/91d4a7c8af855ebac146c59310e44a20a8e160e4/docs/03-hoja-de-ruta.md).

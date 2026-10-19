@@ -2,6 +2,14 @@
 
 # 02 — El ciclo de un work package
 
+**Modo aplicable.** Este capítulo conserva el ciclo ordinario, actualmente en
+pausa. Para el piloto autorizado por DEC-018, usar [09](09-piloto-supervisado.md)
+tras la fusión humana de WP-019: admite un encargo que autorice conjuntamente
+los pasos reversibles y su PR, conserva revisión y fusión humana y exige
+comprobar aislamiento, coste y aceptación antes de ejecutar. WP-019 es el acto
+documental delegado del operador; no utiliza el ejemplo de activación de abajo
+ni modifica `ACTIVE`. Las escrituras de `ACTIVE` corresponden al operador.
+
 Un WP = una rama = una PR. Ocho pasos, con los comandos exactos de cada uno.
 
 ```text

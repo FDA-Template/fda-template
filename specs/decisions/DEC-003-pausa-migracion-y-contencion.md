@@ -1,5 +1,13 @@
 # DEC-003 — Pausa de la migración de DEC-002 y contención del carril automático
 
+**Enmienda acotada de 2026-10-19:** [DEC-018](DEC-018-entregas-supervisadas.md)
+admite el acto documental delegado WP-019 desde reposo y, tras su fusión humana,
+un piloto externo supervisado con gates propios antes de cerrar la pausa.
+Prevalece sobre §§2, 4 y 6 solo en ese ámbito. La pausa ordinaria/autónoma,
+la congelación del guard, la cuarentena de adaptaciones locales y las
+condiciones de salida generales se conservan. No modifica `ACTIVE`, no reabre
+WP-018 ni declara resuelto OF1. El expediente histórico que sigue se preserva.
+
 **Estado:** aceptada · **Fecha:** 2026-08-03 · **Ámbito:** la migración de [`DEC-002`](DEC-002-semantica-de-traversal.md), el estado de `work-packages/ACTIVE`, los workflows de agente y las adaptaciones de otros runtimes presentes en el árbol de trabajo
 **Origen:** contraste de dos auditorías independientes sobre `36cb46c`, verificado sobre el repositorio y sobre GitHub el 2026-08-03.
 **Enmendada el 2026-09-09 por [`DEC-007`](DEC-007-punto-de-control-y-rumbo.md):** §§1, 2, 4, 5, 6 y 7. D1, D2, D3, D4 y D6 quedan ratificadas; D5 queda resuelta por su default, sin acuerdo formal. La enmienda entra en vigor en el mismo diff atómico que crea DEC-007.

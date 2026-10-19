@@ -2,6 +2,14 @@
 
 # 04 — Los agentes: quién, cuándo y con qué permisos
 
+**Modo vigente y excepción.** Los agentes siguientes describen el flujo
+ordinario, que continúa en pausa. [DEC-018](../../specs/decisions/DEC-018-entregas-supervisadas.md)
+delega únicamente la reforma documental WP-019 y sus correcciones en Codex.
+El piloto posterior sigue [09](09-piloto-supervisado.md), con Claude Code como
+runtime de implementación y una única revisión GPT-6 Astra, razonamiento Alto,
+contexto nuevo y solo lectura, incluida la lente de seguridad. Las fichas
+históricas `opus` de revisión no sustituyen esta asignación de DEC-010.
+
 Cinco agentes, uno por archivo en `.claude/agents/`. Cada uno tiene su propia allowlist de herramientas, modelo y criterio de parada.
 
 ## Tabla de decisión
@@ -36,7 +44,7 @@ Cinco agentes, uno por archivo en `.claude/agents/`. Cada uno tiene su propia al
 | **Herramientas** | `Read, Grep, Glob, Edit, Write, Bash` |
 | **Modelo** | estándar (`sonnet`) |
 | **maxTurns** | 60 |
-| **Aislamiento** | `isolation: worktree` — copia aislada del repo |
+| **Separación de archivos** | `isolation: worktree` — checkout independiente; no acredita aislamiento de permisos, procesos o red |
 
 **Hace:** implementa el alcance mínimo que satisface los criterios, escribe
 pruebas de toda función nueva, ejecuta la validación del WP, guarda evidencias y
@@ -56,7 +64,7 @@ corrige los hallazgos concretos de Astra durante C1/C2.
 
 **No hará nunca:** arreglar código de producción (reporta, no arregla), relajar una prueba para que pase, ni añadir `skip`, `xfail` o bajar umbrales de cobertura.
 
-> ⚠️ **Cómo se hace cumplir «solo escribe en pruebas».** El `qa` tiene `Edit` y `Write` porque necesita crear tests; la allowlist de herramientas no distingue rutas. El límite real es la sección `## Archivos permitidos` del WP, que aplica `guard.sh`.
+> ⚠️ **Alcance de «solo escribe en pruebas».** El `qa` tiene `Edit` y `Write` porque necesita crear tests; la allowlist de herramientas no distingue rutas. La sección `## Archivos permitidos` del WP define el límite; `guard.sh` da feedback best-effort y la revisión del diff lo comprueba. No es aislamiento hermético.
 > **En un WP de QA, esa lista debe contener solo rutas de pruebas.** Si contiene rutas de producción, el límite desaparece — y sería un fallo de redacción del WP, no del agente.
 
 ### `security-reviewer` — revisión de seguridad
@@ -97,7 +105,8 @@ la misma Astra revalida únicamente esos cambios y sus efectos directos.
 
 - **Autor:** Claude Code implementa y corrige. Cada corrección posterior a un
   veredicto es C1 o C2 y debe tener su apertura versionada antes de empezar en
-  `evidence/WP-XXX/ciclos.md`.
+  `evidence/WP-XXX/ciclos.md`. La autoría documental delegada de WP-019 constituye
+  la excepción limitada de DEC-018; conserva el mismo cómputo de correcciones.
 - **Revisor:** GPT-6 Astra, razonamiento Alto, contexto nuevo y solo lectura.
   Recibe normas, contrato, candidato y pruebas, pero no el `APTO` del autor como
   premisa. Nunca escribe sobre el candidato.
@@ -115,13 +124,13 @@ Norma completa: [DEC-010](../../specs/decisions/DEC-010-separacion-autor-revisor
 
 ---
 
-## Los tres controles que no dependen del prompt
+## Controles y garantías acreditadas
 
-La separación de funciones se garantiza **por construcción**, no por obediencia:
+La separación exigida por la política debe distinguirse de su imposición técnica:
 
-1. **GitHub** — branch protection impide que el implementador fusione. No es una norma de su prompt: es que no tiene el permiso.
-2. **Allowlists de herramientas** — el `code-reviewer` no tiene `Edit`. Aunque decidiera arreglar el código, la herramienta no está disponible.
-3. **`guard.sh`** — bloquea escrituras fuera del WP activo con un código de salida, sin consultar al modelo.
+1. **GitHub** — el expediente acredita PR y checks requeridos, bloqueo de force-push y borrado. Con cero aprobaciones requeridas no acredita impedir la autofusión de un autor con permisos suficientes. La fusión humana sigue siendo obligatoria como política.
+2. **Allowlists de herramientas** — las fichas restringen herramientas, no rutas. Retirar `Edit` y `Write` no convierte por sí solo un shell en solo lectura. La revisión exige acceso efectivamente de lectura y ausencia de mutaciones.
+3. **`guard.sh`** — deniega escrituras reconocidas fuera del WP activo; es best-effort, puede no invocarse y no cubre todo Bash. El verificador local de WP-015 y la revisión del diff ayudan a detectar desviaciones; no equivalen a un sandbox ni a un check requerido instalado.
 
 ## Límites conocidos de los controles
 
@@ -129,13 +138,17 @@ Conviene saber qué **no** cubren, para no confiar de más:
 
 | Límite | Alcance real | Red de seguridad |
 |---|---|---|
-| El analizador de `Bash` de `guard.sh` es *best-effort* | Detecta `>`, `>>`, `tee`, `sed -i`, `cp`, `mv`, `rm`, `dd of=`… pero no `python -c "open(...,'w')"`, `eval` ni `base64 -d` | CI (`Gobierno FDA`) + revisión del diff + branch protection |
+| El analizador de `Bash` de `guard.sh` es *best-effort* | Detecta `>`, `>>`, `tee`, `sed -i`, `cp`, `mv`, `rm`, `dd of=`… pero no `python -c "open(...,'w')"`, `eval` ni `base64 -d` | Verificación local de alcance y revisión del diff; `Gobierno FDA` y branch protection no acreditan esa comprobación de alcance |
 | Las allowlists son por herramienta, no por ruta | `qa` puede escribir fuera de `tests/` si el WP lo permite | Redacción correcta del WP + revisión |
-| `permissions.deny` cubre las herramientas de edición, no el shell | Un `deny` de `Edit(./x)` no impide `echo > x`; ahí quien manda es `guard.sh` | El propio `guard.sh`, que sí analiza Bash |
+| `permissions.deny` cubre las herramientas de edición, no el shell | Un `deny` de `Edit(./x)` no impide `echo > x` | El guard solo reconoce parte de Bash; el piloto requiere además comprobar su perímetro efectivo |
 
 > El matcher de `.claude/settings.json` es `Edit|Write|MultiEdit|NotebookEdit|Bash`. **Si alguien quita `Bash` de esa lista, el hueco vuelve a abrirse entero.** Es la línea más sensible de toda la configuración.
 
-Ninguno de estos huecos permite **fusionar** nada: todo cambio pasa por PR, CI y revisión humana. Esa es la capa que sí es hermética.
+Estos huecos no quedan cerrados por escribir que la revisión es humana. No se
+acredita una capa hermética de integración ni se han auditado universalmente
+actores y credenciales. El ejecutor del piloto debe carecer de credenciales de
+publicación, fusión y despliegue; el coordinador publica el diff comprobado y
+el humano decide la integración. Ese perímetro se verifica antes de ejecutar.
 
 ## Cómo lanzarlos
 
@@ -143,11 +156,12 @@ Ninguno de estos huecos permite **fusionar** nada: todo cambio pasa por PR, CI y
 > Usa el agente planner para validar la DoR de WP-014.
 > Usa el agente implementer para implementar WP-014.
 > Usa el agente qa para ejecutar la verificación de WP-014.
-> Usa el agente security-reviewer para revisar el diff de esta rama.
-> Usa el agente code-reviewer para revisar la PR #42.
+> Usa una única Astra como code-reviewer para revisar la PR #42, con lente de seguridad cuando corresponda.
 ```
 
-En CI, `claude.yml` y `code-review.yml` los invocan con `claude_args` (`--max-turns`, `--model`). Cargan exactamente el mismo gobierno porque vive en archivos del repositorio.
+Los workflows de agente `claude.yml` y `code-review.yml` permanecen
+desactivados por DEC-003. Su configuración no acredita ejecución actual;
+esta reforma no los reactiva ni modifica sus permisos.
 
 ## Modificar un agente
 
