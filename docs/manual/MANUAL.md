@@ -2,6 +2,13 @@
 
 Este manual permite operar la FDA **sin memoria conversacional**. Todo el conocimiento operativo vive aquí; si algo solo se sabe porque se dijo en un chat, no se sabe.
 
+**Entrada actual:** [09 — Piloto supervisado](09-piloto-supervisado.md), bajo
+[DEC-018](../../specs/decisions/DEC-018-entregas-supervisadas.md), vigente solo
+tras fusión humana de WP-019. Primero una entrega externa pequeña, después
+medición y mejoras justificadas. La operación ordinaria/autónoma continúa en
+pausa; los capítulos de ese flujo no autorizan ejecutarlo ni instalar toda la
+plantilla como requisito del piloto.
+
 > **Regla vinculante** (`CLAUDE.md`): todo cambio de proceso, contrato o agente actualiza `docs/manual/` en la misma PR. Manual desactualizado = PR incompleta. El job `gobierno` de CI lo comprueba automáticamente.
 
 ## Qué es la FDA
@@ -37,14 +44,16 @@ impide por sí solo** que el autor de una PR la fusione si tiene permisos
 suficientes. La prohibición de autofusión es **política y operación**, no una
 barrera del ruleset; su cierre técnico es **WP-011**.
 
-**Capas objetivo, todavía NO materializadas** — hoja de ruta [`docs/03`](../03-hoja-de-ruta.md), principio P1:
+**Controles pendientes para operación autónoma** — [hoja de ruta](../03-hoja-de-ruta.md):
 
 | Capa objetivo | Estado hoy |
 |---|---|
-| Sandbox del sistema operativo: escritura restringida a nivel de kernel y egreso de red por allowlist | **No instalado.** Pendiente del experimento E2 y de su gate |
-| `check_scope`: comprobación del diff de la PR en CI contra el contrato del WP | **No implementado.** `WP-002` está `blocked` y `WP-005` en `draft` |
+| Sandbox del sistema operativo: escritura restringida y egreso de red limitado | **No acreditado para operación autónoma.** El piloto debe verificar previamente su entorno acotado; un worktree no basta. |
+| `check_scope`: comprobación del diff de la PR en CI contra el contrato del WP | **Existe localmente** desde WP-015. La integración como check requerido sigue pendiente; WP-016/018 no se declaran resueltos. |
 
-**No des por existente ninguna de las dos.** Mientras no lo estén, quien decide el alcance es la **lectura humana del diff** —una práctica, no una barrera—, no el hook y no la protección de rama, que **no comprueba el alcance del WP**.
+**No des por instalado lo pendiente.** Se reutiliza el verificador local cuando
+su contrato aplica y se revisa el diff completo. La revisión humana es una
+práctica obligatoria; no demuestra una barrera automática de integración.
 
 ## Índice
 
@@ -58,11 +67,12 @@ barrera del ruleset; su cierre técnico es **WP-011**.
 | [06 — Costes y métricas](06-costes-y-metricas.md) | Al cerrar un WP y al revisar la semana |
 | [07 — Troubleshooting](07-troubleshooting.md) | Cuando algo no funciona |
 | [08 — Productor Alcance FDA WP-018](08-productor-alcance-fda-wp018.md) | Para preparar y verificar la recuperación de push de DOR-7 |
+| [09 — Piloto supervisado](09-piloto-supervisado.md) | Para la primera entrega externa y su evaluación bajo DEC-018 |
 
 ## Documentos fundacionales
 
 - [CLAUDE.md](../../CLAUDE.md) — la constitución que todo agente carga siempre.
-- [Hoja de ruta](../03-hoja-de-ruta.md) — **el rumbo vigente**: arquitectura objetivo del enforcement, etapas y secuencia posterior a la pausa. Es el segundo documento del orden de lectura obligatorio de `CLAUDE.md`, antes de este manual.
+- [Hoja de ruta](../03-hoja-de-ruta.md) — **el rumbo vigente**: entregas supervisadas antes de completar la plataforma autónoma, con precedencia y vigencia de DEC-018. Es el segundo documento del orden de lectura obligatorio de `CLAUDE.md`, antes de este manual.
 - [Guía de implantación](../02-guia-fabrica-desarrollo-agentica.md) — la especificación vinculante del sistema. Describe el diseño de la fábrica; la dirección y su estado de materialización viven en la hoja de ruta.
 - [Análisis de las conversaciones](../04-analisis-conversaciones-ia.md) y [Investigación y revalidación](../05-analisis-investigacion-leandro-y-revalidacion.md) — procedencia y razonamiento del rumbo. Son fotos fijas: no se mantienen al día.
 - [ADR-001 — Runtime](../../specs/adr/ADR-001-runtime.md) — por qué Claude Code hoy y cuándo activar el harness SDK.

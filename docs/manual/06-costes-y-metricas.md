@@ -2,6 +2,15 @@
 
 # 06 — Costes y métricas
 
+**Excepción documental exclusiva de WP-019.** El operador ha autorizado su
+revisión con consumo de cuota Codex desconocido, registrado como
+`no_disponible`. [DEC-018 §2](../../specs/decisions/DEC-018-entregas-supervisadas.md)
+permite conformidad documental y apertura de PR sin declararlo coste cero,
+F1/F2/F3 ni cierre económico. No permite nuevas llamadas facturables con coste
+desconocido ni modifica cuentas históricas. Fuera de WP-019 siguen aplicando
+DEC-001 y DEC-004, también al primer piloto. Se registran por separado gasto
+adicional, cuota y tiempo humano; no se afirma ahorro sin datos comparables.
+
 **Métrica principal: coste por WP integrado y aceptado.** No coste por sesión, ni por token, ni por hora. Un WP que costó 40 € pero necesitó tres ciclos y acabó revertido costó mucho más de 40 €.
 
 > Los **primeros 5 WPs son calibración**. No saques conclusiones con n=1: medirás la curva de aprendizaje del sistema, no su rendimiento.

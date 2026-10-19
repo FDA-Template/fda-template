@@ -2,6 +2,14 @@
 
 # 05 — Bloqueos y condiciones de parada
 
+**Aplicación al piloto.** [DEC-018](../../specs/decisions/DEC-018-entregas-supervisadas.md)
+y el [manual 09](09-piloto-supervisado.md) permiten agrupar pasos reversibles
+en un encargo autorizado. Una elección técnica rutinaria dentro de ese contrato
+se resuelve y documenta; no necesita otra autorización por cada comando.
+La duda que cambia aceptación, alcance, autoridad o gasto sí exige decisión.
+El piloto no se ejecuta antes de verificar sus gates; se mantienen las paradas
+por vulnerabilidad, prueba inválida, coste y agotamiento de ciclos.
+
 **Que un agente se detenga es el sistema funcionando, no fallando.** El fallo sería que continuara inventando una interpretación.
 
 Cuando un agente para, produce tres cosas: qué le bloquea, qué necesita para seguir, y qué ha hecho hasta ese punto. Tu trabajo es decidir, no reiniciarlo esperando otro resultado.
