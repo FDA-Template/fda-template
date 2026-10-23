@@ -30,3 +30,9 @@ monetario de Codex. No hay producto ejecutado por esta composición documental.
 La misma Astra ha aprobado C2 sobre 26a3fdd, con revalidación enfocada. Cuota
 de coordinación, autoría documental y revisiones sigue no_disponible; no se
 atribuye coste cero o cierre económico por tener APTO para publicar.
+
+La autorización posterior autorizacion-C3.md cubre una única C3 documental y
+su revisión con cuota Codex desconocida y 0 EUR de nueva facturación. No
+reinicia costes o intentos; no hay nuevas invocaciones Claude/proveedores,
+compras o trabajo del producto. El diagnóstico del falso positivo, C3 y su
+revisión tampoco tienen consumo monetario atribuible disponible.

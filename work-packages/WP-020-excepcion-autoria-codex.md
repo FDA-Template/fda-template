@@ -7,7 +7,7 @@ agente_revisor: GPT-6 Astra, razonamiento Alto, independiente y solo lectura
 requisitos: [REQ-FDA-001, REQ-FDA-002, SEC-001]
 adr: [ADR-001, ADR-002 propuesto]
 presupuesto_max_eur: 0
-max_ciclos_correccion: 2
+max_ciclos_correccion: 3
 
 ## Objetivo y contexto
 
@@ -55,6 +55,7 @@ controles, publicar ramas/PR, fusionar o desplegar. Ninguna nueva plataforma.
 - docs/manual/09-piloto-supervisado.md
 - work-packages/WP-020-excepcion-autoria-codex.md
 - evidence/WP-020/**
+- .gitleaksignore
 
 Nota: el primer commit añade únicamente este contrato. Después se fija su SHA
 en evidence/WP-020/CONTRACT_BASE. El contrato no concede autoridad a su autor:
@@ -211,3 +212,54 @@ a esta implementación documental ni empieza por abrir la PR. Solo después de
 la fusión humana y gates conformes se fija su enmienda y permiso en el expediente
 privado, y se abre C4 antes de editar. No se pedirá otra confirmación para pasos
 ya incluidos; cambios materiales o gates fallidos siguen obligando a parar.
+
+## Enmienda humana y apertura C3 documental — 2026-10-23
+
+Iván responde «ok, adelante» a la pregunta íntegra conservada en
+evidence/WP-020/autorizacion-C3.md. Autoriza una única C3 documental para el
+falso positivo remoto confirmado por Astra. Esta enmienda prospectiva amplía
+solo una ruta, .gitleaksignore, y el máximo documental de 2 a 3. C0/C1/C2,
+CONTRACT_BASE original y sus dictámenes se conservan. Sin C4 documental
+automática. La C4 privada sigue siendo otro acto, tras fusión humana y gates.
+
+La única entrada admisible en .gitleaksignore es:
+
+```text
+0c104189cb04faa570cf001487c8776ffc11be75:evidence/WP-020/origen-y-preservacion.json:generic-api-key:9
+```
+
+Es un SHA-256 de integridad, no una credencial. El archivo se creará después
+de versionar esta enmienda y la apertura C3; su commit se fijará en
+evidence/WP-020/C3_CONTRACT_BASE. No se amplían reglas, rutas o hallazgos
+excluidos, ni se cambia CI, permisos, hooks, historia, producto o presupuesto.
+Se actualizan DEC-019 y manual 09 en sus rutas ya permitidas. La PR #88 sigue
+en borrador hasta revisión conforme y todos los checks de su cabeza en verde.
+
+### Verificación vigente de C3
+
+Esta lista sustituye prospectivamente los cuatro comandos anteriores solo
+para C3. WP020_CONTRACT_BASE y WP020_C3_CONTRACT_BASE se leen respectivamente
+de evidence/WP-020/CONTRACT_BASE y evidence/WP-020/C3_CONTRACT_BASE.
+Ejecutar en este orden, conservando salida íntegra y código:
+
+```bash
+git diff --check 0205556be8ad9cd7993feeddd0b4347694cf37f8
+bash tests/governance/check-active.sh
+python3 evidence/WP-000/checks/check-manual.py
+python3 scripts/check_scope.py WP-020 "${WP020_CONTRACT_BASE:?}...${WP020_C3_CONTRACT_BASE:?}"
+python3 scripts/check_scope.py WP-020 "${WP020_C3_CONTRACT_BASE:?}...HEAD"
+python3 -c 'from pathlib import Path; assert Path(".gitleaksignore").read_bytes() == b"0c104189cb04faa570cf001487c8776ffc11be75:evidence/WP-020/origen-y-preservacion.json:generic-api-key:9\n"'
+```
+
+El primer alcance usa la allowlist original; el segundo usa la enmienda
+congelada antes del archivo nuevo. Contrastar además primer commit solo
+contractual, ausencia del archivo en la apertura C3 y diff completo contra
+ambas autoridades. Ningún verificador se modifica. Los criterios 1/5/6 se
+evalúan con este nuevo recibo y la única excepción explícita; los demás se
+conservan. El criterio 7 exige ahora estos seis comandos, revalidación enfocada
+por la misma Astra y todos los checks remotos de la cabeza publicada verdes.
+Hasta observar CI verde no existe APTO final para integrar.
+
+Cuota Codex desconocida, no gratuita; facturación adicional autorizada 0 EUR.
+Sin nuevas llamadas Claude, proveedores o producto. Si esta excepción no
+basta o queda un hallazgo, detenerse: no ampliarla ni abrir otra corrección.

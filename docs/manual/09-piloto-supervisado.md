@@ -163,3 +163,23 @@ aunque falle; sin C5 automática. PR privada solo si APTO, fusión humana.
 
 Cambio material o gate fallido: parar según manual 05. Esta composición no
 habilita audio, micrófono, proveedores, despliegue o nueva infraestructura.
+
+## 9. Corrección puntual autorizada del escáner en WP-020
+
+La PR #88 detectó un falso positivo histórico sobre un SHA-256 de integridad,
+confirmado por la misma Astra. La [decisión C3](../../specs/decisions/DEC-019-preparar-autoria-codex.md)
+y el [recibo humano](../../evidence/WP-020/autorizacion-C3.md) autorizan una sola
+tercera corrección documental. No es una excepción general de los pilotos.
+
+Solo se incorpora .gitleaksignore con el fingerprint exacto del contrato. No
+se excluyen reglas, archivos enteros o hallazgos futuros. La enmienda y apertura
+se versionan antes del archivo; se congela C3_CONTRACT_BASE conservando la base
+original. El verificador existente contrasta por separado las dos etapas y se
+revisa también el diff completo, sin cambiar CI, permisos o historia.
+
+La misma revisora comprueba la excepción y sus efectos. Solo seis comprobaciones
+locales conformes, revisión y checks remotos verdes de la cabeza publicada
+permiten retirar el borrador. Un nuevo hallazgo exige parar, no extender el
+ignore. C3 se consume aunque falle; no hay C4 documental automática. Cuota
+Codex desconocida y sin facturación adicional. La C4 privada continúa esperando
+fusión humana y sus gates; esta corrección no ejecuta producto.

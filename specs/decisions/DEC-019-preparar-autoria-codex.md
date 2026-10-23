@@ -103,3 +103,29 @@ Antes de fusionar, rechazar la integración deja el producto intacto. Después,
 detener cualquier ejecución antes de retirar conjuntamente ADR-002 y avisos.
 Nunca borrar costes o intentos ni restaurar autoridad de una candidata bloqueada.
 No hay otra reforma o continuación automática por calendario.
+
+## 6. Decisión posterior sobre un falso positivo histórico
+
+Al publicar la PR #88, gitleaks identificó como generic-api-key un SHA-256 de
+integridad registrado en evidencia. La misma Astra confirmó independientemente
+que no es una credencial. Gobierno y calidad pasaron; la PR quedó en borrador.
+El aviso posterior de permisos para comentar no causó la detección.
+
+El [recibo C3](../../evidence/WP-020/autorizacion-C3.md) recoge la nueva decisión
+humana «ok, adelante» sobre la solución concreta ya revisada. Solo para WP-020
+extiende la precedencia documental del apartado 2 a una C3 adicional y una ruta
+nueva, .gitleaksignore, con exactamente el fingerprint fijado en el contrato.
+No autoriza una exclusión de regla/archivo ni detecciones futuras. Conserva
+C0/C1/C2, el escáner, historial y máximo 3, sin C4 documental automática.
+
+Se versionan enmienda y apertura antes del archivo y se fija C3_CONTRACT_BASE,
+sin alterar CONTRACT_BASE original. Se valida el alcance antiguo hasta esa
+base y el nuevo desde ella; además diff completo y una sola entrada literal.
+La misma Astra revalida excepción y efectos directos. La PR seguirá en borrador
+hasta seis comandos locales conformes, revisión y checks remotos verdes sobre
+su cabeza publicada. Si no basta, parar sin ampliar la excepción.
+
+Facturación adicional 0 EUR y cuota Codex desconocida. Sin CI, permisos, hooks,
+compras, Claude o APIs nuevos. No abre C4 privada ni cambia sus gates o seis
+rutas. Esta decisión permite corregir la candidata documental antes de fusión;
+la vigencia operativa del resto de la composición sigue dependiendo del humano.
