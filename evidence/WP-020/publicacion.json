@@ -14,7 +14,7 @@
   },
   "blocking_finding": "single generic-api-key false positive on a recorded SHA-256 integrity digest; independently confirmed",
   "diagnostic": "diagnostico-escaneo.md",
-  "state": "draft_C3_authorized_pending_verification_review_and_current_head_CI",
+  "state": "draft_C3_local_approved_waiting_for_current_head_CI",
   "C3_documental_authorized": true,
   "C4_product_open": false,
   "C4_product_requires_human_merge_and_gates": true,
@@ -26,5 +26,8 @@
   "later_head_checks": "consult GitHub for the current PR head; no green result inferred from this initial run",
   "C3_contract_base": "a4b6b08998ba75c1978e1970bd77dd16b1eda650",
   "C3_authorization": "autorizacion-C3.md",
-  "C3_scope_extension": "one exact historical fingerprint in .gitleaksignore"
+  "C3_scope_extension": "one exact historical fingerprint in .gitleaksignore",
+  "C3_reviewed_head": "6ec62c1161086c70cf23d062318ae19e072e393d",
+  "C3_independent_review": "APRUEBA local para publicar; CI remoto pendiente",
+  "C3_documental_consumed": "3/3"
 }

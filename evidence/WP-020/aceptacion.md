@@ -79,3 +79,9 @@ No hay funciones nuevas de producto. La prueba determinista compara los bytes
 completos del ignore con una sola entrada; el escaneo remoto debe confirmar
 su efecto real sobre el historial completo. La conformidad local para publicar
 no equivale a aptitud final para integrar antes de observar esos checks.
+
+Astra APRUEBA local sobre 6ec62c1161086c70cf23d062318ae19e072e393d, sin
+hallazgos, tras repetir los seis comandos y contrastar ambas etapas, producto
+y efectos de incorporar los logs. revision-astra-C3.md documenta esa revalidación.
+Los criterios locales están conformes; el criterio 7 sigue pendiente únicamente
+de todos los checks remotos de la cabeza publicada, sin anticipar su resultado.

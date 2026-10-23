@@ -1,5 +1,6 @@
-**Estado de publicación:** borrador, pendiente de verificación/revisión C3 y CI
-de la cabeza publicada. El único hallazgo inicial era un SHA-256 de integridad,
+**Estado de publicación:** borrador, pendiente de CI de la cabeza publicada.
+La misma Astra aprueba localmente C3 sobre 6ec62c1, seis comandos 0 y sin
+hallazgos abiertos. El único hallazgo inicial era un SHA-256 de integridad,
 confirmado como falso positivo por Astra. La autorización humana posterior
 permite una única C3 documental y una entrada exacta en .gitleaksignore.
 Se conservan escáner e historial, sin cambios de CI o permisos. Ver
@@ -42,14 +43,16 @@ solo contractual y ausencia de .gitleaksignore en la apertura. El control de
 alcance es local; no se presenta como check requerido en CI.
 
 - [x] C2 local revisada conforme; el fallo remoto posterior permanece en el historial.
-- [ ] Seis comandos C3 y siete criterios vigentes pendientes de comprobar.
-- [ ] Revalidación C3 por la misma Astra y todos los checks remotos de la cabeza publicada verdes.
+- [x] Seis comandos C3 verdes, repetidos por la misma Astra sobre 6ec62c1.
+- [x] Revalidación local C3 conforme, incluida seguridad y alcance de ambas etapas.
+- [ ] Criterio 7 final: todos los checks remotos de la cabeza publicada verdes.
 - [x] Sin funciones/código de producto nuevos; validación documental y gobierno.
 
 ## Evidencias
 
 - `evidence/WP-020/autorizacion-adopcion.md`: aceptación humana y permiso condicionado.
 - `evidence/WP-020/autorizacion-C3.md`, `C3_CONTRACT_BASE`: decisión puntual y apertura previa a la excepción del escáner.
+- `evidence/WP-020/C3-verificacion.json`, `C3-01` a `C3-06`, `C3-comprobaciones-complementarias.json` y `revision-astra-C3.md`: comandos, salidas, preservación y revalidación C3.
 - `evidence/WP-020/C2-verificacion.json` y `C2-01` a `C2-04`: comandos, salidas íntegras y códigos.
 - `evidence/WP-020/revision-astra-C2.md`: revalidación independiente de autoridad y seguridad, sin hallazgos.
 - `evidence/WP-020/origen-y-preservacion.json`: expediente externo, doce hashes y ACTIVE intactos.
@@ -83,7 +86,7 @@ candidatos y costes; no restaurar autoridad o intentos automáticamente.
 |---|---|
 | Coste atribuible de cuota Codex | no_disponible; no gratuito ni cierre económico |
 | Nueva facturación autorizada de WP-020 | 0 EUR |
-| Pasadas documentales | C1/C2 consumidas; C3 excepcional abierta, máximo 3 sin más continuación automática |
+| Pasadas documentales consumidas | 3/3, incluida única C3 excepcional; sin más continuación automática |
 | Producto | Cierre 3/3 preservado; C4 condicionada, todavía no abierta |
 
 ## Documentación y revisión
