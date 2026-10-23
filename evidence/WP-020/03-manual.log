@@ -1,46 +1,8 @@
-COMANDO: python3 evidence/WP-000/checks/check-manual.py
-FECHA: 2026-10-23T14:17:41.648421+00:00
-COMMIT: 0c104189cb04faa570cf001487c8776ffc11be75
-
-STDOUT:
-==============================================================
- Manual — enlaces internos y placeholders de instalación
-==============================================================
-
---- Enlaces internos (11 archivos) ---
-  OK    docs/manual/01-instalacion.md                
-  OK    docs/manual/02-ciclo-de-un-wp.md             
-  OK    docs/manual/03-redactar-un-wp.md             
-  OK    docs/manual/04-agentes.md                    
-  OK    docs/manual/05-bloqueos-y-parada.md          
-  OK    docs/manual/06-costes-y-metricas.md          
-  OK    docs/manual/07-troubleshooting.md            
-  OK    docs/manual/08-productor-alcance-fda-wp018.md 
-  OK    docs/manual/09-piloto-supervisado.md         
-  OK    docs/manual/MANUAL.md                        
-  OK    CLAUDE.md                                    
-
-  Enlaces internos comprobados: 93
-
---- Placeholders en docs/manual/01-instalacion.md ---
-  OK    {{COMANDOS_VALIDACION}}
-  OK    {{PROPIEDAD_COMPONENTES}}
-  OK    {{PRESUPUESTOS_Y_MODELOS}}
-
---- Estado de los archivos parametrizables (informativo) ---
-  instanciado CODEOWNERS                        sin marcador (valor real aplicado)
-  plantilla  .github/workflows/ci.yml           conserva {{COMANDOS_VALIDACION}}
-  plantilla  .github/workflows/claude.yml       conserva {{PRESUPUESTOS_Y_MODELOS}}
-  plantilla  .github/workflows/code-review.yml  conserva {{PRESUPUESTOS_Y_MODELOS}}
-
-  3 sin instanciar · 1 instanciados
-  Nota: instalación parcial. Es lo esperado mientras el repo sirva
-        de plantilla y de sandbox a la vez.
-
-==============================================================
- RESULTADO: 0 fallos
-==============================================================
-
-STDERR:
-
-EXIT: 0
+{
+  "representation": "base64-of-original-log-bytes",
+  "source_candidate": "0c104189cb04faa570cf001487c8776ffc11be75",
+  "original_git_snapshot": "a8949e09bd9372efcdde7c314c9804d51a662fec",
+  "original_sha256": "f875ee0f42cbd8ba884da5e9966f0abba8cbb3ddcde06f89475f099b92d7044e",
+  "original_size_bytes": 1877,
+  "original_bytes_base64": "Q09NQU5ETzogcHl0aG9uMyBldmlkZW5jZS9XUC0wMDAvY2hlY2tzL2NoZWNrLW1hbnVhbC5weQpGRUNIQTogMjAyNi0xMC0yM1QxNDoxNzo0MS42NDg0MjErMDA6MDAKQ09NTUlUOiAwYzEwNDE4OWNiMDRmYWE1NzBjZjAwMTQ4N2M4Nzc2ZmZjMTFiZTc1CgpTVERPVVQ6Cj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiBNYW51YWwg4oCUIGVubGFjZXMgaW50ZXJub3MgeSBwbGFjZWhvbGRlcnMgZGUgaW5zdGFsYWNpw7NuCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CgotLS0gRW5sYWNlcyBpbnRlcm5vcyAoMTEgYXJjaGl2b3MpIC0tLQogIE9LICAgIGRvY3MvbWFudWFsLzAxLWluc3RhbGFjaW9uLm1kICAgICAgICAgICAgICAgIAogIE9LICAgIGRvY3MvbWFudWFsLzAyLWNpY2xvLWRlLXVuLXdwLm1kICAgICAgICAgICAgIAogIE9LICAgIGRvY3MvbWFudWFsLzAzLXJlZGFjdGFyLXVuLXdwLm1kICAgICAgICAgICAgIAogIE9LICAgIGRvY3MvbWFudWFsLzA0LWFnZW50ZXMubWQgICAgICAgICAgICAgICAgICAgIAogIE9LICAgIGRvY3MvbWFudWFsLzA1LWJsb3F1ZW9zLXktcGFyYWRhLm1kICAgICAgICAgIAogIE9LICAgIGRvY3MvbWFudWFsLzA2LWNvc3Rlcy15LW1ldHJpY2FzLm1kICAgICAgICAgIAogIE9LICAgIGRvY3MvbWFudWFsLzA3LXRyb3VibGVzaG9vdGluZy5tZCAgICAgICAgICAgIAogIE9LICAgIGRvY3MvbWFudWFsLzA4LXByb2R1Y3Rvci1hbGNhbmNlLWZkYS13cDAxOC5tZCAKICBPSyAgICBkb2NzL21hbnVhbC8wOS1waWxvdG8tc3VwZXJ2aXNhZG8ubWQgICAgICAgICAKICBPSyAgICBkb2NzL21hbnVhbC9NQU5VQUwubWQgICAgICAgICAgICAgICAgICAgICAgICAKICBPSyAgICBDTEFVREUubWQgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKCiAgRW5sYWNlcyBpbnRlcm5vcyBjb21wcm9iYWRvczogOTMKCi0tLSBQbGFjZWhvbGRlcnMgZW4gZG9jcy9tYW51YWwvMDEtaW5zdGFsYWNpb24ubWQgLS0tCiAgT0sgICAge3tDT01BTkRPU19WQUxJREFDSU9OfX0KICBPSyAgICB7e1BST1BJRURBRF9DT01QT05FTlRFU319CiAgT0sgICAge3tQUkVTVVBVRVNUT1NfWV9NT0RFTE9TfX0KCi0tLSBFc3RhZG8gZGUgbG9zIGFyY2hpdm9zIHBhcmFtZXRyaXphYmxlcyAoaW5mb3JtYXRpdm8pIC0tLQogIGluc3RhbmNpYWRvIENPREVPV05FUlMgICAgICAgICAgICAgICAgICAgICAgICBzaW4gbWFyY2Fkb3IgKHZhbG9yIHJlYWwgYXBsaWNhZG8pCiAgcGxhbnRpbGxhICAuZ2l0aHViL3dvcmtmbG93cy9jaS55bWwgICAgICAgICAgIGNvbnNlcnZhIHt7Q09NQU5ET1NfVkFMSURBQ0lPTn19CiAgcGxhbnRpbGxhICAuZ2l0aHViL3dvcmtmbG93cy9jbGF1ZGUueW1sICAgICAgIGNvbnNlcnZhIHt7UFJFU1VQVUVTVE9TX1lfTU9ERUxPU319CiAgcGxhbnRpbGxhICAuZ2l0aHViL3dvcmtmbG93cy9jb2RlLXJldmlldy55bWwgIGNvbnNlcnZhIHt7UFJFU1VQVUVTVE9TX1lfTU9ERUxPU319CgogIDMgc2luIGluc3RhbmNpYXIgwrcgMSBpbnN0YW5jaWFkb3MKICBOb3RhOiBpbnN0YWxhY2nDs24gcGFyY2lhbC4gRXMgbG8gZXNwZXJhZG8gbWllbnRyYXMgZWwgcmVwbyBzaXJ2YQogICAgICAgIGRlIHBsYW50aWxsYSB5IGRlIHNhbmRib3ggYSBsYSB2ZXouCgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogUkVTVUxUQURPOiAwIGZhbGxvcwo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQoKU1RERVJSOgoKRVhJVDogMAo="
+}
