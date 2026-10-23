@@ -1,31 +1,24 @@
-# Propuesta para Iván: terminar el acceso local con otro ejecutor
+# Cambio aceptado: terminar el acceso local con Codex
 
-**Todavía no se ha programado ni se ha abierto otro intento.** Esta preparación
-deja una decisión concreta, pendiente de tu aceptación y de integración humana.
+Has aprobado que Codex con GPT-6.1 Sol escriba lo que falta y GPT-6 Astra revise
+por separado. La entrega sigue siendo una página local sin audio, con pruebas
+y guía. La conversación real será un paso posterior.
 
-La propuesta es que Codex con GPT-6.1 Sol escriba lo que falta y GPT-6 Astra
-revise el resultado por separado. Se conserva la entrega actual: página local
-sin audio, pruebas y guía.
-El audio y la conversación real siguen siendo pasos posteriores.
+El permiso ya incluye una única continuación C4, conservando fallos y costes
+anteriores, sin C5 automática. También incluye la diferencia de acceso del editor:
+seis archivos autorizados por reglas y revisión, sin bloqueo físico por archivo.
+El programa y sus pruebas seguirán dentro de Docker, sin red ni claves.
 
-Hay dos puntos que debes conocer antes de decidir:
+La cuota Codex sigue desconocida, nunca gratuita. No se autorizan más llamadas
+Claude/proveedores o compras, ni aumentar los 5 EUR originales. El presupuesto
+original no mide el coste total desconocido de cuota Codex.
 
-1. Cambiar de autor no borra los fallos anteriores. Sería una continuación
-   excepcional más, llamada C4, con una sola pasada y sin C5 automática.
-2. Codex tiene aquí acceso a carpetas y herramientas más amplias. Las seis rutas
-   seguirían siendo su límite autorizado y comprobaríamos el resultado, pero
-   la herramienta no garantiza físicamente que solo pueda tocar esas seis.
-   El programa y sus pruebas sí seguirían ejecutándose dentro del contenedor
-   aislado, sin red ni claves. Son protecciones distintas.
+El siguiente paso es publicar esta PR documental, superar sus controles y que
+la fusiones tú. Después comprobaré el entorno y registraré el contrato privado
+antes de abrir C4. Esa continuación ya está autorizada bajo esos límites; no
+hace falta que vuelvas a confirmar pasos rutinarios. Si cambia algo material
+o falla un control obligatorio, tendré que detenerme y explicarte el motivo.
 
-La cuota consumida por Codex seguiría siendo desconocida, nunca gratuita.
-No se propone gastar más en Claude o proveedores ni aumentar los 5 EUR
-originales. Tampoco se promete que el cambio de ejecutor termine la entrega.
-
-Si se acepta la propuesta y se integra humanamente, quedará fijar y autorizar
-la continuación privada antes de programar. Escribir o aprobar técnicamente
-estos documentos no inicia ese trabajo. La alternativa es conservar el bloqueo.
-
-El resultado que debes exigir al terminar será una página que puedas abrir,
-pruebas aprobadas y una guía sencilla. Esta preparación documental aún no es
-ese resultado. La revisión de código corresponde a Astra; la fusión es humana.
+El resultado exigido será una página que puedas abrir, pruebas aprobadas y guía.
+Esta PR cambia el método; todavía no entrega esa página. La revisión técnica
+corresponde a Astra y toda fusión sigue siendo humana.

@@ -5,13 +5,13 @@ Documento fundacional: [`docs/02-guia-fabrica-desarrollo-agentica.md`](docs/02-g
 Rumbo vigente: [`docs/03-hoja-de-ruta.md`](docs/03-hoja-de-ruta.md) — entregas supervisadas, medición y ampliación por necesidades demostradas. [`DEC-018`](specs/decisions/DEC-018-entregas-supervisadas.md) habilita el modo experimental únicamente tras fusión humana de su composición; la pausa ordinaria continúa. La procedencia histórica está en [`docs/04-analisis-conversaciones-ia.md`](docs/04-analisis-conversaciones-ia.md) y [`docs/05-analisis-investigacion-leandro-y-revalidacion.md`](docs/05-analisis-investigacion-leandro-y-revalidacion.md).
 Manual de operación: [`docs/manual/MANUAL.md`](docs/manual/MANUAL.md).
 
-**Preparación autorizada, excepción pendiente.**
+**Excepción aceptada, pendiente de fusión.**
 [`DEC-019`](specs/decisions/DEC-019-preparar-autoria-codex.md) registra la
-delegación documental de WP-020 desde reposo, con cuota desconocida.
-[`ADR-002`](specs/adr/ADR-002-autoria-codex-supervisada.md) propone autoría
-Codex para una sola continuación externa C4, todavía no autorizada. Preparar
-o revisar esa propuesta no cambia el runtime, acepta su riesgo ni ejecuta
-producto. Sigue rigiendo ADR-001 hasta aceptación e integración humanas.
+adopción humana y publicación de WP-020, desde reposo y con cuota desconocida.
+[`ADR-002`](specs/adr/ADR-002-autoria-codex-supervisada.md) habilita una sola
+C4 externa con autor Codex únicamente tras fusión humana y gates conformes.
+El permiso condicionado ya consta; no se programa por preparar o publicar.
+El régimen general de ADR-001 e invariantes I1-I4 se conservan.
 
 **Orden de lectura obligatorio.** Esta constitución → [`docs/03-hoja-de-ruta.md`](docs/03-hoja-de-ruta.md) → [`docs/manual/MANUAL.md`](docs/manual/MANUAL.md) y el capítulo del modo aplicable → el WP → las decisiones y requisitos que gobiernan su alcance. Consultar la historia cuando resuelva una dependencia o contradicción; esta lectura dirigida no elimina ninguna restricción aplicable.
 
@@ -42,6 +42,9 @@ producto. Sigue rigiendo ADR-001 hasta aceptación e integración humanas.
   modo solo lectura. El revisor nunca modifica el candidato que revisa.
   Excepción acotada: el operador delega en Codex la autoría documental y las
   correcciones de WP-019; no cambia el runtime de implementación de ADR-001.
+  Excepción de instancia aceptada: ADR-002/DEC-019 permite una C4 externa con
+  Codex tras fusión humana y gates conformes; conserva revisión Astra separada.
+  No cambia el régimen general o los permisos del runtime.
 - Hay una sola revisión completa por candidato o transición. Después solo hay
   revalidaciones enfocadas, por la misma Astra, de las correcciones concretas y
   sus efectos directos.

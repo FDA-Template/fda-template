@@ -1,10 +1,11 @@
-# ADR-002 — Excepción propuesta de autoría Codex supervisada
+# ADR-002 — Excepción limitada de autoría Codex supervisada
 
-**Estado:** proposed, sin vigencia operativa. **Fecha:** 2026-10-23.
-**Ámbito:** una única C4 propuesta del WP-005 externo de acceso local sin audio
+**Estado:** accepted por decisión humana de 2026-10-23; vigencia operativa
+solo después de la fusión humana de esta composición.
+**Ámbito:** una única C4 autorizada condicionalmente del WP-005 externo de acceso local sin audio
 de `ivanes189/voice-gateway`; no afecta al WP-005 de FDA ni a otros proyectos.
 **Relación:** sustitución parcial de la elección Claude Code de ADR-001 solo
-si se acepta e integra esta excepción; invariantes I1-I4 intactos.
+tras la integración humana de esta excepción; invariantes I1-I4 intactos.
 
 ## Contexto
 
@@ -15,8 +16,11 @@ pruebas propias, guía y hallazgos de revisión. El expediente y el presupuesto
 se conservan. Esto acredita un fallo del circuito concreto, no que Claude sea
 incapaz ni que cambiar de modelo garantice mejores resultados.
 
-Se autoriza preparar esta alternativa, no ejecutarla. Adoptarla requiere
-aceptar las diferencias de confianza de la edición nativa y la cuota desconocida.
+La preparación inicial se limitaba a presentar la alternativa. Posteriormente
+el operador aceptó expresamente autoría, diferencia de confianza, cuota
+desconocida y C4, y autorizó publicación y ejecución condicionada.
+[Recibo de adopción](../../evidence/WP-020/autorizacion-adopcion.md).
+Todavía no se ejecuta: faltan fusión humana y gates del contrato privado.
 
 ## Alternativas y recomendación
 
@@ -26,25 +30,26 @@ aceptar las diferencias de confianza de la edición nativa y la cuota desconocid
 | Otra llamada Claude con el circuito actual | Repite la vía que falló; no se autoriza ni se propone calibración adicional. |
 | Una continuación Codex nativa, supervisada | Elimina el puente MCP y su corte de interacciones; exige aceptar capacidades de host más amplias y coste de cuota no atribuible. |
 
-Se recomienda presentar la tercera al operador como excepción de una sola
-entrega. No construir un runtime, runner, interfaz de gobierno o aislamiento
-nuevo para probarla. La recomendación no equivale a elegir por él el riesgo.
+El operador adopta la tercera como excepción de una sola entrega, con sus
+diferencias de confianza explícitamente aceptadas. No construir un runtime,
+runner, interfaz de gobierno o aislamiento nuevo para probarla.
 
-## Decisión propuesta y condiciones de entrada
+## Decisión y condiciones de entrada
 
-Codex podría editar y corregir durante una sola pasada C4, con las seis rutas
-de producto del contrato externo. Configuración propuesta del autor:
+Tras la fusión humana y gates conformes, Codex podrá editar durante una sola
+pasada C4, con las seis rutas de producto. Configuración autorizada del autor:
 GPT-6.1 Sol, `gpt-6.1-sol`, esfuerzo `medium`, en un contexto nuevo del agente
-implementer. Es una elección propuesta explícita, no la identidad supuesta
+implementer. Es una elección explícita, no la identidad supuesta
 del coordinador actual. Se comprobará disponibilidad sin una calibración
 facturable y se registrará la configuración al abrir C4; si no está disponible,
-no sustituirlo por otro modelo por silencio. La misma Astra que revisó C3 comprobaría
+no sustituirlo por otro modelo por silencio. La misma Astra que revisó C3 comprobará
 hallazgos y efectos directos sin modificar el candidato. La autoría y revisión
 documentales de WP-020 son un encargo distinto, con su propio contador.
 
-Antes de ejecutar deben existir: aceptación humana específica de los cuatro
-puntos de DEC-019 §3; fusión humana de esta composición; contrato y autorización
-privados fijados; apertura C4 versionada; perfil real del autor, procedencia del
+La aceptación humana de los cuatro puntos de DEC-019 §3 ya está registrada.
+Antes de ejecutar siguen siendo necesarios: fusión humana de esta composición;
+contrato privado y permiso condicionado fijados; apertura C4 versionada; perfil
+real del autor, procedencia del
 modelo/configuración y origen parcial registrados sin leer secretos; imagen y
 pruebas de perímetro del código acreditadas. Falta de un dato obligatorio:
 no ejecutar ni inventarlo. “Codex” identifica el producto, no un modelo exacto;
@@ -86,10 +91,12 @@ promete instalarlo como resultado de aceptar ADR-002.
 
 ## Coste, utilidad y revisión de la decisión
 
-Se propone declarar no_disponible la cuota de autoría y revisión Codex, sin
+Se admite exclusivamente para esta C4 declarar no_disponible la cuota de
+autoría y revisión Codex, sin
 equivalencia monetaria inventada ni F1 de Claude. No se autorizan llamadas
-Claude, APIs facturables, compras o servicios. La propuesta económica solo
-valdría para C4 tras aceptación humana, nunca como excepción general de coste.
+Claude, APIs facturables, compras o servicios. La excepción económica solo
+vale para C4 tras fusión y gates conformes, nunca como régimen general de coste.
+DEC-019 §4 fija la precedencia limitada sobre DEC-004 §11, sin cierre económico.
 Los consumos anteriores y el techo original del piloto permanecen registrados.
 No se calcula rentabilidad ni se afirma gratuidad.
 
@@ -104,7 +111,7 @@ Ventaja esperada: herramientas directas y menos pasos de transporte. Riesgos:
 acceso nativo más amplio, coste de cuota desconocido y nueva parada sin entrega.
 Ninguna ventaja está demostrada todavía por una ejecución Codex de producto.
 
-Descartar antes de adoptar no altera el producto. Después de adoptar, detener
+Descartar antes de fusionar no altera el producto. Después de integrar, detener
 primero cualquier ejecución y retirar conjuntamente la excepción y sus avisos.
 El régimen general sigue siendo ADR-001; retirar ADR-002 no reabre Claude ni
 concede presupuesto. Historial y ciclos permanecen en archivos versionados.

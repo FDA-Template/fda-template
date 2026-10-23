@@ -3,11 +3,11 @@
 **Estado:** accepted · **Fecha:** 2026-07-23 · **Ámbito:** transversal a todos los proyectos que instalen `fda-template`
 **Criterios de activación del harness SDK:** aprobados (D2 del plan de Fase 1, §2.2). Revisión: al cerrar la Fase 2.
 
-**Propuesta de excepción, sin vigencia:**
-[ADR-002](ADR-002-autoria-codex-supervisada.md) propone sustituir solo la
-elección de autor para una C4 externa supervisada. Requiere aceptación humana
-específica, fusión y autorización privada antes de ejecutarse. Este ADR sigue
-vigente y sus invariantes I1-I4 no se sustituyen.
+**Excepción de instancia aceptada, pendiente de fusión:**
+[ADR-002](ADR-002-autoria-codex-supervisada.md) sustituye solo la elección de
+autor para una C4 externa supervisada, tras fusión humana y gates conformes.
+La aceptación y autorización condicionada ya constan en DEC-019. Este ADR
+conserva el régimen general y sus invariantes I1-I4.
 
 ## Contexto
 

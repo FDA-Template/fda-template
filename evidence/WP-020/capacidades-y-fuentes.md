@@ -21,7 +21,8 @@ La propuesta exige aceptar un editor de confianza supervisado con política y
 revisión del diff. El perfil no acredita confinamiento físico por archivo,
 home inaccesible, ausencia técnica de acceso a credenciales o imposibilidad de
 modificar el evaluador. Los hashes detectan alteración, pero no impiden lecturas
-ni restauran privacidad. El riesgo sigue pendiente de aceptación humana.
+ni restauran privacidad. El riesgo ha sido aceptado expresamente en autorizacion-adopcion.md; no queda
+materializado un confinamiento físico por aceptarlo.
 
 La ejecución futura conservaría Docker y sus pruebas de perímetro, que se
 acreditarán para la configuración final. Ahora no se ha ejecutado producto,

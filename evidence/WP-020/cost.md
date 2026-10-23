@@ -6,24 +6,23 @@ operador: ivanes189
 presupuesto_eur: 0
 causa: La sesión Codex y sus revisiones no exponen consumo monetario atribuible a este WP.
 
-Registro preparado por Codex por delegación, no estimación monetaria firmada
-por Iván ni captura automática F1/F2. Techo de 0 EUR: facturación adicional
-autorizada; no equivale a coste total cero. No hay nuevas invocaciones Claude,
-APIs del producto, compras o servicios. Cuota Codex del autor documental,
-planner y Astra: desconocida. Tiempo humano y ahorro: no disponibles.
+Registro preparado por Codex por delegación, no una estimación monetaria humana
+ni captura automática F1/F2. El techo 0 EUR corresponde a facturación adicional
+autorizada; no expresa coste total cero. Sin nuevas llamadas Claude, APIs del
+producto, compras o servicios. Cuota de autor documental, planner y Astra:
+desconocida. Tiempo humano y ahorro no disponibles.
 
-Se solicita únicamente conformidad de preparación documental por la autoridad
-registrada en autorizacion.md y DEC-019 §2, sin cierre económico. No se declara
-excepción finops concedida por el agente. La futura cuota Codex de programación
-y su aceptación son una propuesta distinta, aún no autorizada.
+El permiso inicial cubrió preparación con cuota desconocida. La aceptación
+posterior autoriza adopción/publicación y una C4 privada tras fusión y gates,
+con cuota de programación/revisión también desconocida. Ambos recibos quedan
+en autorizacion.md y autorizacion-adopcion.md. DEC-019 §§2/4 fija precedencia
+limitada sin cierre económico o excepción general finops.
 
-El WP externo conserva su gasto acumulado y presupuesto. Este documento no
-lo cancela, reinicia o convierte en financiación disponible para otro intento.
+C0 recibió rechazo por formato de un log; C1 conservó los bytes y obtuvo APTO
+de preparación. C2 actualiza autoridad/estado por la decisión humana posterior,
+no corrige otro fallo técnico ni borra intentos. Su revisión usa la misma Astra.
+El consumo atribuible de cada pasada y revisión sigue desconocido.
 
-C0 documental recibió rechazo WP020-F1 por formato de un log. C1 conserva
-íntegros los bytes y verifica la composición corregida. La revalidación usa la
-misma Astra; cuota de ambas revisiones y corrección sigue desconocida, sin
-nueva llamada Claude, producto, API facturable o compra. No se declara ahorro.
-
-La misma Astra ha aprobado la preparación en C1 sobre 23bd55c. Su cuota sigue
-desconocida; APTO documental no implica cierre económico o ejecución autorizada.
+El producto conserva costes estimados y techo original. No se convierten en
+financiación para otro intento ni se afirma que los 5 EUR midan el coste total
+monetario de Codex. No hay producto ejecutado por esta composición documental.

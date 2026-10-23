@@ -2,9 +2,9 @@
 
 **Estado:** draft, NO EJECUTABLE. No es un WP nuevo ni se registra ahora en el
 producto. Instancia: WP-005-acceso-local de `ivanes189/voice-gateway`, no el
-WP-005 de alcance en CI de FDA. Autor propuesto: Codex nativo; revisora: misma
+WP-005 de alcance en CI de FDA. Autor autorizado condicionalmente: Codex nativo; revisora: misma
 GPT-6 Astra Alto que revisó C3, independiente y solo lectura. Configuración
-propuesta del autor: GPT-6.1 Sol, gpt-6.1-sol, esfuerzo medium, contexto nuevo
+autorizada del autor: GPT-6.1 Sol, gpt-6.1-sol, esfuerzo medium, contexto nuevo
 del agente implementer; disponibilidad/configuración se verifican antes de C4.
 
 ## Objetivo y origen
@@ -20,8 +20,9 @@ b173052813c469a77679e3505a811b3cc6216af9. Antes de ejecutar se comprobará la
 base vigente del destino y se fijará el origen real; una diferencia material
 exige replantear antes de editar. No se adopta automáticamente una base antigua.
 
-C0/C1/C2/C3 consumidos. Estado actual blocked 3/3, C4 no autorizada. La enmienda
-futura conservaría el cierre histórico y añadiría decisión nueva y fila C4
+C0/C1/C2/C3 consumidos. Estado actual blocked 3/3, C4 autorizada únicamente
+tras fusión humana y gates conformes, todavía sin abrir. La enmienda privada
+conservará el cierre histórico y añadirá el permiso recibido y la fila C4
 abierta antes de editar; 3/4 antes y 4/4 tras consumir. No C0 nuevo ni C5.
 
 ## Alcance y archivos
@@ -39,16 +40,16 @@ docs/manual/acceso-local.md
 
 Coordinación podrá registrar únicamente la enmienda, decisión y evidencias
 en el contrato privado existente, specs/decisions/DEC-002-preparar-acceso-local.md,
-docs/manual/plan-entregas-voz.md y evidence/WP-005/**, según autorización futura.
+docs/manual/plan-entregas-voz.md y evidence/WP-005/**, según el permiso condicionado recibido, después de la fusión.
 No modifica aceptación independiente, regresiones, CI, dependencias, permisos,
 secretos, pipeline, observabilidad, motor telefónico o expediente FDA.
 
 Dentro: integración de factory, pruebas propias y guía, corrección de Ruff y
-cierre de hallazgos C3 en las seis rutas. Se propone depurar tokens vencidos
+cierre de hallazgos C3 en las seis rutas. Se acepta depurar tokens vencidos
 al emitir una nueva sesión, conservando tokens válidos y semántica de un uso;
 prueba propia con reloj sintético, sin nuevas tareas en segundo plano.
-La aceptación de este tratamiento adicional queda incluida en el contrato
-propuesto, no se modifica ahora producto o aceptación congelada. Fuera: audio,
+Este tratamiento adicional está aceptado con el contrato revisado; no se
+modifica ahora producto o aceptación congelada. Fuera: audio,
 APIs, cuotas de voz, persistencia, runners o cambios de arquitectura.
 
 ## Interfaces y aceptación conservadas
@@ -76,10 +77,10 @@ sustituye la batería obligatoria ni acredita una entrega casi terminada.
 
 ## Gates antes de empezar
 
-1. Aceptación humana específica de ADR-002/DEC-019: C4, cuota Codex desconocida
-   y diferencia de confianza del editor; fusión humana de la composición FDA.
-   Ninguna de esas aceptaciones está registrada actualmente.
-2. Contrato/autorización privados fijados: base, seis rutas, tratamiento propuesto
+1. Aceptación humana específica de ADR-002/DEC-019 ya registrada en
+   autorizacion-adopcion.md: C4, cuota Codex desconocida y diferencia de confianza
+   del editor. Sigue pendiente la fusión humana de la composición FDA.
+2. Contrato/autorización privados fijados: base, seis rutas, tratamiento
    de retención aceptado y límite de una pasada. Fila C4 versionada antes de editar.
 3. Perfil/herramientas reales y modelo/configuración con procedencia verificable,
    sin leer secretos. Si no se establece un modelo exacto obligatorio, no
@@ -103,7 +104,7 @@ plataforma ni se hará una calibración de modelos para abrirlo.
 ## Presupuesto, duración y ciclos propuestos
 
 Sin nueva facturación de Claude, APIs o servicios. Cuota Codex de programación
-y revisión propuesta como no_disponible, previa aceptación humana; no coste
+y revisión admitida como no_disponible por aceptación humana expresa; no coste
 cero ni F1 ficticio. Claude histórico de WP-005: 0,275969906178 EUR estimados;
 agregado de autoría del recorrido de voz: 3,255144804390 EUR estimados. Codex y
 tiempo humano desconocidos. No es factura o coste total; techo original 5 EUR
@@ -133,7 +134,7 @@ Oráculo conservado, sin copiar su código a FDA:
 
 APTO exige toda la batería, guía, límites y revisión conformes. Fallo o hallazgo
 abierto tras la pasada: blocked sin C5. Publicar PR privada solo después de
-APTO y autorización expresa de publicación; fusión humana.
+APTO, bajo el permiso condicionado ya recibido; fusión humana.
 
 ## Evidencia y reversión
 

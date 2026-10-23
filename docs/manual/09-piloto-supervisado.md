@@ -2,12 +2,12 @@
 
 # 09 — De una necesidad a una entrega supervisada
 
-**Propuesta pendiente, no nuevo modo vigente.**
+**Excepción de instancia aceptada, pendiente de fusión.**
 [DEC-019](../../specs/decisions/DEC-019-preparar-autoria-codex.md) y
-[ADR-002](../../specs/adr/ADR-002-autoria-codex-supervisada.md) preparan una
-excepción de autoría para una sola continuación externa. Hasta aceptación,
-fusión y autorización privada, siguen aplicando los gates siguientes. WP-020
-solo produce documentación revisable, sin producto o publicación.
+[ADR-002](../../specs/adr/ADR-002-autoria-codex-supervisada.md) autorizan publicar
+WP-020 y una sola C4 externa con Codex después de fusión humana y gates conformes.
+La aceptación y el permiso condicionado ya constan. WP-020 no implementa
+producto; no se abre C4 por publicar o aprobar técnicamente documentos.
 
 Rige exclusivamente el modo experimental de
 [DEC-018](../../specs/decisions/DEC-018-entregas-supervisadas.md), después de su
@@ -131,22 +131,35 @@ Hasta cinco entregas aportan una muestra exploratoria, sin retrasar el producto
 hasta completar la muestra. Agent OS y la infraestructura nueva requieren una
 necesidad observada o una garantía indispensable para la siguiente operación.
 
-## 8. Cómo decidir la excepción propuesta, sin ejecutarla
+## 8. Excepción aceptada y continuación condicionada
 
-WP-020 entrega [la decisión](../../specs/decisions/DEC-019-preparar-autoria-codex.md),
-[el ADR](../../specs/adr/ADR-002-autoria-codex-supervisada.md) y un
-[borrador de continuación](../../evidence/WP-020/contrato-continuacion-propuesto.md).
-La preparación autorizada conserva ACTIVE y el producto intactos.
+WP-020 incorpora [la decisión](../../specs/decisions/DEC-019-preparar-autoria-codex.md),
+[el ADR](../../specs/adr/ADR-002-autoria-codex-supervisada.md), el
+[contrato de referencia](../../evidence/WP-020/contrato-continuacion-propuesto.md)
+y [la aceptación humana](../../evidence/WP-020/autorizacion-adopcion.md).
+La publicación está autorizada. ACTIVE y el producto siguen intactos.
 
-El operador decide explícitamente sobre autor Codex, cuota de autoría desconocida,
-continuación C4 y edición nativa supervisada con acceso más amplio. Una lista de
-archivos y hashes permite detectar incumplimientos, pero no impide físicamente
-leer fuera del proyecto o modificar un evaluador accesible al editor. Las pruebas
-Docker aisladas no acreditan lo contrario. Si ese riesgo no se acepta, el WP
-externo permanece blocked; no se construye un aislamiento nuevo por defecto.
+Solo para esa C4, después de fusión humana, la elección de runtime y el gate de
+entorno del editor se sustituyen por Codex nativo de confianza supervisada:
+GPT-6.1 Sol medium, seis rutas por política y revisión posterior, permisos de
+host más amplios y ausencia de separación técnica acreditada de credenciales.
+El operador aceptó expresamente esa diferencia; no es una barrera física por
+archivo ni una garantía instalada. El resto de instancias conserva los gates
+ordinarios de arriba. No se modifican perfiles, permisos o hooks.
 
-La aceptación y fusión humanas serían seguidas de una enmienda privada fijada,
-autorización específica y gates técnicos antes de cualquier edición de producto.
-No se abren ahora C4, PR, voz o proveedores. Una revisión Astra favorable de esta
-preparación no sustituye ninguna de esas decisiones. La fusión de documentos
-no inicia automáticamente el desarrollo ni certifica coste o rentabilidad.
+La excepción de coste admite cuota Codex desconocida, APTO técnico y PR privada
+bajo DEC-019 §4, sin cierre económico, cero ficticio o nuevas APIs de pago.
+El código y sus pruebas permanecen exclusivamente en Docker endurecido sin
+red/home/credenciales/socket; su perímetro real se verifica antes de ejecutar.
+El oráculo y las regresiones siguen fijados por hash y cualquier cambio invalida
+la candidata. Docker no demuestra confinamiento del editor nativo.
+
+Tras la fusión, coordinación fija la enmienda y permiso ya recibido en el
+repositorio privado y comprueba base, modelo, entorno, alcance y pruebas. No
+pide otra confirmación para pasos aprobados. Solo tras gates conformes versiona
+C4 abierta y empieza el autor, máximo operativo 45 minutos hasta su candidato.
+La misma Astra del producto revalida hallazgos y efectos directos. C4 se consume
+aunque falle; sin C5 automática. PR privada solo si APTO, fusión humana.
+
+Cambio material o gate fallido: parar según manual 05. Esta composición no
+habilita audio, micrófono, proveedores, despliegue o nueva infraestructura.
