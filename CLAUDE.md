@@ -5,6 +5,14 @@ Documento fundacional: [`docs/02-guia-fabrica-desarrollo-agentica.md`](docs/02-g
 Rumbo vigente: [`docs/03-hoja-de-ruta.md`](docs/03-hoja-de-ruta.md) — entregas supervisadas, medición y ampliación por necesidades demostradas. [`DEC-018`](specs/decisions/DEC-018-entregas-supervisadas.md) habilita el modo experimental únicamente tras fusión humana de su composición; la pausa ordinaria continúa. La procedencia histórica está en [`docs/04-analisis-conversaciones-ia.md`](docs/04-analisis-conversaciones-ia.md) y [`docs/05-analisis-investigacion-leandro-y-revalidacion.md`](docs/05-analisis-investigacion-leandro-y-revalidacion.md).
 Manual de operación: [`docs/manual/MANUAL.md`](docs/manual/MANUAL.md).
 
+**Preparación autorizada, excepción pendiente.**
+[`DEC-019`](specs/decisions/DEC-019-preparar-autoria-codex.md) registra la
+delegación documental de WP-020 desde reposo, con cuota desconocida.
+[`ADR-002`](specs/adr/ADR-002-autoria-codex-supervisada.md) propone autoría
+Codex para una sola continuación externa C4, todavía no autorizada. Preparar
+o revisar esa propuesta no cambia el runtime, acepta su riesgo ni ejecuta
+producto. Sigue rigiendo ADR-001 hasta aceptación e integración humanas.
+
 **Orden de lectura obligatorio.** Esta constitución → [`docs/03-hoja-de-ruta.md`](docs/03-hoja-de-ruta.md) → [`docs/manual/MANUAL.md`](docs/manual/MANUAL.md) y el capítulo del modo aplicable → el WP → las decisiones y requisitos que gobiernan su alcance. Consultar la historia cuando resuelva una dependencia o contradicción; esta lectura dirigida no elimina ninguna restricción aplicable.
 
 ## Fuente de verdad

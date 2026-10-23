@@ -2,6 +2,14 @@
 
 # 04 — Los agentes: quién, cuándo y con qué permisos
 
+**Propuesta pendiente de autoría.**
+[DEC-019](../../specs/decisions/DEC-019-preparar-autoria-codex.md) autoriza solo
+la preparación WP-020 por Codex, con una Astra nueva independiente y lente T3.
+[ADR-002](../../specs/adr/ADR-002-autoria-codex-supervisada.md) propone una
+única continuación externa con autor Codex nativo; no se ha aceptado ni cambia
+las fichas o permisos de agentes. No atribuir a esa propuesta confinamiento
+físico de seis archivos o ausencia técnica de acceso a credenciales.
+
 **Modo vigente y excepción.** Los agentes siguientes describen el flujo
 ordinario, que continúa en pausa. [DEC-018](../../specs/decisions/DEC-018-entregas-supervisadas.md)
 delega únicamente la reforma documental WP-019 y sus correcciones en Codex.

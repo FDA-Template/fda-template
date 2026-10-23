@@ -2,6 +2,14 @@
 
 # 06 — Costes y métricas
 
+**Preparación documental WP-020.**
+[DEC-019 §2](../../specs/decisions/DEC-019-preparar-autoria-codex.md) registra
+su autorización de cuota desconocida, facturación adicional de 0 EUR y
+conformidad únicamente documental, sin cierre económico o publicación.
+La excepción propuesta de cuota de autoría para una C4 externa sigue pendiente
+de aceptación humana específica. No altera importes previos ni habilita llamadas
+Claude, APIs de pago o un régimen general de coste desconocido.
+
 **Excepción documental exclusiva de WP-019.** El operador ha autorizado su
 revisión con consumo de cuota Codex desconocido, registrado como
 `no_disponible`. [DEC-018 §2](../../specs/decisions/DEC-018-entregas-supervisadas.md)

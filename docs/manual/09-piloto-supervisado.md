@@ -2,6 +2,13 @@
 
 # 09 — De una necesidad a una entrega supervisada
 
+**Propuesta pendiente, no nuevo modo vigente.**
+[DEC-019](../../specs/decisions/DEC-019-preparar-autoria-codex.md) y
+[ADR-002](../../specs/adr/ADR-002-autoria-codex-supervisada.md) preparan una
+excepción de autoría para una sola continuación externa. Hasta aceptación,
+fusión y autorización privada, siguen aplicando los gates siguientes. WP-020
+solo produce documentación revisable, sin producto o publicación.
+
 Rige exclusivamente el modo experimental de
 [DEC-018](../../specs/decisions/DEC-018-entregas-supervisadas.md), después de su
 fusión humana. No acredita salida de la pausa ni una plataforma autónoma lista.
@@ -123,3 +130,23 @@ Después de esa mejora técnica se acuerda un recorrido útil de AI-Comercial-Sy
 Hasta cinco entregas aportan una muestra exploratoria, sin retrasar el producto
 hasta completar la muestra. Agent OS y la infraestructura nueva requieren una
 necesidad observada o una garantía indispensable para la siguiente operación.
+
+## 8. Cómo decidir la excepción propuesta, sin ejecutarla
+
+WP-020 entrega [la decisión](../../specs/decisions/DEC-019-preparar-autoria-codex.md),
+[el ADR](../../specs/adr/ADR-002-autoria-codex-supervisada.md) y un
+[borrador de continuación](../../evidence/WP-020/contrato-continuacion-propuesto.md).
+La preparación autorizada conserva ACTIVE y el producto intactos.
+
+El operador decide explícitamente sobre autor Codex, cuota de autoría desconocida,
+continuación C4 y edición nativa supervisada con acceso más amplio. Una lista de
+archivos y hashes permite detectar incumplimientos, pero no impide físicamente
+leer fuera del proyecto o modificar un evaluador accesible al editor. Las pruebas
+Docker aisladas no acreditan lo contrario. Si ese riesgo no se acepta, el WP
+externo permanece blocked; no se construye un aislamiento nuevo por defecto.
+
+La aceptación y fusión humanas serían seguidas de una enmienda privada fijada,
+autorización específica y gates técnicos antes de cualquier edición de producto.
+No se abren ahora C4, PR, voz o proveedores. Una revisión Astra favorable de esta
+preparación no sustituye ninguna de esas decisiones. La fusión de documentos
+no inicia automáticamente el desarrollo ni certifica coste o rentabilidad.

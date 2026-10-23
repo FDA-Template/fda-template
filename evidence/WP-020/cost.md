@@ -1,0 +1,21 @@
+# Coste — WP-020
+
+estado_coste: no_disponible
+wp_id: WP-020
+operador: ivanes189
+presupuesto_eur: 0
+causa: La sesión Codex y sus revisiones no exponen consumo monetario atribuible a este WP.
+
+Registro preparado por Codex por delegación, no estimación monetaria firmada
+por Iván ni captura automática F1/F2. Techo de 0 EUR: facturación adicional
+autorizada; no equivale a coste total cero. No hay nuevas invocaciones Claude,
+APIs del producto, compras o servicios. Cuota Codex del autor documental,
+planner y Astra: desconocida. Tiempo humano y ahorro: no disponibles.
+
+Se solicita únicamente conformidad de preparación documental por la autoridad
+registrada en autorizacion.md y DEC-019 §2, sin cierre económico. No se declara
+excepción finops concedida por el agente. La futura cuota Codex de programación
+y su aceptación son una propuesta distinta, aún no autorizada.
+
+El WP externo conserva su gasto acumulado y presupuesto. Este documento no
+lo cancela, reinicia o convierte en financiación disponible para otro intento.

@@ -1,5 +1,10 @@
 # DEC-010 — Separación de autor y revisor y bucle ordinario de dos ciclos
 
+**Preparación posterior, 2026-10-23:**
+[DEC-019](DEC-019-preparar-autoria-codex.md) registra únicamente la delegación
+documental WP-020. La excepción de autoría/ciclo de ADR-002 sigue propuesta:
+no abre C4, no reinicia contadores y no cambia las decisiones históricas.
+
 **Enmienda acotada de 2026-10-19:** [DEC-018](DEC-018-entregas-supervisadas.md)
 prevalece sobre §§1, 3, 4 y 6 únicamente para la autoría documental delegada
 en Codex de WP-019 y la agrupación explícita de pasos reversibles del piloto.

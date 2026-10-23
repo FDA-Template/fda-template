@@ -2,6 +2,12 @@
 
 # 02 — El ciclo de un work package
 
+**Preparación WP-020.**
+[DEC-019](../../specs/decisions/DEC-019-preparar-autoria-codex.md) registra una
+segunda delegación documental desde reposo, sin tocar ACTIVE, publicar ni
+implementar producto. La continuación externa C4 está solo propuesta; cambiar
+de autor no reinicia ciclos. El resto de este capítulo conserva el ciclo vigente.
+
 **Modo aplicable.** Este capítulo conserva el ciclo ordinario, actualmente en
 pausa. Para el piloto autorizado por DEC-018, usar [09](09-piloto-supervisado.md)
 tras la fusión humana de WP-019: admite un encargo que autorice conjuntamente

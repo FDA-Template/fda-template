@@ -1,5 +1,11 @@
 # DEC-018 — Validar la FDA mediante entregas supervisadas
 
+**Preparación posterior, 2026-10-23:**
+[DEC-019](DEC-019-preparar-autoria-codex.md) registra el acto documental
+acotado WP-020 para este bloqueo de autoría/controles. La propuesta ADR-002
+no está adoptada ni autoriza otro intento del producto. Este modo mantiene
+sus reglas salvo una excepción humana específica aceptada e integrada.
+
 **Fecha:** 2026-10-19. **Estado:** autorizada para materialización y revisión;
 vigencia operativa únicamente tras fusión humana de la composición en `main`.
 **Ámbito:** WP-019 y el modo de piloto externo supervisado. No declara habilitada
