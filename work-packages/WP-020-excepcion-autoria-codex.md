@@ -179,3 +179,35 @@ detener previamente cualquier continuación autorizada, sin restaurar autoridad
 histórica por accidente. Deuda declarada: capacidad nativa sin confinamiento
 físico por archivo, separación de credenciales del autor no acreditada y cuota
 no atribuible. Son diferencias propuestas para decidir, no garantías instaladas.
+
+## Autorización posterior de adopción y publicación — 2026-10-23
+
+Tras APTO de preparación en C1, Iván respondió «ok, continua, adelante.» a la
+pregunta íntegra de evidence/WP-020/autorizacion-adopcion.md. Acepta la excepción
+de autor, diferencia de confianza, cuota desconocida y continuidad C4; autoriza
+la actualización documental y la publicación de esta rama/PR FDA. Esta sección
+supera las menciones anteriores de propuesta/no publicación exclusivamente en
+autoridad y estado: no altera rutas, pruebas, presupuesto o ciclos consumidos.
+
+Objetivo actual: composición normativa aceptada para integración humana,
+revisada y publicable, sin implementar producto. ADR-002 pasa a accepted por
+el operador, con vigencia solo después de fusión humana. DEC-019 y los ocho
+avisos se actualizan coherentemente. Los criterios 1/2/6 se evalúan ahora contra
+esta decisión humana posterior, nunca infiriendo aceptación desde preparación.
+Los otros cuatro criterios y los cuatro comandos permanecen intactos.
+
+Se habilita red exclusivamente para publicar rama/PR FDA y consultar sus
+checks, además de las lecturas anteriores. Sin mensajes a terceros o petición
+de revisión humana a una persona no designada. La plantilla de PR se rellena
+en evidence/WP-020/, sin modificar .github/. Presupuesto adicional 0 EUR y
+cuota Codex desconocida se conservan. ACTIVE, controles y producto intactos.
+
+C2 documental registra esta actualización de autoridad antes de hacerla; cuenta
+2/2 aunque no trate un fallo técnico nuevo. La misma Astra revalida solo esta
+actualización y sus efectos directos. No abre otro ciclo de revisión completo.
+
+La continuación privada ya está autorizada condicionalmente, pero no pertenece
+a esta implementación documental ni empieza por abrir la PR. Solo después de
+la fusión humana y gates conformes se fija su enmienda y permiso en el expediente
+privado, y se abre C4 antes de editar. No se pedirá otra confirmación para pasos
+ya incluidos; cambios materiales o gates fallidos siguen obligando a parar.
