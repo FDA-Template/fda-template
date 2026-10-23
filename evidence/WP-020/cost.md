@@ -26,3 +26,7 @@ El consumo atribuible de cada pasada y revisión sigue desconocido.
 El producto conserva costes estimados y techo original. No se convierten en
 financiación para otro intento ni se afirma que los 5 EUR midan el coste total
 monetario de Codex. No hay producto ejecutado por esta composición documental.
+
+La misma Astra ha aprobado C2 sobre 26a3fdd, con revalidación enfocada. Cuota
+de coordinación, autoría documental y revisiones sigue no_disponible; no se
+atribuye coste cero o cierre económico por tener APTO para publicar.

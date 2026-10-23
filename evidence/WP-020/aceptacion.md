@@ -50,3 +50,12 @@ No se infiere ese permiso desde la preparación o el dictamen de Astra.
 La nueva aceptación autoriza actuaciones futuras; no acredita que el entorno
 del autor, producto, C4 o integración ya hayan sido ejecutados. WP-020 sigue
 in_review; su aprobación técnica final y fusión son hitos separados.
+
+## Dictamen final C2
+
+Astra APRUEBA sobre 26a3fddc4ebbd8f80ecfaae29f72d874669d95e2 y repite los
+cuatro comandos con 0/0/0/0. revision-astra-C2.md satisface el criterio 7 para
+la composición adoptada: siete criterios conformes, sin hallazgos abiertos.
+APTO documental para la publicación autorizada; no cierre económico, fusión
+o autorización para omitir gates de C4. WP-020 continúa in_review hasta su
+integración humana. No hay C3 documental o C5 del producto implícitas.
