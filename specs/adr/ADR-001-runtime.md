@@ -3,6 +3,12 @@
 **Estado:** accepted · **Fecha:** 2026-07-23 · **Ámbito:** transversal a todos los proyectos que instalen `fda-template`
 **Criterios de activación del harness SDK:** aprobados (D2 del plan de Fase 1, §2.2). Revisión: al cerrar la Fase 2.
 
+**Excepción de instancia aceptada, pendiente de fusión:**
+[ADR-002](ADR-002-autoria-codex-supervisada.md) sustituye solo la elección de
+autor para una C4 externa supervisada, tras fusión humana y gates conformes.
+La aceptación y autorización condicionada ya constan en DEC-019. Este ADR
+conserva el régimen general y sus invariantes I1-I4.
+
 ## Contexto
 
 La FDA necesita un runtime que ejecute agentes especializados con herramientas, permisos, modelo y criterios de parada propios. Las opciones reales en 2026:

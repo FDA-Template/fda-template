@@ -2,6 +2,14 @@
 
 # 04 — Los agentes: quién, cuándo y con qué permisos
 
+**Excepción de autoría aceptada, pendiente de fusión.**
+[DEC-019](../../specs/decisions/DEC-019-preparar-autoria-codex.md) autoriza la
+composición/publicación WP-020 por Codex, con una Astra independiente y lente T3.
+[ADR-002](../../specs/adr/ADR-002-autoria-codex-supervisada.md) limita la autoría
+Codex nativa a una C4 externa tras fusión humana y gates conformes, con la misma
+Astra del producto revalidando hallazgos. No cambia fichas o permisos de agentes,
+ni acredita confinamiento físico por archivo o separación de credenciales.
+
 **Modo vigente y excepción.** Los agentes siguientes describen el flujo
 ordinario, que continúa en pausa. [DEC-018](../../specs/decisions/DEC-018-entregas-supervisadas.md)
 delega únicamente la reforma documental WP-019 y sus correcciones en Codex.
@@ -107,6 +115,8 @@ la misma Astra revalida únicamente esos cambios y sus efectos directos.
   veredicto es C1 o C2 y debe tener su apertura versionada antes de empezar en
   `evidence/WP-XXX/ciclos.md`. La autoría documental delegada de WP-019 constituye
   la excepción limitada de DEC-018; conserva el mismo cómputo de correcciones.
+  ADR-002/DEC-019 añade únicamente la C4 externa con Codex tras fusión y gates,
+  sin reiniciar historial o convertir el modelo nativo en runtime general.
 - **Revisor:** GPT-6 Astra, razonamiento Alto, contexto nuevo y solo lectura.
   Recibe normas, contrato, candidato y pruebas, pero no el `APTO` del autor como
   premisa. Nunca escribe sobre el candidato.

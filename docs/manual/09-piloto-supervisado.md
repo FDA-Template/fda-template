@@ -2,6 +2,13 @@
 
 # 09 — De una necesidad a una entrega supervisada
 
+**Excepción de instancia aceptada, pendiente de fusión.**
+[DEC-019](../../specs/decisions/DEC-019-preparar-autoria-codex.md) y
+[ADR-002](../../specs/adr/ADR-002-autoria-codex-supervisada.md) autorizan publicar
+WP-020 y una sola C4 externa con Codex después de fusión humana y gates conformes.
+La aceptación y el permiso condicionado ya constan. WP-020 no implementa
+producto; no se abre C4 por publicar o aprobar técnicamente documentos.
+
 Rige exclusivamente el modo experimental de
 [DEC-018](../../specs/decisions/DEC-018-entregas-supervisadas.md), después de su
 fusión humana. No acredita salida de la pausa ni una plataforma autónoma lista.
@@ -123,3 +130,56 @@ Después de esa mejora técnica se acuerda un recorrido útil de AI-Comercial-Sy
 Hasta cinco entregas aportan una muestra exploratoria, sin retrasar el producto
 hasta completar la muestra. Agent OS y la infraestructura nueva requieren una
 necesidad observada o una garantía indispensable para la siguiente operación.
+
+## 8. Excepción aceptada y continuación condicionada
+
+WP-020 incorpora [la decisión](../../specs/decisions/DEC-019-preparar-autoria-codex.md),
+[el ADR](../../specs/adr/ADR-002-autoria-codex-supervisada.md), el
+[contrato de referencia](../../evidence/WP-020/contrato-continuacion-propuesto.md)
+y [la aceptación humana](../../evidence/WP-020/autorizacion-adopcion.md).
+La publicación está autorizada. ACTIVE y el producto siguen intactos.
+
+Solo para esa C4, después de fusión humana, la elección de runtime y el gate de
+entorno del editor se sustituyen por Codex nativo de confianza supervisada:
+GPT-6.1 Sol medium, seis rutas por política y revisión posterior, permisos de
+host más amplios y ausencia de separación técnica acreditada de credenciales.
+El operador aceptó expresamente esa diferencia; no es una barrera física por
+archivo ni una garantía instalada. El resto de instancias conserva los gates
+ordinarios de arriba. No se modifican perfiles, permisos o hooks.
+
+La excepción de coste admite cuota Codex desconocida, APTO técnico y PR privada
+bajo DEC-019 §4, sin cierre económico, cero ficticio o nuevas APIs de pago.
+El código y sus pruebas permanecen exclusivamente en Docker endurecido sin
+red/home/credenciales/socket; su perímetro real se verifica antes de ejecutar.
+El oráculo y las regresiones siguen fijados por hash y cualquier cambio invalida
+la candidata. Docker no demuestra confinamiento del editor nativo.
+
+Tras la fusión, coordinación fija la enmienda y permiso ya recibido en el
+repositorio privado y comprueba base, modelo, entorno, alcance y pruebas. No
+pide otra confirmación para pasos aprobados. Solo tras gates conformes versiona
+C4 abierta y empieza el autor, máximo operativo 45 minutos hasta su candidato.
+La misma Astra del producto revalida hallazgos y efectos directos. C4 se consume
+aunque falle; sin C5 automática. PR privada solo si APTO, fusión humana.
+
+Cambio material o gate fallido: parar según manual 05. Esta composición no
+habilita audio, micrófono, proveedores, despliegue o nueva infraestructura.
+
+## 9. Corrección puntual autorizada del escáner en WP-020
+
+La PR #88 detectó un falso positivo histórico sobre un SHA-256 de integridad,
+confirmado por la misma Astra. La [decisión C3](../../specs/decisions/DEC-019-preparar-autoria-codex.md)
+y el [recibo humano](../../evidence/WP-020/autorizacion-C3.md) autorizan una sola
+tercera corrección documental. No es una excepción general de los pilotos.
+
+Solo se incorpora .gitleaksignore con el fingerprint exacto del contrato. No
+se excluyen reglas, archivos enteros o hallazgos futuros. La enmienda y apertura
+se versionan antes del archivo; se congela C3_CONTRACT_BASE conservando la base
+original. El verificador existente contrasta por separado las dos etapas y se
+revisa también el diff completo, sin cambiar CI, permisos o historia.
+
+La misma revisora comprueba la excepción y sus efectos. Solo seis comprobaciones
+locales conformes, revisión y checks remotos verdes de la cabeza publicada
+permiten retirar el borrador. Un nuevo hallazgo exige parar, no extender el
+ignore. C3 se consume aunque falle; no hay C4 documental automática. Cuota
+Codex desconocida y sin facturación adicional. La C4 privada continúa esperando
+fusión humana y sus gates; esta corrección no ejecuta producto.

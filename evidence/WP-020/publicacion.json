@@ -1,0 +1,41 @@
+{
+  "repository": "FDA-Template/fda-template",
+  "pull_request": "https://github.com/FDA-Template/fda-template/pull/88",
+  "base": "main",
+  "base_sha_at_creation": "0205556be8ad9cd7993feeddd0b4347694cf37f8",
+  "branch": "wp/WP-020-excepcion-autoria-codex",
+  "initial_published_head": "58ac9a8330024ea59c18245c367bc54b2745bd23",
+  "reviewed_normative_head": "26a3fddc4ebbd8f80ecfaae29f72d874669d95e2",
+  "run_id": 39973340592,
+  "checks_at_initial_head": {
+    "Gobierno FDA": "success",
+    "Lint · Shell · Tests · Manual": "success",
+    "Escaneo de secretos": "failure"
+  },
+  "blocking_finding": "single generic-api-key false positive on a recorded SHA-256 integrity digest; independently confirmed",
+  "diagnostic": "diagnostico-escaneo.md",
+  "state": "C3_conforme_integracion_humana_pendiente_verificar_HEAD_vigente",
+  "C3_documental_authorized": true,
+  "C4_product_open": false,
+  "C4_product_requires_human_merge_and_gates": true,
+  "merged": false,
+  "product_executed": false,
+  "workflow_or_permissions_changed": false,
+  "new_claude_calls": 0,
+  "codex_quota": "no_disponible",
+  "later_head_checks": "Require every live GitHub check of the current PR HEAD to pass, including later evidence metadata commits. No inherited green result.",
+  "C3_contract_base": "a4b6b08998ba75c1978e1970bd77dd16b1eda650",
+  "C3_authorization": "autorizacion-C3.md",
+  "C3_scope_extension": "one exact historical fingerprint in .gitleaksignore",
+  "C3_reviewed_head": "6ec62c1161086c70cf23d062318ae19e072e393d",
+  "C3_independent_review": "APRUEBA local para publicar; CI remoto pendiente",
+  "C3_documental_consumed": "3/3",
+  "C3_CI_verified_published_head": "66717b0f48e17f353b04922521bdf0fef946f4aa",
+  "C3_CI_run": "https://github.com/FDA-Template/fda-template/actions/runs/39978660963",
+  "C3_CI_checks": {
+    "Gobierno FDA": "success",
+    "Lint · Shell · Tests · Manual": "success",
+    "Escaneo de secretos": "success"
+  },
+  "C3_CI_evidence": "C3-CI-observada.json"
+}

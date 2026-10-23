@@ -1,0 +1,8 @@
+{
+  "command": "bash tests/governance/check-active.sh",
+  "executed_head": "af9efd81405df6e9a12e790f4eb0a075732145ba",
+  "recorded_utc": "2026-10-23T14:24:30.932366+00:00",
+  "stdout": "REPOSO: no hay WP activo.\n\n  Estado VÁLIDO: la fábrica no tiene trabajo en curso.\n  El guard deniega toda escritura ordinaria mientras dure (fail-closed).\n  Para iniciar un WP: escribe su ID en work-packages/ACTIVE.\n",
+  "stderr": "",
+  "exit_code": 0
+}

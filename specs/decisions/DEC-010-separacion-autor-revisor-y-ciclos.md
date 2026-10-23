@@ -1,5 +1,11 @@
 # DEC-010 — Separación de autor y revisor y bucle ordinario de dos ciclos
 
+**Adopción posterior, 2026-10-23:**
+[DEC-019](DEC-019-preparar-autoria-codex.md) registra la delegación y publicación
+WP-020 y una C4 externa con autor Codex, aceptada y condicionada a fusión humana
+y gates conformes. No abre ahora C4, reinicia contadores o cambia las decisiones
+históricas de otras instancias. Astra conserva su independencia.
+
 **Enmienda acotada de 2026-10-19:** [DEC-018](DEC-018-entregas-supervisadas.md)
 prevalece sobre §§1, 3, 4 y 6 únicamente para la autoría documental delegada
 en Codex de WP-019 y la agrupación explícita de pasos reversibles del piloto.

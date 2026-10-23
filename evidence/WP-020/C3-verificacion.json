@@ -1,0 +1,46 @@
+{
+  "wp_id": "WP-020",
+  "phase": "C3_documental_exceptional",
+  "executed_head": "ed6a85467a132da5d9a90d67566cc1eb91908f7b",
+  "opening_commit": "a4b6b08998ba75c1978e1970bd77dd16b1eda650",
+  "results": [
+    {
+      "command": "git diff --check 0205556be8ad9cd7993feeddd0b4347694cf37f8",
+      "exit_code": 0,
+      "evidence": "C3-01-diff.json"
+    },
+    {
+      "command": "bash tests/governance/check-active.sh",
+      "exit_code": 0,
+      "evidence": "C3-02-reposo.json"
+    },
+    {
+      "command": "python3 evidence/WP-000/checks/check-manual.py",
+      "exit_code": 0,
+      "evidence": "C3-03-manual.json"
+    },
+    {
+      "command": "python3 scripts/check_scope.py WP-020 \"${WP020_CONTRACT_BASE:?}...${WP020_C3_CONTRACT_BASE:?}\"",
+      "exit_code": 0,
+      "evidence": "C3-04-alcance-original.json"
+    },
+    {
+      "command": "python3 scripts/check_scope.py WP-020 \"${WP020_C3_CONTRACT_BASE:?}...HEAD\"",
+      "exit_code": 0,
+      "evidence": "C3-05-alcance-C3.json"
+    },
+    {
+      "command": "python3 -c 'from pathlib import Path; assert Path(\".gitleaksignore\").read_bytes() == b\"0c104189cb04faa570cf001487c8776ffc11be75:evidence/WP-020/origen-y-preservacion.json:generic-api-key:9\\n\"'",
+      "exit_code": 0,
+      "evidence": "C3-06-excepcion-exacta.json"
+    }
+  ],
+  "local_commands_verdict": "APTO",
+  "complementary_checks": "C3-comprobaciones-complementarias.json",
+  "independent_revalidation": "pending",
+  "remote_current_head_CI": "pending",
+  "final_integration_verdict": "pending",
+  "product_executed": false,
+  "new_claude_calls": 0,
+  "codex_quota": "no_disponible"
+}

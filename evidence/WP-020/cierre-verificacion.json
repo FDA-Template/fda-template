@@ -1,0 +1,33 @@
+{
+  "executed_head": "7a35226f913aa67eb7d002353823a9621a3c35e3",
+  "recorded_utc": "2026-10-23T14:26:55.506342+00:00",
+  "reviewed_content_head": "23bd55c0eac48cd654f09bb7b29090282abddb64",
+  "only_review_and_closure_metadata_added_after_review": true,
+  "results": [
+    {
+      "command": "git diff --check 0205556be8ad9cd7993feeddd0b4347694cf37f8",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "bash tests/governance/check-active.sh",
+      "exit_code": 0,
+      "stdout": "REPOSO: no hay WP activo.\n\n  Estado VÁLIDO: la fábrica no tiene trabajo en curso.\n  El guard deniega toda escritura ordinaria mientras dure (fail-closed).\n  Para iniciar un WP: escribe su ID en work-packages/ACTIVE.\n",
+      "stderr": ""
+    },
+    {
+      "command": "python3 evidence/WP-000/checks/check-manual.py",
+      "exit_code": 0,
+      "stdout": "==============================================================\n Manual — enlaces internos y placeholders de instalación\n==============================================================\n\n--- Enlaces internos (11 archivos) ---\n  OK    docs/manual/01-instalacion.md                \n  OK    docs/manual/02-ciclo-de-un-wp.md             \n  OK    docs/manual/03-redactar-un-wp.md             \n  OK    docs/manual/04-agentes.md                    \n  OK    docs/manual/05-bloqueos-y-parada.md          \n  OK    docs/manual/06-costes-y-metricas.md          \n  OK    docs/manual/07-troubleshooting.md            \n  OK    docs/manual/08-productor-alcance-fda-wp018.md \n  OK    docs/manual/09-piloto-supervisado.md         \n  OK    docs/manual/MANUAL.md                        \n  OK    CLAUDE.md                                    \n\n  Enlaces internos comprobados: 93\n\n--- Placeholders en docs/manual/01-instalacion.md ---\n  OK    {{COMANDOS_VALIDACION}}\n  OK    {{PROPIEDAD_COMPONENTES}}\n  OK    {{PRESUPUESTOS_Y_MODELOS}}\n\n--- Estado de los archivos parametrizables (informativo) ---\n  instanciado CODEOWNERS                        sin marcador (valor real aplicado)\n  plantilla  .github/workflows/ci.yml           conserva {{COMANDOS_VALIDACION}}\n  plantilla  .github/workflows/claude.yml       conserva {{PRESUPUESTOS_Y_MODELOS}}\n  plantilla  .github/workflows/code-review.yml  conserva {{PRESUPUESTOS_Y_MODELOS}}\n\n  3 sin instanciar · 1 instanciados\n  Nota: instalación parcial. Es lo esperado mientras el repo sirva\n        de plantilla y de sandbox a la vez.\n\n==============================================================\n RESULTADO: 0 fallos\n==============================================================\n",
+      "stderr": ""
+    },
+    {
+      "command": "python3 scripts/check_scope.py WP-020 \"${WP020_CONTRACT_BASE:?}...HEAD\"",
+      "exit_code": 0,
+      "stdout": "OK\n{\"base\": \"839877355aeb3556a3de5434bf27e178f458978e\", \"contrato\": \"work-packages/WP-020-excepcion-autoria-codex.md\", \"contrato_blob\": \"9d5ff1a80ad5d9ab3979949b0081939236847311\", \"head\": \"HEAD\", \"merge_base\": \"839877355aeb3556a3de5434bf27e178f458978e\", \"violaciones\": [], \"wp\": \"WP-020\"}\n",
+      "stderr": ""
+    }
+  ],
+  "no_product_execution_or_publication": true
+}

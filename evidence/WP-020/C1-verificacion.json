@@ -1,0 +1,33 @@
+{
+  "wp_id": "WP-020",
+  "correction": "C1",
+  "finding": "WP020-F1",
+  "executed_head": "af9efd81405df6e9a12e790f4eb0a075732145ba",
+  "contract_base": "839877355aeb3556a3de5434bf27e178f458978e",
+  "results": [
+    {
+      "command": "git diff --check 0205556be8ad9cd7993feeddd0b4347694cf37f8",
+      "exit_code": 0,
+      "evidence": "C1-01-diff.json"
+    },
+    {
+      "command": "bash tests/governance/check-active.sh",
+      "exit_code": 0,
+      "evidence": "C1-02-reposo.json"
+    },
+    {
+      "command": "python3 evidence/WP-000/checks/check-manual.py",
+      "exit_code": 0,
+      "evidence": "C1-03-manual.json"
+    },
+    {
+      "command": "python3 scripts/check_scope.py WP-020 \"${WP020_CONTRACT_BASE:?}...HEAD\"",
+      "exit_code": 0,
+      "evidence": "C1-04-alcance.json"
+    }
+  ],
+  "original_log_bytes_preserved": true,
+  "original_log_sha256": "f875ee0f42cbd8ba884da5e9966f0abba8cbb3ddcde06f89475f099b92d7044e",
+  "verdict_commands": "APTO",
+  "independent_final_candidate_revalidation": "required; these results do not identify a future commit containing themselves"
+}

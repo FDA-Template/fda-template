@@ -1,5 +1,11 @@
 # DEC-018 — Validar la FDA mediante entregas supervisadas
 
+**Adopción posterior, 2026-10-23:**
+[DEC-019](DEC-019-preparar-autoria-codex.md) registra WP-020 y la excepción de
+ADR-002 aceptada por el operador. Permite publicar esta composición y autoriza
+condicionalmente una C4 externa con Codex, solo tras fusión humana y gates
+conformes. Fuera de esa instancia se conservan las reglas de este modo.
+
 **Fecha:** 2026-10-19. **Estado:** autorizada para materialización y revisión;
 vigencia operativa únicamente tras fusión humana de la composición en `main`.
 **Ámbito:** WP-019 y el modo de piloto externo supervisado. No declara habilitada

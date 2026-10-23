@@ -1,0 +1,114 @@
+{
+  "executed_head": "ed6a85467a132da5d9a90d67566cc1eb91908f7b",
+  "original_contract_base": "839877355aeb3556a3de5434bf27e178f458978e",
+  "C3_contract_base": "a4b6b08998ba75c1978e1970bd77dd16b1eda650",
+  "first_commit_paths": [
+    "work-packages/WP-020-excepcion-autoria-codex.md"
+  ],
+  "ignore_absent_at_C3_opening": true,
+  "prohibited_paths_unchanged": true,
+  "full_diff_paths": [
+    ".gitleaksignore",
+    "CLAUDE.md",
+    "docs/manual/02-ciclo-de-un-wp.md",
+    "docs/manual/04-agentes.md",
+    "docs/manual/06-costes-y-metricas.md",
+    "docs/manual/09-piloto-supervisado.md",
+    "evidence/WP-020/01-diff.log",
+    "evidence/WP-020/02-reposo.log",
+    "evidence/WP-020/03-manual.log",
+    "evidence/WP-020/04-alcance.log",
+    "evidence/WP-020/C1-01-diff.json",
+    "evidence/WP-020/C1-02-reposo.json",
+    "evidence/WP-020/C1-03-manual.json",
+    "evidence/WP-020/C1-04-alcance.json",
+    "evidence/WP-020/C1-verificacion.json",
+    "evidence/WP-020/C2-01-diff.json",
+    "evidence/WP-020/C2-02-reposo.json",
+    "evidence/WP-020/C2-03-manual.json",
+    "evidence/WP-020/C2-04-alcance.json",
+    "evidence/WP-020/C2-verificacion.json",
+    "evidence/WP-020/C3_CONTRACT_BASE",
+    "evidence/WP-020/CONTRACT_BASE",
+    "evidence/WP-020/PR-body.md",
+    "evidence/WP-020/aceptacion.md",
+    "evidence/WP-020/autorizacion-C3.md",
+    "evidence/WP-020/autorizacion-adopcion.md",
+    "evidence/WP-020/autorizacion.md",
+    "evidence/WP-020/capacidades-y-fuentes.md",
+    "evidence/WP-020/ciclos.md",
+    "evidence/WP-020/cierre-verificacion.json",
+    "evidence/WP-020/contrato-continuacion-propuesto.md",
+    "evidence/WP-020/correccion-falso-positivo-propuesta.md",
+    "evidence/WP-020/cost.md",
+    "evidence/WP-020/diagnostico-escaneo.md",
+    "evidence/WP-020/formato-de-evidencias.md",
+    "evidence/WP-020/origen-y-preservacion.json",
+    "evidence/WP-020/para-ivan.md",
+    "evidence/WP-020/planner.md",
+    "evidence/WP-020/publicacion-verificacion.json",
+    "evidence/WP-020/publicacion.json",
+    "evidence/WP-020/revision-astra-C0.md",
+    "evidence/WP-020/revision-astra-C2.md",
+    "evidence/WP-020/revision-astra.md",
+    "evidence/WP-020/verificacion.json",
+    "specs/adr/ADR-001-runtime.md",
+    "specs/adr/ADR-002-autoria-codex-supervisada.md",
+    "specs/decisions/DEC-010-separacion-autor-revisor-y-ciclos.md",
+    "specs/decisions/DEC-018-entregas-supervisadas.md",
+    "specs/decisions/DEC-019-preparar-autoria-codex.md",
+    "work-packages/WP-020-excepcion-autoria-codex.md"
+  ],
+  "external_head": "b173052813c469a77679e3505a811b3cc6216af9",
+  "external_clean": true,
+  "external_files": [
+    {
+      "path": "app/main.py",
+      "matches_baseline": true
+    },
+    {
+      "path": "app/settings.py",
+      "matches_baseline": true
+    },
+    {
+      "path": "app/demo/__init__.py",
+      "matches_baseline": true
+    },
+    {
+      "path": "app/demo/local_voice.py",
+      "matches_baseline": true
+    },
+    {
+      "path": "tests/acceptance/test_local_access_contract.py",
+      "matches_baseline": true
+    },
+    {
+      "path": "tests/test_rag_processor.py",
+      "matches_baseline": true
+    },
+    {
+      "path": "tests/test_turn_detector.py",
+      "matches_baseline": true
+    },
+    {
+      "path": "tests/test_resilience.py",
+      "matches_baseline": true
+    },
+    {
+      "path": "tests/test_settings.py",
+      "matches_baseline": true
+    },
+    {
+      "path": "work-packages/WP-005-acceso-local.md",
+      "matches_baseline": true
+    },
+    {
+      "path": "evidence/WP-005/ciclos.md",
+      "matches_baseline": true
+    },
+    {
+      "path": "evidence/WP-005/C3-resultado.json",
+      "matches_baseline": true
+    }
+  ]
+}

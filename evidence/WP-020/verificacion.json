@@ -1,0 +1,28 @@
+{
+  "wp_id": "WP-020",
+  "candidate": "0c104189cb04faa570cf001487c8776ffc11be75",
+  "contract_base": "839877355aeb3556a3de5434bf27e178f458978e",
+  "results": [
+    {
+      "command": "git diff --check 0205556be8ad9cd7993feeddd0b4347694cf37f8",
+      "exit_code": 0,
+      "log": "01-diff.log"
+    },
+    {
+      "command": "bash tests/governance/check-active.sh",
+      "exit_code": 0,
+      "log": "02-reposo.log"
+    },
+    {
+      "command": "python3 evidence/WP-000/checks/check-manual.py",
+      "exit_code": 0,
+      "log": "03-manual.log"
+    },
+    {
+      "command": "python3 scripts/check_scope.py WP-020 \"${WP020_CONTRACT_BASE:?}...HEAD\"",
+      "exit_code": 0,
+      "log": "04-alcance.log"
+    }
+  ],
+  "verdict_commands": "APTO"
+}

@@ -1,0 +1,33 @@
+{
+  "wp_id": "WP-020",
+  "phase": "C2",
+  "executed_head": "3c208fa0e50a4aa7aef87ce0806e19f21ccf3833",
+  "opening_commit": "35f8e1a99e1db13697b7e857377ca37ebcf43afb",
+  "results": [
+    {
+      "command": "git diff --check 0205556be8ad9cd7993feeddd0b4347694cf37f8",
+      "exit_code": 0,
+      "evidence": "C2-01-diff.json"
+    },
+    {
+      "command": "bash tests/governance/check-active.sh",
+      "exit_code": 0,
+      "evidence": "C2-02-reposo.json"
+    },
+    {
+      "command": "python3 evidence/WP-000/checks/check-manual.py",
+      "exit_code": 0,
+      "evidence": "C2-03-manual.json"
+    },
+    {
+      "command": "python3 scripts/check_scope.py WP-020 \"${WP020_CONTRACT_BASE:?}...HEAD\"",
+      "exit_code": 0,
+      "evidence": "C2-04-alcance.json"
+    }
+  ],
+  "verdict_commands": "APTO",
+  "independent_revalidation": "pending; final candidate must be checked including these results",
+  "product_executed": false,
+  "published": false,
+  "new_claude_calls": 0
+}

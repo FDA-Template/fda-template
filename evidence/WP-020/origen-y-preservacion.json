@@ -1,0 +1,24 @@
+{
+  "external_head": "b173052813c469a77679e3505a811b3cc6216af9",
+  "external_status": "",
+  "external_hashes": {
+    "app/main.py": "2cf8148821034c682786653f5d3569d368cfd9ea1161d8a18d2294d6e4212224",
+    "app/settings.py": "1d09f6b3241b94d54c84ca6c5c5912a08e51c1275b17e508b870e132e4ae9649",
+    "app/demo/__init__.py": "3b0b7e2d31da020af4b22a5f93bdf668d5f1b14387fac6d2fc5849bad7702d7e",
+    "app/demo/local_voice.py": "11c3d0ed91d0bce5190b835550ad7cbf69e47993298732adb6bab9f72953ce0f",
+    "tests/acceptance/test_local_access_contract.py": "078bf4e6c5fe4c660b8e02b7716160c72d33012c08e6d5156f3dffaa7b52965a",
+    "tests/test_rag_processor.py": "7fa34e817443238d9609e2395d67b9f4058b1a6e4b527c897d02b55ce7b6c785",
+    "tests/test_turn_detector.py": "8ca3336486966e216c829d3c2db9107b8f6ca3e41a7a6bddcfc1dd5027cf6d78",
+    "tests/test_resilience.py": "ad99807a78946352846f270a650cfd9678d6289018dba929bf07f3e963253fe4",
+    "tests/test_settings.py": "96a739712c231db82da0cb66d484b8a4c772afbc896127483b3f4baaf2d329e4",
+    "work-packages/WP-005-acceso-local.md": "cfdb5ce966de6fe0f64327d00f00ce0fbb210159d3aed2c6d3b7fce4748091e8",
+    "evidence/WP-005/ciclos.md": "83a487de78be0dee8b0430e7dc5d22133f3a6b9d82f870eacb3534358ab4d6fa",
+    "evidence/WP-005/C3-resultado.json": "432abbed125ce2d853554d632352f2860f47ab06df4c53cf322fa4bf6b06b349"
+  },
+  "fda_base": "0205556be8ad9cd7993feeddd0b4347694cf37f8",
+  "contract_base": "839877355aeb3556a3de5434bf27e178f458978e",
+  "product_executed": false,
+  "new_claude_invocations": 0,
+  "published": false,
+  "active_unchanged_sha256": "3b03b4c27226cfc2ab1a06167a77ca4a2610d25970c945b79b358eb05301b3b4"
+}
