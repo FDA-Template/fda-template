@@ -24,3 +24,6 @@ C0 documental recibió rechazo WP020-F1 por formato de un log. C1 conserva
 íntegros los bytes y verifica la composición corregida. La revalidación usa la
 misma Astra; cuota de ambas revisiones y corrección sigue desconocida, sin
 nueva llamada Claude, producto, API facturable o compra. No se declara ahorro.
+
+La misma Astra ha aprobado la preparación en C1 sobre 23bd55c. Su cuota sigue
+desconocida; APTO documental no implica cierre económico o ejecución autorizada.

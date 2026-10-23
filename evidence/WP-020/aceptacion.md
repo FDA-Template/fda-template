@@ -19,3 +19,14 @@ documental autoriza adoptar el riesgo, publicar o programar.
 Limitaciones: no acredita funcionamiento de producto, aislamiento del editor,
 revisión económica, disponibilidad efectiva del futuro autor, integración o
 aceptación humana. Las dependencias de ejecución no se marcan cumplidas.
+
+## Resultado posterior de la revisión C1
+
+APRUEBA exclusivamente la preparación sobre 23bd55c0eac48cd654f09bb7b29090282abddb64.
+El informe revision-astra.md cierra WP020-F1 y el criterio 7: cuatro comandos
+repetidos por la revisora, todos 0; bytes originales conservados. Los siete
+criterios de preparación quedan conformes. La tabla anterior conserva la
+valoración previa al dictamen; no describe un hallazgo todavía abierto.
+
+Sigue pendiente la decisión humana sobre adopción, publicación y continuación.
+WP-020 permanece in_review, sin cierre económico, y el WP externo sigue blocked.
