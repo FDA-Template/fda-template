@@ -1,4 +1,10 @@
-# Propuesta de corrección puntual del falso positivo — sin aplicar
+# Propuesta histórica de corrección puntual del falso positivo
+
+Estado al proponer: sin aplicar. El texto siguiente conserva esa propuesta.
+Después, autorizacion-C3.md registra la aceptación humana; la apertura y
+enmienda se versionaron en a4b6b08998ba75c1978e1970bd77dd16b1eda650, antes
+de crear .gitleaksignore. C3 registra la aplicación exacta, pendiente todavía
+de verificación/revisión y CI sobre la cabeza publicada. No se abre C4 privada.
 
 Única excepción solicitada: registrar como no secreta esta huella histórica,
 que coincide con el SHA-256 de un archivo de pruebas, confirmado por Astra.

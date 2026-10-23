@@ -1,9 +1,10 @@
-**Estado de publicación:** borrador, pendiente de decisión sobre un falso positivo
-del escáner. Gobierno y calidad pasaron en la primera ejecución; gitleaks señaló
-como generic-api-key un SHA-256 de pruebas registrado en evidencia. Astra ha
-confirmado que no es una credencial. Ver `evidence/WP-020/diagnostico-escaneo.md`.
-La excepción exacta propuesta no se ha aplicado: necesita ampliar una ruta y
-autorizar una C3 documental. No fusionar con el escaneo en rojo.
+**Estado de publicación:** borrador, pendiente de verificación/revisión C3 y CI
+de la cabeza publicada. El único hallazgo inicial era un SHA-256 de integridad,
+confirmado como falso positivo por Astra. La autorización humana posterior
+permite una única C3 documental y una entrada exacta en .gitleaksignore.
+Se conservan escáner e historial, sin cambios de CI o permisos. Ver
+`evidence/WP-020/autorizacion-C3.md` y `diagnostico-escaneo.md`.
+No fusionar con el escaneo en rojo ni inferir verde antes de comprobarlo.
 
 **WP:** WP-020 — Excepción acotada de autoría Codex supervisada
 **Rama:** `wp/WP-020-excepcion-autoria-codex`
@@ -19,7 +20,7 @@ producto. El operador ha aceptado explícitamente la excepción y su publicació
 
 ## Alcance
 
-- [x] Diff dentro de las rutas del contrato WP-020 fijado previamente.
+- [x] Alcance original conservado hasta la enmienda previa de C3; después solo una ruta nueva autorizada, .gitleaksignore.
 - [x] CLAUDE y ADR autorizados; sin cambios en CI, hooks, permisos o CODEOWNERS.
 - [x] ACTIVE en reposo; producto y expediente privado intactos.
 
@@ -29,20 +30,26 @@ producto. El operador ha aceptado explícitamente la excepción y su publicació
 git diff --check 0205556be8ad9cd7993feeddd0b4347694cf37f8
 bash tests/governance/check-active.sh
 python3 evidence/WP-000/checks/check-manual.py
-python3 scripts/check_scope.py WP-020 "${WP020_CONTRACT_BASE:?}...HEAD"
+python3 scripts/check_scope.py WP-020 "${WP020_CONTRACT_BASE:?}...${WP020_C3_CONTRACT_BASE:?}"
+python3 scripts/check_scope.py WP-020 "${WP020_C3_CONTRACT_BASE:?}...HEAD"
+python3 -c 'from pathlib import Path; assert Path(".gitleaksignore").read_bytes() == b"0c104189cb04faa570cf001487c8776ffc11be75:evidence/WP-020/origen-y-preservacion.json:generic-api-key:9\n"'
 ```
 
-La variable se lee de `evidence/WP-020/CONTRACT_BASE`. El primer commit añade
-solo el contrato; se comprueba también ese diff. No se presupone que el
-contrato nuevo exista en main ni que el control de alcance sea requerido en CI.
+Las variables se leen de `evidence/WP-020/CONTRACT_BASE` y `C3_CONTRACT_BASE`.
+La segunda fija a4b6b08998ba75c1978e1970bd77dd16b1eda650, enmienda/apertura
+previas a .gitleaksignore. Se revisan ambas etapas, diff completo, primer commit
+solo contractual y ausencia de .gitleaksignore en la apertura. El control de
+alcance es local; no se presenta como check requerido en CI.
 
-- [x] Cuatro comandos verdes, repetidos por Astra sobre la candidata C2.
-- [x] Siete criterios evaluados y conformes.
+- [x] C2 local revisada conforme; el fallo remoto posterior permanece en el historial.
+- [ ] Seis comandos C3 y siete criterios vigentes pendientes de comprobar.
+- [ ] Revalidación C3 por la misma Astra y todos los checks remotos de la cabeza publicada verdes.
 - [x] Sin funciones/código de producto nuevos; validación documental y gobierno.
 
 ## Evidencias
 
 - `evidence/WP-020/autorizacion-adopcion.md`: aceptación humana y permiso condicionado.
+- `evidence/WP-020/autorizacion-C3.md`, `C3_CONTRACT_BASE`: decisión puntual y apertura previa a la excepción del escáner.
 - `evidence/WP-020/C2-verificacion.json` y `C2-01` a `C2-04`: comandos, salidas íntegras y códigos.
 - `evidence/WP-020/revision-astra-C2.md`: revalidación independiente de autoridad y seguridad, sin hallazgos.
 - `evidence/WP-020/origen-y-preservacion.json`: expediente externo, doce hashes y ACTIVE intactos.
@@ -76,7 +83,7 @@ candidatos y costes; no restaurar autoridad o intentos automáticamente.
 |---|---|
 | Coste atribuible de cuota Codex | no_disponible; no gratuito ni cierre económico |
 | Nueva facturación autorizada de WP-020 | 0 EUR |
-| Pasadas documentales consumidas | 2/2 |
+| Pasadas documentales | C1/C2 consumidas; C3 excepcional abierta, máximo 3 sin más continuación automática |
 | Producto | Cierre 3/3 preservado; C4 condicionada, todavía no abierta |
 
 ## Documentación y revisión

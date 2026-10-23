@@ -59,3 +59,23 @@ la composición adoptada: siete criterios conformes, sin hallazgos abiertos.
 APTO documental para la publicación autorizada; no cierre económico, fusión
 o autorización para omitir gates de C4. WP-020 continúa in_review hasta su
 integración humana. No hay C3 documental o C5 del producto implícitas.
+
+## Evaluación de la C3 documental expresamente autorizada
+
+La espera anterior de C3 queda superada únicamente por autorizacion-C3.md.
+No se borra el fallo remoto de C2 ni se infiere permiso desde la revisión.
+
+| Criterio vigente con enmienda C3 | Evaluación de la candidata |
+|---|---|
+| 1. Autoridad delimitada | Recibo exacto y apertura a4b6b089 previos al archivo nuevo; solo una C3, sin otra automática. |
+| 2. Instancia y continuidad | ADR/continuación privados intactos; C4 sigue tras fusión humana y gates, sin reinicio de intentos. |
+| 3. Capacidades | No se alteran las declaraciones de confianza, herramientas o aislamiento. |
+| 4. Contrato de referencia | Sigue draft en evidencia; no se modifica ni activa el contrato privado o el producto. |
+| 5. Preservación y alcance | Solo una ruta adicional autorizada, .gitleaksignore, con un fingerprint exacto; escáner, CI, permisos e historial conservados. Se verificarán las dos etapas y expediente externo. |
+| 6. Coherencia | DEC-019 §6 y manual 09 §9 documentan causa, autoridad, una excepción y paradas; cuota desconocida y sin facturación adicional. |
+| 7. Validación y revisión | Pendiente: seis comandos, comprobaciones complementarias, misma Astra y todos los checks remotos de la cabeza publicada verdes. No se declara APTO final por anticipación. |
+
+No hay funciones nuevas de producto. La prueba determinista compara los bytes
+completos del ignore con una sola entrada; el escaneo remoto debe confirmar
+su efecto real sobre el historial completo. La conformidad local para publicar
+no equivale a aptitud final para integrar antes de observar esos checks.

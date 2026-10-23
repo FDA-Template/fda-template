@@ -41,6 +41,11 @@ historial. No acredita CI verde futuro ni autoriza aplicarla.
 
 ## Parada y decisión pendiente
 
+La sección siguiente conserva la parada anterior. Posteriormente el operador
+autorizó la propuesta exacta en autorizacion-C3.md. C3 se abrió y enmendó antes
+de crear .gitleaksignore; C3_CONTRACT_BASE identifica ese commit. No se da por
+verde el escaneo futuro: debe comprobarse sobre la cabeza publicada.
+
 .gitleaksignore no existe en esta candidata y está fuera de la allowlist del
 WP-020. Sus dos pasadas documentales están consumidas. No se crea el archivo,
 no se abre C3 ni se modifica CI, permisos o historia. La PR permanece borrador.
