@@ -1,0 +1,27 @@
+{
+  "repository": "FDA-Template/fda-template",
+  "pull_request": "https://github.com/FDA-Template/fda-template/pull/88",
+  "base": "main",
+  "base_sha_at_creation": "0205556be8ad9cd7993feeddd0b4347694cf37f8",
+  "branch": "wp/WP-020-excepcion-autoria-codex",
+  "initial_published_head": "58ac9a8330024ea59c18245c367bc54b2745bd23",
+  "reviewed_normative_head": "26a3fddc4ebbd8f80ecfaae29f72d874669d95e2",
+  "run_id": 39973340592,
+  "checks_at_initial_head": {
+    "Gobierno FDA": "success",
+    "Lint · Shell · Tests · Manual": "success",
+    "Escaneo de secretos": "failure"
+  },
+  "blocking_finding": "single generic-api-key false positive on a recorded SHA-256 integrity digest; independently confirmed",
+  "diagnostic": "diagnostico-escaneo.md",
+  "state": "draft_waiting_for_human_scope_and_C3_documental_decision",
+  "C3_documental_authorized": false,
+  "C4_product_open": false,
+  "C4_product_requires_human_merge_and_gates": true,
+  "merged": false,
+  "product_executed": false,
+  "workflow_or_permissions_changed": false,
+  "new_claude_calls": 0,
+  "codex_quota": "no_disponible",
+  "later_head_checks": "consult GitHub for the current PR head; no green result inferred from this initial run"
+}

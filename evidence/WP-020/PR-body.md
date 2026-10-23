@@ -1,3 +1,10 @@
+**Estado de publicación:** borrador, pendiente de decisión sobre un falso positivo
+del escáner. Gobierno y calidad pasaron en la primera ejecución; gitleaks señaló
+como generic-api-key un SHA-256 de pruebas registrado en evidencia. Astra ha
+confirmado que no es una credencial. Ver `evidence/WP-020/diagnostico-escaneo.md`.
+La excepción exacta propuesta no se ha aplicado: necesita ampliar una ruta y
+autorizar una C3 documental. No fusionar con el escaneo en rojo.
+
 **WP:** WP-020 — Excepción acotada de autoría Codex supervisada
 **Rama:** `wp/WP-020-excepcion-autoria-codex`
 **Requisitos / ADR:** REQ-FDA-001, REQ-FDA-002, SEC-001 / ADR-001, ADR-002
