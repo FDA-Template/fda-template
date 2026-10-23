@@ -85,3 +85,14 @@ hallazgos, tras repetir los seis comandos y contrastar ambas etapas, producto
 y efectos de incorporar los logs. revision-astra-C3.md documenta esa revalidación.
 Los criterios locales están conformes; el criterio 7 sigue pendiente únicamente
 de todos los checks remotos de la cabeza publicada, sin anticipar su resultado.
+
+## Resultado remoto observado y entrega a integración humana
+
+C3-CI-observada.json acredita sobre la cabeza publicada
+66717b0f48e17f353b04922521bdf0fef946f4aa los tres checks remotos success,
+incluido gitleaks ejecutado con éxito, run 39978660963. El criterio 7 queda
+conforme sobre esa cabeza: siete criterios cumplidos, sin producto ejecutado,
+fusión o cierre económico. La incorporación posterior de esta evidencia es
+administrativa; no se le atribuye revisión por Astra ni CI heredado. Antes de
+retirar el borrador e integrar hay que comprobar también todos los checks del
+HEAD vigente en GitHub. Toda fusión sigue siendo humana.

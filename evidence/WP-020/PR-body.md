@@ -1,11 +1,14 @@
-**Estado de publicación:** borrador, pendiente de CI de la cabeza publicada.
-La misma Astra aprueba localmente C3 sobre 6ec62c1, seis comandos 0 y sin
-hallazgos abiertos. El único hallazgo inicial era un SHA-256 de integridad,
+**Resultado:** C3 conforme, con revisión independiente y CI verde observado
+en 66717b0. La misma Astra aprueba localmente sobre 6ec62c1, seis comandos 0
+y sin hallazgos abiertos. Se incorpora ahora solo el registro de ese resultado;
+los checks del HEAD vigente de GitHub deben estar verdes antes de fusionar.
+El único hallazgo inicial era un SHA-256 de integridad,
 confirmado como falso positivo por Astra. La autorización humana posterior
 permite una única C3 documental y una entrada exacta en .gitleaksignore.
 Se conservan escáner e historial, sin cambios de CI o permisos. Ver
 `evidence/WP-020/autorizacion-C3.md` y `diagnostico-escaneo.md`.
-No fusionar con el escaneo en rojo ni inferir verde antes de comprobarlo.
+El escaneo y los otros dos controles pasaron en el run 39978660963. No se
+hereda ese verde a commits posteriores: comprobar los checks del HEAD vigente.
 
 **WP:** WP-020 — Excepción acotada de autoría Codex supervisada
 **Rama:** `wp/WP-020-excepcion-autoria-codex`
@@ -45,7 +48,8 @@ alcance es local; no se presenta como check requerido en CI.
 - [x] C2 local revisada conforme; el fallo remoto posterior permanece en el historial.
 - [x] Seis comandos C3 verdes, repetidos por la misma Astra sobre 6ec62c1.
 - [x] Revalidación local C3 conforme, incluida seguridad y alcance de ambas etapas.
-- [ ] Criterio 7 final: todos los checks remotos de la cabeza publicada verdes.
+- [x] Criterio 7 conforme sobre 66717b0: tres checks remotos verdes, incluido escaneo; metadatos en C3-CI-observada.json.
+- La integración exige además los checks verdes del HEAD vigente, incluida la incorporación de esta evidencia.
 - [x] Sin funciones/código de producto nuevos; validación documental y gobierno.
 
 ## Evidencias
@@ -53,6 +57,7 @@ alcance es local; no se presenta como check requerido en CI.
 - `evidence/WP-020/autorizacion-adopcion.md`: aceptación humana y permiso condicionado.
 - `evidence/WP-020/autorizacion-C3.md`, `C3_CONTRACT_BASE`: decisión puntual y apertura previa a la excepción del escáner.
 - `evidence/WP-020/C3-verificacion.json`, `C3-01` a `C3-06`, `C3-comprobaciones-complementarias.json` y `revision-astra-C3.md`: comandos, salidas, preservación y revalidación C3.
+- `evidence/WP-020/C3-CI-observada.json`: resultado remoto real del run 39978660963 y su commit exacto; sin extrapolar a otra cabeza.
 - `evidence/WP-020/C2-verificacion.json` y `C2-01` a `C2-04`: comandos, salidas íntegras y códigos.
 - `evidence/WP-020/revision-astra-C2.md`: revalidación independiente de autoridad y seguridad, sin hallazgos.
 - `evidence/WP-020/origen-y-preservacion.json`: expediente externo, doce hashes y ACTIVE intactos.

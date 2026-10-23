@@ -13,8 +13,10 @@ La cuota Codex sigue desconocida, nunca gratuita. No se autorizan más llamadas
 Claude/proveedores o compras, ni aumentar los 5 EUR originales. El presupuesto
 original no mide el coste total desconocido de cuota Codex.
 
-El siguiente paso es publicar esta PR documental, superar sus controles y que
-la fusiones tú. Después comprobaré el entorno y registraré el contrato privado
+La PR documental #88 ya está publicada. Astra ha aprobado la corrección puntual
+del escáner, y los tres controles pasaron en la candidata registrada. Antes de
+fusionar, deben estar verdes también los controles de su última actualización.
+El siguiente paso es que la fusiones tú. Después comprobaré el entorno y registraré el contrato privado
 antes de abrir C4. Esa continuación ya está autorizada bajo esos límites; no
 hace falta que vuelvas a confirmar pasos rutinarios. Si cambia algo material
 o falla un control obligatorio, tendré que detenerme y explicarte el motivo.
