@@ -1,0 +1,8 @@
+{
+  "command": "python3 scripts/check_scope.py WP-020 \"${WP020_C3_CONTRACT_BASE:?}...HEAD\"",
+  "date_utc": "2026-10-23T15:25:51.449354+00:00",
+  "executed_head": "ed6a85467a132da5d9a90d67566cc1eb91908f7b",
+  "exit_code": 0,
+  "stdout": "OK\n{\"base\": \"a4b6b08998ba75c1978e1970bd77dd16b1eda650\", \"contrato\": \"work-packages/WP-020-excepcion-autoria-codex.md\", \"contrato_blob\": \"00d8c8b31f70c306231ad1ed61e6b8db78827690\", \"head\": \"HEAD\", \"merge_base\": \"a4b6b08998ba75c1978e1970bd77dd16b1eda650\", \"violaciones\": [], \"wp\": \"WP-020\"}\n",
+  "stderr": ""
+}
