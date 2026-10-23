@@ -1,0 +1,11 @@
+COMANDO: python3 scripts/check_scope.py WP-020 "${WP020_CONTRACT_BASE:?}...HEAD"
+FECHA: 2026-10-23T14:17:41.717357+00:00
+COMMIT: 0c104189cb04faa570cf001487c8776ffc11be75
+
+STDOUT:
+OK
+{"base": "839877355aeb3556a3de5434bf27e178f458978e", "contrato": "work-packages/WP-020-excepcion-autoria-codex.md", "contrato_blob": "9d5ff1a80ad5d9ab3979949b0081939236847311", "head": "HEAD", "merge_base": "839877355aeb3556a3de5434bf27e178f458978e", "violaciones": [], "wp": "WP-020"}
+
+STDERR:
+
+EXIT: 0

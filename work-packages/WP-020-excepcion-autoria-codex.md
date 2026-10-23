@@ -1,6 +1,6 @@
 # WP-020 — Preparar una excepción de autoría Codex supervisada
 
-estado: in_progress
+estado: in_review
 prioridad: P0
 agente_responsable: operador_delegado_codex
 agente_revisor: GPT-6 Astra, razonamiento Alto, independiente y solo lectura

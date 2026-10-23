@@ -1,0 +1,19 @@
+# Aceptación de preparación — WP-020
+
+Resultado previo a revisión: cuatro comandos en verde; no se declara todavía
+APTO integral. La revisión Astra está pendiente. Ningún resultado documental
+autoriza adoptar el riesgo, publicar o programar.
+
+| Criterio contractual | Comprobación del autor documental |
+|---|---|
+| 1. Autoridad delimitada | autorizacion.md transcribe pregunta/respuesta; DEC-019 separa preparación, aceptación, publicación y ejecución. |
+| 2. Excepción limitada y continuidad | ADR-002/DEC-019 identifican WP-005 externo; C4 propuesta sin C0 nuevo/C5; aceptación humana y contrato privado previos. |
+| 3. Capacidades con procedencia | capacidades-y-fuentes.md distingue perfil declarado, observaciones, fuente oficial y límites no demostrados. |
+| 4. Borrador completo | contrato-continuacion-propuesto.md fija seis rutas, comandos, origen, hallazgos, tratamiento de retención, modelo propuesto, tiempo, coste y gates; permanece draft. |
+| 5. Preservación/privacidad | origen-y-preservacion.json fija head/status/hashes del expediente privado y ACTIVE; diff limitado a documentación/metadatos sin código privado. |
+| 6. Coherencia | Ocho avisos y capítulo 09 enlazan la propuesta sin adoptarla; ADR-001 y régimen general siguen vigentes. |
+| 7. Validación y revisión | verificacion.json y 01-04.log: cuatro salidas 0. Primer commit solo contrato. Falta dictamen Astra para cerrar este criterio. |
+
+Limitaciones: no acredita funcionamiento de producto, aislamiento del editor,
+revisión económica, disponibilidad efectiva del futuro autor, integración o
+aceptación humana. Las dependencias de ejecución no se marcan cumplidas.
