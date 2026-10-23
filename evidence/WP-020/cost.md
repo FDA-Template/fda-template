@@ -19,3 +19,8 @@ y su aceptación son una propuesta distinta, aún no autorizada.
 
 El WP externo conserva su gasto acumulado y presupuesto. Este documento no
 lo cancela, reinicia o convierte en financiación disponible para otro intento.
+
+C0 documental recibió rechazo WP020-F1 por formato de un log. C1 conserva
+íntegros los bytes y verifica la composición corregida. La revalidación usa la
+misma Astra; cuota de ambas revisiones y corrección sigue desconocida, sin
+nueva llamada Claude, producto, API facturable o compra. No se declara ahorro.
