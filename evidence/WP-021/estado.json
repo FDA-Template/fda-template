@@ -1,0 +1,22 @@
+{
+  "WP": "WP-021",
+  "phase": "PR89_APTO_pending_human_integration",
+  "normative_patch_applied": true,
+  "CONTRACT_BASE": "5960b4fe26c0ad15ce1ca2ea67c75e798ef1c98c",
+  "human_merge_pending": true,
+  "correction_cycles_used": 1,
+  "provider_EUR": 0,
+  "Codex_quota": "unknown_not_free",
+  "ACTIVE": "unchanged_rest",
+  "DoR": "APRUEBA",
+  "document_review": "APRUEBA",
+  "verification": "APTO",
+  "independent_review": "APTO",
+  "correction_cycles_limit": 2,
+  "current_cycle_open": false,
+  "current_user_action": "Review and merge PR89 when latest GitHub checks are green; no product/runtime action",
+  "recorded_at_UTC": "2026-11-13T09:50:48.744810+00:00",
+  "PR_url": "https://github.com/FDA-Template/fda-template/pull/89",
+  "remote_CI_observed_head": "0e6d29cb7c245ec9d371875738b20d5303e69747",
+  "remote_CI_observed": "3 SUCCESS"
+}

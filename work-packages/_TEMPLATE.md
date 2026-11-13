@@ -24,6 +24,9 @@ CÓMO USAR ESTA PLANTILLA
      Mal:  "Mejorar la validación de pagos."
      Debajo, el contexto mínimo para entenderlo sin preguntar. -->
 
+<!-- En el objetivo: resultado útil y FDA reutilizada o fricción demostrada.
+     «Sin cambio de FDA necesario» es válido; no añade un gate. -->
+
 ## Alcance (incluido / fuera de alcance)
 
 **Incluido:**
@@ -165,6 +168,9 @@ BUENAS PRÁCTICAS
 - [ ] Salida íntegra de cada comando de validación, con su código de salida
 - [ ] `cost.md` con el coste de la sesión
 - [ ]
+
+<!-- Cierre en la ficha existente: resultado/estado, fricción o ninguna,
+     y siguiente paso; sin informe o aprobación adicionales. -->
 
 ## Condiciones de parada específicas
 

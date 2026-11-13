@@ -1,0 +1,20 @@
+{
+  "reviewer": "GPT-6 Astra high",
+  "verdict": "APRUEBA_DoR_Y_DOCUMENTO",
+  "material_findings": [],
+  "correction_required": false,
+  "scope": "contract, adoption, frozen patch and complete3candidates",
+  "candidate_hashes": {
+    "docs/03-hoja-de-ruta.md": "0bd457b7f473300e7b59e4493ac96e6fcbfffcada71e5f2ff093daf18091218c",
+    "docs/manual/09-piloto-supervisado.md": "977975375920b28f58dd5bbc2507a55031357c93b9defbfcf9cc305b2f9382ec",
+    "work-packages/_TEMPLATE.md": "fbe42b14589c1f8bc92ab27fa7fa3d3e2970194357d5eecd40813fe674efac8b"
+  },
+  "contract_and_patch_hashes_verified": true,
+  "no_new_automatic_guarantees": true,
+  "no_new_forms_gates_or_approvals": true,
+  "no_required_FDA_change_per_delivery": true,
+  "existing_limit_two_FDA_WPs_without_external_delivery": "preserved, not repealed",
+  "remote_facts_basis": "operator provided GitHub metadata; reviewer did not query network",
+  "pending": "Exact application, four existing commands, scope/protected evidence; focused final confirmation",
+  "reviewer_mutations_or_execution": false
+}

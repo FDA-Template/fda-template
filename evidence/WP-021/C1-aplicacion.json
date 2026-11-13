@@ -1,0 +1,8 @@
+{
+  "phase": "C1 exact application after versioned adoption/review",
+  "prepared_commit": "62c315f0e04623bf659f48170358463dd5471fdb",
+  "decoded_patch_sha256": "f540fd62040e99d26bb4c0d41a0cdbf42ddc1ea9e7df2e7e902a0a77d455f59b",
+  "reviewed_candidate_hashes_match": true,
+  "documentation_content_changed_from_reviewed_candidate": false,
+  "ACTIVE_unchanged": true
+}

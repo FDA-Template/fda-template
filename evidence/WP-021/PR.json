@@ -1,0 +1,14 @@
+{
+  "number": 89,
+  "url": "https://github.com/FDA-Template/fda-template/pull/89",
+  "state": "OPEN",
+  "base": "main",
+  "source_delivery_commit": "6bb4cbeee0e8515db6b4f04cd477c844669d771b",
+  "human_merge_pending": true,
+  "attached_to_chat": true,
+  "local_APTO": true,
+  "independent_review_APTO": true,
+  "remote_checks": "Three SUCCESS observed on0e6d29c, receiptCI-observada.json; consult latesthead checks before humanmerge",
+  "agent_merged": false,
+  "recorded_at_UTC": "2026-11-13T09:50:48.744810+00:00"
+}

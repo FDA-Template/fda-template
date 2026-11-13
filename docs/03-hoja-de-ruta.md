@@ -1,11 +1,16 @@
 # Hoja de ruta — FDA mediante entregas supervisadas
 
-**Revisión:** 2026-10-19 · **Decisión:** [DEC-018](../specs/decisions/DEC-018-entregas-supervisadas.md).
-**Vigencia:** el operador ha autorizado materializar y revisar esta composición.
-El nuevo modo entra en vigor con la fusión humana de WP-019; antes de ella,
-esta candidata no habilita ejecutar el piloto. La pausa ordinaria se conserva.
+**Revisión:** 2026-11-13 · **Decisión:** [DEC-018](../specs/decisions/DEC-018-entregas-supervisadas.md).
+**Vigencia:** modo supervisado integrado por PR87 y excepción de instancia por
+PR88. La pausa ordinaria se conserva; las entregas externas necesitan su contrato
+y autoridad propios. Esta revisión de rumbo no amplía esa autoridad.
 **Objetivo:** convertir necesidades del operador en mejoras utilizables,
 demostrando calidad, coste e intervención humana antes de ampliar la fábrica.
+
+**FDA y producto:** construir una FDA repetible mediante entregas reales de
+AI-Comercial-System y su evolución hacia Agent OS. Reutilizar la fábrica actual
+y mejorarla por necesidades demostradas, sin exigir una reforma por cada función
+ni confundir producto entregado con autonomía o eficiencia probadas de FDA.
 
 ## 1. Estado y siguiente entrega
 
@@ -15,8 +20,9 @@ demostrando calidad, coste e intervención humana antes de ampliar la fábrica.
 | WP-014, diez acciones fijadas por SHA | Entregado. No demuestra aislamiento ni operación autónoma. |
 | Pausa de DEC-003 | Continúa para operación ordinaria/autónoma. DEC-018 permite preparar el piloto supervisado con gates propios. |
 | WP-016, WP-018 y OF1 | Fuera de la prioridad inmediata; no se reabren, ejecutan ni declaran resueltos. Mantienen contratos, costes e historia. |
-| WP-019 | Composición documental de operador en revisión. `ACTIVE` de FDA permanece en reposo. |
-| Primera entrega propuesta | Corregir descubrimiento de documentos anidados en `knowledge-base`; preparación en [expediente](../evidence/WP-019/piloto-kb.md). Aún no ejecutada. |
+| WP-019 / WP-020 | Integrados en main por PR87/88. Excepciones específicas conservadas; `ACTIVE` de FDA permanece en reposo. |
+| Primera entrega externa | Documentos anidados corregidos e integrados en knowledge-base PR1 (22-10-2026); evidencia privada en el destinatario. Rentabilidad no demostrada. |
+| Recorrido comercial | Voz local con datos ficticios y accesos Mac comprobados; cupo configurable offline integrado en voice-gateway PR10 (09-11-2026). Uso recurrente y validación comercial pendientes. |
 | Agent OS | Evolución prevista de AI-Comercial-System; no se crea ahora otro repositorio ni un núcleo general. |
 | Hostelería / otros productos | No se abren como frentes paralelos de este piloto. No se declara validación comercial. |
 
@@ -127,6 +133,28 @@ La continuación exige entregas correctas y un coste/intervención compatibles
 con el presupuesto acordado. Si las tareas pequeñas siguen exigiendo días de
 preparación o dirección constante, simplificar el mecanismo responsable antes
 de ampliarlo. No extrapolar autonomía profesional desde una sola entrega.
+
+### Seguimiento del rumbo dentro del trabajo existente
+
+El coordinador consulta la hoja vigente y el último cierre, y conecta cada WP
+con un resultado útil y la capacidad de FDA que
+reutiliza o la fricción demostrada que necesita mejorar. Lo anota en «Objetivo
+y contexto»; «sin cambio de FDA necesario» es válido. Las subtareas del mismo
+recorrido no cuentan como casos de uso independientes.
+
+Al cerrar, la ficha existente recoge resultado y estado real, fricción del método
+(o ninguna) y siguiente paso. Leer ese cierre antes del siguiente encargo y
+actualizar esta hoja al cerrar hitos o cambiar prioridades. Medir el recorrido
+completo con fuentes disponibles, separando autoría, esperas y tiempo humano;
+no atribuir ahorro con datos desconocidos ni copiar datos privados a FDA.
+
+Si se repite preparación o una excepción, crece FDA sin utilidad externa o avanza
+el producto sin revisar una intervención persistente del método, señalar la
+evidencia y recomendar el menor ajuste útil. Son señales de prioridad, no gates
+nuevos: sin porcentajes fijos, alternancia obligatoria, informes separados o más
+aprobaciones. No amplían alcance ni sustituyen las paradas vigentes.
+El mensaje de cierre al operador resume en lenguaje claro qué avanzó en el
+producto y qué se reutilizó o aprendió de FDA, sin prometer progreso no demostrado.
 
 ## 8. Riesgos y decisiones de parada
 

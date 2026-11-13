@@ -1,0 +1,13 @@
+{
+  "exact_patch_applied": true,
+  "approved_candidate_hashes_match": true,
+  "candidates": {
+    "docs/03-hoja-de-ruta.md": "0bd457b7f473300e7b59e4493ac96e6fcbfffcada71e5f2ff093daf18091218c",
+    "docs/manual/09-piloto-supervisado.md": "977975375920b28f58dd5bbc2507a55031357c93b9defbfcf9cc305b2f9382ec",
+    "work-packages/_TEMPLATE.md": "fbe42b14589c1f8bc92ab27fa7fa3d3e2970194357d5eecd40813fe674efac8b"
+  },
+  "correction_cycles_used": 0,
+  "controls_or_ACTIVE_changed": false,
+  "status": "historical C0 uncommitted application before whitespace precommit fix; preserved",
+  "official_candidate_committed": false
+}

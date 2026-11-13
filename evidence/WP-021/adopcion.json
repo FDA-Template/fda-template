@@ -1,0 +1,25 @@
+{
+  "WP": "WP-021",
+  "source": "Direct human async reply call_3b0f5347565b4c2db593ffe0ef498a92",
+  "question": "He preparado WP-021 y el parche de tres documentos: hoja de ruta, manual y plantilla. ¿Autorizas materializar este único ajuste documental desde reposo, conservando ACTIVE, con comprobaciones, revisión independiente GPT-6 Astra high, hasta dos correcciones y una PR que fusionarás tú? La cuota Codex seguirá desconocida, no gratuita; proveedores: 0 €. No incluye cambios de código, agentes, controles o permisos ni nuevas pruebas de voz. Propuesta: /private/tmp/fda-rumbo-20261113-ixhj7z78/WP-021-rumbo-y-aprendizaje.md",
+  "literal_reply": "Autorizar el ajuste documental",
+  "client_date": "2026-11-13",
+  "authority": "Single delegated documentary act from rest; ACTIVE unchanged",
+  "scope": [
+    "three proposed documents",
+    "contract and WP021 evidence"
+  ],
+  "reviewer": "gpt-6-astra high",
+  "max_corrections": 2,
+  "Codex_quota": "unknown_not_free",
+  "provider_additional_EUR": 0,
+  "excluded": [
+    "product code",
+    "agents",
+    "controls",
+    "permissions",
+    "voice",
+    "ordinary autonomous operation",
+    "merge"
+  ]
+}

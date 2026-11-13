@@ -1,0 +1,20 @@
+{
+  "candidate_commit": "b64d8a9dcd6ac54fb82038e6482c147d0164d6da",
+  "same_three_document_hashes": true,
+  "APTO": "verificacion-final.json",
+  "results": [
+    {
+      "command": "git diff --check 8b0615f367aa153d7b94cfc658845c274e49459d",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "python3 scripts/check_scope.py WP-021 \"${WP021_CONTRACT_BASE:?}...HEAD\"",
+      "exit_code": 0,
+      "stdout": "OK\n{\"base\": \"5960b4fe26c0ad15ce1ca2ea67c75e798ef1c98c\", \"contrato\": \"work-packages/WP-021-rumbo-y-aprendizaje.md\", \"contrato_blob\": \"c9343d2fbd48ac87c10adb608ce9bc2613accf00\", \"head\": \"HEAD\", \"merge_base\": \"5960b4fe26c0ad15ce1ca2ea67c75e798ef1c98c\", \"violaciones\": [], \"wp\": \"WP-021\"}\n",
+      "stderr": ""
+    }
+  ],
+  "human_merge_only": true
+}

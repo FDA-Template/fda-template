@@ -1,0 +1,57 @@
+{
+  "WP": "WP-021",
+  "skill": "run-verification WP-021",
+  "verdict": "APTO",
+  "commands_executed": 4,
+  "commands_failed": 0,
+  "receipt": "verificacion-comandos.json",
+  "criteria": [
+    {
+      "criterion": "Three existing documents only, no new mechanism",
+      "result": "cumple",
+      "evidence": "Scope and protected evidence; only roadmap,manual,template plus contract/evidence"
+    },
+    {
+      "criterion": "Useful outcome connected with FDA reuse or observed friction",
+      "result": "cumple",
+      "evidence": "Exact approved roadmap/objective and template reminder"
+    },
+    {
+      "criterion": "Closure in existing record and visible operator summary",
+      "result": "cumple",
+      "evidence": "Roadmap followup and manual6; result/state,friction/none,nextstep"
+    },
+    {
+      "criterion": "No forced FDA changes, ratios, forms, approvals or automatic gates",
+      "result": "cumple",
+      "evidence": "Exact candidate review by independent Astra; existing hardstops/prioritylimit retained"
+    },
+    {
+      "criterion": "Milestone facts separated from commercial/autonomy claims",
+      "result": "cumple",
+      "evidence": "PR87/88, KBPR1, voicePR10 publicmetadata only; recurrent/commercial use pending"
+    },
+    {
+      "criterion": "ACTIVE, controls, permissions, agents and product unchanged",
+      "result": "cumple",
+      "evidence": "conservacion-alcance.json protected tree objects and hash"
+    },
+    {
+      "criterion": "Validation and independent review conform",
+      "result": "cumple",
+      "evidence": "verificacion-comandos.json all4zero; revision-final-astra.json APTO"
+    }
+  ],
+  "criteria_failed": 0,
+  "criteria_not_evaluable": 0,
+  "review": "revision-final-astra.json",
+  "scope": "conservacion-alcance.json",
+  "corrections_consumed": 1,
+  "corrections_max": 2,
+  "new_technical_debt": "none; alignment remains an auditable operating discipline, not automatic enforcement",
+  "providers_EUR": 0,
+  "Codex_quota": "unknown_not_free",
+  "product_or_services_changed": false,
+  "economic_close": false,
+  "recorded_at_UTC": "2026-11-13T09:48:48.477474+00:00"
+}
