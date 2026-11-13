@@ -1,0 +1,42 @@
+{
+  "observed_source": {
+    "headRefOid": "0e6d29cb7c245ec9d371875738b20d5303e69747",
+    "mergeStateStatus": "CLEAN",
+    "mergeable": "MERGEABLE",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-11-13T09:51:13Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/FDA-Template/fda-template/actions/runs/43404632376/job/131815844984",
+        "name": "Gobierno FDA",
+        "startedAt": "2026-11-13T09:51:01Z",
+        "status": "COMPLETED",
+        "workflowName": "CI"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-11-13T09:51:17Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/FDA-Template/fda-template/actions/runs/43404632376/job/131815845245",
+        "name": "Lint \u00b7 Shell \u00b7 Tests \u00b7 Manual",
+        "startedAt": "2026-11-13T09:51:01Z",
+        "status": "COMPLETED",
+        "workflowName": "CI"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-11-13T09:51:11Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/FDA-Template/fda-template/actions/runs/43404632376/job/131815845387",
+        "name": "Escaneo de secretos",
+        "startedAt": "2026-11-13T09:51:01Z",
+        "status": "COMPLETED",
+        "workflowName": "CI"
+      }
+    ]
+  },
+  "scope": "Exact observed head; later evidence-only commits require reading latest GitHub checks before merge",
+  "three_reviewed_document_hashes": "congelacion.json candidate_hashes",
+  "recorded_at_UTC": "2026-11-13T09:52:39.556491+00:00"
+}
