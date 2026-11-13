@@ -1,6 +1,6 @@
 # WP-021 — Mantener el rumbo mediante el trabajo existente
 
-estado: in_progress
+estado: in_review
 prioridad: P0
 agente_responsable: coordinación documental delegada por el operador
 agente_revisor: GPT-6 Astra high, contexto nuevo y solo lectura, autorizada

@@ -1,7 +1,7 @@
 {
   "WP": "WP-021",
-  "phase": "C1_evidence_encoding_and_sequence_repair",
-  "normative_patch_applied": false,
+  "phase": "exact_candidate_applied_pending_verification",
+  "normative_patch_applied": true,
   "CONTRACT_BASE": "5960b4fe26c0ad15ce1ca2ea67c75e798ef1c98c",
   "human_merge_pending": true,
   "correction_cycles_used": 1,

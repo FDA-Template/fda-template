@@ -2,7 +2,7 @@
 
 # 09 — De una necesidad a una entrega supervisada
 
-**Excepción de instancia aceptada, pendiente de fusión.**
+**Excepción de instancia integrada en FDA mediante PR88 (23-10-2026).**
 [DEC-019](../../specs/decisions/DEC-019-preparar-autoria-codex.md) y
 [ADR-002](../../specs/adr/ADR-002-autoria-codex-supervisada.md) autorizan publicar
 WP-020 y una sola C4 externa con Codex después de fusión humana y gates conformes.
@@ -117,6 +117,15 @@ Revisar preparación a los dos días laborables de la fusión de WP-019 y result
 a los diez, incluso si no hubo entrega. Son puntos de decisión, no autorización
 para correr, ampliar gasto o declarar éxito. Un bloqueo persistente debe producir
 una propuesta concreta de reducción, no otra plataforma general.
+
+El coordinador consulta la hoja vigente y el último cierre, y aplica el
+[seguimiento del rumbo](../03-hoja-de-ruta.md): al abrir,
+vínculo del WP con el resultado útil y FDA reutilizada o fricción demostrada;
+al cerrar, resultado/estado real, fricción o ninguna y siguiente paso en la ficha
+existente, y resume ambos avances al operador en lenguaje claro. No exige
+mejorar FDA en cada entrega ni abre formularios o gates.
+La revisión independiente puede señalar una desconexión; preferencias laterales
+no bloquean una entrega conforme. Alcance, coste y paradas vigentes se conservan.
 
 ## 7. Primera candidata y siguiente paso
 
