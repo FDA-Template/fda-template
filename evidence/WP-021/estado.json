@@ -1,6 +1,6 @@
 {
   "WP": "WP-021",
-  "phase": "APTO_documentary_pending_PR",
+  "phase": "PR89_open_local_APTO_remote_checks_pending",
   "normative_patch_applied": true,
   "CONTRACT_BASE": "5960b4fe26c0ad15ce1ca2ea67c75e798ef1c98c",
   "human_merge_pending": true,
@@ -14,6 +14,7 @@
   "independent_review": "APTO",
   "correction_cycles_limit": 2,
   "current_cycle_open": false,
-  "current_user_action": "pending PR link; no product or voice action",
-  "recorded_at_UTC": "2026-11-13T09:48:48.477474+00:00"
+  "current_user_action": "Wait remote required checks, then human review and merge; no product/runtime action",
+  "recorded_at_UTC": "2026-11-13T09:50:48.744810+00:00",
+  "PR_url": "https://github.com/FDA-Template/fda-template/pull/89"
 }
