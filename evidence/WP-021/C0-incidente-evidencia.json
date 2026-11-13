@@ -1,0 +1,14 @@
+{
+  "phase": "C0 coordination precommit",
+  "command": "git diff --cached --check",
+  "exit_code": 2,
+  "stdout": "evidence/WP-021/propuesta.diff:5: trailing whitespace.\n+ \nevidence/WP-021/propuesta.diff:21: trailing whitespace.\n+ \nevidence/WP-021/propuesta.diff:23: trailing whitespace.\n+ \nevidence/WP-021/propuesta.diff:35: trailing whitespace.\n+ \nevidence/WP-021/propuesta.diff:39: trailing whitespace.\n+ \nevidence/WP-021/propuesta.diff:63: trailing whitespace.\n+ \nevidence/WP-021/propuesta.diff:68: trailing whitespace.\n+ \nevidence/WP-021/propuesta.diff:70: trailing whitespace.\n+ \nevidence/WP-021/propuesta.diff:79: trailing whitespace.\n+ \nevidence/WP-021/propuesta.diff:90: trailing whitespace.\n+ \nevidence/WP-021/propuesta.diff:101: trailing whitespace.\n+ \nevidence/WP-021/propuesta.diff:103: trailing whitespace.\n+ \nevidence/WP-021/propuesta.diff:107: trailing whitespace.\n+ \nevidence/WP-021/propuesta.diff:112: trailing whitespace.\n+ \n",
+  "stderr": "",
+  "cause": "Raw unified diff context-only blank lines contain a space; tracked artifact fails whitespace check, candidate documentation unchanged",
+  "preparation_commit_created": false,
+  "candidate_commit_created": false,
+  "DoR_review_was_approved_before_worktree_application": true,
+  "application_happened_after_failed_preparation_commit": "recorded coordination ordering error; no published or integrated change",
+  "history_preserved": "Initial contract5960b4f, original patch bytes and approved candidate hashes remain",
+  "correction": "C1 within existing two corrections; re-encode evidence without altering decoded patch, restore base3docs and repeat order"
+}

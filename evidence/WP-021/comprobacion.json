@@ -1,0 +1,18 @@
+{
+  "status": "DRAFT_PATCH_CHECKED_NOT_ADOPTED_NOT_PR_APTO",
+  "base": "8b0615f367aa153d7b94cfc658845c274e49459d",
+  "git_apply_check_exit": 0,
+  "git_apply_exit": 0,
+  "candidate_hashes_match": true,
+  "trailing_whitespace": [],
+  "scope_documents": [
+    "docs/03-hoja-de-ruta.md",
+    "docs/manual/09-piloto-supervisado.md",
+    "work-packages/_TEMPLATE.md"
+  ],
+  "ordinary_repo_or_runtime_touched": false,
+  "independent_review": "pending adoption",
+  "proposed_WP": "WP-021-rumbo-y-aprendizaje.md",
+  "WP_DoR": "draft pending human adoption and independent review; exact commands defined",
+  "final_patch_sha256": "f540fd62040e99d26bb4c0d41a0cdbf42ddc1ea9e7df2e7e902a0a77d455f59b"
+}

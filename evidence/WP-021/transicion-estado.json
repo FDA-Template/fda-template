@@ -1,0 +1,7 @@
+{
+  "initial_contract_sha256": "007f611eac33320dcf50d9d515f5c8423cd838dc28f52416c1fd5c4421ec6e7f",
+  "allowed_metadata_transition": "estado: ready_pending_independent_review -> estado: in_progress",
+  "normative_contract_or_scope_changed": false,
+  "reason": "Independent DoR and exact document review approved; adoption already recorded",
+  "final_transition": "estado: in_progress -> estado: in_review after exact patch applied; verification pending"
+}

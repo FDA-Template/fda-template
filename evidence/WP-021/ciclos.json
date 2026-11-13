@@ -1,0 +1,12 @@
+{
+  "C0": "precommit failed; no documentation-content findings",
+  "corrections_used": 1,
+  "max_corrections": 2,
+  "C1": {
+    "opened_before_edit": true,
+    "recorded_at_UTC": "2026-11-13T09:44:53.001158+00:00",
+    "scope": "evidence encoding and coordination order only; no candidate-content changes",
+    "authorization": "Existing human adoption max2corrections",
+    "status": "open"
+  }
+}

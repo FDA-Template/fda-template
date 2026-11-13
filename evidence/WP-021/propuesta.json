@@ -1,0 +1,35 @@
+{
+  "status": "DRAFT_NOT_ADOPTED",
+  "repository": "FDA-Template/fda-template",
+  "base": "8b0615f367aa153d7b94cfc658845c274e49459d",
+  "scope": [
+    "docs/03-hoja-de-ruta.md",
+    "docs/manual/09-piloto-supervisado.md",
+    "work-packages/_TEMPLATE.md"
+  ],
+  "source_request_date_client": "2026-11-13",
+  "request": "Prevent strategic drift without excessive restrictions; analyze proportionately",
+  "source_of_route_facts": [
+    "FDA PR87/88 integrated inmain",
+    "knowledge-base PR1 merged2026-10-22T07:52:45Z",
+    "voice-gateway PR10 merged2026-11-09T22:28:06Z"
+  ],
+  "live_governance_changed": false,
+  "working_copy_touched": false,
+  "code_or_services_changed": false,
+  "new_automatic_gates_or_approvals": false,
+  "providers_called": false,
+  "Codex_quota": "unknown_not_free",
+  "original_hashes": {
+    "docs/03-hoja-de-ruta.md": "c6214fbdf7617a17edaf9a401472db21bf52b4574c101fda857510545498aced",
+    "docs/manual/09-piloto-supervisado.md": "6eee97b7fddd495d75b39b1daeee41b99c30ff0ff04a30b9b32bea188c4c7669",
+    "work-packages/_TEMPLATE.md": "99ca5a0486663336ffb16c838cb85191b76402b0e8ac36f1e3b0429df13ed211"
+  },
+  "candidate_hashes": {
+    "docs/03-hoja-de-ruta.md": "0bd457b7f473300e7b59e4493ac96e6fcbfffcada71e5f2ff093daf18091218c",
+    "docs/manual/09-piloto-supervisado.md": "977975375920b28f58dd5bbc2507a55031357c93b9defbfcf9cc305b2f9382ec",
+    "work-packages/_TEMPLATE.md": "fbe42b14589c1f8bc92ab27fa7fa3d3e2970194357d5eecd40813fe674efac8b"
+  },
+  "patch_sha256": "f540fd62040e99d26bb4c0d41a0cdbf42ddc1ea9e7df2e7e902a0a77d455f59b",
+  "review": "self-reviewed minimal scope, no additional gate or per-delivery FDA-change requirement"
+}
