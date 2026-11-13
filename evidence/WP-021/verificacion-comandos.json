@@ -1,0 +1,34 @@
+{
+  "skill": "run-verification explicit WP-021",
+  "source_commit": "101d204eff878d2298e580b868912648be759168",
+  "CONTRACT_BASE": "5960b4fe26c0ad15ce1ca2ea67c75e798ef1c98c",
+  "recorded_at_UTC": "2026-11-13T09:45:39.816597+00:00",
+  "commands": [
+    {
+      "command": "git diff --check 8b0615f367aa153d7b94cfc658845c274e49459d",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "bash tests/governance/check-active.sh",
+      "exit_code": 0,
+      "stdout": "REPOSO: no hay WP activo.\n\n  Estado V\u00c1LIDO: la f\u00e1brica no tiene trabajo en curso.\n  El guard deniega toda escritura ordinaria mientras dure (fail-closed).\n  Para iniciar un WP: escribe su ID en work-packages/ACTIVE.\n",
+      "stderr": ""
+    },
+    {
+      "command": "python3 evidence/WP-000/checks/check-manual.py",
+      "exit_code": 0,
+      "stdout": "==============================================================\n Manual \u2014 enlaces internos y placeholders de instalaci\u00f3n\n==============================================================\n\n--- Enlaces internos (11 archivos) ---\n  OK    docs/manual/01-instalacion.md                \n  OK    docs/manual/02-ciclo-de-un-wp.md             \n  OK    docs/manual/03-redactar-un-wp.md             \n  OK    docs/manual/04-agentes.md                    \n  OK    docs/manual/05-bloqueos-y-parada.md          \n  OK    docs/manual/06-costes-y-metricas.md          \n  OK    docs/manual/07-troubleshooting.md            \n  OK    docs/manual/08-productor-alcance-fda-wp018.md \n  OK    docs/manual/09-piloto-supervisado.md         \n  OK    docs/manual/MANUAL.md                        \n  OK    CLAUDE.md                                    \n\n  Enlaces internos comprobados: 97\n\n--- Placeholders en docs/manual/01-instalacion.md ---\n  OK    {{COMANDOS_VALIDACION}}\n  OK    {{PROPIEDAD_COMPONENTES}}\n  OK    {{PRESUPUESTOS_Y_MODELOS}}\n\n--- Estado de los archivos parametrizables (informativo) ---\n  instanciado CODEOWNERS                        sin marcador (valor real aplicado)\n  plantilla  .github/workflows/ci.yml           conserva {{COMANDOS_VALIDACION}}\n  plantilla  .github/workflows/claude.yml       conserva {{PRESUPUESTOS_Y_MODELOS}}\n  plantilla  .github/workflows/code-review.yml  conserva {{PRESUPUESTOS_Y_MODELOS}}\n\n  3 sin instanciar \u00b7 1 instanciados\n  Nota: instalaci\u00f3n parcial. Es lo esperado mientras el repo sirva\n        de plantilla y de sandbox a la vez.\n\n==============================================================\n RESULTADO: 0 fallos\n==============================================================\n",
+      "stderr": ""
+    },
+    {
+      "command": "python3 scripts/check_scope.py WP-021 \"${WP021_CONTRACT_BASE:?}...HEAD\"",
+      "exit_code": 0,
+      "stdout": "OK\n{\"base\": \"5960b4fe26c0ad15ce1ca2ea67c75e798ef1c98c\", \"contrato\": \"work-packages/WP-021-rumbo-y-aprendizaje.md\", \"contrato_blob\": \"c9343d2fbd48ac87c10adb608ce9bc2613accf00\", \"head\": \"HEAD\", \"merge_base\": \"5960b4fe26c0ad15ce1ca2ea67c75e798ef1c98c\", \"violaciones\": [], \"wp\": \"WP-021\"}\n",
+      "stderr": ""
+    }
+  ],
+  "provider_calls": 0,
+  "code_or_runtime_execution": "existing documentary verification only; no product execution"
+}
